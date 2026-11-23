@@ -240,7 +240,7 @@ nav.tabs .in{grid-template-columns:repeat(4,1fr)}
 <script>
 "use strict";
 /* ============================ SYLLABUS ============================ */
-const META = {"1": {"books": {"tahawiyya": 108, "umm": 57, "signs": 83}, "decks": {"quran": 500, "nur": 1083}}, "2": {"books": {"jawhara": 142}, "decks": {"quduri": 2441, "roots": 1000, "verbs1": 700, "ithaf": 311}}, "3": {"books": {"majalla": 99}, "decks": {"nasafiyyah": 1401, "kanz": 1433, "verbs2": 700}}, "texts": {"shamail": 58, "riyad": 373, "fiqh_akbar": 27, "maraqi": 92, "arbain": 45, "ajurrumiyya": 25, "quduri": 119, "nur_idah": 337, "usul_shashi": 103}, "textsAi": {"shamail": false, "riyad": false, "fiqh_akbar": true, "maraqi": false, "arbain": false, "ajurrumiyya": false, "quduri": false, "nur_idah": false, "usul_shashi": false}};
+const META = {"1": {"books": {"tahawiyya": 108, "umm": 57, "signs": 83}, "decks": {"quran": 500, "nur": 1083}}, "2": {"books": {"jawhara": 142}, "decks": {"quduri": 2441, "roots": 1000, "verbs1": 700, "ithaf": 311}}, "3": {"books": {"majalla": 99}, "decks": {"nasafiyyah": 1401, "kanz": 1433, "verbs2": 700}}, "texts": {"shamail": 58, "riyad": 373, "fiqh_akbar": 27, "maraqi": 92, "arbain": 45, "ajurrumiyya": 25, "quduri": 119, "nur_idah": 337, "usul_shashi": 103}, "textsAi": {"shamail": false, "riyad": false, "fiqh_akbar": true, "maraqi": false, "arbain": false, "ajurrumiyya": true, "quduri": false, "nur_idah": false, "usul_shashi": false}};
 const YEARS = [
  { n:1, title:"Foundations", desc:"The Tahawiyyah, Nur al-Idah and Is'af al-Muridin, tajweed, the first books of sarf and nahw, and the most common words of the Qur'an.",
    books:[
@@ -711,7 +711,7 @@ function readView(b, i){
     <div class="pbody reader"><div class="kicker">${esc(b.title)}${s.parent?` · <span class="ar">${esc(s.parent)}</span>`:""}</div>
       <h2 class="ar" style="text-align:right;font-size:1.5rem;margin:4px 0 2px">${esc(s.h)}</h2>${s.he?`<p class="muted" style="margin:0 0 8px">${esc(s.he)}</p>`:""}
       <div class="tools" style="margin:6px 0 10px"><button class="tool listen ${AUD.on?"on":""}" id="listen">${AUD.on?"❚❚ Pause":"▶ Listen"}</button>
-        <button class="tool ${S.harakat!==false?"on":""}" id="tg-h">حَ Harakat ${S.harakat!==false?"on":"off"}</button>${s.en?`<button class="tool ${P.english?"on":""}" id="tg-e">EN English</button>`:""}
+        ${s.v ? `<button class="tool ${S.harakat!==false?"on":""}" id="tg-h">حَ Harakat ${S.harakat!==false?"on":"off"}</button>` : `<button class="tool" disabled style="opacity:.55" title="Harakat for this book are being added">حَ No harakat yet</button>`}${s.en?`<button class="tool ${P.english?"on":""}" id="tg-e">EN English</button>`:""}
         <button class="tool" id="fsdn" aria-label="Smaller text">A−</button><button class="tool" id="fsup" aria-label="Larger text">A+</button>
         ${AUD.on?`<button class="tool" id="rate">${P.rate}× speed</button>`:""}${T.ai?`<span class="pill gold">AI · needs review</span>`:""}</div>
       <div class="card fs${P.size}">${paras}</div>${toolRow(key,false)}</div>
@@ -1044,5 +1044,5 @@ function render(){
 })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=90723c5b7d");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=852abdc0fe");</script></body>
 </html>
