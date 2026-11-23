@@ -646,17 +646,21 @@ function libraryView(){
   const cont = last ? `<section class="continue"><div class="c-art">${artFor(last, 92)}</div><div class="kicker">Continue reading</div><h2>${esc(last.title)}</h2>
       <p class="small muted" style="margin:4px 0 14px">Section ${S.lastRead.i+1} of ${lessonsOf(last)} · ${bookDone(last)} read</p>
       <button class="btn" data-read="${last.id}|${S.lastRead.i}">Continue</button></section>` : "";
-  const groups = MODULES.map(m => { const bs = books.filter(b => b.subject === m.name); if (!bs.length) return "";
-    return `<p class="label">${esc(m.name)}</p><div class="stack">${bs.map(b => libItem(b)).join("")}</div>`; }).join("");
+  const order = b => MODULES.findIndex(m => m.name === b.subject);
+  const groups = YEARS.map(y => { const bs = books.filter(b => b.year === y.n).sort((p,q) => order(p) - order(q)), soon = y.coming;
+    return `<details class="module" ${bs.length?"open":""}><summary><span class="yr-badge" style="width:44px;height:44px;font-size:1.25rem">${y.n}</span>
+      <span class="m-txt"><span class="t">Year ${y.n}: ${esc(y.title)}</span><span class="s">${bs.length ? `${bs.length} ${bs.length>1?"books":"book"} to read${soon.length?` · ${soon.length} more coming`:""}` : `${soon.length} books coming`}</span></span></summary>
+      <div class="stack">${bs.map(b => libItem(b)).join("")}
+        ${soon.length ? `<details class="soon-list"><summary class="small">Coming to the Library (${soon.length})</summary><div class="small muted" style="margin-top:6px">${soon.map(([t,s]) => `<div class="spread" style="padding:5px 0;border-top:1px solid var(--line)"><span>${esc(t)}</span><span class="pill">${esc(s)}</span></div>`).join("")}</div></details>` : ""}</div></details>`; }).join("");
   return shell(`<h1>Library</h1><p class="muted" style="margin:0 0 14px">The complete texts of the course, open to every student. Read bab by bab and pick up where you left off.</p>
-    ${cont}${groups}
+    ${cont}<div class="modules">${groups}</div>
     <p class="small muted" style="margin-top:16px">More books are being added. Arabic texts come from the OpenITI corpus; harakat and English marked “AI · needs review” are waiting for a teacher's check.</p>`);
 }
 function libItem(b){
   const d = bookDone(b), L = lessonsOf(b), ai = (META.textsAi||{})[b.file];
   return `<button class="item" data-book="${b.id}"><span class="ico art-ico">${artFor(b,40)}</span>
     <span style="min-width:0"><span class="t">${esc(b.title)}</span><br><span class="s">${esc(b.sub)}</span><br>
-      <span class="tags"><span class="pill">Year ${b.year}</span><span class="pill">${L} sections</span>${ai?`<span class="pill gold">Harakat + English</span>`:`<span class="pill">Arabic</span>`}</span>
+      <span class="tags"><span class="pill">${esc(b.subject)}</span><span class="pill">${L} sections</span>${ai?`<span class="pill gold">Harakat + English</span>`:`<span class="pill">Arabic text</span>`}</span>
       ${d?`<span class="bar" style="display:block;margin-top:6px"><i style="width:${d/L*100}%;background:${b.color}"></i></span>`:""}</span>
     ${d>=L?`<span class="pill ok">Read</span>`:""}</button>`;
 }
@@ -976,5 +980,5 @@ function render(){
 })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=63f1d75b3e");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=d6a7d00dcd");</script></body>
 </html>
