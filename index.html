@@ -233,7 +233,11 @@ const YEARS = [
      { id:"kanz", title:"Kanz al-Daqa'iq", sub:"The Hanafi text of Imam al-Nasafi رحمه الله", glyph:"ك", color:"#2F6E8F", subject:"Fiqh" },
      { id:"verbs2", title:"Arabic verbs: 701–1,400", sub:"The next most used verbs", glyph:"ف", color:"#B5651D", subject:"Arabic" } ],
    coming:[["Sarf: Sharh Tasrif al-'Izzi","Arabic"],["MSA vocabulary (corrected, frequency-ordered)","Arabic"],["I'rab of Qur'anic ayat","Arabic"],["Hikam of Ibn 'Ata'illah","Tasawwuf"],["Tafsir al-Jalalayn (selections)","Tafsir"]] },
+ { n:4, title:"Advanced texts", desc:"Longer commentaries in every module. The texts for this year are being chosen.", books:[], decks:[], coming:[] },
+ { n:5, title:"Mastery", desc:"Completing the core curriculum before specialising. The texts for this year are being chosen.", books:[], decks:[], coming:[] },
 ];
+/* After Year 5: one year of further study in a module the student chooses */
+const SPEC_YEAR = 6;
 /* Each year's syllabus is made of these modules */
 const MODULES = [
   { name:"Aqeedah", art:"light", color:"#0E5A43", about:"What a Muslim believes, in the Ash'ari and Maturidi tradition." },
@@ -243,12 +247,13 @@ const MODULES = [
   { name:"Fiqh", art:"drop", color:"#2F6E8F", about:"Hanafi fiqh, from purification onwards." },
   { name:"Tasawwuf", art:"star", color:"#5C6B2E", about:"Purifying the heart, open to all the turuq." },
   { name:"Signs of the Hour", art:"hourglass", color:"#8C3B3B", about:"The minor and major signs before the Last Day." },
-  { name:"Seerah", art:"star", color:"#9A6A1F", about:"The life of the Prophet ﷺ.", optional:true },
+  { name:"Seerah", art:"moon", color:"#9A6A1F", about:"The life of the Prophet ﷺ, his family and Companions." },
   { name:"Tafsir", art:"pen", color:"#1F6F78", about:"Explaining the meanings of the Qur'an.", optional:true } ];
 const TARIQA_OPTIONAL = ["Qadiri: Sirr al-Asrar","Chishti: Kashf al-Mahjub","Naqshbandi: Etiquettes of the Path","Shadhili: further Ibn 'Ata'illah"];
 const DATA = {};
 async function loadYear(n){ INDEX = null;
   if (DATA[n]) return DATA[n];
+  if (!yearOf(n).prepared) return (DATA[n] = { books:{}, decks:{} });
   const r = await fetch(`data/year${n}.json`);
   if (!r.ok) throw new Error("Could not load Year " + n);
   const d = await r.json();
@@ -259,13 +264,13 @@ async function loadYear(n){ INDEX = null;
 const yearOf = n => YEARS[n-1];
 const loaded = y => !!DATA[y.n];
 const lessonsOf = b => Math.ceil((b.lines ? b.lines.length : META[b.year][ "books" ][b.id]) / b.per);
-YEARS.forEach(y => { y.books.forEach(b => b.year = y.n); y.decks.forEach(d => d.year = y.n); });
+YEARS.forEach(y => { y.prepared = y.books.length + y.decks.length > 0; y.books.forEach(b => b.year = y.n); y.decks.forEach(d => d.year = y.n); });
 const deckSize = d => d.cards ? d.cards.length : META[d.year].decks[d.id];
 
 /* ============================ STATE ============================ */
 const KEY = "ihsan.v3";
 const PASS = 0.8, MASTER_IVL = 7, RETAIN = 0.85, TEST_LEN = 40;
-function fresh(){ return { welcomed:false, xp:0, streak:0, lastDay:null, days:{}, offset:0, newPerDay:15, newDone:{}, books:{}, cards:{}, log:[], tests:{}, unlocked:[1] }; }
+function fresh(){ return { welcomed:false, xp:0, streak:0, lastDay:null, days:{}, offset:0, newPerDay:15, newDone:{}, books:{}, cards:{}, log:[], tests:{}, unlocked:[1], spec:null }; }
 function load(){ try{ const s = JSON.parse(localStorage.getItem(KEY)); return s && s.cards ? Object.assign(fresh(), s) : fresh(); }catch(e){ return fresh(); } }
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
 let S = load();
@@ -301,9 +306,9 @@ const bookDone = b => Math.min((S.books[b.id]||[]).length, lessonsOf(b));
 function yearStatus(y){
   const lt = y.books.reduce((a,b)=>a+lessonsOf(b),0), ld = y.books.reduce((a,b)=>a+bookDone(b),0);
   const ct = y.decks.reduce((a,d)=>a+deckSize(d),0), cm = y.decks.reduce((a,d)=>a+deckStats(d).mastered,0);
-  const ret = retention(), booksOk = ld >= lt, cardsOk = cm >= ct && ret !== null && ret >= RETAIN;
+  const ret = retention(), booksOk = ld >= lt, cardsOk = ct === 0 || (cm >= ct && ret !== null && ret >= RETAIN);
   const t = S.tests[y.n];
-  return { books:ld/lt, booksOk, ld, lt, flash:cm/ct, cardsOk, cm, ct, ret, ready:booksOk && cardsOk, passed:!!(t && t.passed), best:t ? t.best : null };
+  return { books:lt?ld/lt:0, booksOk, ld, lt, flash:ct?cm/ct:0, cardsOk, cm, ct, ret, ready:y.prepared && booksOk && cardsOk, passed:!!(t && t.passed), best:t ? t.best : null };
 }
 
 /* ============================ HELPERS ============================ */
@@ -340,6 +345,7 @@ function art(kind, color, size=44){
     scales:`<path d="M50 30v62M30 92h40M24 44h52" stroke="${c}" stroke-width="5" stroke-linecap="round"/><path d="M24 44l-9 22h18zM76 44l-9 22h18z" fill="${g}"/><circle cx="50" cy="30" r="5" fill="${c}"/>`,
     rehal:`<path d="M26 86l48-30M74 86L26 56" stroke="${c}" stroke-width="6" stroke-linecap="round"/><path d="M22 56c10-8 22-8 28 0 6-8 18-8 28 0v-26c-10-6-22-6-28 2-6-8-18-8-28-2z" fill="${g}"/><path d="M50 32v24" stroke="${c}" stroke-width="2"/>`,
     drop:`<path d="M50 28c12 18 22 30 22 44a22 22 0 0 1-44 0c0-14 10-26 22-44z" fill="${c}"/><path d="M42 74a9 9 0 0 0 9 9" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="100" rx="30" ry="5" fill="${g}" opacity=".7"/>`,
+    moon:`<path d="M62 34a26 26 0 1 0 6 44 22 22 0 1 1-6-44z" fill="${c}"/><polygon points="70,46 73,54 81,54 75,59 77,67 70,62 63,67 65,59 59,54 67,54" fill="${g}"/>`,
     pen:`<path d="M30 92l40-58 8 6-40 58-10 4z" fill="${c}"/><path d="M26 100c14-6 30-2 48-8" stroke="${g}" stroke-width="5" fill="none" stroke-linecap="round"/>`,
     tree:`<path d="M50 96V58M50 72l-12-10M50 66l12-10" stroke="${c}" stroke-width="5" stroke-linecap="round"/><circle cx="50" cy="44" r="18" fill="${c}"/><circle cx="34" cy="54" r="11" fill="${c}"/><circle cx="66" cy="54" r="11" fill="${c}"/><path d="M50 96l-12 8M50 96l12 8M50 96v10" stroke="${g}" stroke-width="4" stroke-linecap="round"/>`,
     letter:`<text x="50" y="86" text-anchor="middle" font-family="Amiri, serif" font-size="62" fill="${c}">ع</text><circle cx="72" cy="40" r="5" fill="${g}"/>`,
@@ -421,7 +427,7 @@ function homeView(){
       <button class="btn gold" data-study="all" ${due+nw===0?"disabled":""}>${due+nw ? "Study flashcards" : "All done for today"}</button>
     </section>
     <p class="label">Your years</p>
-    <div class="stack">${YEARS.map(yearCard).join("")}</div>`);
+    <div class="stack">${YEARS.map(yearCard).join("")}${specCard()}</div>`);
 }
 function gate(label, frac, done){ return `<div class="gate ${done?"done":""}"><span>${label}</span><div class="bar"><i style="width:${Math.min(100,frac*100)}%;${done?"background:var(--ok)":""}"></i></div></div>`; }
 function yearCard(y){
@@ -429,8 +435,9 @@ function yearCard(y){
   const pill = st.passed ? `<span class="pill ok">Passed</span>` : open ? `<span class="pill gold">In progress</span>` : `<span class="pill">${ICON.lock} Locked</span>`;
   const has = new Set([...y.books, ...y.decks].map(x=>x.subject)), subjects = MODULES.filter(m=>has.has(m.name)).map(m=>m.name).join(" · ");
   return `<button class="year ${cur?"current":""} ${open?"":"locked"}" data-year="${y.n}">
-    <div class="head"><span class="yr-badge">${y.n}</span><div style="flex:1"><div class="spread"><h2>Year ${y.n}</h2>${pill}</div><div class="small muted">${esc(y.title)} · ${subjects}</div></div></div>
-    ${open ? `<div class="gates">${gate("Books", st.books, st.booksOk)}${gate("Flashcards", st.flash, st.cardsOk)}${gate("Final test", st.passed?1:0, st.passed)}</div>`
+    <div class="head"><span class="yr-badge">${y.n}</span><div style="flex:1"><div class="spread"><h2>Year ${y.n}</h2>${pill}</div><div class="small muted">${esc(y.title)}${subjects?` · ${subjects}`:""}</div></div></div>
+    ${open && !y.prepared ? `<p class="small muted" style="margin:0">The texts for this year are being prepared.</p>`
+      : open ? `<div class="gates">${gate("Books", st.books, st.booksOk)}${gate("Flashcards", st.flash, st.cardsOk)}${gate("Final test", st.passed?1:0, st.passed)}</div>`
            : `<p class="small muted" style="margin:0">Unlocks when you pass the Year ${y.n-1} final test with ${PASS*100}% or more.</p>`}</button>`;
 }
 function itemBook(b, open){
@@ -466,12 +473,13 @@ function yearView(n){
     [st.ret !== null && st.ret >= RETAIN, `Keep recall at ${RETAIN*100}%+ on reviews (now ${st.ret===null?"no reviews yet":pct(st.ret)})`]];
   return shell(`<button class="back" data-go="home">${ICON.back} Home</button>
     <section class="hero" style="--c:${open?"var(--brand)":"var(--muted)"}"><h1>Year ${n}: ${esc(y.title)}</h1><p>${esc(y.desc)}</p></section>
+    ${open && !y.prepared ? `<div class="notice">${ICON.book||""}<span>The texts for Year ${n} are being chosen. Each module below will fill in as they are added, and the final test opens then.</span></div>` : ""}
     ${open?"":`<div class="notice">${ICON.lock}<span>Locked. Pass the Year ${n-1} final test (${PASS*100}% or more) to open this year. You can preview what it contains below.</span></div>`}
     <p class="label">Year ${n} syllabus</p><div class="modules">${mods}</div>
     <p class="label">Final test</p>
     <div class="card">${checks.map(([ok,t])=>`<div class="check ${ok?"on":""}"><i>${ok?ICON.check:""}</i><span>${t}</span></div>`).join("")}
-      <p class="small muted" style="margin:10px 0 12px">${TEST_LEN} questions from this year's books and flashcards. Score ${PASS*100}% or more to ${n<YEARS.length?`unlock Year ${n+1}`:"complete the course"}.${st.best!==null?` Best so far: <b>${pct(st.best)}</b>.`:""}</p>
-      <button class="btn ${st.ready&&open?"gold":""}" data-test="${n}" ${st.ready&&open?"":"disabled"}>${st.passed?"Retake final test":st.ready&&open?"Start final test":"Final test locked"}</button></div>
+      <p class="small muted" style="margin:10px 0 12px">${TEST_LEN} questions from this year's books and flashcards. Score ${PASS*100}% or more to ${n<YEARS.length?`unlock Year ${n+1}`:"complete the five years and unlock your specialisation"}.${st.best!==null?` Best so far: <b>${pct(st.best)}</b>.`:""}</p>
+      <button class="btn ${st.ready&&open?"gold":""}" data-test="${n}" ${st.ready&&open?"":"disabled"}>${st.passed?"Retake final test":st.ready&&open?"Start final test":!y.prepared?"Final test not available yet":"Final test locked"}</button></div>
 `);
 }
 function bookView(id){
@@ -537,6 +545,29 @@ function searchView(){
   return shell(`<h1>Search</h1><p class="muted" style="margin:0 0 12px">Find any line, hadith or flashcard you have unlocked.</p>
     <input id="sq" class="search" type="search" placeholder="e.g. wudu, Dajjal, رحمة" value="${esc(view.q||"")}" autocomplete="off" aria-label="Search">
     <div id="sres" style="margin-top:12px">${searchResults(view.q||"")}</div>`);
+}
+
+/* ---- Specialisation (further studies) ---- */
+const specOpen = () => !!(S.tests[YEARS.length] && S.tests[YEARS.length].passed);
+function specCard(){
+  const open = specOpen(), m = MODULES.find(x => x.name === S.spec);
+  return `<button class="year ${open&&!m?"current":""} ${open?"":"locked"}" data-spec="1">
+    <div class="head"><span class="yr-badge">${ICON.star.replace("<svg",'<svg width="24" height="24"')}</span><div style="flex:1"><div class="spread"><h2>Specialisation</h2>${m?`<span class="pill ok">${esc(m.name)}</span>`:open?`<span class="pill gold">Choose</span>`:`<span class="pill">${ICON.lock} Locked</span>`}</div>
+    <div class="small muted">Further studies · one module of your choice</div></div></div>
+    <p class="small muted" style="margin:0">${m?`Your year of further study in ${esc(m.name)}.`:open?"Choose the module you want to study further.":`Unlocks when you pass the Year ${YEARS.length} final test. You then choose one module to study in depth.`}</p></button>`;
+}
+function specView(){
+  const open = specOpen(), chosen = MODULES.find(x => x.name === S.spec);
+  const intro = `<button class="back" data-go="home">${ICON.back} Home</button>
+    <section class="hero" style="--c:var(--gold)"><div class="hero-art">${art("star","#C8912B",84)}</div><h1>Specialisation</h1>
+    <p>After the five years, spend a year of further study in one module, going deeper into its texts with a teacher.</p></section>
+    ${open?"":`<div class="notice">${ICON.lock}<span>Pass the Year ${YEARS.length} final test to choose your specialisation. You can look at the options now.</span></div>`}`;
+  if (chosen) return shell(`${intro}<p class="label">Your specialisation</p>
+    <div class="card"><div class="row" style="gap:12px;align-items:center">${art(chosen.art, chosen.color, 54)}<div><h2 style="margin:0">${esc(chosen.name)}</h2><p class="small muted" style="margin:2px 0 0">${esc(chosen.about)}</p></div></div>
+    <div class="notice" style="margin:14px 0 0">${ICON.book||""}<span>The texts for further study in ${esc(chosen.name)} are being chosen. They will appear here.</span></div>
+    <div class="btnrow" style="margin-top:12px"><button class="btn ghost" id="changespec">Change specialisation</button></div></div>`);
+  return shell(`${intro}<p class="label">Choose a module</p><div class="stack">${MODULES.map(m => `<button class="item" data-pick="${esc(m.name)}" ${open?"":"disabled"}>
+      <span class="ico art-ico">${art(m.art, m.color, 40)}</span><span><span class="t">${esc(m.name)}</span><br><span class="s">${esc(m.about)}</span></span>${open?`<span class="pill gold">Choose</span>`:ICON.lock}</button>`).join("")}</div>`);
 }
 
 /* ======================= STUDY SESSION ======================= */
@@ -676,7 +707,7 @@ async function finishTest(){
   if (passed && n < YEARS.length) { try { await loadYear(n+1); } catch(e){} }
   $("#app").innerHTML = `<div class="player"><div class="player-in"><div class="pbody"><div class="done-screen" style="padding:24px 0 8px"><div style="width:80px">${ICON.logo}</div><div class="big">${passed ? "Passed, alhamdulillah" : "Not yet"}</div>
     <div class="tiles"><div class="tile"><b>${pct(score)}</b><span>Your score</span></div><div class="tile"><b>${PASS*100}%</b><span>Pass mark</span></div></div>
-    <p class="muted" style="margin:0;max-width:340px">${passed ? (n < YEARS.length ? `Year ${n+1} is now unlocked.` : "You have completed the course so far.") : "Review the questions below, keep up your flashcards, and try again when you're ready."}</p></div>
+    <p class="muted" style="margin:0;max-width:340px">${passed ? (n < YEARS.length ? `Year ${n+1} is now unlocked.` : "You have completed the five years. Your specialisation year is now open: choose the module you want to study further.") : "Review the questions below, keep up your flashcards, and try again when you're ready."}</p></div>
     ${wrong.length?`<p class="label">Questions to review (${wrong.length})</p><div class="stack review-list">${wrong.map(w=>`<div class="card">${w.promptAr?`<p class="line-ar" style="font-size:1.2rem;margin:0">${esc(w.promptAr)}</p>`:""}<p style="margin:0 0 6px;font-weight:700" class="${w.qAr?"ar":""}">${esc(w.q)}</p>
       <p class="small" style="margin:0;color:var(--ok)"><b>Correct:</b> ${esc(w.answer)}</p><p class="small" style="margin:4px 0 0;color:var(--bad)"><b>You chose:</b> ${esc(w.given)}</p></div>`).join("")}</div>`:""}
     </div><div class="pfoot"><button class="btn" id="cont">Continue</button></div></div></div>`;
@@ -691,6 +722,7 @@ function render(){
   else if (view.name === "year") app.innerHTML = yearView(view.n);
   else if (view.name === "book") app.innerHTML = bookView(view.id);
   else if (view.name === "search") app.innerHTML = searchView();
+  else if (view.name === "spec") app.innerHTML = specView();
   else app.innerHTML = profileView();
   app.querySelectorAll("[data-go]").forEach(b => b.onclick = () => go({ name:b.dataset.go }));
   app.querySelectorAll("[data-year]").forEach(b => b.onclick = () => go({ name:"year", n:+b.dataset.year }));
@@ -699,11 +731,18 @@ function render(){
   app.querySelectorAll("[data-deck]").forEach(b => b.onclick = () => startStudy([YEARS.flatMap(y=>y.decks).find(d=>d.id===b.dataset.deck)]));
   app.querySelectorAll("[data-study]").forEach(b => b.onclick = () => startStudy(activeYears().flatMap(y=>y.decks)));
   app.querySelectorAll("[data-test]").forEach(b => b.onclick = () => { if (!b.disabled) startTest(+b.dataset.test); });
+  app.querySelectorAll("[data-spec]").forEach(b => b.onclick = () => go({ name:"spec" }));
+  app.querySelectorAll("[data-pick]").forEach(b => b.onclick = () => { if (!specOpen()) return; const m = b.dataset.pick;
+    confirmBox(`Choose ${m} as your specialisation?`, () => { S.spec = m; save(); render(); }); });
+  const cs = $("#changespec"); if (cs) cs.onclick = () => confirmBox("Change your specialisation? Your progress in the five years is kept.", () => { S.spec = null; save(); render(); });
   const cn = $("#continue"); if (cn) cn.onclick = () => { const nl = nextLesson(); if (nl) startLesson(nl.b.id, nl.i); };
   const sq = $("#sq"); if (sq){ sq.oninput = () => { view.q = sq.value; $("#sres").innerHTML = searchResults(sq.value); bindResults(); }; bindResults(); if (view.q !== undefined) { sq.focus(); sq.setSelectionRange(sq.value.length, sq.value.length); } }
   const npd = $("#npd"); if (npd) npd.onchange = () => { S.newPerDay = +npd.value; save(); };
   const sk = $("#skipday"); if (sk) sk.onclick = () => { S.offset++; save(); render(); };
   const ft = $("#fasttrack"); if (ft) ft.onclick = () => { const y = yearOf(Math.max(...S.unlocked));
+    if (!y.prepared) return confirmBox(`Year ${y.n} has no texts yet. Mark its final test as passed? (Testing only)`, () => {
+      S.tests[y.n] = { attempts:1, best:1, passed:true }; if (y.n < YEARS.length && !S.unlocked.includes(y.n+1)) S.unlocked.push(y.n+1);
+      save(); loadYear(Math.min(y.n+1, YEARS.length)).then(() => go({ name:"home" })); });
     confirmBox(`Mark every Year ${y.n} lesson done and every flashcard mastered, so you can try the final test? (Testing only)`, () => {
       y.books.forEach(b => S.books[b.id] = [...Array(lessonsOf(b)).keys()]);
       y.decks.forEach(d => d.cards.forEach(c => S.cards[c.id] = { ivl:MASTER_IVL+3, ease:2.5, reps:4, lapses:0, due:today()+10 }));
@@ -718,5 +757,5 @@ function render(){
 })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=ad454751ef");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=959e1b4ace");</script></body>
 </html>

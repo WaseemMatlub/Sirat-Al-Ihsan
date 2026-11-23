@@ -6,6 +6,10 @@ Learn your deen, year by year. A Hanafi, Maturidi syllabus with Arabic at its co
 
 ## How it works
 
+The course runs for **five years**, followed by a **specialisation year** (further studies) in one module the student chooses.
+
+Each year's syllabus is made of modules: **Aqeedah, Comparative Aqeedah, Tajweed, Arabic, Fiqh, Tasawwuf, Signs of the Hour and Seerah** (plus Tafsir where a year includes it). Each module holds that year's books and flashcards.
+
 Each year has three parts, and the next year unlocks only when all three are done:
 
 1. **Books**: read core texts line by line in Arabic and English, then check your understanding.
