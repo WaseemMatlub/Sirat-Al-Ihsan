@@ -240,7 +240,7 @@ nav.tabs .in{grid-template-columns:repeat(4,1fr)}
 <script>
 "use strict";
 /* ============================ SYLLABUS ============================ */
-const META = {"1": {"books": {"tahawiyya": 108, "umm": 57, "signs": 83}, "decks": {"quran": 500, "nur": 1083}}, "2": {"books": {"jawhara": 142}, "decks": {"quduri": 2441, "roots": 1000, "verbs1": 700, "ithaf": 311}}, "3": {"books": {"majalla": 99}, "decks": {"nasafiyyah": 1401, "kanz": 1433, "verbs2": 700}}, "texts": {"shamail": 58, "riyad": 373, "fiqh_akbar": 27, "maraqi": 92, "arbain": 45, "ajurrumiyya": 25, "quduri": 119, "nur_idah": 337, "usul_shashi": 106}, "textsAi": {"shamail": false, "riyad": false, "fiqh_akbar": true, "maraqi": false, "arbain": false, "ajurrumiyya": false, "quduri": false, "nur_idah": false, "usul_shashi": false}};
+const META = {"1": {"books": {"tahawiyya": 108, "umm": 57, "signs": 83}, "decks": {"quran": 500, "nur": 1083}}, "2": {"books": {"jawhara": 142}, "decks": {"quduri": 2441, "roots": 1000, "verbs1": 700, "ithaf": 311}}, "3": {"books": {"majalla": 99}, "decks": {"nasafiyyah": 1401, "kanz": 1433, "verbs2": 700}}, "texts": {"shamail": 58, "riyad": 373, "fiqh_akbar": 27, "maraqi": 92, "arbain": 45, "ajurrumiyya": 25, "quduri": 119, "nur_idah": 337, "usul_shashi": 103}, "textsAi": {"shamail": false, "riyad": false, "fiqh_akbar": true, "maraqi": false, "arbain": false, "ajurrumiyya": false, "quduri": false, "nur_idah": false, "usul_shashi": false}};
 const YEARS = [
  { n:1, title:"Foundations", desc:"The Tahawiyyah, Nur al-Idah and Is'af al-Muridin, tajweed, the first books of sarf and nahw, and the most common words of the Qur'an.",
    books:[
@@ -374,8 +374,13 @@ function yearStatus(y){
 const $ = s => document.querySelector(s);
 const AR_RUN = /[\u0600-\u06FF\uFDF0-\uFDFF\uFE70-\uFEFF](?:[\u0600-\u06FF\uFDF0-\uFDFF\uFE70-\uFEFF\u064B-\u065F\s]*[\u0600-\u06FF\uFDF0-\uFDFF\uFE70-\uFEFF])?/g;
 /* escape HTML; in English text, isolate Arabic phrases (ﷺ, رضي الله عنه…) so word order stays correct */
-const esc = s => { s = String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+window.escH = s => esc(s);
+/* Harakat on/off, one setting for the whole app. Qur'anic text (﴿…﴾, {…}, Qur'an-word cards) always keeps its harakat. */
+const HARAKAT = /[\u064B-\u0652\u0670\u0653-\u0655]/g;
+const stripH = s => s.replace(/(﴿[^﴾]*﴾|\{[^}]*\})|([^﴿{]+)/g, (m, q, t) => q ? q : t.replace(HARAKAT, ""));
+const escQ = s => { s = String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
   return /[A-Za-z]/.test(s) ? s.replace(AR_RUN, m => "\u2068" + m + "\u2069") : s; };
+const esc = s => { s = String(s ?? ""); if (typeof S !== "undefined" && S && S.harakat === false && /[\u064B-\u0652]/.test(s)) s = stripH(s); return escQ(s); };
 const shuffle = a => { a = a.slice(); for (let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; };
 const pct = x => Math.round(x*100) + "%";
 const isAr = s => /[؀-ۿ]/.test(String(s).slice(0,40));
@@ -579,6 +584,7 @@ function profileView(){
     <div class="row" style="align-items:flex-end;height:70px;gap:6px">${days.map(d=>{const v=S.days[d]||0;return `<div style="flex:1;text-align:center"><div title="${v} XP" style="height:${Math.max(4,v/mx*52)}px;border-radius:6px;background:${v?"var(--gold)":"var(--line)"}"></div><span class="small muted">${["S","M","T","W","T","F","S"][new Date(d*864e5).getUTCDay()]}</span></div>`}).join("")}</div>
     <p class="label">Settings</p>
     <div class="card spread"><label for="advgrades" class="small" style="font-weight:700">Advanced grading<br><span class="muted" style="font-weight:400">Swap ✓ Got it / ↻ Redo for four buttons (Again, Hard, Good, Easy) to fine-tune how soon each card returns. Most students don't need this.</span></label><input type="checkbox" id="advgrades" ${S.advancedGrades?"checked":""} style="width:22px;height:22px;flex:none"></div>
+    <div class="card spread" style="margin-top:8px"><label for="hk" class="small" style="font-weight:700">Show harakat<br><span class="muted" style="font-weight:400">Turn off to practise reading unvowelled Arabic. Qur'anic text always keeps its harakat.</span></label><input type="checkbox" id="hk" ${S.harakat!==false?"checked":""} style="width:22px;height:22px;flex:none"></div>
     <div class="card spread" style="margin-top:8px"><label for="madhab" class="small" style="font-weight:700">Madhab for fiqh<br><span class="muted" style="font-weight:400">The course teaches Hanafi fiqh first. Maliki, Shafi'i and Hanbali tracks will be added later.</span></label>
       <select id="madhab"><option selected>Hanafi</option><option disabled>Maliki (coming)</option><option disabled>Shafi'i (coming)</option><option disabled>Hanbali (coming)</option></select></div>
     <div class="card spread" style="margin-top:8px"><label for="npd" class="small" style="font-weight:700">New cards per deck per day</label><select id="npd">${[5,10,15,20,30,50].map(n=>`<option ${n===S.newPerDay?"selected":""}>${n}</option>`).join("")}</select></div>
@@ -699,13 +705,13 @@ function textView(b){
 function readView(b, i){
   const T = TEXTS[b.file]; if (!T) return `<p class="muted">Loading…</p>`;
   const s = T.sections[i], P = S.readPrefs = Object.assign({ harakat:true, english:true, size:2, rate:1 }, S.readPrefs||{}), key = `t|${b.id}|${i}`;
-  const ar = P.harakat && s.v ? s.v : s.p;
+  const ar = s.v || s.p;   // esc() removes harakat when they're switched off, but never inside ayat
   const paras = ar.map((t,j) => `<div class="para" data-pj="${j}"><p class="ar-read">${esc(t)}</p>${P.english && s.en && s.en[j] ? `<p class="en-read">${esc(s.en[j])}</p>` : ""}</div>`).join("");
   return `<div class="player"><div class="player-in"><div class="phead"><button class="x" id="rquit" aria-label="Close">${ICON.x}</button><div class="bar"><i style="width:${(i+1)/T.sections.length*100}%;background:${b.color}"></i></div><span class="count">${i+1}/${T.sections.length}</span></div>
     <div class="pbody reader"><div class="kicker">${esc(b.title)}${s.parent?` · <span class="ar">${esc(s.parent)}</span>`:""}</div>
       <h2 class="ar" style="text-align:right;font-size:1.5rem;margin:4px 0 2px">${esc(s.h)}</h2>${s.he?`<p class="muted" style="margin:0 0 8px">${esc(s.he)}</p>`:""}
       <div class="tools" style="margin:6px 0 10px"><button class="tool listen ${AUD.on?"on":""}" id="listen">${AUD.on?"❚❚ Pause":"▶ Listen"}</button>
-        ${s.v?`<button class="tool ${P.harakat?"on":""}" id="tg-h">حَ Harakat</button>`:""}${s.en?`<button class="tool ${P.english?"on":""}" id="tg-e">EN English</button>`:""}
+        <button class="tool ${S.harakat!==false?"on":""}" id="tg-h">حَ Harakat ${S.harakat!==false?"on":"off"}</button>${s.en?`<button class="tool ${P.english?"on":""}" id="tg-e">EN English</button>`:""}
         <button class="tool" id="fsdn" aria-label="Smaller text">A−</button><button class="tool" id="fsup" aria-label="Larger text">A+</button>
         ${AUD.on?`<button class="tool" id="rate">${P.rate}× speed</button>`:""}${T.ai?`<span class="pill gold">AI · needs review</span>`:""}</div>
       <div class="card fs${P.size}">${paras}</div>${toolRow(key,false)}</div>
@@ -714,7 +720,8 @@ function readView(b, i){
 function bindRead(b, i){
   const T = TEXTS[b.file]; bindTools($("#app"), () => { $("#app").innerHTML = readView(b, i); bindRead(b, i); });
   const tg = (k) => () => { S.readPrefs[k] = !S.readPrefs[k]; save(); $("#app").innerHTML = readView(b, i); bindRead(b, i); };
-  const th = $("#tg-h"); if (th) th.onclick = tg("harakat"); const te = $("#tg-e"); if (te) te.onclick = tg("english");
+  const th = $("#tg-h"); if (th) th.onclick = () => { S.harakat = S.harakat === false; save(); $("#app").innerHTML = readView(b, i); bindRead(b, i);
+    if (S.harakat && !T.sections[i].v) toast("This book doesn't have harakat added yet. They'll appear when they're ready."); }; const te = $("#tg-e"); if (te) te.onclick = tg("english");
   const redraw = () => { $("#app").innerHTML = readView(b, i); bindRead(b, i); if (AUD.on) markPara(AUD.j); };
   $("#fsdn").onclick = () => { S.readPrefs.size = Math.max(0, S.readPrefs.size-1); save(); redraw(); };
   $("#fsup").onclick = () => { S.readPrefs.size = Math.min(5, S.readPrefs.size+1); save(); redraw(); };
@@ -740,7 +747,7 @@ function sayOne(text, lang, rate, token){ return new Promise(res => { if (!text 
 function playFile(url, rate, token){ return new Promise(res => { if (token !== AUD.token) return res(); const a = AUD.el = new Audio(url); a.playbackRate = rate; a.onended = a.onerror = () => res(); a.play().catch(() => res()); }); }
 async function speakFrom(b, i, j0){
   const token = ++AUD.token; if (hasTTS()) speechSynthesis.cancel(); if (AUD.el) { AUD.el.pause(); AUD.el = null; } AUD.on = true;
-  const T = TEXTS[b.file], s = T.sections[i], P = S.readPrefs, ar = P.harakat && s.v ? s.v : s.p;
+  const T = TEXTS[b.file], s = T.sections[i], P = S.readPrefs, ar = s.v || s.p;
   if (!s.audio && !hasTTS()) { toast("This device can't read aloud"); return stopAudio(); }
   if (!s.audio && !voiceFor("ar")) toast("No Arabic voice on this device, so only English is read. Add an Arabic voice in your phone's speech settings.");
   for (let j = j0; j < ar.length; j++){
@@ -791,6 +798,7 @@ function toggleSave(k){ S.saved = S.saved||[]; const i = S.saved.indexOf(k); if 
 function toast(t){ document.querySelectorAll(".toast").forEach(x => x.remove()); const el = document.createElement("div"); el.className = "toast"; el.setAttribute("role","status"); el.textContent = t; document.body.appendChild(el); setTimeout(() => el.remove(), 2200); }
 function toolRow(k, know){ return `<div class="tools"><button class="tool ${isSaved(k)?"on":""}" data-save="${esc(k)}" aria-label="Save">${isSaved(k)?ICON.saved:ICON.save}<span>${isSaved(k)?"Saved":"Save"}</span></button>
   <button class="tool" data-report="${esc(k)}" aria-label="Report a problem">${ICON.flag}<span>Report</span></button>
+  <button class="tool ${S.harakat!==false?"on":""}" data-harakat="1" aria-label="Harakat on or off">حَ ${S.harakat!==false?"on":"off"}</button>
   ${know?`<button class="tool" id="know" aria-label="I already know this">${ICON.know}<span>I know this</span></button>`:""}</div>`; }
 function itemByKey(k){
   const [kind, id, i] = k.split("|");
@@ -823,6 +831,7 @@ function openReport(k){
   });
 }
 function bindTools(root, rerender){
+  root.querySelectorAll("[data-harakat]").forEach(b => b.onclick = () => { S.harakat = S.harakat === false; save(); toast(S.harakat ? "Harakat on" : "Harakat off (Qur'anic text keeps its harakat)"); rerender && rerender(); });
   root.querySelectorAll("[data-save]").forEach(b => b.onclick = () => { toggleSave(b.dataset.save); rerender && rerender(); });
   root.querySelectorAll("[data-report]").forEach(b => b.onclick = () => openReport(b.dataset.report));
 }
@@ -839,6 +848,7 @@ function startStudy(decks){
   renderStudy();
 }
 function cardFront(c, d){
+  const esc = c.deck === "quran" ? escQ : window.escH;
   const big = c.fa && c.f.length < 24;
   return `<div class="kicker">${esc(d.title)}${c.g?` · ${esc(c.g)}`:""}</div>
     <div class="card" style="${big?"text-align:center;padding:26px 16px":""}">
@@ -846,11 +856,12 @@ function cardFront(c, d){
       ${c.s?`<span class="pill" style="margin-top:8px">${esc(c.s)}</span>`:""}</div>`;
 }
 function cardBack(c){
+  const esc = c.deck === "quran" ? escQ : window.escH;
   return `<div class="card answer" style="margin-top:12px">
     ${c.ba ? `<div class="ar" style="font-size:1.3rem;line-height:1.9;text-align:right">${esc(c.b)}</div>`
       : c.b.length < 80 ? `<div style="font-size:1.2rem;font-weight:800">${esc(c.b)}</div>` : points(c.b)}
     ${c.ai?`<span class="pill gold" style="margin-top:6px">AI · needs review</span>`:""}
-    ${c.ex?`<div class="ayah">${esc(c.ex)}</div>`:""}${c.exr?`<div class="ref">${esc(c.exr)}</div>`:""}</div>`;
+    ${c.ex?`<div class="ayah">${escQ(c.ex)}</div>`:""}${c.exr?`<div class="ref">${esc(c.exr)}</div>`:""}</div>`;
 }
 function renderStudy(){
   const c = Q.q[Q.i]; if (!c) return finishStudy();
@@ -1011,6 +1022,7 @@ function render(){
   const la = $("#loadall"); if (la) la.onclick = async () => { la.disabled = true; la.textContent = "Loading the books…"; try { await Promise.all(LIB().map(b => loadText(b.file))); } catch(e){ toast("Some books could not load"); } INDEX = null; render(); };
   const sq = $("#sq"); if (sq){ sq.oninput = () => { view.q = sq.value; $("#sres").innerHTML = searchResults(sq.value); bindResults(); }; bindResults(); if (view.q !== undefined) { sq.focus(); sq.setSelectionRange(sq.value.length, sq.value.length); } }
   const sd = $("#sendall"); if (sd) sd.onclick = async () => { const ok = await sendReports(S.reports.filter(r=>!r.sent)); if (ok) { toast("Thank you, jazak Allahu khayran"); render(); } };
+  const hk = $("#hk"); if (hk) hk.onchange = () => { S.harakat = hk.checked; save(); };
   const ag = $("#advgrades"); if (ag) ag.onchange = () => { S.advancedGrades = ag.checked; save(); };
   const npd = $("#npd"); if (npd) npd.onchange = () => { S.newPerDay = +npd.value; save(); };
   const sk = $("#skipday"); if (sk) sk.onclick = () => { S.offset++; save(); render(); };
@@ -1032,5 +1044,5 @@ function render(){
 })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=6fd2548fff");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=90723c5b7d");</script></body>
 </html>
