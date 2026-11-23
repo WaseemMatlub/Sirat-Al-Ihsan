@@ -138,6 +138,21 @@ select{font:inherit;padding:8px 10px;border-radius:10px;border:1px solid var(--l
 .review-list .card{padding:12px 14px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 
+.chip.iconbtn{background:var(--surface);border:1px solid var(--line);color:var(--ink);cursor:pointer;padding:5px 8px}.chip.iconbtn svg{width:16px;height:16px}
+.coursebar{display:flex;flex-direction:column;align-items:stretch;gap:6px;width:100%;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 14px;font:inherit;color:var(--ink);cursor:pointer}
+.coursebar .pill{font-size:.66rem;padding:2px 7px;margin-left:4px;vertical-align:2px}
+.carousel{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;margin:12px -16px 4px;padding:2px 16px 14px;scrollbar-width:none}
+.carousel::-webkit-scrollbar{display:none}
+.lcard{flex:0 0 80%;max-width:330px;scroll-snap-align:center;background:var(--surface);border:1px solid var(--line);border-radius:22px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 6px 18px rgba(60,50,20,.06)}
+.lcard .pic{height:180px;display:grid;place-items:center}
+.lcard .lbody{padding:12px 16px 4px;flex:1}.lcard h3{font-family:var(--display);font-size:1.22rem;margin:4px 0 2px;line-height:1.3}
+.lcard .lbtn{display:flex;align-items:center;justify-content:center;gap:6px;margin:10px 0 0;border:0;background:var(--brand);color:var(--brand-ink);font:inherit;font-weight:800;letter-spacing:.06em;text-transform:uppercase;font-size:.85rem;padding:15px;cursor:pointer}
+.lcard .lbtn.off{background:var(--line);color:var(--muted);cursor:default}.lcard .lbtn svg{width:16px;height:16px}
+.lcard.locked{opacity:.6}.lcard.locked .pic{filter:grayscale(.7)}
+.minicard{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 14px;margin-top:10px}
+.minicard .mi{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:color-mix(in srgb,var(--gold) 14%,var(--surface));color:var(--brand)}.minicard .mi svg{width:20px;height:20px}
+.small-btn{width:auto!important;padding:9px 16px!important;font-size:.8rem!important}
+
 .reader .fs0 .ar-read{font-size:1.15rem}.reader .fs0 .en-read{font-size:.9rem}
 .reader .fs1 .ar-read{font-size:1.3rem}.reader .fs1 .en-read{font-size:.97rem}
 .reader .fs2 .ar-read{font-size:1.5rem}.reader .fs2 .en-read{font-size:1.04rem}
@@ -390,6 +405,7 @@ const ICON = {
   flame:'<svg viewBox="0 0 24 24"><path d="M12 2c1 4 5 5.5 5 11a5 5 0 0 1-10 0c0-2.5 1.2-4 2.5-5 .2 2 1 3 2 3.5C11 9 11 5.5 12 2Z" fill="var(--gold)"/></svg>',
   star:'<svg viewBox="0 0 24 24"><path d="m12 2.8 2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3L2.9 9.5l6.3-.9L12 2.8Z" fill="var(--brand)"/></svg>',
   learn:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5.5C5 4 9 4 12 6c3-2 7-2 10-.5V19c-3-1.5-7-1.5-10 .5-3-2-7-2-10-.5Z"/><path d="M12 6v13.5"/></svg>',
+  home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linejoin="round"><path d="M4 10.5 12 4l8 6.5V20h-5.5v-5.5h-5V20H4z"/></svg>',
   shelf:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5h3v14M9 19V7h3v12M14.5 19.2 17.8 6l2.9.7-3.3 13.2"/><path d="M3 19.5h18"/></svg>',
   search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>',
   user:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.5 4.5-6.5 8-6.5s7 2 8 6.5"/></svg>',
@@ -456,9 +472,9 @@ const isLibBook = () => view.name === "book" && bookById(view.id) && bookById(vi
 function go(v){ if (typeof stopAudio === "function" && AUD.on) stopAudio(); view = v; render(); window.scrollTo(0,0); }
 function shell(inner){
   return `<header class="topbar"><div class="brandmark">${ICON.logo}<span>Ihsan</span></div>
-    <div class="stats"><span class="chip" aria-label="${S.streak} day streak">${ICON.flame}${S.streak}</span><span class="chip" aria-label="${S.xp} XP">${ICON.star}${S.xp}</span></div></header>
+    <div class="stats"><button class="chip iconbtn" data-go="search" aria-label="Search">${ICON.search}</button><span class="chip" aria-label="${S.streak} day streak">${ICON.flame}${S.streak}</span><span class="chip" aria-label="${S.xp} XP">${ICON.star}${S.xp}</span></div></header>
     <main>${inner}</main>
-    <nav class="tabs"><div class="in"><button data-go="home" ${!["profile","search","library"].includes(view.name)&&!isLibBook()?'aria-current="page"':""}>${ICON.learn}Learn</button><button data-go="library" ${view.name==="library"||isLibBook()?'aria-current="page"':""}>${ICON.shelf}Library</button><button data-go="search" ${view.name==="search"?'aria-current="page"':""}>${ICON.search}Search</button><button data-go="profile" ${view.name==="profile"?'aria-current="page"':""}>${ICON.user}Progress</button></div></nav>`;
+    <nav class="tabs"><div class="in"><button data-go="home" ${view.name==="home"?'aria-current="page"':""}>${ICON.home}Home</button><button data-go="syllabus" ${["syllabus","year","spec"].includes(view.name)||(view.name==="book"&&!isLibBook())?'aria-current="page"':""}>${ICON.learn}Syllabus</button><button data-go="library" ${view.name==="library"||isLibBook()?'aria-current="page"':""}>${ICON.shelf}Library</button><button data-go="profile" ${view.name==="profile"?'aria-current="page"':""}>${ICON.user}Progress</button></div></nav>`;
 }
 function welcomeView(){
   return `<div class="welcome"><div class="welcome-in">
@@ -477,28 +493,32 @@ function welcomeView(){
     <p class="small muted" style="margin:12px 0 0">Prototype. Content is being reviewed by teachers.</p></div></div>`;
 }
 function homeView(){
-  const ys = activeYears(); let due = 0, nw = 0;
-  ys.forEach(y => y.decks.forEach(d => { const s = deckStats(d); due += s.due; nw += Math.min(newLeft(d), s.nw); }));
-  const nl = nextLesson(), hr = new Date().getHours();
-  const greet = hr < 12 ? "Sabah al-khayr" : hr < 18 ? "Assalamu 'alaykum" : "Masa' al-khayr";
-  const cont = nl ? `<section class="continue">
-      <div class="c-art">${artFor(nl.b, 92)}</div>
-      <div class="kicker">Year ${nl.y.n} · ${esc(nl.b.subject)}</div>
-      <h2>${esc(nl.b.title)}</h2>
-      <p class="small muted" style="margin:4px 0 14px">Lesson ${nl.i+1} of ${nl.L} · about 3 minutes</p>
-      <button class="btn" id="continue">${nl.i ? "Continue lesson" : "Start lesson"}</button></section>`
-    : `<section class="continue"><div class="kicker">Books complete</div><h2>All book lessons done</h2><p class="small muted">Keep up your flashcards and take the final test.</p></section>`;
+  const y = yearOf(Math.max(...S.unlocked.filter(n => loaded(yearOf(n))))), st = yearStatus(y);
+  const parts = [st.lt ? st.ld/st.lt : 0, st.ct ? st.cm/st.ct : 0], pctDone = Math.round(parts.reduce((p,q)=>p+q,0)/parts.length*100);
+  const hr = new Date().getHours(), greet = hr < 12 ? "Sabah al-khayr" : hr < 18 ? "Salaam" : "Masa' al-khayr";
+  const order = b => MODULES.findIndex(m => m.name === b.subject);
+  const books = y.books.filter(b => b.type !== "text").sort((p,q) => order(p)-order(q));
+  const open = [], later = [];
+  for (const b of books){ const L = lessonsOf(b), done = S.books[b.id]||[]; const i = [...Array(L).keys()].find(k => !done.includes(k));
+    if (i === undefined) continue; open.push({ b, i, L }); if (i+1 < L) later.push({ b, i:i+1, L, locked:true }); }
+  const cards = [...open, ...later].slice(0, 10).map(({b,i,L,locked}) => `<div class="lcard ${locked?"locked":""}">
+      <div class="pic" style="background:color-mix(in srgb,${b.color} 10%,var(--surface))">${artFor(b, 118)}</div>
+      <div class="lbody"><div class="kicker" style="margin:0">${esc(b.subject)}</div><h3>${esc(b.title)}</h3><p class="small muted">Lesson ${i+1} of ${L} · about 3 minutes</p></div>
+      ${locked ? `<div class="lbtn off">${ICON.lock} Lesson locked</div>` : `<button class="lbtn" data-startlesson="${b.id}|${i}">Start lesson</button>`}</div>`).join("");
+  let due = 0, nw = 0; activeYears().forEach(yy => yy.decks.forEach(d => { const s = deckStats(d); due += s.due; nw += Math.min(newLeft(d), s.nw); }));
+  const last = S.lastRead && bookById(S.lastRead.id);
   return shell(`
     <h1 style="margin:2px 0 2px">${greet}</h1>
-    <p class="muted" style="margin:0 0 14px">Let's continue today's learning, bismillah.</p>
-    ${cont}
-    ${weekStrip()}
-    <section class="today">
-      <div class="spread"><h2>Today</h2><span class="small" style="opacity:.85">Year ${Math.max(...S.unlocked)}</span></div>
-      <div class="nums"><div><b>${due}</b><span>Reviews due</span></div><div><b>${nw}</b><span>New cards</span></div><div><b>${S.days[today()]||0}</b><span>XP today</span></div></div>
-      <button class="btn gold" data-study="all" ${due+nw===0?"disabled":""}>${due+nw ? "Study flashcards" : "All done for today"}</button>
-    </section>
-    <p class="label">Your years</p>
+    <p class="muted" style="margin:0 0 12px">${(S.days[today()]||0) ? "Well done today, keep going." : "Let's learn something today, bismillah."}</p>
+    <button class="coursebar" data-go="syllabus"><span><b>Year ${y.n}: ${esc(y.title)}</b> <span class="pill">Change</span></span>
+      <span class="bar"><i style="width:${pctDone}%"></i></span><span class="small muted">${pctDone}%</span></button>
+    ${cards ? `<div class="carousel">${cards}</div>` : `<div class="card" style="margin:12px 0"><b>Every book lesson in Year ${y.n} is done.</b><p class="small muted" style="margin:4px 0 0">Keep up your flashcards, then take the final test in the Syllabus.</p></div>`}
+    <div class="minicard"><span class="mi">${ICON.flame}</span><span style="flex:1"><b>Flashcards</b><br><span class="small muted">${due+nw ? `${due} to review · ${nw} new today` : "All done for today"}</span></span>
+      <button class="btn gold small-btn" data-study="all" ${due+nw===0?"disabled":""}>${due+nw ? "Study" : "Done ✓"}</button></div>
+    ${last ? `<div class="minicard"><span class="mi">${ICON.shelf}</span><span style="flex:1"><b>Continue reading</b><br><span class="small muted">${esc(last.title)} · section ${S.lastRead.i+1}</span></span><button class="btn ghost small-btn" data-read="${last.id}|${S.lastRead.i}">Read</button></div>` : ""}`);
+}
+function syllabusView(){
+  return shell(`<h1>Syllabus</h1><p class="muted" style="margin:0 0 14px">Five years through the classical texts, then a year of specialisation. Each year opens when you pass the one before.</p>
     <div class="stack">${YEARS.map(yearCard).join("")}${specCard()}</div>`);
 }
 function gate(label, frac, done){ return `<div class="gate ${done?"done":""}"><span>${label}</span><div class="bar"><i style="width:${Math.min(100,frac*100)}%;${done?"background:var(--ok)":""}"></i></div></div>`; }
@@ -546,7 +566,7 @@ function yearView(n){
   const checks = [[st.booksOk, `Finish every book lesson (${st.ld}/${st.lt})`],
     [st.cm >= st.ct, `Master every flashcard, reviewed until it is ${MASTER_IVL}+ days apart (${st.cm.toLocaleString()}/${st.ct.toLocaleString()})`],
     [st.ret !== null && st.ret >= RETAIN, `Keep recall at ${RETAIN*100}%+ on reviews (now ${st.ret===null?"no reviews yet":pct(st.ret)})`]];
-  return shell(`<button class="back" data-go="home">${ICON.back} Home</button>
+  return shell(`<button class="back" data-go="syllabus">${ICON.back} Syllabus</button>
     <section class="hero" style="--c:${open?"var(--brand)":"var(--muted)"}"><h1>Year ${n}: ${esc(y.title)}</h1><p>${esc(y.desc)}</p></section>
     ${open && !y.prepared ? `<div class="notice">${ICON.book||""}<span>The texts for Year ${n} are being chosen. Each module below will fill in as they are added, and the final test opens then.</span></div>` : ""}
     ${open?"":`<div class="notice">${ICON.lock}<span>Locked. Pass the Year ${n-1} final test (${PASS*100}% or more) to open this year. You can preview what it contains below.</span></div>`}
@@ -577,7 +597,7 @@ function bookView(id){
 function profileView(){
   const ret = retention(), seen = Object.keys(S.cards).length, days = [...Array(7)].map((_,i)=>today()-6+i), mx = Math.max(20,...days.map(x=>S.days[x]||0));
   const cy = Math.max(...S.unlocked);
-  return shell(`<h1>Your progress</h1>
+  return shell(`<h1>Your progress</h1>${weekStrip()}
     <div class="tiles" style="max-width:none;margin-top:14px"><div class="tile"><b>${S.streak}</b><span>Day streak</span></div><div class="tile"><b>${S.xp}</b><span>Total XP</span></div>
     <div class="tile"><b>${seen.toLocaleString()}</b><span>Cards started</span></div><div class="tile"><b>${ret===null?"–":pct(ret)}</b><span>Recall rate</span></div></div>
     <p class="label">Last 7 days (XP)</p>
@@ -793,7 +813,7 @@ function specCard(){
 }
 function specView(){
   const open = specOpen(), chosen = MODULES.find(x => x.name === S.spec);
-  const intro = `<button class="back" data-go="home">${ICON.back} Home</button>
+  const intro = `<button class="back" data-go="syllabus">${ICON.back} Syllabus</button>
     <section class="hero" style="--c:var(--gold)"><div class="hero-art">${art("star","#C8912B",84)}</div><h1>Specialisation (Takhassus)</h1>
     <p>After the Dawrat al-Hadith, spend a year of further study in one module, going deeper into its texts with a teacher.</p></section>
     ${open?"":`<div class="notice">${ICON.lock}<span>Pass the Year ${YEARS.length} final test to choose your specialisation. You can look at the options now.</span></div>`}`;
@@ -1012,7 +1032,7 @@ async function finishTest(){
 /* ======================= RENDER ======================= */
 function render(){
   const app = $("#app");
-  if (!S.welcomed){ app.innerHTML = welcomeView(); $("#begin").onclick = () => { S.welcomed = true; save(); go({name:"year", n:1}); }; return; }
+  if (!S.welcomed){ app.innerHTML = welcomeView(); $("#begin").onclick = () => { S.welcomed = true; save(); go({name:"home"}); }; return; }
   if (view.name === "home") app.innerHTML = homeView();
   else if (view.name === "year") app.innerHTML = yearView(view.n);
   else if (view.name === "book") { const b = bookById(view.id); if (b.type === "text" && !TEXTS[b.file]) { app.innerHTML = shell(`<p class="muted">Loading ${esc(b.title)}…</p>`); loadText(b.file).then(render, () => { toast("Could not load the text. Check your connection."); go({name:"year", n:b.year}); }); return; } app.innerHTML = bookView(view.id); }
@@ -1020,6 +1040,7 @@ function render(){
   else if (view.name === "search") app.innerHTML = searchView();
   else if (view.name === "spec") app.innerHTML = specView();
   else if (view.name === "library") app.innerHTML = libraryView();
+  else if (view.name === "syllabus") app.innerHTML = syllabusView();
   else app.innerHTML = profileView();
   app.querySelectorAll("[data-go]").forEach(b => b.onclick = () => go({ name:b.dataset.go }));
   app.querySelectorAll("[data-year]").forEach(b => b.onclick = () => go({ name:"year", n:+b.dataset.year }));
@@ -1028,6 +1049,7 @@ function render(){
   app.querySelectorAll("[data-deck]").forEach(b => b.onclick = () => startStudy([YEARS.flatMap(y=>y.decks).find(d=>d.id===b.dataset.deck)]));
   app.querySelectorAll("[data-study]").forEach(b => b.onclick = () => startStudy(activeYears().flatMap(y=>y.decks)));
   app.querySelectorAll("[data-test]").forEach(b => b.onclick = () => { if (!b.disabled) startTest(+b.dataset.test); });
+  app.querySelectorAll("[data-startlesson]").forEach(b => b.onclick = () => { const [id, i] = b.dataset.startlesson.split("|"); startLesson(id, +i); });
   app.querySelectorAll("[data-read]").forEach(b => b.onclick = () => { const [id, i] = b.dataset.read.split("|"); openRead(id, +i); });
   app.querySelectorAll("[data-spec]").forEach(b => b.onclick = () => go({ name:"spec" }));
   app.querySelectorAll("[data-pick]").forEach(b => b.onclick = () => { if (!specOpen()) return; const m = b.dataset.pick;
@@ -1064,5 +1086,5 @@ function render(){
 })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=65245f5ccb");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=75f86dc109");</script></body>
 </html>
