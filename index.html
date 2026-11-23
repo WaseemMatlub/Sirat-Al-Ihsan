@@ -240,7 +240,7 @@ nav.tabs .in{grid-template-columns:repeat(4,1fr)}
 <script>
 "use strict";
 /* ============================ SYLLABUS ============================ */
-const META = {"1": {"books": {"tahawiyya": 108, "umm": 57, "signs": 83}, "decks": {"quran": 500, "nur": 1083}}, "2": {"books": {"jawhara": 142}, "decks": {"quduri": 2441, "roots": 1000, "verbs1": 700, "ithaf": 311}}, "3": {"books": {"majalla": 99}, "decks": {"nasafiyyah": 1401, "kanz": 1433, "verbs2": 700}}, "texts": {"shamail": 58, "riyad": 373, "fiqh_akbar": 27, "maraqi": 92, "arbain": 45, "ajurrumiyya": 25, "quduri": 119, "nur_idah": 337, "usul_shashi": 103}, "textsAi": {"shamail": false, "riyad": false, "fiqh_akbar": true, "maraqi": false, "arbain": false, "ajurrumiyya": true, "quduri": false, "nur_idah": false, "usul_shashi": false}};
+const META = {"1": {"books": {"tahawiyya": 108, "umm": 57, "signs": 83}, "decks": {"quran": 500, "nur": 1083}}, "2": {"books": {"jawhara": 142}, "decks": {"quduri": 2441, "roots": 1000, "verbs1": 700, "ithaf": 311}}, "3": {"books": {"majalla": 99}, "decks": {"nasafiyyah": 1401, "kanz": 1433, "verbs2": 700}}, "texts": {"shamail": 58, "riyad": 373, "fiqh_akbar": 27, "maraqi": 92, "arbain": 45, "ajurrumiyya": 25, "quduri": 119, "nur_idah": 337, "usul_shashi": 103}, "textsAudio": {"shamail": false, "riyad": false, "fiqh_akbar": false, "maraqi": false, "arbain": false, "ajurrumiyya": false, "quduri": false, "nur_idah": false, "usul_shashi": false}, "textsAi": {"shamail": false, "riyad": false, "fiqh_akbar": true, "maraqi": false, "arbain": false, "ajurrumiyya": true, "quduri": false, "nur_idah": false, "usul_shashi": false}};
 const YEARS = [
  { n:1, title:"Foundations", desc:"The Tahawiyyah, Nur al-Idah and Is'af al-Muridin, tajweed, the first books of sarf and nahw, and the most common words of the Qur'an.",
    books:[
@@ -586,6 +586,8 @@ function profileView(){
     <div class="card spread"><label for="advgrades" class="small" style="font-weight:700">Advanced grading<br><span class="muted" style="font-weight:400">Swap ✓ Got it / ↻ Redo for four buttons (Again, Hard, Good, Easy) to fine-tune how soon each card returns. Most students don't need this.</span></label><input type="checkbox" id="advgrades" ${S.advancedGrades?"checked":""} style="width:22px;height:22px;flex:none"></div>
     <div class="card spread" style="margin-top:8px"><label for="hk" class="small" style="font-weight:700">Show harakat<br><span class="muted" style="font-weight:400">Turn off to practise reading unvowelled Arabic. Qur'anic text always keeps its harakat.</span></label><input type="checkbox" id="hk" ${S.harakat!==false?"checked":""} style="width:22px;height:22px;flex:none"></div>
     <div class="card small" style="margin-top:8px"><b>Reading voices</b><p class="muted" style="margin:2px 0 8px">Used by ▶ Listen in the Library. The most natural voice on your device is chosen automatically. For better voices on iPhone, download one in Settings → Accessibility → Spoken Content → Voices, choosing one marked “Enhanced” or “Premium” (for example, English → Serena or Jamie; Arabic → Maged or Majed).</p>
+      <div class="spread" style="gap:8px;margin:4px 0 6px"><label for="arvoice" style="font-weight:700">Read the Arabic aloud with the device voice</label><input type="checkbox" id="arvoice" ${S.arVoice!==false?"checked":""} style="width:22px;height:22px;flex:none"></div>
+      <p class="muted" style="margin:0 0 6px">Books with recorded narration play that instead, whatever this setting says.</p>
       ${["en","ar"].map(l => `<div class="spread" style="gap:8px;margin-top:6px"><label for="v-${l}" style="font-weight:700;min-width:58px">${l==="en"?"English":"Arabic"}</label><select id="v-${l}" style="flex:1;min-width:0">${voicesFor(l).length ? voicesFor(l).map(v => `<option ${voiceFor(l)&&voiceFor(l).name===v.name?"selected":""}>${esc(v.name)}</option>`).join("") : `<option>No ${l==="en"?"English":"Arabic"} voice found</option>`}</select><button class="tool" data-vtest="${l}">▶ Test</button></div>`).join("")}</div>
     <div class="card spread" style="margin-top:8px"><label for="madhab" class="small" style="font-weight:700">Madhab for fiqh<br><span class="muted" style="font-weight:400">The course teaches Hanafi fiqh first. Maliki, Shafi'i and Hanbali tracks will be added later.</span></label>
       <select id="madhab"><option selected>Hanafi</option><option disabled>Maliki (coming)</option><option disabled>Shafi'i (coming)</option><option disabled>Hanbali (coming)</option></select></div>
@@ -683,7 +685,7 @@ function libItem(b){
   const d = bookDone(b), L = lessonsOf(b), ai = (META.textsAi||{})[b.file];
   return `<button class="item" data-book="${b.id}"><span class="ico art-ico">${artFor(b,40)}</span>
     <span style="min-width:0"><span class="t">${esc(b.title)}</span><br><span class="s">${esc(b.sub)}</span><br>
-      <span class="tags"><span class="pill">${esc(b.subject)}</span><span class="pill">${L} sections</span>${ai?`<span class="pill gold">Harakat + English</span>`:`<span class="pill">Arabic text</span>`}</span>
+      <span class="tags"><span class="pill">${esc(b.subject)}</span><span class="pill">${L} sections</span>${ai?`<span class="pill gold">Harakat + English</span>`:`<span class="pill">Arabic text</span>`}${(META.textsAudio||{})[b.file]?`<span class="pill ok">🎧 Narrated</span>`:""}</span>
       ${d?`<span class="bar" style="display:block;margin-top:6px"><i style="width:${d/L*100}%;background:${b.color}"></i></span>`:""}</span>
     ${d>=L?`<span class="pill ok">Read</span>`:""}</button>`;
 }
@@ -758,12 +760,15 @@ function playFile(url, rate, token){ return new Promise(res => { if (token !== A
 async function speakFrom(b, i, j0){
   const token = ++AUD.token; if (hasTTS()) speechSynthesis.cancel(); if (AUD.el) { AUD.el.pause(); AUD.el = null; } AUD.on = true;
   const T = TEXTS[b.file], s = T.sections[i], P = S.readPrefs, ar = s.v || s.p;
-  if (!s.audio && !hasTTS()) { toast("This device can't read aloud"); return stopAudio(); }
-  if (!s.audio && !voiceFor("ar")) toast("No Arabic voice on this device, so only English is read. Add an Arabic voice in your phone's speech settings.");
+  if (!s.audio && !s.aud_en && !hasTTS()) { toast("This device can't read aloud"); return stopAudio(); }
+  if (!s.audio && S.arVoice !== false && !voiceFor("ar")) toast("No Arabic voice on this device, so only English is read. Add an Arabic voice in your phone's speech settings.");
   for (let j = j0; j < ar.length; j++){
     if (token !== AUD.token) return; AUD.j = j; markPara(j);
     if (s.audio && s.audio[j]) await playFile(s.audio[j], P.rate, token);
-    else { if (voiceFor("ar")) await sayOne(speakable(ar[j]), "ar", P.rate*0.95, token); if (P.english && s.en && s.en[j]) await sayOne(speakable(s.en[j]).replace(/صلى الله عليه وسلم/g, "peace and blessings be upon him").replace(/عليه السلام/g, "peace be upon him").replace(/رضي الله عنهما?|رضي الله عنها|رضي الله عنهم/g, "may Allah be pleased with them").replace(/رحمه الله/g, "may Allah have mercy on him"), "en", P.rate*0.95, token); }
+    else if (S.arVoice !== false && voiceFor("ar")) await sayOne(speakable(ar[j]), "ar", P.rate*0.95, token);
+    if (token !== AUD.token) return;
+    if (P.english && s.aud_en && s.aud_en[j]) await playFile(s.aud_en[j], P.rate, token);
+    else { if (P.english && s.en && s.en[j]) await sayOne(speakable(s.en[j]).replace(/صلى الله عليه وسلم/g, "peace and blessings be upon him").replace(/عليه السلام/g, "peace be upon him").replace(/رضي الله عنهما?|رضي الله عنها|رضي الله عنهم/g, "may Allah be pleased with them").replace(/رحمه الله/g, "may Allah have mercy on him"), "en", P.rate*0.95, token); }
   }
   if (token !== AUD.token) return;
   // audiobook: carry on to the next section
@@ -1036,6 +1041,7 @@ function render(){
   app.querySelectorAll("[data-vtest]").forEach(b => b.onclick = () => { if (!hasTTS()) return toast("This device can't read aloud"); const l = b.dataset.vtest; speechSynthesis.cancel(); AUD.token++;
     sayOne(l === "en" ? "Whoever takes a path seeking knowledge, Allah makes easy for him a path to Paradise." : "مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا، سَهَّلَ اللهُ لَهُ بِهِ طَرِيقًا إِلَى الْجَنَّةِ", l, l === "en" ? 0.95 : 0.9, AUD.token); });
   if (hasTTS() && view.name === "profile" && !voicesFor("en").length) speechSynthesis.onvoiceschanged = () => { if (view.name === "profile") render(); };
+  const av = $("#arvoice"); if (av) av.onchange = () => { S.arVoice = av.checked; save(); };
   const hk = $("#hk"); if (hk) hk.onchange = () => { S.harakat = hk.checked; save(); };
   const ag = $("#advgrades"); if (ag) ag.onchange = () => { S.advancedGrades = ag.checked; save(); };
   const npd = $("#npd"); if (npd) npd.onchange = () => { S.newPerDay = +npd.value; save(); };
@@ -1058,5 +1064,5 @@ function render(){
 })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=5e5fbb5f3e");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=65245f5ccb");</script></body>
 </html>
