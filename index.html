@@ -138,6 +138,20 @@ select{font:inherit;padding:8px 10px;border-radius:10px;border:1px solid var(--l
 .review-list .card{padding:12px 14px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--line);padding:4px;border-radius:14px}
+.seg button{border:0;background:transparent;border-radius:10px;padding:10px 6px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
+.seg button.on{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.setlist{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.setrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line)}.setrow:last-child{border-bottom:0}
+.setrow label{display:flex;flex-direction:column;gap:2px;min-width:0}.setrow label span{font-size:.8rem;color:var(--muted)}
+.setrow select{max-width:140px}
+.setgroup{margin-top:10px}.setgroup>summary{list-style:none;display:flex;align-items:center;gap:8px;padding:14px;background:var(--surface);border:1px solid var(--line);border-radius:16px;font-weight:700;color:var(--ink);cursor:pointer}
+.setgroup>summary::-webkit-details-marker{display:none}.setgroup>summary::after{content:"›";margin-left:auto;font-size:1.3rem;color:var(--muted);transition:transform .2s}
+.setgroup[open]>summary::after{transform:rotate(90deg)}.setgroup[open]>summary{margin-bottom:8px}
+input.switch{appearance:none;-webkit-appearance:none;width:46px;height:28px;border-radius:99px;background:var(--line);position:relative;flex:none;cursor:pointer;transition:background .2s}
+input.switch::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .2s}
+input.switch:checked{background:var(--brand)}input.switch:checked::after{transform:translateX(18px)}
+
 .chip.iconbtn{background:var(--surface);border:1px solid var(--line);color:var(--ink);cursor:pointer;padding:5px 8px}.chip.iconbtn svg{width:16px;height:16px}
 .coursebar{display:flex;flex-direction:column;align-items:stretch;gap:6px;width:100%;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 14px;font:inherit;color:var(--ink);cursor:pointer}
 .coursebar .pill{font-size:.66rem;padding:2px 7px;margin-left:4px;vertical-align:2px}
@@ -469,6 +483,8 @@ function confirmBox(text, onYes){ modal(`<p style="margin-top:0;font-weight:700"
 /* ============================ VIEWS ============================ */
 let view = { name:"home" };
 const isLibBook = () => view.name === "book" && bookById(view.id) && bookById(view.id).type === "text";
+function applyTheme(){ const t = S.theme || "auto", r = document.documentElement; if (t === "auto") r.removeAttribute("data-theme"); else r.setAttribute("data-theme", t);
+  const dark = t === "dark" || (t === "auto" && matchMedia("(prefers-color-scheme: dark)").matches), m = document.querySelector('meta[name="theme-color"]'); if (m) m.content = dark ? "#141412" : "#FAF7F0"; }
 function go(v){ if (typeof stopAudio === "function" && AUD.on) stopAudio(); view = v; render(); window.scrollTo(0,0); }
 function shell(inner){
   return `<header class="topbar"><div class="brandmark">${ICON.logo}<span>Ihsan</span></div>
@@ -595,34 +611,33 @@ function bookView(id){
     <p class="label">${done.length} of ${L} lessons done</p><div class="stack">${items}</div>`);
 }
 function profileView(){
-  const ret = retention(), seen = Object.keys(S.cards).length, days = [...Array(7)].map((_,i)=>today()-6+i), mx = Math.max(20,...days.map(x=>S.days[x]||0));
-  const cy = Math.max(...S.unlocked);
-  return shell(`<h1>Your progress</h1>${weekStrip()}
-    <div class="tiles" style="max-width:none;margin-top:14px"><div class="tile"><b>${S.streak}</b><span>Day streak</span></div><div class="tile"><b>${S.xp}</b><span>Total XP</span></div>
+  const ret = retention(), seen = Object.keys(S.cards).length, cy = Math.max(...S.unlocked), th = S.theme || "auto";
+  const row = (id, label, hint, control) => `<div class="setrow"><label for="${id}"><b>${label}</b>${hint?`<span>${hint}</span>`:""}</label>${control}</div>`;
+  const toggle = (id, on) => `<input type="checkbox" class="switch" id="${id}" ${on?"checked":""}>`;
+  return shell(`<h1>Progress</h1>
+    <div class="tiles" style="max-width:none;margin-top:12px"><div class="tile"><b>${S.streak}</b><span>Day streak</span></div><div class="tile"><b>${S.xp}</b><span>Total XP</span></div>
     <div class="tile"><b>${seen.toLocaleString()}</b><span>Cards started</span></div><div class="tile"><b>${ret===null?"–":pct(ret)}</b><span>Recall rate</span></div></div>
-    <p class="label">Last 7 days (XP)</p>
-    <div class="row" style="align-items:flex-end;height:70px;gap:6px">${days.map(d=>{const v=S.days[d]||0;return `<div style="flex:1;text-align:center"><div title="${v} XP" style="height:${Math.max(4,v/mx*52)}px;border-radius:6px;background:${v?"var(--gold)":"var(--line)"}"></div><span class="small muted">${["S","M","T","W","T","F","S"][new Date(d*864e5).getUTCDay()]}</span></div>`}).join("")}</div>
+    ${weekStrip()}
+    <p class="label">Appearance</p>
+    <div class="seg" role="radiogroup" aria-label="Appearance">${[["auto","Automatic"],["light","Light"],["dark","Dark"]].map(([k,l]) => `<button role="radio" aria-checked="${th===k}" class="${th===k?"on":""}" data-theme="${k}">${l}</button>`).join("")}</div>
     <p class="label">Settings</p>
-    <div class="card spread"><label for="advgrades" class="small" style="font-weight:700">Advanced grading<br><span class="muted" style="font-weight:400">Swap ✓ Got it / ↻ Redo for four buttons (Again, Hard, Good, Easy) to fine-tune how soon each card returns. Most students don't need this.</span></label><input type="checkbox" id="advgrades" ${S.advancedGrades?"checked":""} style="width:22px;height:22px;flex:none"></div>
-    <div class="card spread" style="margin-top:8px"><label for="hk" class="small" style="font-weight:700">Show harakat<br><span class="muted" style="font-weight:400">Turn off to practise reading unvowelled Arabic. Qur'anic text always keeps its harakat.</span></label><input type="checkbox" id="hk" ${S.harakat!==false?"checked":""} style="width:22px;height:22px;flex:none"></div>
-    <div class="card small" style="margin-top:8px"><b>Reading voices</b><p class="muted" style="margin:2px 0 8px">Used by ▶ Listen in the Library. The most natural voice on your device is chosen automatically. For better voices on iPhone, download one in Settings → Accessibility → Spoken Content → Voices, choosing one marked “Enhanced” or “Premium” (for example, English → Serena or Jamie; Arabic → Maged or Majed).</p>
-      <div class="spread" style="gap:8px;margin:4px 0 6px"><label for="arvoice" style="font-weight:700">Read the Arabic aloud with the device voice</label><input type="checkbox" id="arvoice" ${S.arVoice!==false?"checked":""} style="width:22px;height:22px;flex:none"></div>
-      <p class="muted" style="margin:0 0 6px">Books with recorded narration play that instead, whatever this setting says.</p>
-      ${["en","ar"].map(l => `<div class="spread" style="gap:8px;margin-top:6px"><label for="v-${l}" style="font-weight:700;min-width:58px">${l==="en"?"English":"Arabic"}</label><select id="v-${l}" style="flex:1;min-width:0">${voicesFor(l).length ? voicesFor(l).map(v => `<option ${voiceFor(l)&&voiceFor(l).name===v.name?"selected":""}>${esc(v.name)}</option>`).join("") : `<option>No ${l==="en"?"English":"Arabic"} voice found</option>`}</select><button class="tool" data-vtest="${l}">▶ Test</button></div>`).join("")}</div>
-    <div class="card spread" style="margin-top:8px"><label for="madhab" class="small" style="font-weight:700">Madhab for fiqh<br><span class="muted" style="font-weight:400">The course teaches Hanafi fiqh first. Maliki, Shafi'i and Hanbali tracks will be added later.</span></label>
-      <select id="madhab"><option selected>Hanafi</option><option disabled>Maliki (coming)</option><option disabled>Shafi'i (coming)</option><option disabled>Hanbali (coming)</option></select></div>
-    <div class="card spread" style="margin-top:8px"><label for="npd" class="small" style="font-weight:700">New cards per deck per day</label><select id="npd">${[5,10,15,20,30,50].map(n=>`<option ${n===S.newPerDay?"selected":""}>${n}</option>`).join("")}</select></div>
-    <p class="label">Your reports</p>
-    <div class="card small">${(S.reports||[]).length ? `<p style="margin-top:0">${S.reports.length} reported · ${S.reports.filter(r=>!r.sent).length} not sent yet</p>
-      ${S.reports.slice(-5).reverse().map(r=>{ const it=itemByKey(r.k); return `<div class="spread" style="padding:4px 0;border-top:1px solid var(--line)"><span>${esc(it?it.src.title:r.k)}: ${esc(r.why)}</span><span class="pill ${r.sent?"ok":"gold"}">${r.sent?"Sent":"Not sent"}</span></div>`; }).join("")}
-      ${S.reports.some(r=>!r.sent)?`<button class="btn ghost" id="sendall" style="margin-top:10px">Send unsent reports</button>`:""}`
-      : `<p style="margin:0" class="muted">If you spot a mistake on a card, line or hadith, tap ${ICON.flag.replace("<svg",'<svg width="14" height="14" style="vertical-align:-2px"')} Report on it.</p>`}</div>
-    <p class="label">About the content</p>
-    <div class="card small"><p style="margin-top:0">Ihsan trains students year by year through the classical texts: Hanafi fiqh, Ash'ari and Maturidi creed, tasawwuf open to all the turuq, and the Arabic of the Qur'an.</p>
-      <p>Flashcards are adapted from shared Anki decks. Qur'an word and root frequencies come from the Quranic Arabic Corpus. Meanings marked <span class="pill gold">AI · needs review</span> were written by AI and await a teacher's check.</p></div>
-    <p class="label">Testing tools (prototype only)</p>
-    <div class="card small"><p style="margin-top:0">For trying the year system without waiting weeks.</p>
-      <div class="btnrow"><button class="btn ghost" id="skipday">Skip to tomorrow</button><button class="btn ghost" id="fasttrack">Fast-track Year ${cy}</button><button class="btn ghost" id="reset">Reset everything</button></div></div>`);
+    <div class="setlist">
+      ${row("hk","Show harakat","Qur'anic text always keeps its harakat", toggle("hk", S.harakat!==false))}
+      ${row("npd","New flashcards a day","Per deck", `<select id="npd">${[5,10,15,20,30,50].map(n=>`<option ${n===S.newPerDay?"selected":""}>${n}</option>`).join("")}</select>`)}
+      ${row("madhab","Madhab","Other madhabs are coming", `<select id="madhab"><option selected>Hanafi</option><option disabled>Maliki</option><option disabled>Shafi'i</option><option disabled>Hanbali</option></select>`)}
+    </div>
+    <details class="setgroup"><summary>Listening</summary><div class="setlist">
+      ${row("arvoice","Read Arabic with the device voice","Recorded narration is always used when a book has it", toggle("arvoice", S.arVoice!==false))}
+      ${["en","ar"].map(l => row(`v-${l}`, l==="en"?"English voice":"Arabic voice", "", `<span style="display:flex;gap:6px;min-width:0;flex:1;justify-content:flex-end"><select id="v-${l}" style="max-width:150px">${voicesFor(l).length ? voicesFor(l).map(v => `<option ${voiceFor(l)&&voiceFor(l).name===v.name?"selected":""}>${esc(v.name)}</option>`).join("") : `<option>None found</option>`}</select><button class="tool" data-vtest="${l}">▶</button></span>`)).join("")}
+      <p class="small muted" style="margin:8px 2px 0">Better voices on iPhone: Settings → Accessibility → Spoken Content → Voices, and download one marked “Enhanced” or “Premium”.</p></div></details>
+    <details class="setgroup"><summary>Your reports${(S.reports||[]).some(r=>!r.sent)?` <span class="pill gold">${S.reports.filter(r=>!r.sent).length} unsent</span>`:""}</summary><div class="card small" style="margin-top:8px">${(S.reports||[]).length ? `${S.reports.slice(-5).reverse().map(r=>{ const it=itemByKey(r.k); return `<div class="spread" style="padding:4px 0;border-bottom:1px solid var(--line)"><span>${esc(it?it.src.title:r.k)}: ${esc(r.why)}</span><span class="pill ${r.sent?"ok":"gold"}">${r.sent?"Sent":"Not sent"}</span></div>`; }).join("")}
+      ${S.reports.some(r=>!r.sent)?`<button class="btn ghost" id="sendall" style="margin-top:10px">Send unsent reports</button>`:""}` : `<p style="margin:0" class="muted">Spotted a mistake? Tap ${ICON.flag.replace("<svg",'<svg width="14" height="14" style="vertical-align:-2px"')} Report on any card, line or hadith.</p>`}</div></details>
+    <details class="setgroup"><summary>About Ihsan</summary><div class="card small" style="margin-top:8px"><p style="margin-top:0">Ihsan trains students year by year through the classical texts: Hanafi fiqh, Ash'ari and Maturidi creed, tasawwuf open to all the turuq, and the Arabic of the Qur'an.</p>
+      <p style="margin-bottom:0">Flashcards are adapted from shared Anki decks; Qur'an word frequencies come from the Quranic Arabic Corpus; full Arabic texts come from the OpenITI corpus. Anything marked <span class="pill gold">AI · needs review</span> awaits a teacher's check.</p></div></details>
+    <details class="setgroup"><summary>Advanced</summary><div class="setlist">
+      ${row("advgrades","Advanced grading","Four buttons (Again, Hard, Good, Easy) instead of Got it / Redo", toggle("advgrades", !!S.advancedGrades))}</div>
+      <div class="card small" style="margin-top:8px"><b>Testing tools</b><p class="muted" style="margin:2px 0 8px">For trying the year system without waiting weeks.</p>
+      <div class="btnrow"><button class="btn ghost" id="skipday">Skip to tomorrow</button><button class="btn ghost" id="fasttrack">Fast-track Year ${cy}</button><button class="btn ghost" id="reset">Reset everything</button></div></div></details>`);
 }
 
 function streakBurst(){ return `<div class="burst">${ICON.flame.replace('<svg','<svg width="34" height="34"')}<div><b>${S.streak} day streak!</b><span>${S.streak===1?"A new streak begins, bismillah.":"Keep going, may Allah put barakah in it."}</span></div></div>`; }
@@ -1065,6 +1080,7 @@ function render(){
   if (hasTTS() && view.name === "profile" && !voicesFor("en").length) speechSynthesis.onvoiceschanged = () => { if (view.name === "profile") render(); };
   const av = $("#arvoice"); if (av) av.onchange = () => { S.arVoice = av.checked; save(); };
   const hk = $("#hk"); if (hk) hk.onchange = () => { S.harakat = hk.checked; save(); };
+  app.querySelectorAll("[data-theme]").forEach(b => b.onclick = () => { S.theme = b.dataset.theme; save(); applyTheme(); render(); });
   const ag = $("#advgrades"); if (ag) ag.onchange = () => { S.advancedGrades = ag.checked; save(); };
   const npd = $("#npd"); if (npd) npd.onchange = () => { S.newPerDay = +npd.value; save(); };
   const sk = $("#skipday"); if (sk) sk.onclick = () => { S.offset++; save(); render(); };
@@ -1078,6 +1094,7 @@ function render(){
       S.log = S.log.concat(Array(60).fill(1)); save(); go({ name:"year", n:y.n }); }); };
   const rs = $("#reset"); if (rs) rs.onclick = () => confirmBox("Reset all progress, XP, flashcards and test results?", () => { S = fresh(); save(); go({ name:"home" }); });
 }
+applyTheme(); try { matchMedia("(prefers-color-scheme: dark)").addEventListener("change", applyTheme); } catch(e){}
 (async function init(){
   $("#app").innerHTML = `<div class="done-screen" style="min-height:60vh"><div style="width:64px">${ICON.logo}</div><p class="muted">Loading…</p></div>`;
   try { await Promise.all(S.unlocked.map(loadYear)); }
@@ -1086,5 +1103,5 @@ function render(){
 })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=4daf83c0cc");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=9632d96248");</script></body>
 </html>
