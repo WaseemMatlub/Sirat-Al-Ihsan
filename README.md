@@ -35,4 +35,4 @@ Flashcard content adapted from Anki decks shared on AnkiWeb by their author. Qur
 
 ## Full texts
 
-Year 1 and 2 include complete Arabic texts (Nur al-Idah, al-Ajurrumiyyah, al-Arba'in al-Nawawiyyah, al-Fiqh al-Akbar, Mukhtasar al-Quduri, Maraqi al-Falah, Usul al-Shashi, Riyad al-Salihin), read section by section. Arabic texts come from the [OpenITI corpus](https://github.com/OpenITI). Harakat and English marked "AI · needs review" were added by AI and await a teacher's check.
+Year 1 and 2 include complete Arabic texts (Nur al-Idah, al-Ajurrumiyyah, al-Arba'in al-Nawawiyyah, al-Fiqh al-Akbar, Mukhtasar al-Quduri, Maraqi al-Falah, Usul al-Shashi, Riyad al-Salihin) and Year 5 (al-Shama'il al-Muhammadiyyah), read section by section. Arabic texts come from the [OpenITI corpus](https://github.com/OpenITI). Harakat and English marked "AI · needs review" were added by AI and await a teacher's check.

@@ -226,7 +226,7 @@ nav.tabs .in{grid-template-columns:repeat(4,1fr)}
 <script>
 "use strict";
 /* ============================ SYLLABUS ============================ */
-const META = {"1": {"books": {"tahawiyya": 108, "umm": 57, "signs": 83}, "decks": {"quran": 500, "nur": 1083}}, "2": {"books": {"jawhara": 142}, "decks": {"quduri": 2441, "roots": 1000, "verbs1": 700, "ithaf": 311}}, "3": {"books": {"majalla": 99}, "decks": {"nasafiyyah": 1401, "kanz": 1433, "verbs2": 700}}, "texts": {"riyad": 373, "fiqh_akbar": 27, "maraqi": 92, "arbain": 45, "ajurrumiyya": 25, "quduri": 119, "nur_idah": 337, "usul_shashi": 106}, "textsAi": {"riyad": false, "fiqh_akbar": true, "maraqi": false, "arbain": false, "ajurrumiyya": false, "quduri": false, "nur_idah": false, "usul_shashi": false}};
+const META = {"1": {"books": {"tahawiyya": 108, "umm": 57, "signs": 83}, "decks": {"quran": 500, "nur": 1083}}, "2": {"books": {"jawhara": 142}, "decks": {"quduri": 2441, "roots": 1000, "verbs1": 700, "ithaf": 311}}, "3": {"books": {"majalla": 99}, "decks": {"nasafiyyah": 1401, "kanz": 1433, "verbs2": 700}}, "texts": {"shamail": 58, "riyad": 373, "fiqh_akbar": 27, "maraqi": 92, "arbain": 45, "ajurrumiyya": 25, "quduri": 119, "nur_idah": 337, "usul_shashi": 106}, "textsAi": {"shamail": false, "riyad": false, "fiqh_akbar": true, "maraqi": false, "arbain": false, "ajurrumiyya": false, "quduri": false, "nur_idah": false, "usul_shashi": false}};
 const YEARS = [
  { n:1, title:"Foundations", desc:"The Tahawiyyah, Nur al-Idah and Is'af al-Muridin, tajweed, the first books of sarf and nahw, and the most common words of the Qur'an.",
    books:[
@@ -262,8 +262,9 @@ const YEARS = [
    coming:[["al-Farq bayn al-Firaq (selections)","Comparative Aqeedah"],["Fawa'id Makkiyyah","Tajweed"],["Tafsir al-Jalalayn","Tafsir"],["al-Fawz al-Kabir fi Usul al-Tafsir","Tafsir"],["Mishkat al-Masabih, volume 1","Hadith"],["Sharh Nukhbat al-Fikar","Hadith"],["Nahw: al-Kafiyah","Arabic"],["Balaghah: Durus al-Balaghah","Arabic"],["Adab: Maqamat al-Hariri (selections)","Arabic"],["Sarf: Sharh Tasrif al-'Izzi","Arabic"],["MSA vocabulary (corrected, frequency-ordered)","Arabic"],["I'rab of Qur'anic ayat","Arabic"],["Fara'id: al-Sirajiyyah","Fiqh"],["Nur al-Anwar","Usul al-Fiqh"],["al-Hikam of Ibn 'Ata'illah","Tasawwuf"],["al-Shifa of Qadi 'Iyad (selections)","Seerah"],["al-Tadhkirah of al-Qurtubi (selections)","Signs of the Hour"],["Mirqat","Mantiq"],["Sharh al-Tahdhib","Mantiq"]] },
  { n:4, title:"Advanced texts", desc:"The great commentaries: al-Hidayah, al-Baydawi, Mishkat al-Masabih, Mukhtasar al-Ma'ani and the higher texts of usul and mantiq.", books:[], decks:[],
    coming:[["al-Musayarah of Ibn al-Humam","Aqeedah"],["al-Milal wa'l-Nihal of al-Shahrastani (selections)","Comparative Aqeedah"],["Tafsir al-Baydawi (selections)","Tafsir"],["Mishkat al-Masabih, volumes 2 and 3","Hadith"],["Balaghah: Mukhtasar al-Ma'ani","Arabic"],["Adab: al-Mu'allaqat al-Sab'","Arabic"],["Adab: Diwan al-Hamasah and al-Mutanabbi (selections)","Arabic"],["Sharh al-Wiqayah","Fiqh"],["al-Hidayah, volumes 1 and 2","Fiqh"],["al-Husami","Usul al-Fiqh"],["al-Tawdih wa'l-Talwih (selections)","Usul al-Fiqh"],["Ihya' 'Ulum al-Din (selected books)","Tasawwuf"],["al-Mawahib al-Ladunniyyah (selections)","Seerah"],["al-Qutbi","Mantiq"],["Sullam al-'Ulum","Mantiq"]] },
- { n:5, title:"Dawrat al-Hadith", desc:"The six books of hadith, both Muwatta's, al-Tahawi's Sharh Ma'ani al-Athar and the Shama'il, with the rest of al-Hidayah.", books:[], decks:[],
-   coming:[["Sahih al-Bukhari","Hadith"],["Sahih Muslim","Hadith"],["Sunan Abi Dawud","Hadith"],["Jami' al-Tirmidhi","Hadith"],["Sunan al-Nasa'i","Hadith"],["Sunan Ibn Majah","Hadith"],["al-Muwatta' of Imam Malik","Hadith"],["al-Muwatta' of Imam Muhammad","Hadith"],["Sharh Ma'ani al-Athar of Imam al-Tahawi","Hadith"],["al-Hidayah, volumes 3 and 4","Fiqh"],["al-Shama'il al-Muhammadiyyah of Imam al-Tirmidhi","Seerah"],["Musallam al-Thubut (selections)","Usul al-Fiqh"]] },
+ { n:5, title:"Dawrat al-Hadith", desc:"The six books of hadith, both Muwatta's, al-Tahawi's Sharh Ma'ani al-Athar and the Shama'il, with the rest of al-Hidayah.", decks:[],
+   books:[ { id:"t_shamail", type:"text", file:"shamail", per:1, title:"al-Shama'il al-Muhammadiyyah", sub:"Imam al-Tirmidhi's رحمه الله description of the Prophet ﷺ", glyph:"", color:"#9A6A1F", subject:"Seerah" } ],
+   coming:[["Sahih al-Bukhari","Hadith"],["Sahih Muslim","Hadith"],["Sunan Abi Dawud","Hadith"],["Jami' al-Tirmidhi","Hadith"],["Sunan al-Nasa'i","Hadith"],["Sunan Ibn Majah","Hadith"],["al-Muwatta' of Imam Malik","Hadith"],["al-Muwatta' of Imam Muhammad","Hadith"],["Sharh Ma'ani al-Athar of Imam al-Tahawi","Hadith"],["al-Hidayah, volumes 3 and 4","Fiqh"],["Musallam al-Thubut (selections)","Usul al-Fiqh"]] },
 ];
 /* After Year 5: one year of further study in a module the student chooses */
 const SPEC_YEAR = 6;
@@ -308,7 +309,7 @@ const lessonsOf = b => b.type === "text" ? ((META.texts||{})[b.file]||1) : Math.
 const TEXTS = {};
 async function loadText(file){ if (TEXTS[file]) return TEXTS[file]; const r = await fetch(`data/texts/${file}.json`); if (!r.ok) throw new Error("Could not load text"); return (TEXTS[file] = await r.json()); }
 const bookById = id => YEARS.flatMap(y=>y.books).find(x=>x.id===id);
-YEARS.forEach(y => { y.prepared = y.books.length + y.decks.length > 0; y.books.forEach(b => b.year = y.n); y.decks.forEach(d => d.year = y.n); });
+YEARS.forEach(y => { y.prepared = y.books.filter(b => b.type !== "text").length + y.decks.length > 0; y.books.forEach(b => b.year = y.n); y.decks.forEach(d => d.year = y.n); });
 const deckSize = d => d.cards ? d.cards.length : META[d.year].decks[d.id];
 
 /* ============================ STATE ============================ */
@@ -980,5 +981,5 @@ function render(){
 })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=d6a7d00dcd");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=c3715d9c60");</script></body>
 </html>
