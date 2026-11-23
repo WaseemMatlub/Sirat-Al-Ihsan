@@ -6,9 +6,9 @@ Learn your deen, year by year. A Hanafi, Maturidi syllabus with Arabic at its co
 
 ## How it works
 
-The course runs for **five years**, followed by a **specialisation year** (further studies) in one module the student chooses.
+The course follows the **Dars-e-Nizami**, Hanafi first (other madhabs to follow), over **five years**: Year 5 is the **Dawrat al-Hadith**. It is followed by a **specialisation year (Takhassus)** in one module the student chooses.
 
-Each year's syllabus is made of modules: **Aqeedah, Comparative Aqeedah, Tajweed, Arabic, Fiqh, Tasawwuf, Signs of the Hour and Seerah** (plus Tafsir where a year includes it). Each module holds that year's books and flashcards.
+Each year's syllabus is made of modules: **Aqeedah, Comparative Aqeedah, Tajweed, Tafsir, Hadith, Arabic, Fiqh, Usul al-Fiqh, Tasawwuf, Signs of the Hour, Seerah and Mantiq**. Each module holds that year's books and flashcards; texts not yet built show as "coming soon".
 
 Each year has three parts, and the next year unlocks only when all three are done:
 

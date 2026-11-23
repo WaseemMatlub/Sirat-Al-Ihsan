@@ -220,7 +220,7 @@ nav.tabs .in{grid-template-columns:repeat(3,1fr)}
 /* ============================ SYLLABUS ============================ */
 const META = {"1": {"books": {"tahawiyya": 108, "umm": 57, "signs": 83}, "decks": {"quran": 500, "nur": 1083}}, "2": {"books": {"jawhara": 142}, "decks": {"quduri": 2441, "roots": 1000, "verbs1": 700, "ithaf": 311}}, "3": {"books": {"majalla": 99}, "decks": {"nasafiyyah": 1401, "kanz": 1433, "verbs2": 700}}};
 const YEARS = [
- { n:1, title:"Foundations", desc:"The most common words of the Qur'an, the fiqh of worship, the core creed and the Signs of the Hour.",
+ { n:1, title:"Foundations", desc:"The Tahawiyyah, Nur al-Idah and Is'af al-Muridin, tajweed, the first books of sarf and nahw, and the most common words of the Qur'an.",
    books:[
      { id:"tahawiyya", type:"lines", per:8, title:"Al-'Aqidah al-Tahawiyyah", sub:"The creed of Imam al-Tahawi رحمه الله, line by line", glyph:"ط", color:"#0E5A43", subject:"Aqeedah" },
      { id:"umm", type:"lines", per:6, title:"Umm al-Barahin", sub:"The short creed of Imam al-Sanusi رحمه الله", glyph:"ب", color:"#5C6B2E", subject:"Aqeedah" },
@@ -228,24 +228,26 @@ const YEARS = [
    decks:[
      { id:"quran", title:"Qur'an words: top 500", sub:"About 86% of the Qur'an's text", glyph:"ق", color:"#8A4FA3", subject:"Arabic" },
      { id:"nur", simple:true, title:"Nur al-Idah", sub:"Imam al-Shurunbulali رحمه الله: purification, prayer, fasting", glyph:"ن", color:"#2F6E8F", subject:"Fiqh" } ],
-   coming:[["Nahw: al-Ajurrumiyyah","Arabic"],["Sarf: Tasrif al-'Izzi","Arabic"],["Ayyuha'l-Walad of Imam al-Ghazali رحمه الله","Tasawwuf"],["The Mawlid of Imam al-Suyuti رحمه الله","Seerah"],["The Seerah of Imam al-Nawawi رحمه الله (excerpt)","Seerah"],["Sahih Muslim: the ten major signs","Signs of the Hour"]] },
- { n:2, title:"Building blocks", desc:"Qur'anic roots, the most used Arabic verbs, Mukhtasar al-Quduri and the Jawharah.",
+   coming:[["Is'af al-Muridin li-Iqamat Fara'id al-Din","Fiqh"],["Jamal al-Qur'an","Tajweed"],["Tuhfat al-Atfal","Tajweed"],["Tarjamat al-Qur'an: Juz' 'Amma to al-Kahf","Tafsir"],["Zad al-Talibin","Hadith"],["al-Arba'in al-Nawawiyyah","Hadith"],["Sarf: Mizan al-Sarf and Munsha'ib","Arabic"],["Sarf: Tasrif al-'Izzi","Arabic"],["Nahw: Nahw Mir","Arabic"],["Nahw: al-Ajurrumiyyah","Arabic"],["Ayyuha'l-Walad of Imam al-Ghazali","Tasawwuf"],["The Mawlid of Imam al-Suyuti","Seerah"],["The Seerah of Imam al-Nawawi (excerpt)","Seerah"],["Sahih Muslim: the ten major signs","Signs of the Hour"]] },
+ { n:2, title:"Building blocks", desc:"Mukhtasar al-Quduri, Maraqi al-Falah, Usul al-Shashi, the Jawharah, Qur'anic roots and the most used Arabic verbs.",
    books:[ { id:"jawhara", type:"lines", per:8, title:"Jawharat al-Tawhid", sub:"The poem on creed by Imam al-Laqqani رحمه الله", glyph:"ج", color:"#0E5A43", subject:"Aqeedah" } ],
    decks:[
      { id:"quduri", simple:true, title:"Mukhtasar al-Quduri", sub:"Imam al-Quduri's رحمه الله Hanafi primer, question by question", glyph:"ق", color:"#2F6E8F", subject:"Fiqh" },
      { id:"roots", title:"Qur'an roots: top 1,000", sub:"Ranked by how often they occur in the Qur'an", glyph:"ج", color:"#8A4FA3", subject:"Arabic" },
      { id:"verbs1", title:"Arabic verbs: 1–700", sub:"The most used verbs, with past, present and verbal noun", glyph:"ف", color:"#B5651D", subject:"Arabic" },
      { id:"ithaf", simple:true, title:"Ithaf al-Talib (Arabic)", sub:"Fiqh questions and answers read in Arabic", glyph:"إ", color:"#1F6F78", subject:"Fiqh" } ],
-   coming:[["Nahw: Sharh Qatr al-Nada","Arabic"],["Mufradat al-Qur'an: root meanings","Arabic"],["al-Risalah al-Qushayriyyah (selections)","Tasawwuf"],["Qasidat al-Burdah","Seerah"],["I'rab practice: short sentences","Arabic"]] },
- { n:3, title:"Depth", desc:"Sharh al-'Aqa'id al-Nasafiyyah, Kanz al-Daqa'iq, the Majallah's legal maxims and more verbs.",
+   coming:[["al-Fiqh al-Akbar of Imam Abu Hanifah","Aqeedah"],["al-Rawdah al-Bahiyyah: Ash'aris and Maturidis","Comparative Aqeedah"],["al-Muqaddimah al-Jazariyyah","Tajweed"],["Tarjamat al-Qur'an: al-Kahf to al-Nas","Tafsir"],["Riyad al-Salihin (selections)","Hadith"],["Nahw: Hidayat al-Nahw","Arabic"],["Nahw: Sharh Mi'at 'Amil","Arabic"],["Nahw: Sharh Qatr al-Nada","Arabic"],["Adab: Qasas al-Nabiyyin","Arabic"],["Mufradat al-Qur'an: root meanings","Arabic"],["I'rab practice: short sentences","Arabic"],["Maraqi al-Falah Sharh Nur al-Idah","Fiqh"],["Usul al-Shashi","Usul al-Fiqh"],["al-Risalah al-Qushayriyyah (selections)","Tasawwuf"],["Qasidat al-Burdah","Seerah"],["al-Isha'ah li-Ashrat al-Sa'ah","Signs of the Hour"],["al-Sughra and al-Kubra","Mantiq"],["Isaghuji","Mantiq"]] },
+ { n:3, title:"Depth", desc:"Sharh al-'Aqa'id al-Nasafiyyah, Kanz al-Daqa'iq, al-Jalalayn, Mishkat al-Masabih, al-Kafiyah and Nur al-Anwar.",
    books:[ { id:"majalla", type:"lines", per:5, title:"The Majallah: 99 legal maxims", sub:"Al-Majallah al-Ahkam al-'Adliyyah, with explanations", glyph:"م", color:"#5C6B2E", subject:"Fiqh" } ],
    decks:[
      { id:"nasafiyyah", simple:true, title:"Sharh al-'Aqa'id al-Nasafiyyah", sub:"The commentary of al-Taftazani رحمه الله, question by question", glyph:"ع", color:"#0E5A43", subject:"Aqeedah" },
      { id:"kanz", simple:true, title:"Kanz al-Daqa'iq", sub:"The Hanafi text of Imam al-Nasafi رحمه الله", glyph:"ك", color:"#2F6E8F", subject:"Fiqh" },
      { id:"verbs2", title:"Arabic verbs: 701–1,400", sub:"The next most used verbs", glyph:"ف", color:"#B5651D", subject:"Arabic" } ],
-   coming:[["Sarf: Sharh Tasrif al-'Izzi","Arabic"],["MSA vocabulary (corrected, frequency-ordered)","Arabic"],["I'rab of Qur'anic ayat","Arabic"],["Hikam of Ibn 'Ata'illah","Tasawwuf"],["Tafsir al-Jalalayn (selections)","Tafsir"]] },
- { n:4, title:"Advanced texts", desc:"Longer commentaries in every module. The texts for this year are being chosen.", books:[], decks:[], coming:[] },
- { n:5, title:"Mastery", desc:"Completing the core curriculum before specialising. The texts for this year are being chosen.", books:[], decks:[], coming:[] },
+   coming:[["al-Farq bayn al-Firaq (selections)","Comparative Aqeedah"],["Fawa'id Makkiyyah","Tajweed"],["Tafsir al-Jalalayn","Tafsir"],["al-Fawz al-Kabir fi Usul al-Tafsir","Tafsir"],["Mishkat al-Masabih, volume 1","Hadith"],["Sharh Nukhbat al-Fikar","Hadith"],["Nahw: al-Kafiyah","Arabic"],["Balaghah: Durus al-Balaghah","Arabic"],["Adab: Maqamat al-Hariri (selections)","Arabic"],["Sarf: Sharh Tasrif al-'Izzi","Arabic"],["MSA vocabulary (corrected, frequency-ordered)","Arabic"],["I'rab of Qur'anic ayat","Arabic"],["Fara'id: al-Sirajiyyah","Fiqh"],["Nur al-Anwar","Usul al-Fiqh"],["al-Hikam of Ibn 'Ata'illah","Tasawwuf"],["al-Shifa of Qadi 'Iyad (selections)","Seerah"],["al-Tadhkirah of al-Qurtubi (selections)","Signs of the Hour"],["Mirqat","Mantiq"],["Sharh al-Tahdhib","Mantiq"]] },
+ { n:4, title:"Advanced texts", desc:"The great commentaries: al-Hidayah, al-Baydawi, Mishkat al-Masabih, Mukhtasar al-Ma'ani and the higher texts of usul and mantiq.", books:[], decks:[],
+   coming:[["al-Musayarah of Ibn al-Humam","Aqeedah"],["al-Milal wa'l-Nihal of al-Shahrastani (selections)","Comparative Aqeedah"],["Tafsir al-Baydawi (selections)","Tafsir"],["Mishkat al-Masabih, volumes 2 and 3","Hadith"],["Balaghah: Mukhtasar al-Ma'ani","Arabic"],["Adab: al-Mu'allaqat al-Sab'","Arabic"],["Adab: Diwan al-Hamasah and al-Mutanabbi (selections)","Arabic"],["Sharh al-Wiqayah","Fiqh"],["al-Hidayah, volumes 1 and 2","Fiqh"],["al-Husami","Usul al-Fiqh"],["al-Tawdih wa'l-Talwih (selections)","Usul al-Fiqh"],["Ihya' 'Ulum al-Din (selected books)","Tasawwuf"],["al-Mawahib al-Ladunniyyah (selections)","Seerah"],["al-Qutbi","Mantiq"],["Sullam al-'Ulum","Mantiq"]] },
+ { n:5, title:"Dawrat al-Hadith", desc:"The six books of hadith, both Muwatta's, al-Tahawi's Sharh Ma'ani al-Athar and the Shama'il, with the rest of al-Hidayah.", books:[], decks:[],
+   coming:[["Sahih al-Bukhari","Hadith"],["Sahih Muslim","Hadith"],["Sunan Abi Dawud","Hadith"],["Jami' al-Tirmidhi","Hadith"],["Sunan al-Nasa'i","Hadith"],["Sunan Ibn Majah","Hadith"],["al-Muwatta' of Imam Malik","Hadith"],["al-Muwatta' of Imam Muhammad","Hadith"],["Sharh Ma'ani al-Athar of Imam al-Tahawi","Hadith"],["al-Hidayah, volumes 3 and 4","Fiqh"],["al-Shama'il al-Muhammadiyyah of Imam al-Tirmidhi","Seerah"],["Musallam al-Thubut (selections)","Usul al-Fiqh"]] },
 ];
 /* After Year 5: one year of further study in a module the student chooses */
 const SPEC_YEAR = 6;
@@ -254,12 +256,23 @@ const MODULES = [
   { name:"Aqeedah", art:"light", color:"#0E5A43", about:"What a Muslim believes, in the Ash'ari and Maturidi tradition." },
   { name:"Comparative Aqeedah", art:"scales", color:"#3E5C76", about:"How Ahl al-Sunnah answer other sects and creeds." },
   { name:"Tajweed", art:"rehal", color:"#8A4FA3", about:"Reciting the Qur'an correctly." },
-  { name:"Arabic", art:"letter", color:"#B5651D", about:"The Arabic of the Qur'an: words, roots, verbs, grammar." },
-  { name:"Fiqh", art:"drop", color:"#2F6E8F", about:"Hanafi fiqh, from purification onwards." },
+  { name:"Tafsir", art:"pen", color:"#1F6F78", about:"Translating and explaining the meanings of the Qur'an." },
+  { name:"Hadith", art:"scroll", color:"#7A5230", about:"The hadith collections and the sciences of hadith." },
+  { name:"Arabic", art:"letter", color:"#B5651D", about:"Sarf, nahw, balaghah and adab: the Arabic of the Qur'an." },
+  { name:"Fiqh", art:"drop", color:"#2F6E8F", about:"Hanafi fiqh, from purification to inheritance." },
+  { name:"Usul al-Fiqh", art:"tree", color:"#4E6B3A", about:"The principles behind Hanafi rulings." },
   { name:"Tasawwuf", art:"star", color:"#5C6B2E", about:"Purifying the heart, open to all the turuq." },
   { name:"Signs of the Hour", art:"hourglass", color:"#8C3B3B", about:"The minor and major signs before the Last Day." },
   { name:"Seerah", art:"moon", color:"#9A6A1F", about:"The life of the Prophet ﷺ, his family and Companions." },
-  { name:"Tafsir", art:"pen", color:"#1F6F78", about:"Explaining the meanings of the Qur'an.", optional:true } ];
+  { name:"Mantiq", art:"logic", color:"#5A5A78", about:"Logic: the tool for reading the higher texts." } ];
+/* Takhassus: what further study looks like in each module */
+const SPEC_TEXTS = {
+  "Aqeedah":["Sharh al-Mawaqif (selections)","al-Musamarah"], "Comparative Aqeedah":["Tabsirat al-Adillah of Abu'l-Mu'in al-Nasafi","al-Fisal and refutations (selections)"],
+  "Tajweed":["al-Shatibiyyah","The ten qira'at: al-Durrah and Tayyibat al-Nashr"], "Tafsir":["Ruh al-Ma'ani (selections)","al-Itqan fi 'Ulum al-Qur'an"],
+  "Hadith":["Fath al-Bari and 'Umdat al-Qari (selections)","Tadrib al-Rawi"], "Arabic":["Alfiyyat Ibn Malik with Sharh Ibn 'Aqil","al-Mutawwal"],
+  "Fiqh":["Ifta': Radd al-Muhtar of Ibn 'Abidin","Sharh 'Uqud Rasm al-Mufti"], "Usul al-Fiqh":["Kashf al-Asrar 'ala Usul al-Bazdawi","al-Tahrir of Ibn al-Humam"],
+  "Tasawwuf":["Ihya' 'Ulum al-Din","'Awarif al-Ma'arif"], "Signs of the Hour":["al-Tadhkirah of al-Qurtubi","al-Nihayah fi'l-Fitan wa'l-Malahim"],
+  "Seerah":["al-Mawahib al-Ladunniyyah with al-Zurqani","Subul al-Huda wa'l-Rashad"], "Mantiq":["Sharh Sullam al-'Ulum (Hamdullah)","al-Qadi Mubarak"] };
 const TARIQA_OPTIONAL = ["Qadiri: Sirr al-Asrar","Chishti: Kashf al-Mahjub","Naqshbandi: Etiquettes of the Path","Shadhili: further Ibn 'Ata'illah"];
 const DATA = {};
 async function loadYear(n){ INDEX = null;
@@ -360,6 +373,8 @@ function art(kind, color, size=44){
     scales:`<path d="M50 30v62M30 92h40M24 44h52" stroke="${c}" stroke-width="5" stroke-linecap="round"/><path d="M24 44l-9 22h18zM76 44l-9 22h18z" fill="${g}"/><circle cx="50" cy="30" r="5" fill="${c}"/>`,
     rehal:`<path d="M26 86l48-30M74 86L26 56" stroke="${c}" stroke-width="6" stroke-linecap="round"/><path d="M22 56c10-8 22-8 28 0 6-8 18-8 28 0v-26c-10-6-22-6-28 2-6-8-18-8-28-2z" fill="${g}"/><path d="M50 32v24" stroke="${c}" stroke-width="2"/>`,
     drop:`<path d="M50 28c12 18 22 30 22 44a22 22 0 0 1-44 0c0-14 10-26 22-44z" fill="${c}"/><path d="M42 74a9 9 0 0 0 9 9" stroke="#fff" stroke-width="4" fill="none" stroke-linecap="round"/><ellipse cx="50" cy="100" rx="30" ry="5" fill="${g}" opacity=".7"/>`,
+    scroll:`<rect x="28" y="34" width="44" height="58" rx="4" fill="${c}"/><circle cx="28" cy="38" r="7" fill="${c}"/><circle cx="72" cy="88" r="7" fill="${c}"/><path d="M38 50h24M38 60h24M38 70h16" stroke="${g}" stroke-width="4" stroke-linecap="round"/>`,
+    logic:`<path d="M50 34L28 84h44z" fill="none" stroke="${c}" stroke-width="5" stroke-linejoin="round"/><circle cx="50" cy="34" r="8" fill="${g}"/><circle cx="28" cy="84" r="8" fill="${c}"/><circle cx="72" cy="84" r="8" fill="${c}"/>`,
     moon:`<path d="M62 34a26 26 0 1 0 6 44 22 22 0 1 1-6-44z" fill="${c}"/><polygon points="70,46 73,54 81,54 75,59 77,67 70,62 63,67 65,59 59,54 67,54" fill="${g}"/>`,
     pen:`<path d="M30 92l40-58 8 6-40 58-10 4z" fill="${c}"/><path d="M26 100c14-6 30-2 48-8" stroke="${g}" stroke-width="5" fill="none" stroke-linecap="round"/>`,
     tree:`<path d="M50 96V58M50 72l-12-10M50 66l12-10" stroke="${c}" stroke-width="5" stroke-linecap="round"/><circle cx="50" cy="44" r="18" fill="${c}"/><circle cx="34" cy="54" r="11" fill="${c}"/><circle cx="66" cy="54" r="11" fill="${c}"/><path d="M50 96l-12 8M50 96l12 8M50 96v10" stroke="${g}" stroke-width="4" stroke-linecap="round"/>`,
@@ -473,15 +488,14 @@ function yearView(n){
   const items = [...y.books.map(b=>({x:b, h:itemBook(b,open), f:bookDone(b)/lessonsOf(b)})), ...y.decks.map(d=>({x:d, h:itemDeck(d,open), f:d.cards?deckStats(d).mastered/deckStats(d).total:0}))];
   const mods = MODULES.map(m => {
     const its = items.filter(i => i.x.subject === m.name), soon = y.coming.filter(c => c[1] === m.name);
-    if (m.optional && !its.length && !soon.length) return "";
+    if (!its.length && !soon.length) return "";
     const frac = its.length ? its.reduce((s,i)=>s+i.f,0)/its.length : 0, doneAll = its.length && frac >= 1;
-    const status = !its.length ? `<span class="pill">Coming soon</span>` : doneAll ? `<span class="pill ok">Complete</span>` : `<span class="pill">${its.length} ${its.length>1?"texts":"text"}</span>`;
+    const status = !its.length ? `<span class="pill">${soon.length} coming</span>` : doneAll ? `<span class="pill ok">Complete</span>` : `<span class="pill">${its.length} ${its.length>1?"texts":"text"}</span>`;
     return `<details class="module" ${its.length?"open":""}><summary>
         <span class="m-art">${art(m.art, m.color, 46)}</span>
         <span class="m-txt"><span class="t">${esc(m.name)}</span><span class="s">${esc(m.about)}</span>${its.length&&open?`<span class="bar"><i style="width:${frac*100}%;background:${m.color}"></i></span>`:""}</span>${status}</summary>
       <div class="stack">${its.map(i=>i.h).join("")}
         ${soon.map(([t])=>`<div class="item soon"><span class="ico art-ico" style="opacity:.45">${art(m.art, m.color, 36)}</span><span><span class="t">${esc(t)}</span><br><span class="s">Coming soon</span></span></div>`).join("")}
-        ${!its.length&&!soon.length?`<p class="small muted" style="margin:4px 2px">The texts for this module are being chosen.</p>`:""}
         ${m.name==="Tasawwuf"&&n===1?`<p class="small muted" style="margin:4px 2px">Optional reading by tariqa: ${TARIQA_OPTIONAL.map(esc).join(", ")}.</p>`:""}</div></details>`; }).join("");
   const checks = [[st.booksOk, `Finish every book lesson (${st.ld}/${st.lt})`],
     [st.cm >= st.ct, `Master every flashcard, reviewed until it is ${MASTER_IVL}+ days apart (${st.cm.toLocaleString()}/${st.ct.toLocaleString()})`],
@@ -491,6 +505,8 @@ function yearView(n){
     ${open && !y.prepared ? `<div class="notice">${ICON.book||""}<span>The texts for Year ${n} are being chosen. Each module below will fill in as they are added, and the final test opens then.</span></div>` : ""}
     ${open?"":`<div class="notice">${ICON.lock}<span>Locked. Pass the Year ${n-1} final test (${PASS*100}% or more) to open this year. You can preview what it contains below.</span></div>`}
     <p class="label">Year ${n} syllabus</p><div class="modules">${mods}</div>
+    ${(()=>{ const rest = MODULES.filter(m => ![...y.books, ...y.decks].some(x=>x.subject===m.name) && !y.coming.some(c=>c[1]===m.name)).map(m=>m.name);
+      return rest.length ? `<p class="small muted" style="margin:10px 2px 0">Not studied this year: ${rest.map(esc).join(", ")}.</p>` : ""; })()}
     <p class="label">Final test</p>
     <div class="card">${checks.map(([ok,t])=>`<div class="check ${ok?"on":""}"><i>${ok?ICON.check:""}</i><span>${t}</span></div>`).join("")}
       <p class="small muted" style="margin:10px 0 12px">${TEST_LEN} questions from this year's books and flashcards. Score ${PASS*100}% or more to ${n<YEARS.length?`unlock Year ${n+1}`:"complete the five years and unlock your specialisation"}.${st.best!==null?` Best so far: <b>${pct(st.best)}</b>.`:""}</p>
@@ -521,6 +537,8 @@ function profileView(){
     <div class="row" style="align-items:flex-end;height:70px;gap:6px">${days.map(d=>{const v=S.days[d]||0;return `<div style="flex:1;text-align:center"><div title="${v} XP" style="height:${Math.max(4,v/mx*52)}px;border-radius:6px;background:${v?"var(--gold)":"var(--line)"}"></div><span class="small muted">${["S","M","T","W","T","F","S"][new Date(d*864e5).getUTCDay()]}</span></div>`}).join("")}</div>
     <p class="label">Settings</p>
     <div class="card spread"><label for="advgrades" class="small" style="font-weight:700">Advanced grading<br><span class="muted" style="font-weight:400">Swap ✓ Got it / ↻ Redo for four buttons (Again, Hard, Good, Easy) to fine-tune how soon each card returns. Most students don't need this.</span></label><input type="checkbox" id="advgrades" ${S.advancedGrades?"checked":""} style="width:22px;height:22px;flex:none"></div>
+    <div class="card spread" style="margin-top:8px"><label for="madhab" class="small" style="font-weight:700">Madhab for fiqh<br><span class="muted" style="font-weight:400">The course teaches Hanafi fiqh first. Maliki, Shafi'i and Hanbali tracks will be added later.</span></label>
+      <select id="madhab"><option selected>Hanafi</option><option disabled>Maliki (coming)</option><option disabled>Shafi'i (coming)</option><option disabled>Hanbali (coming)</option></select></div>
     <div class="card spread" style="margin-top:8px"><label for="npd" class="small" style="font-weight:700">New cards per deck per day</label><select id="npd">${[5,10,15,20,30,50].map(n=>`<option ${n===S.newPerDay?"selected":""}>${n}</option>`).join("")}</select></div>
     <p class="label">Your reports</p>
     <div class="card small">${(S.reports||[]).length ? `<p style="margin-top:0">${S.reports.length} reported · ${S.reports.filter(r=>!r.sent).length} not sent yet</p>
@@ -593,21 +611,21 @@ function specCard(){
   const open = specOpen(), m = MODULES.find(x => x.name === S.spec);
   return `<button class="year ${open&&!m?"current":""} ${open?"":"locked"}" data-spec="1">
     <div class="head"><span class="yr-badge">${ICON.star.replace("<svg",'<svg width="24" height="24"')}</span><div style="flex:1"><div class="spread"><h2>Specialisation</h2>${m?`<span class="pill ok">${esc(m.name)}</span>`:open?`<span class="pill gold">Choose</span>`:`<span class="pill">${ICON.lock} Locked</span>`}</div>
-    <div class="small muted">Further studies · one module of your choice</div></div></div>
+    <div class="small muted">Takhassus · one module of your choice</div></div></div>
     <p class="small muted" style="margin:0">${m?`Your year of further study in ${esc(m.name)}.`:open?"Choose the module you want to study further.":`Unlocks when you pass the Year ${YEARS.length} final test. You then choose one module to study in depth.`}</p></button>`;
 }
 function specView(){
   const open = specOpen(), chosen = MODULES.find(x => x.name === S.spec);
   const intro = `<button class="back" data-go="home">${ICON.back} Home</button>
-    <section class="hero" style="--c:var(--gold)"><div class="hero-art">${art("star","#C8912B",84)}</div><h1>Specialisation</h1>
-    <p>After the five years, spend a year of further study in one module, going deeper into its texts with a teacher.</p></section>
+    <section class="hero" style="--c:var(--gold)"><div class="hero-art">${art("star","#C8912B",84)}</div><h1>Specialisation (Takhassus)</h1>
+    <p>After the Dawrat al-Hadith, spend a year of further study in one module, going deeper into its texts with a teacher.</p></section>
     ${open?"":`<div class="notice">${ICON.lock}<span>Pass the Year ${YEARS.length} final test to choose your specialisation. You can look at the options now.</span></div>`}`;
   if (chosen) return shell(`${intro}<p class="label">Your specialisation</p>
     <div class="card"><div class="row" style="gap:12px;align-items:center">${art(chosen.art, chosen.color, 54)}<div><h2 style="margin:0">${esc(chosen.name)}</h2><p class="small muted" style="margin:2px 0 0">${esc(chosen.about)}</p></div></div>
-    <div class="notice" style="margin:14px 0 0">${ICON.book||""}<span>The texts for further study in ${esc(chosen.name)} are being chosen. They will appear here.</span></div>
+    <p class="label" style="margin-top:14px">Texts for further study</p>${(SPEC_TEXTS[chosen.name]||[]).map(t=>`<div class="item soon"><span class="ico art-ico" style="opacity:.5">${art(chosen.art, chosen.color, 36)}</span><span><span class="t">${esc(t)}</span><br><span class="s">Coming soon</span></span></div>`).join("")}
     <div class="btnrow" style="margin-top:12px"><button class="btn ghost" id="changespec">Change specialisation</button></div></div>`);
   return shell(`${intro}<p class="label">Choose a module</p><div class="stack">${MODULES.map(m => `<button class="item" data-pick="${esc(m.name)}" ${open?"":"disabled"}>
-      <span class="ico art-ico">${art(m.art, m.color, 40)}</span><span><span class="t">${esc(m.name)}</span><br><span class="s">${esc(m.about)}</span></span>${open?`<span class="pill gold">Choose</span>`:ICON.lock}</button>`).join("")}</div>`);
+      <span class="ico art-ico">${art(m.art, m.color, 40)}</span><span><span class="t">${esc(m.name)}</span><br><span class="s">${esc((SPEC_TEXTS[m.name]||[]).join(" · ")||m.about)}</span></span>${open?`<span class="pill gold">Choose</span>`:ICON.lock}</button>`).join("")}</div>`);
 }
 
 /* ---- Save, report, "I know this" ---- */
@@ -854,5 +872,5 @@ function render(){
 })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=68e7e70c73");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=bf252d0a56");</script></body>
 </html>
