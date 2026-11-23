@@ -138,6 +138,22 @@ select{font:inherit;padding:8px 10px;border-radius:10px;border:1px solid var(--l
 .review-list .card{padding:12px 14px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 
+/* calmer palette: warm cream base, green as an accent only */
+:root{--bg:#FAF7F0;--line:#E9E2D3;--muted:#6B6B60;--ink:#1F2420}
+@media (prefers-color-scheme:dark){:root{--bg:#121411;--line:#2A2D27;--muted:#9A9C92;--ink:#ECEBE4}}
+.topbar{background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px)}
+.today{background:var(--surface);color:var(--ink);border:1px solid var(--line);border-top:4px solid var(--gold);box-shadow:0 6px 18px rgba(60,50,20,.06)}
+.today .nums div{background:color-mix(in srgb,var(--gold) 9%,var(--bg))}
+.today .nums b{color:var(--brand)}
+.today .nums span{color:var(--muted);opacity:1}
+.hero{background:color-mix(in srgb,var(--c,var(--brand)) 8%,var(--surface));color:var(--ink);border:1px solid color-mix(in srgb,var(--c,var(--brand)) 22%,transparent)}
+.hero h1{color:var(--c,var(--brand))}
+.hero p{color:var(--muted);opacity:1}
+.hero-art{opacity:.55!important}
+.yr-badge{background:color-mix(in srgb,var(--brand) 10%,var(--surface));color:var(--brand)}
+.year.current .yr-badge{background:var(--brand);color:var(--brand-ink)}
+.btn.gold,.today .btn{background:var(--gold);color:#2A1E05;box-shadow:0 4px 0 color-mix(in srgb,var(--gold) 60%,#000)}
+
 .modules{display:flex;flex-direction:column;gap:10px}
 details.module{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:4px 12px}
 details.module>summary{list-style:none;display:flex;align-items:center;gap:12px;padding:10px 0;cursor:pointer}
@@ -449,7 +465,7 @@ function yearView(n){
     [st.cm >= st.ct, `Master every flashcard, reviewed until it is ${MASTER_IVL}+ days apart (${st.cm.toLocaleString()}/${st.ct.toLocaleString()})`],
     [st.ret !== null && st.ret >= RETAIN, `Keep recall at ${RETAIN*100}%+ on reviews (now ${st.ret===null?"no reviews yet":pct(st.ret)})`]];
   return shell(`<button class="back" data-go="home">${ICON.back} Home</button>
-    <section class="hero" style="${open?"":"background:var(--muted)"}"><h1>Year ${n}: ${esc(y.title)}</h1><p>${esc(y.desc)}</p></section>
+    <section class="hero" style="--c:${open?"var(--brand)":"var(--muted)"}"><h1>Year ${n}: ${esc(y.title)}</h1><p>${esc(y.desc)}</p></section>
     ${open?"":`<div class="notice">${ICON.lock}<span>Locked. Pass the Year ${n-1} final test (${PASS*100}% or more) to open this year. You can preview what it contains below.</span></div>`}
     <p class="label">Year ${n} syllabus</p><div class="modules">${mods}</div>
     <p class="label">Final test</p>
@@ -469,7 +485,7 @@ function bookView(id){
       <span>${label}<span class="s">Lesson ${i+1} · ${Math.min(b.per, b.lines.length-i*b.per)} ${b.type==="hadith"?"hadith":"lines"}</span></span>
       ${locked?ICON.lock:isDone?`<span class="pill ok">Review</span>`:`<span class="pill gold">Next</span>`}</button>`; }).join("");
   return shell(`<button class="back" data-year="${b.year}">${ICON.back} Year ${b.year}</button>
-    <section class="hero" style="background:${b.color}"><div class="hero-art">${art(ART_OF[b.id]||"star","#fff",84)}</div><h1>${esc(b.title)}</h1><p>${esc(b.sub)}. ${b.type==="hadith"?"Read each hadith in Arabic and English, then check what you remember.":"Read each line in Arabic and English, then check your understanding."}</p></section>
+    <section class="hero" style="--c:${b.color}"><div class="hero-art">${art(ART_OF[b.id]||"star",b.color,84)}</div><h1>${esc(b.title)}</h1><p>${esc(b.sub)}. ${b.type==="hadith"?"Read each hadith in Arabic and English, then check what you remember.":"Read each line in Arabic and English, then check your understanding."}</p></section>
     <p class="label">${done.length} of ${L} lessons done</p><div class="stack">${items}</div>`);
 }
 function profileView(){
@@ -702,5 +718,5 @@ function render(){
 })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=07e73a2dc5");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=ad454751ef");</script></body>
 </html>
