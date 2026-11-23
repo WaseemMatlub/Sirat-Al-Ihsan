@@ -495,7 +495,7 @@ function welcomeView(){
 function homeView(){
   const y = yearOf(Math.max(...S.unlocked.filter(n => loaded(yearOf(n))))), st = yearStatus(y);
   const parts = [st.lt ? st.ld/st.lt : 0, st.ct ? st.cm/st.ct : 0], pctDone = Math.round(parts.reduce((p,q)=>p+q,0)/parts.length*100);
-  const hr = new Date().getHours(), greet = hr < 12 ? "Sabah al-khayr" : hr < 18 ? "Salaam" : "Masa' al-khayr";
+  const greet = "Assalamu 'alaykum";
   const order = b => MODULES.findIndex(m => m.name === b.subject);
   const books = y.books.filter(b => b.type !== "text").sort((p,q) => order(p)-order(q));
   const open = [], later = [];
@@ -1086,5 +1086,5 @@ function render(){
 })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=8ea41101d6");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=4daf83c0cc");</script></body>
 </html>
