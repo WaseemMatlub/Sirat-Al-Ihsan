@@ -138,6 +138,18 @@ select{font:inherit;padding:8px 10px;border-radius:10px;border:1px solid var(--l
 .review-list .card{padding:12px 14px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 
+.modules{display:flex;flex-direction:column;gap:10px}
+details.module{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:4px 12px}
+details.module>summary{list-style:none;display:flex;align-items:center;gap:12px;padding:10px 0;cursor:pointer}
+details.module>summary::-webkit-details-marker{display:none}
+details.module>summary .m-txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+details.module>summary .t{font-weight:800;font-size:1.05rem}
+details.module>summary .s{font-size:.82rem;color:var(--muted)}
+details.module>summary .bar{margin-top:6px}
+details.module[open]>summary{border-bottom:1px solid var(--line);margin-bottom:10px}
+details.module>.stack{padding-bottom:12px}
+.item.soon{opacity:.75;border-style:dashed}
+
 .continue{position:relative;background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:18px;margin:0 0 14px;overflow:hidden;box-shadow:0 6px 18px rgba(14,90,67,.07)}
 .continue h2{margin:2px 0 0;font-size:1.25rem;max-width:62%}
 .continue .c-art{position:absolute;right:10px;top:8px;opacity:.95}
@@ -185,11 +197,11 @@ const YEARS = [
    books:[
      { id:"tahawiyya", type:"lines", per:8, title:"Al-'Aqidah al-Tahawiyyah", sub:"The creed of Imam al-Tahawi رحمه الله, line by line", glyph:"ط", color:"#0E5A43", subject:"Aqeedah" },
      { id:"umm", type:"lines", per:6, title:"Umm al-Barahin", sub:"The short creed of Imam al-Sanusi رحمه الله", glyph:"ب", color:"#5C6B2E", subject:"Aqeedah" },
-     { id:"signs", type:"hadith", per:3, title:"Signs of the Hour", sub:"Kitab al-Fitan of Imam al-Bukhari رحمه الله", glyph:"س", color:"#8C3B3B", subject:"Aqeedah" } ],
+     { id:"signs", type:"hadith", per:3, title:"Signs of the Hour", sub:"Kitab al-Fitan of Imam al-Bukhari رحمه الله", glyph:"س", color:"#8C3B3B", subject:"Signs of the Hour" } ],
    decks:[
      { id:"quran", title:"Qur'an words: top 500", sub:"About 86% of the Qur'an's text", glyph:"ق", color:"#8A4FA3", subject:"Arabic" },
      { id:"nur", title:"Nur al-Idah", sub:"Imam al-Shurunbulali رحمه الله: purification, prayer, fasting", glyph:"ن", color:"#2F6E8F", subject:"Fiqh" } ],
-   coming:[["Nahw: al-Ajurrumiyyah","Arabic"],["Sarf: Tasrif al-'Izzi","Arabic"],["Ayyuha'l-Walad of Imam al-Ghazali رحمه الله","Tasawwuf"],["The Mawlid of Imam al-Suyuti رحمه الله","Seerah"],["The Seerah of Imam al-Nawawi رحمه الله (excerpt)","Seerah"],["Sahih Muslim: the ten major signs","Aqeedah"]] },
+   coming:[["Nahw: al-Ajurrumiyyah","Arabic"],["Sarf: Tasrif al-'Izzi","Arabic"],["Ayyuha'l-Walad of Imam al-Ghazali رحمه الله","Tasawwuf"],["The Mawlid of Imam al-Suyuti رحمه الله","Seerah"],["The Seerah of Imam al-Nawawi رحمه الله (excerpt)","Seerah"],["Sahih Muslim: the ten major signs","Signs of the Hour"]] },
  { n:2, title:"Building blocks", desc:"Qur'anic roots, the most used Arabic verbs, Mukhtasar al-Quduri and the Jawharah.",
    books:[ { id:"jawhara", type:"lines", per:8, title:"Jawharat al-Tawhid", sub:"The poem on creed by Imam al-Laqqani رحمه الله", glyph:"ج", color:"#0E5A43", subject:"Aqeedah" } ],
    decks:[
@@ -206,6 +218,17 @@ const YEARS = [
      { id:"verbs2", title:"Arabic verbs: 701–1,400", sub:"The next most used verbs", glyph:"ف", color:"#B5651D", subject:"Arabic" } ],
    coming:[["Sarf: Sharh Tasrif al-'Izzi","Arabic"],["MSA vocabulary (corrected, frequency-ordered)","Arabic"],["I'rab of Qur'anic ayat","Arabic"],["Hikam of Ibn 'Ata'illah","Tasawwuf"],["Tafsir al-Jalalayn (selections)","Tafsir"]] },
 ];
+/* Each year's syllabus is made of these modules */
+const MODULES = [
+  { name:"Aqeedah", art:"light", color:"#0E5A43", about:"What a Muslim believes, in the Ash'ari and Maturidi tradition." },
+  { name:"Comparative Aqeedah", art:"scales", color:"#3E5C76", about:"How Ahl al-Sunnah answer other sects and creeds." },
+  { name:"Tajweed", art:"rehal", color:"#8A4FA3", about:"Reciting the Qur'an correctly." },
+  { name:"Arabic", art:"letter", color:"#B5651D", about:"The Arabic of the Qur'an: words, roots, verbs, grammar." },
+  { name:"Fiqh", art:"drop", color:"#2F6E8F", about:"Hanafi fiqh, from purification onwards." },
+  { name:"Tasawwuf", art:"star", color:"#5C6B2E", about:"Purifying the heart, open to all the turuq." },
+  { name:"Signs of the Hour", art:"hourglass", color:"#8C3B3B", about:"The minor and major signs before the Last Day." },
+  { name:"Seerah", art:"star", color:"#9A6A1F", about:"The life of the Prophet ﷺ.", optional:true },
+  { name:"Tafsir", art:"pen", color:"#1F6F78", about:"Explaining the meanings of the Qur'an.", optional:true } ];
 const TARIQA_OPTIONAL = ["Qadiri: Sirr al-Asrar","Chishti: Kashf al-Mahjub","Naqshbandi: Etiquettes of the Path","Shadhili: further Ibn 'Ata'illah"];
 const DATA = {};
 async function loadYear(n){ INDEX = null;
@@ -269,7 +292,10 @@ function yearStatus(y){
 
 /* ============================ HELPERS ============================ */
 const $ = s => document.querySelector(s);
-const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const AR_RUN = /[\u0600-\u06FF\uFDF0-\uFDFF\uFE70-\uFEFF](?:[\u0600-\u06FF\uFDF0-\uFDFF\uFE70-\uFEFF\u064B-\u065F\s]*[\u0600-\u06FF\uFDF0-\uFDFF\uFE70-\uFEFF])?/g;
+/* escape HTML; in English text, isolate Arabic phrases (ﷺ, رضي الله عنه…) so word order stays correct */
+const esc = s => { s = String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  return /[A-Za-z]/.test(s) ? s.replace(AR_RUN, m => "\u2068" + m + "\u2069") : s; };
 const shuffle = a => { a = a.slice(); for (let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; };
 const pct = x => Math.round(x*100) + "%";
 const isAr = s => /[؀-ۿ]/.test(String(s).slice(0,40));
@@ -378,14 +404,14 @@ function homeView(){
       <div class="nums"><div><b>${due}</b><span>Reviews due</span></div><div><b>${nw}</b><span>New cards</span></div><div><b>${S.days[today()]||0}</b><span>XP today</span></div></div>
       <button class="btn gold" data-study="all" ${due+nw===0?"disabled":""}>${due+nw ? "Study flashcards" : "All done for today"}</button>
     </section>
-    <p class="label">Your syllabus</p>
+    <p class="label">Your years</p>
     <div class="stack">${YEARS.map(yearCard).join("")}</div>`);
 }
 function gate(label, frac, done){ return `<div class="gate ${done?"done":""}"><span>${label}</span><div class="bar"><i style="width:${Math.min(100,frac*100)}%;${done?"background:var(--ok)":""}"></i></div></div>`; }
 function yearCard(y){
   const open = S.unlocked.includes(y.n), st = yearStatus(y), cur = open && !st.passed;
   const pill = st.passed ? `<span class="pill ok">Passed</span>` : open ? `<span class="pill gold">In progress</span>` : `<span class="pill">${ICON.lock} Locked</span>`;
-  const subjects = [...new Set([...y.books, ...y.decks].map(x=>x.subject))].join(" · ");
+  const has = new Set([...y.books, ...y.decks].map(x=>x.subject)), subjects = MODULES.filter(m=>has.has(m.name)).map(m=>m.name).join(" · ");
   return `<button class="year ${cur?"current":""} ${open?"":"locked"}" data-year="${y.n}">
     <div class="head"><span class="yr-badge">${y.n}</span><div style="flex:1"><div class="spread"><h2>Year ${y.n}</h2>${pill}</div><div class="small muted">${esc(y.title)} · ${subjects}</div></div></div>
     ${open ? `<div class="gates">${gate("Books", st.books, st.booksOk)}${gate("Flashcards", st.flash, st.cardsOk)}${gate("Final test", st.passed?1:0, st.passed)}</div>`
@@ -406,21 +432,31 @@ function itemDeck(d, open){
 }
 function yearView(n){
   const y = yearOf(n), open = S.unlocked.includes(n) && loaded(y), st = yearStatus(y);
-  const coming = `<p class="label">Coming soon</p><div class="card small coming">${y.coming.map(([t,s])=>`<div class="spread"><span>${esc(t)}</span><span class="pill">${s}</span></div>`).join("")}
-     ${n===1?`<p class="muted" style="margin:10px 0 0">Optional tasawwuf reading by tariqa: ${TARIQA_OPTIONAL.map(esc).join(", ")}.</p>`:""}</div>`;
+  const items = [...y.books.map(b=>({x:b, h:itemBook(b,open), f:bookDone(b)/lessonsOf(b)})), ...y.decks.map(d=>({x:d, h:itemDeck(d,open), f:d.cards?deckStats(d).mastered/deckStats(d).total:0}))];
+  const mods = MODULES.map(m => {
+    const its = items.filter(i => i.x.subject === m.name), soon = y.coming.filter(c => c[1] === m.name);
+    if (m.optional && !its.length && !soon.length) return "";
+    const frac = its.length ? its.reduce((s,i)=>s+i.f,0)/its.length : 0, doneAll = its.length && frac >= 1;
+    const status = !its.length ? `<span class="pill">Coming soon</span>` : doneAll ? `<span class="pill ok">Complete</span>` : `<span class="pill">${its.length} ${its.length>1?"texts":"text"}</span>`;
+    return `<details class="module" ${its.length?"open":""}><summary>
+        <span class="m-art">${art(m.art, m.color, 46)}</span>
+        <span class="m-txt"><span class="t">${esc(m.name)}</span><span class="s">${esc(m.about)}</span>${its.length&&open?`<span class="bar"><i style="width:${frac*100}%;background:${m.color}"></i></span>`:""}</span>${status}</summary>
+      <div class="stack">${its.map(i=>i.h).join("")}
+        ${soon.map(([t])=>`<div class="item soon"><span class="ico art-ico" style="opacity:.45">${art(m.art, m.color, 36)}</span><span><span class="t">${esc(t)}</span><br><span class="s">Coming soon</span></span></div>`).join("")}
+        ${!its.length&&!soon.length?`<p class="small muted" style="margin:4px 2px">The texts for this module are being chosen.</p>`:""}
+        ${m.name==="Tasawwuf"&&n===1?`<p class="small muted" style="margin:4px 2px">Optional reading by tariqa: ${TARIQA_OPTIONAL.map(esc).join(", ")}.</p>`:""}</div></details>`; }).join("");
   const checks = [[st.booksOk, `Finish every book lesson (${st.ld}/${st.lt})`],
     [st.cm >= st.ct, `Master every flashcard, reviewed until it is ${MASTER_IVL}+ days apart (${st.cm.toLocaleString()}/${st.ct.toLocaleString()})`],
     [st.ret !== null && st.ret >= RETAIN, `Keep recall at ${RETAIN*100}%+ on reviews (now ${st.ret===null?"no reviews yet":pct(st.ret)})`]];
-  return shell(`<button class="back" data-go="home">${ICON.back} Syllabus</button>
+  return shell(`<button class="back" data-go="home">${ICON.back} Home</button>
     <section class="hero" style="${open?"":"background:var(--muted)"}"><h1>Year ${n}: ${esc(y.title)}</h1><p>${esc(y.desc)}</p></section>
     ${open?"":`<div class="notice">${ICON.lock}<span>Locked. Pass the Year ${n-1} final test (${PASS*100}% or more) to open this year. You can preview what it contains below.</span></div>`}
-    <p class="label">1 · Books</p><div class="stack">${y.books.map(b=>itemBook(b,open)).join("")}</div>
-    <p class="label">2 · Flashcards</p><div class="stack">${y.decks.map(d=>itemDeck(d,open)).join("")}</div>
-    <p class="label">3 · Final test</p>
+    <p class="label">Year ${n} syllabus</p><div class="modules">${mods}</div>
+    <p class="label">Final test</p>
     <div class="card">${checks.map(([ok,t])=>`<div class="check ${ok?"on":""}"><i>${ok?ICON.check:""}</i><span>${t}</span></div>`).join("")}
       <p class="small muted" style="margin:10px 0 12px">${TEST_LEN} questions from this year's books and flashcards. Score ${PASS*100}% or more to ${n<YEARS.length?`unlock Year ${n+1}`:"complete the course"}.${st.best!==null?` Best so far: <b>${pct(st.best)}</b>.`:""}</p>
       <button class="btn ${st.ready&&open?"gold":""}" data-test="${n}" ${st.ready&&open?"":"disabled"}>${st.passed?"Retake final test":st.ready&&open?"Start final test":"Final test locked"}</button></div>
-    ${coming}`);
+`);
 }
 function bookView(id){
   const b = YEARS.flatMap(y=>y.books).find(x=>x.id===id), L = lessonsOf(b), done = S.books[id]||[];
@@ -666,5 +702,5 @@ function render(){
 })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=1275b2729f");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=07e73a2dc5");</script></body>
 </html>
