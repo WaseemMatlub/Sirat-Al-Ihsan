@@ -282,7 +282,7 @@ const YEARS = [
    decks:[
      { id:"quran", title:"Qur'an words: top 500", sub:"About 86% of the Qur'an's text", glyph:"ق", color:"#8A4FA3", subject:"Arabic" },
      { id:"nur", simple:true, title:"Nur al-Idah", sub:"Imam al-Shurunbulali رحمه الله: purification, prayer, fasting", glyph:"ن", color:"#2F6E8F", subject:"Fiqh" } ],
-   coming:[["Is'af al-Muridin li-Iqamat Fara'id al-Din","Fiqh"],["Jamal al-Qur'an","Tajweed"],["Tuhfat al-Atfal","Tajweed"],["Tarjamat al-Qur'an: Juz' 'Amma to al-Kahf","Tafsir"],["Zad al-Talibin","Hadith"],["Sarf: Mizan al-Sarf and Munsha'ib","Arabic"],["Sarf: Tasrif al-'Izzi","Arabic"],["Nahw: Nahw Mir","Arabic"],["Ayyuha'l-Walad of Imam al-Ghazali","Tasawwuf"],["The Mawlid of Imam al-Suyuti","Seerah"],["The Seerah of Imam al-Nawawi (excerpt)","Seerah"],["Sahih Muslim: the ten major signs","Signs of the Hour"]] },
+   coming:[["Is'af al-Muridin li-Iqamat Fara'id al-Din","Fiqh"],["Jamal al-Qur'an","Tajweed"],["Tuhfat al-Atfal","Tajweed"],["Tarjamat al-Qur'an: Juz' 'Amma to al-Kahf","Tafsir"],["Zad al-Talibin","Hadith"],["Sarf: Mizan al-Sarf and Munsha'ib","Arabic"],["Sarf: Tasrif al-'Izzi","Arabic"],["Nahw: Nahw Mir","Arabic"],["Ayyuha'l-Walad of Imam al-Ghazali","Tasawwuf"],["'Amal al-Yawm wa'l-Laylah of Imam al-Suyuti: sunnahs and du'as of the day and night","Tasawwuf"],["The Mawlid of Imam al-Suyuti","Seerah"],["The Seerah of Imam al-Nawawi (excerpt)","Seerah"],["Sahih Muslim: the ten major signs","Signs of the Hour"]] },
  { n:2, title:"Building blocks", desc:"Mukhtasar al-Quduri, Maraqi al-Falah, Usul al-Shashi, the Jawharah, Qur'anic roots and the most used Arabic verbs.",
    books:[ { id:"jawhara", type:"lines", per:8, title:"Jawharat al-Tawhid", sub:"The poem on creed by Imam al-Laqqani رحمه الله", glyph:"ج", color:"#0E5A43", subject:"Aqeedah" },
      { id:"t_fiqhakbar", type:"text", file:"fiqh_akbar", per:1, title:"al-Fiqh al-Akbar", sub:"Imam Abu Hanifah رحمه الله, with harakat and English", glyph:"", color:"#0E5A43", subject:"Aqeedah" },
@@ -533,9 +533,27 @@ function homeView(){
       <button class="btn gold small-btn" data-study="all" ${due+nw===0?"disabled":""}>${due+nw ? "Study" : "Done ✓"}</button></div>
     ${last ? `<div class="minicard"><span class="mi">${ICON.shelf}</span><span style="flex:1"><b>Continue reading</b><br><span class="small muted">${esc(last.title)} · section ${S.lastRead.i+1}</span></span><button class="btn ghost small-btn" data-read="${last.id}|${S.lastRead.i}">Read</button></div>` : ""}`);
 }
+/* Optional course before Year 1: what every Muslim must know. Never required, never locks anything. */
+const FARD_AYN = { title:"Fard 'Ayn: the essentials", parts:[
+  ["Aqeedah","What every Muslim must believe about Allah, His messengers ﷺ and the Last Day"],
+  ["Purification","Wudu, ghusl, tayammum and what breaks them"],
+  ["Prayer","The five prayers: conditions, pillars and what invalidates them"],
+  ["Fasting and zakat","The essentials of Ramadan and the zakat on wealth"],
+  ["Halal and haram","Earnings, food, and the rights of others"],
+  ["The heart","Sincerity, repentance, and the diseases of the heart"] ],
+  texts:["Is'af al-Muridin li-Iqamat Fara'id al-Din", "Selected chapters of Nur al-Idah"] };
+function fardAynCard(){
+  return `<details class="module fard"><summary><span class="yr-badge" style="width:44px;height:44px;font-size:1.1rem">✓</span>
+      <span class="m-txt"><span class="t">${esc(FARD_AYN.title)} <span class="pill gold" style="font-size:.66rem;vertical-align:2px">Optional</span></span>
+      <span class="s">What every Muslim must know. Already covered it? Skip straight to Year 1.</span></span></summary>
+    <div class="stack">${FARD_AYN.parts.map(([t,d],i) => `<div class="item soon"><span class="ico" style="background:color-mix(in srgb,var(--brand) 12%,var(--surface));color:var(--brand);font-weight:800">${i+1}</span><span><span class="t">${esc(t)}</span><br><span class="s">${esc(d)}</span></span></div>`).join("")}
+      <p class="small muted" style="margin:4px 2px">Texts: ${FARD_AYN.texts.map(esc).join(", ")}. This course is being prepared.</p></div></details>`;
+}
 function syllabusView(){
   return shell(`<h1>Syllabus</h1><p class="muted" style="margin:0 0 14px">Five years through the classical texts, then a year of specialisation. Each year opens when you pass the one before.</p>
-    <div class="stack">${YEARS.map(yearCard).join("")}${specCard()}</div>`);
+    ${fardAynCard()}
+    <div class="stack" style="margin-top:12px">${YEARS.map(yearCard).join("")}${specCard()}</div>
+    <p class="small muted" style="margin:14px 2px 0">Studied before? A placement test to start from a later year is planned once the full programme is in place.</p>`);
 }
 function gate(label, frac, done){ return `<div class="gate ${done?"done":""}"><span>${label}</span><div class="bar"><i style="width:${Math.min(100,frac*100)}%;${done?"background:var(--ok)":""}"></i></div></div>`; }
 function yearCard(y){
@@ -1103,5 +1121,5 @@ applyTheme(); try { matchMedia("(prefers-color-scheme: dark)").addEventListener(
 })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=9632d96248");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=6c6610208d");</script></body>
 </html>
