@@ -585,6 +585,8 @@ function profileView(){
     <p class="label">Settings</p>
     <div class="card spread"><label for="advgrades" class="small" style="font-weight:700">Advanced grading<br><span class="muted" style="font-weight:400">Swap ✓ Got it / ↻ Redo for four buttons (Again, Hard, Good, Easy) to fine-tune how soon each card returns. Most students don't need this.</span></label><input type="checkbox" id="advgrades" ${S.advancedGrades?"checked":""} style="width:22px;height:22px;flex:none"></div>
     <div class="card spread" style="margin-top:8px"><label for="hk" class="small" style="font-weight:700">Show harakat<br><span class="muted" style="font-weight:400">Turn off to practise reading unvowelled Arabic. Qur'anic text always keeps its harakat.</span></label><input type="checkbox" id="hk" ${S.harakat!==false?"checked":""} style="width:22px;height:22px;flex:none"></div>
+    <div class="card small" style="margin-top:8px"><b>Reading voices</b><p class="muted" style="margin:2px 0 8px">Used by ▶ Listen in the Library. The most natural voice on your device is chosen automatically. For better voices on iPhone, download one in Settings → Accessibility → Spoken Content → Voices, choosing one marked “Enhanced” or “Premium” (for example, English → Serena or Jamie; Arabic → Maged or Majed).</p>
+      ${["en","ar"].map(l => `<div class="spread" style="gap:8px;margin-top:6px"><label for="v-${l}" style="font-weight:700;min-width:58px">${l==="en"?"English":"Arabic"}</label><select id="v-${l}" style="flex:1;min-width:0">${voicesFor(l).length ? voicesFor(l).map(v => `<option ${voiceFor(l)&&voiceFor(l).name===v.name?"selected":""}>${esc(v.name)}</option>`).join("") : `<option>No ${l==="en"?"English":"Arabic"} voice found</option>`}</select><button class="tool" data-vtest="${l}">▶ Test</button></div>`).join("")}</div>
     <div class="card spread" style="margin-top:8px"><label for="madhab" class="small" style="font-weight:700">Madhab for fiqh<br><span class="muted" style="font-weight:400">The course teaches Hanafi fiqh first. Maliki, Shafi'i and Hanbali tracks will be added later.</span></label>
       <select id="madhab"><option selected>Hanafi</option><option disabled>Maliki (coming)</option><option disabled>Shafi'i (coming)</option><option disabled>Hanbali (coming)</option></select></div>
     <div class="card spread" style="margin-top:8px"><label for="npd" class="small" style="font-weight:700">New cards per deck per day</label><select id="npd">${[5,10,15,20,30,50].map(n=>`<option ${n===S.newPerDay?"selected":""}>${n}</option>`).join("")}</select></div>
@@ -736,7 +738,15 @@ function bindRead(b, i){
 /* ---- Listen: device voices now; recorded audio (s.audio[j]) is used when a section has it ---- */
 const AUD = { on:false, j:0, el:null, token:0 };
 const hasTTS = () => "speechSynthesis" in window;
-function voiceFor(lang){ const vs = hasTTS() ? speechSynthesis.getVoices() : []; return vs.find(v => v.lang && v.lang.toLowerCase().startsWith(lang)) || null; }
+// Pick the most natural voice the device has; a student's own choice (Progress → Voices) wins.
+function voiceScore(v){ const n = (v.name||"").toLowerCase(); let s = 0;
+  if (/premium|enhanced|natural|neural|online|wavenet|studio/.test(n)) s += 50;
+  if (/google/.test(n)) s += 20; if (/siri/.test(n)) s += 30;
+  if (/compact|espeak|robot|novelty|bad news|bells|boing|bubbles|cellos|whisper|zarvox|trinoids|albert|jester|organ|superstar|wobble|fred|junior|ralph|kathy|bahh/.test(n)) s -= 80;
+  if (/en-gb/i.test(v.lang)) s += 6; if (/en-us/i.test(v.lang)) s += 4; if (/ar-sa/i.test(v.lang)) s += 6;
+  if (v.localService === false) s += 5; return s; }
+function voicesFor(lang){ return (hasTTS() ? speechSynthesis.getVoices() : []).filter(v => v.lang && v.lang.toLowerCase().startsWith(lang)).sort((a,b) => voiceScore(b) - voiceScore(a)); }
+function voiceFor(lang){ const vs = voicesFor(lang), pick = (S.voices||{})[lang]; return vs.find(v => v.name === pick) || vs[0] || null; }
 // Never let a synthetic voice recite the Qur'an: ayat in ﴿…﴾ or {…} are skipped with a short pause.
 const speakable = t => String(t).replace(/﴿[^﴾]*﴾|\{[^}]*\}/g, " … ").replace(/[ﷺ]/g, " صلى الله عليه وسلم ").replace(/\s+/g, " ").trim();
 function stopAudio(){ AUD.on = false; AUD.token++; if (hasTTS()) speechSynthesis.cancel(); if (AUD.el) { AUD.el.pause(); AUD.el = null; } document.querySelectorAll(".para.speaking").forEach(x => x.classList.remove("speaking")); }
@@ -753,7 +763,7 @@ async function speakFrom(b, i, j0){
   for (let j = j0; j < ar.length; j++){
     if (token !== AUD.token) return; AUD.j = j; markPara(j);
     if (s.audio && s.audio[j]) await playFile(s.audio[j], P.rate, token);
-    else { if (voiceFor("ar")) await sayOne(speakable(ar[j]), "ar", P.rate*0.95, token); if (P.english && s.en && s.en[j]) await sayOne(speakable(s.en[j]).replace(/صلى الله عليه وسلم/g, "peace and blessings be upon him"), "en", P.rate, token); }
+    else { if (voiceFor("ar")) await sayOne(speakable(ar[j]), "ar", P.rate*0.95, token); if (P.english && s.en && s.en[j]) await sayOne(speakable(s.en[j]).replace(/صلى الله عليه وسلم/g, "peace and blessings be upon him").replace(/عليه السلام/g, "peace be upon him").replace(/رضي الله عنهما?|رضي الله عنها|رضي الله عنهم/g, "may Allah be pleased with them").replace(/رحمه الله/g, "may Allah have mercy on him"), "en", P.rate*0.95, token); }
   }
   if (token !== AUD.token) return;
   // audiobook: carry on to the next section
@@ -1022,6 +1032,10 @@ function render(){
   const la = $("#loadall"); if (la) la.onclick = async () => { la.disabled = true; la.textContent = "Loading the books…"; try { await Promise.all(LIB().map(b => loadText(b.file))); } catch(e){ toast("Some books could not load"); } INDEX = null; render(); };
   const sq = $("#sq"); if (sq){ sq.oninput = () => { view.q = sq.value; $("#sres").innerHTML = searchResults(sq.value); bindResults(); }; bindResults(); if (view.q !== undefined) { sq.focus(); sq.setSelectionRange(sq.value.length, sq.value.length); } }
   const sd = $("#sendall"); if (sd) sd.onclick = async () => { const ok = await sendReports(S.reports.filter(r=>!r.sent)); if (ok) { toast("Thank you, jazak Allahu khayran"); render(); } };
+  ["en","ar"].forEach(l => { const sel = $(`#v-${l}`); if (sel) sel.onchange = () => { S.voices = S.voices||{}; S.voices[l] = sel.value; save(); }; });
+  app.querySelectorAll("[data-vtest]").forEach(b => b.onclick = () => { if (!hasTTS()) return toast("This device can't read aloud"); const l = b.dataset.vtest; speechSynthesis.cancel(); AUD.token++;
+    sayOne(l === "en" ? "Whoever takes a path seeking knowledge, Allah makes easy for him a path to Paradise." : "مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا، سَهَّلَ اللهُ لَهُ بِهِ طَرِيقًا إِلَى الْجَنَّةِ", l, l === "en" ? 0.95 : 0.9, AUD.token); });
+  if (hasTTS() && view.name === "profile" && !voicesFor("en").length) speechSynthesis.onvoiceschanged = () => { if (view.name === "profile") render(); };
   const hk = $("#hk"); if (hk) hk.onchange = () => { S.harakat = hk.checked; save(); };
   const ag = $("#advgrades"); if (ag) ag.onchange = () => { S.advancedGrades = ag.checked; save(); };
   const npd = $("#npd"); if (npd) npd.onchange = () => { S.newPerDay = +npd.value; save(); };
@@ -1044,5 +1058,5 @@ function render(){
 })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=852abdc0fe");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=5e5fbb5f3e");</script></body>
 </html>
