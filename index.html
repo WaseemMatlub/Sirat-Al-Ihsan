@@ -149,7 +149,9 @@ select{font:inherit;padding:8px 10px;border-radius:10px;border:1px solid var(--l
 
 /* calmer palette: warm cream base, green as an accent only */
 :root{--bg:#FAF7F0;--line:#E9E2D3;--muted:#6B6B60;--ink:#1F2420}
-@media (prefers-color-scheme:dark){:root{--bg:#121411;--line:#2A2D27;--muted:#9A9C92;--ink:#ECEBE4}}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141412;--surface:#1D1C19;--line:#302E29;--muted:#A19D92;--ink:#EEEBE3;--brand:#4DB58C;--brand-ink:#0B1410;--ok-soft:#1E2E24;--gold-soft:#3A2F17}}
+:root[data-theme="dark"]{--bg:#141412;--surface:#1D1C19;--line:#302E29;--muted:#A19D92;--ink:#EEEBE3;--brand:#4DB58C;--brand-ink:#0B1410;--ok-soft:#1E2E24;--gold-soft:#3A2F17}
+@media (prefers-color-scheme:dark){.today{box-shadow:none}.continue{box-shadow:none}}
 .topbar{background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(8px)}
 .today{background:var(--surface);color:var(--ink);border:1px solid var(--line);border-top:4px solid var(--gold);box-shadow:0 6px 18px rgba(60,50,20,.06)}
 .today .nums div{background:color-mix(in srgb,var(--gold) 9%,var(--bg))}
@@ -279,7 +281,7 @@ const deckSize = d => d.cards ? d.cards.length : META[d.year].decks[d.id];
 /* ============================ STATE ============================ */
 const KEY = "ihsan.v3";
 const PASS = 0.8, MASTER_IVL = 7, RETAIN = 0.85, TEST_LEN = 40;
-function fresh(){ return { welcomed:false, xp:0, streak:0, lastDay:null, days:{}, offset:0, newPerDay:15, newDone:{}, books:{}, cards:{}, log:[], tests:{}, unlocked:[1], spec:null, simpleAll:false, saved:[], reports:[] }; }
+function fresh(){ return { welcomed:false, xp:0, streak:0, lastDay:null, days:{}, offset:0, newPerDay:15, newDone:{}, books:{}, cards:{}, log:[], tests:{}, unlocked:[1], spec:null, advancedGrades:false, saved:[], reports:[] }; }
 function load(){ try{ const s = JSON.parse(localStorage.getItem(KEY)); return s && s.cards ? Object.assign(fresh(), s) : fresh(); }catch(e){ return fresh(); } }
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
 let S = load();
@@ -518,7 +520,7 @@ function profileView(){
     <p class="label">Last 7 days (XP)</p>
     <div class="row" style="align-items:flex-end;height:70px;gap:6px">${days.map(d=>{const v=S.days[d]||0;return `<div style="flex:1;text-align:center"><div title="${v} XP" style="height:${Math.max(4,v/mx*52)}px;border-radius:6px;background:${v?"var(--gold)":"var(--line)"}"></div><span class="small muted">${["S","M","T","W","T","F","S"][new Date(d*864e5).getUTCDay()]}</span></div>`}).join("")}</div>
     <p class="label">Settings</p>
-    <div class="card spread"><label for="simpleall" class="small" style="font-weight:700">Use ✓ Got it / ↻ Redo for every deck<br><span class="muted" style="font-weight:400">Fiqh and aqeedah decks always use it. Vocabulary decks use four grades unless this is on.</span></label><input type="checkbox" id="simpleall" ${S.simpleAll?"checked":""} style="width:22px;height:22px;flex:none"></div>
+    <div class="card spread"><label for="advgrades" class="small" style="font-weight:700">Advanced grading<br><span class="muted" style="font-weight:400">Swap ✓ Got it / ↻ Redo for four buttons (Again, Hard, Good, Easy) to fine-tune how soon each card returns. Most students don't need this.</span></label><input type="checkbox" id="advgrades" ${S.advancedGrades?"checked":""} style="width:22px;height:22px;flex:none"></div>
     <div class="card spread" style="margin-top:8px"><label for="npd" class="small" style="font-weight:700">New cards per deck per day</label><select id="npd">${[5,10,15,20,30,50].map(n=>`<option ${n===S.newPerDay?"selected":""}>${n}</option>`).join("")}</select></div>
     <p class="label">Your reports</p>
     <div class="card small">${(S.reports||[]).length ? `<p style="margin-top:0">${S.reports.length} reported · ${S.reports.filter(r=>!r.sent).length} not sent yet</p>
@@ -679,7 +681,7 @@ function cardBack(c){
 function renderStudy(){
   const c = Q.q[Q.i]; if (!c) return finishStudy();
   const st = S.cards[c.id], d = Q.deckById[c.deck];
-  const simple = d.simple || S.simpleAll;
+  const simple = !S.advancedGrades;
   const foot = !Q.shown ? `<div class="pfoot"><button class="btn" id="show">Show answer</button></div>`
     : simple ? `<div class="pfoot"><div class="grades two"><button class="grade g0" data-g="0">↻ Redo<span>see it again soon</span></button><button class="grade g2" data-g="2">✓ Got it<span>${st && st.ivl >= 1 ? `next check in ${ivlLabel(st,2)}` : "tick it off"}</span></button></div></div>`
     : `<div class="pfoot"><div class="grades">${["Again","Hard","Good","Easy"].map((l,g)=>`<button class="grade g${g}" data-g="${g}">${l}<span>${ivlLabel(st,g)}</span></button>`).join("")}</div></div>`;
@@ -831,7 +833,7 @@ function render(){
   const cn = $("#continue"); if (cn) cn.onclick = () => { const nl = nextLesson(); if (nl) startLesson(nl.b.id, nl.i); };
   const sq = $("#sq"); if (sq){ sq.oninput = () => { view.q = sq.value; $("#sres").innerHTML = searchResults(sq.value); bindResults(); }; bindResults(); if (view.q !== undefined) { sq.focus(); sq.setSelectionRange(sq.value.length, sq.value.length); } }
   const sd = $("#sendall"); if (sd) sd.onclick = async () => { const ok = await sendReports(S.reports.filter(r=>!r.sent)); if (ok) { toast("Thank you, jazak Allahu khayran"); render(); } };
-  const sa = $("#simpleall"); if (sa) sa.onchange = () => { S.simpleAll = sa.checked; save(); };
+  const ag = $("#advgrades"); if (ag) ag.onchange = () => { S.advancedGrades = ag.checked; save(); };
   const npd = $("#npd"); if (npd) npd.onchange = () => { S.newPerDay = +npd.value; save(); };
   const sk = $("#skipday"); if (sk) sk.onclick = () => { S.offset++; save(); render(); };
   const ft = $("#fasttrack"); if (ft) ft.onclick = () => { const y = yearOf(Math.max(...S.unlocked));
@@ -852,5 +854,5 @@ function render(){
 })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=2cd6b7dd70");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=68e7e70c73");</script></body>
 </html>
