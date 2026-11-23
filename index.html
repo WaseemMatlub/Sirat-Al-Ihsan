@@ -138,6 +138,9 @@ select{font:inherit;padding:8px 10px;border-radius:10px;border:1px solid var(--l
 .review-list .card{padding:12px 14px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 
+.grades.two{grid-template-columns:1fr 1fr}
+.grades.two .grade{padding:14px 8px;font-size:1.05rem}
+
 /* calmer palette: warm cream base, green as an accent only */
 :root{--bg:#FAF7F0;--line:#E9E2D3;--muted:#6B6B60;--ink:#1F2420}
 @media (prefers-color-scheme:dark){:root{--bg:#121411;--line:#2A2D27;--muted:#9A9C92;--ink:#ECEBE4}}
@@ -216,21 +219,21 @@ const YEARS = [
      { id:"signs", type:"hadith", per:3, title:"Signs of the Hour", sub:"Kitab al-Fitan of Imam al-Bukhari رحمه الله", glyph:"س", color:"#8C3B3B", subject:"Signs of the Hour" } ],
    decks:[
      { id:"quran", title:"Qur'an words: top 500", sub:"About 86% of the Qur'an's text", glyph:"ق", color:"#8A4FA3", subject:"Arabic" },
-     { id:"nur", title:"Nur al-Idah", sub:"Imam al-Shurunbulali رحمه الله: purification, prayer, fasting", glyph:"ن", color:"#2F6E8F", subject:"Fiqh" } ],
+     { id:"nur", simple:true, title:"Nur al-Idah", sub:"Imam al-Shurunbulali رحمه الله: purification, prayer, fasting", glyph:"ن", color:"#2F6E8F", subject:"Fiqh" } ],
    coming:[["Nahw: al-Ajurrumiyyah","Arabic"],["Sarf: Tasrif al-'Izzi","Arabic"],["Ayyuha'l-Walad of Imam al-Ghazali رحمه الله","Tasawwuf"],["The Mawlid of Imam al-Suyuti رحمه الله","Seerah"],["The Seerah of Imam al-Nawawi رحمه الله (excerpt)","Seerah"],["Sahih Muslim: the ten major signs","Signs of the Hour"]] },
  { n:2, title:"Building blocks", desc:"Qur'anic roots, the most used Arabic verbs, Mukhtasar al-Quduri and the Jawharah.",
    books:[ { id:"jawhara", type:"lines", per:8, title:"Jawharat al-Tawhid", sub:"The poem on creed by Imam al-Laqqani رحمه الله", glyph:"ج", color:"#0E5A43", subject:"Aqeedah" } ],
    decks:[
-     { id:"quduri", title:"Mukhtasar al-Quduri", sub:"Imam al-Quduri's رحمه الله Hanafi primer, question by question", glyph:"ق", color:"#2F6E8F", subject:"Fiqh" },
+     { id:"quduri", simple:true, title:"Mukhtasar al-Quduri", sub:"Imam al-Quduri's رحمه الله Hanafi primer, question by question", glyph:"ق", color:"#2F6E8F", subject:"Fiqh" },
      { id:"roots", title:"Qur'an roots: top 1,000", sub:"Ranked by how often they occur in the Qur'an", glyph:"ج", color:"#8A4FA3", subject:"Arabic" },
      { id:"verbs1", title:"Arabic verbs: 1–700", sub:"The most used verbs, with past, present and verbal noun", glyph:"ف", color:"#B5651D", subject:"Arabic" },
-     { id:"ithaf", title:"Ithaf al-Talib (Arabic)", sub:"Fiqh questions and answers read in Arabic", glyph:"إ", color:"#1F6F78", subject:"Fiqh" } ],
+     { id:"ithaf", simple:true, title:"Ithaf al-Talib (Arabic)", sub:"Fiqh questions and answers read in Arabic", glyph:"إ", color:"#1F6F78", subject:"Fiqh" } ],
    coming:[["Nahw: Sharh Qatr al-Nada","Arabic"],["Mufradat al-Qur'an: root meanings","Arabic"],["al-Risalah al-Qushayriyyah (selections)","Tasawwuf"],["Qasidat al-Burdah","Seerah"],["I'rab practice: short sentences","Arabic"]] },
  { n:3, title:"Depth", desc:"Sharh al-'Aqa'id al-Nasafiyyah, Kanz al-Daqa'iq, the Majallah's legal maxims and more verbs.",
    books:[ { id:"majalla", type:"lines", per:5, title:"The Majallah: 99 legal maxims", sub:"Al-Majallah al-Ahkam al-'Adliyyah, with explanations", glyph:"م", color:"#5C6B2E", subject:"Fiqh" } ],
    decks:[
-     { id:"nasafiyyah", title:"Sharh al-'Aqa'id al-Nasafiyyah", sub:"The commentary of al-Taftazani رحمه الله, question by question", glyph:"ع", color:"#0E5A43", subject:"Aqeedah" },
-     { id:"kanz", title:"Kanz al-Daqa'iq", sub:"The Hanafi text of Imam al-Nasafi رحمه الله", glyph:"ك", color:"#2F6E8F", subject:"Fiqh" },
+     { id:"nasafiyyah", simple:true, title:"Sharh al-'Aqa'id al-Nasafiyyah", sub:"The commentary of al-Taftazani رحمه الله, question by question", glyph:"ع", color:"#0E5A43", subject:"Aqeedah" },
+     { id:"kanz", simple:true, title:"Kanz al-Daqa'iq", sub:"The Hanafi text of Imam al-Nasafi رحمه الله", glyph:"ك", color:"#2F6E8F", subject:"Fiqh" },
      { id:"verbs2", title:"Arabic verbs: 701–1,400", sub:"The next most used verbs", glyph:"ف", color:"#B5651D", subject:"Arabic" } ],
    coming:[["Sarf: Sharh Tasrif al-'Izzi","Arabic"],["MSA vocabulary (corrected, frequency-ordered)","Arabic"],["I'rab of Qur'anic ayat","Arabic"],["Hikam of Ibn 'Ata'illah","Tasawwuf"],["Tafsir al-Jalalayn (selections)","Tafsir"]] },
  { n:4, title:"Advanced texts", desc:"Longer commentaries in every module. The texts for this year are being chosen.", books:[], decks:[], coming:[] },
@@ -270,7 +273,7 @@ const deckSize = d => d.cards ? d.cards.length : META[d.year].decks[d.id];
 /* ============================ STATE ============================ */
 const KEY = "ihsan.v3";
 const PASS = 0.8, MASTER_IVL = 7, RETAIN = 0.85, TEST_LEN = 40;
-function fresh(){ return { welcomed:false, xp:0, streak:0, lastDay:null, days:{}, offset:0, newPerDay:15, newDone:{}, books:{}, cards:{}, log:[], tests:{}, unlocked:[1], spec:null }; }
+function fresh(){ return { welcomed:false, xp:0, streak:0, lastDay:null, days:{}, offset:0, newPerDay:15, newDone:{}, books:{}, cards:{}, log:[], tests:{}, unlocked:[1], spec:null, simpleAll:false }; }
 function load(){ try{ const s = JSON.parse(localStorage.getItem(KEY)); return s && s.cards ? Object.assign(fresh(), s) : fresh(); }catch(e){ return fresh(); } }
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
 let S = load();
@@ -505,7 +508,8 @@ function profileView(){
     <p class="label">Last 7 days (XP)</p>
     <div class="row" style="align-items:flex-end;height:70px;gap:6px">${days.map(d=>{const v=S.days[d]||0;return `<div style="flex:1;text-align:center"><div title="${v} XP" style="height:${Math.max(4,v/mx*52)}px;border-radius:6px;background:${v?"var(--gold)":"var(--line)"}"></div><span class="small muted">${["S","M","T","W","T","F","S"][new Date(d*864e5).getUTCDay()]}</span></div>`}).join("")}</div>
     <p class="label">Settings</p>
-    <div class="card spread"><label for="npd" class="small" style="font-weight:700">New cards per deck per day</label><select id="npd">${[5,10,15,20,30,50].map(n=>`<option ${n===S.newPerDay?"selected":""}>${n}</option>`).join("")}</select></div>
+    <div class="card spread"><label for="simpleall" class="small" style="font-weight:700">Use ✓ Got it / ↻ Redo for every deck<br><span class="muted" style="font-weight:400">Fiqh and aqeedah decks always use it. Vocabulary decks use four grades unless this is on.</span></label><input type="checkbox" id="simpleall" ${S.simpleAll?"checked":""} style="width:22px;height:22px;flex:none"></div>
+    <div class="card spread" style="margin-top:8px"><label for="npd" class="small" style="font-weight:700">New cards per deck per day</label><select id="npd">${[5,10,15,20,30,50].map(n=>`<option ${n===S.newPerDay?"selected":""}>${n}</option>`).join("")}</select></div>
     <p class="label">About the content</p>
     <div class="card small"><p style="margin-top:0">Ihsan trains students year by year through the classical texts: Hanafi fiqh, Ash'ari and Maturidi creed, tasawwuf open to all the turuq, and the Arabic of the Qur'an.</p>
       <p>Flashcards are adapted from shared Anki decks. Qur'an word and root frequencies come from the Quranic Arabic Corpus. Meanings marked <span class="pill gold">AI · needs review</span> were written by AI and await a teacher's check.</p></div>
@@ -598,7 +602,9 @@ function cardBack(c){
 function renderStudy(){
   const c = Q.q[Q.i]; if (!c) return finishStudy();
   const st = S.cards[c.id], d = Q.deckById[c.deck];
+  const simple = d.simple || S.simpleAll;
   const foot = !Q.shown ? `<div class="pfoot"><button class="btn" id="show">Show answer</button></div>`
+    : simple ? `<div class="pfoot"><div class="grades two"><button class="grade g0" data-g="0">↻ Redo<span>see it again soon</span></button><button class="grade g2" data-g="2">✓ Got it<span>${st && st.ivl >= 1 ? `next check in ${ivlLabel(st,2)}` : "tick it off"}</span></button></div></div>`
     : `<div class="pfoot"><div class="grades">${["Again","Hard","Good","Easy"].map((l,g)=>`<button class="grade g${g}" data-g="${g}">${l}<span>${ivlLabel(st,g)}</span></button>`).join("")}</div></div>`;
   $("#app").innerHTML = `<div class="player"><div class="player-in"><div class="phead"><button class="x" id="quit" aria-label="Stop studying">${ICON.x}</button><div class="bar"><i style="width:${Q.done/Q.total*100}%"></i></div><span class="count">${Q.q.length-Q.i} left</span></div>
     <div class="pbody">${cardFront(c,d)}${Q.shown?cardBack(c):""}</div>${foot}</div></div>`;
@@ -737,6 +743,7 @@ function render(){
   const cs = $("#changespec"); if (cs) cs.onclick = () => confirmBox("Change your specialisation? Your progress in the five years is kept.", () => { S.spec = null; save(); render(); });
   const cn = $("#continue"); if (cn) cn.onclick = () => { const nl = nextLesson(); if (nl) startLesson(nl.b.id, nl.i); };
   const sq = $("#sq"); if (sq){ sq.oninput = () => { view.q = sq.value; $("#sres").innerHTML = searchResults(sq.value); bindResults(); }; bindResults(); if (view.q !== undefined) { sq.focus(); sq.setSelectionRange(sq.value.length, sq.value.length); } }
+  const sa = $("#simpleall"); if (sa) sa.onchange = () => { S.simpleAll = sa.checked; save(); };
   const npd = $("#npd"); if (npd) npd.onchange = () => { S.newPerDay = +npd.value; save(); };
   const sk = $("#skipday"); if (sk) sk.onclick = () => { S.offset++; save(); render(); };
   const ft = $("#fasttrack"); if (ft) ft.onclick = () => { const y = yearOf(Math.max(...S.unlocked));
@@ -757,5 +764,5 @@ function render(){
 })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=959e1b4ace");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=d09d3026dd");</script></body>
 </html>
