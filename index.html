@@ -138,6 +138,12 @@ select{font:inherit;padding:8px 10px;border-radius:10px;border:1px solid var(--l
 .review-list .card{padding:12px 14px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 
+.tools{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.tool{display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:7px 12px;font:inherit;font-size:.82rem;font-weight:700;color:var(--muted)}
+.tool svg{width:16px;height:16px}.tool.on{color:var(--warn);border-color:color-mix(in srgb,var(--gold) 50%,transparent)}
+.tool:active{transform:scale(.96)}
+.toast{position:fixed;left:50%;bottom:110px;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:12px;font-size:.9rem;font-weight:600;z-index:60;max-width:90vw;text-align:center;animation:pop .3s ease-out}
+
 .grades.two{grid-template-columns:1fr 1fr}
 .grades.two .grade{padding:14px 8px;font-size:1.05rem}
 
@@ -186,8 +192,8 @@ ol.pts{margin:0;padding-left:1.4em}ol.pts li{margin:0 0 6px;line-height:1.5}ol.p
 .burst b{display:block}.burst span{font-size:.85rem;color:var(--muted)}
 @keyframes pop{0%{transform:scale(.8);opacity:0}70%{transform:scale(1.04)}100%{transform:scale(1);opacity:1}}
 @media (prefers-reduced-motion:reduce){.burst{animation:none}}
-input.search{width:100%;box-sizing:border-box;font:inherit;font-size:1rem;padding:14px 16px;border-radius:14px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink)}
-input.search:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px color-mix(in srgb,var(--brand) 18%,transparent)}
+input.search,textarea.search{width:100%;box-sizing:border-box;font:inherit;font-size:1rem;padding:14px 16px;border-radius:14px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink)}
+input.search:focus,textarea.search:focus{outline:none;border-color:var(--brand);box-shadow:0 0 0 3px color-mix(in srgb,var(--brand) 18%,transparent)}
 nav.tabs .in{grid-template-columns:repeat(3,1fr)}
 
 .welcome{min-height:100%;display:grid;place-items:center;padding:28px 18px;background:radial-gradient(120% 60% at 50% 0%,color-mix(in srgb,var(--gold) 18%,var(--bg)),var(--bg))}
@@ -273,7 +279,7 @@ const deckSize = d => d.cards ? d.cards.length : META[d.year].decks[d.id];
 /* ============================ STATE ============================ */
 const KEY = "ihsan.v3";
 const PASS = 0.8, MASTER_IVL = 7, RETAIN = 0.85, TEST_LEN = 40;
-function fresh(){ return { welcomed:false, xp:0, streak:0, lastDay:null, days:{}, offset:0, newPerDay:15, newDone:{}, books:{}, cards:{}, log:[], tests:{}, unlocked:[1], spec:null, simpleAll:false }; }
+function fresh(){ return { welcomed:false, xp:0, streak:0, lastDay:null, days:{}, offset:0, newPerDay:15, newDone:{}, books:{}, cards:{}, log:[], tests:{}, unlocked:[1], spec:null, simpleAll:false, saved:[], reports:[] }; }
 function load(){ try{ const s = JSON.parse(localStorage.getItem(KEY)); return s && s.cards ? Object.assign(fresh(), s) : fresh(); }catch(e){ return fresh(); } }
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
 let S = load();
@@ -331,6 +337,10 @@ const ICON = {
   learn:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5.5C5 4 9 4 12 6c3-2 7-2 10-.5V19c-3-1.5-7-1.5-10 .5-3-2-7-2-10-.5Z"/><path d="M12 6v13.5"/></svg>',
   search:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>',
   user:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4.5 4.5-6.5 8-6.5s7 2 8 6.5"/></svg>',
+  save:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M6 3h12v18l-6-4.5L6 21z"/></svg>',
+  saved:'<svg viewBox="0 0 24 24" fill="var(--gold)" stroke="var(--gold)" stroke-width="2.2" stroke-linejoin="round"><path d="M6 3h12v18l-6-4.5L6 21z"/></svg>',
+  flag:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4m0 0h11l-2 4 2 4H5"/></svg>',
+  know:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m4 12 5 5L20 6"/></svg>',
   x:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M6 6l12 12M18 6 6 18"/></svg>',
   back:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>',
   lock:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>',
@@ -510,6 +520,11 @@ function profileView(){
     <p class="label">Settings</p>
     <div class="card spread"><label for="simpleall" class="small" style="font-weight:700">Use ✓ Got it / ↻ Redo for every deck<br><span class="muted" style="font-weight:400">Fiqh and aqeedah decks always use it. Vocabulary decks use four grades unless this is on.</span></label><input type="checkbox" id="simpleall" ${S.simpleAll?"checked":""} style="width:22px;height:22px;flex:none"></div>
     <div class="card spread" style="margin-top:8px"><label for="npd" class="small" style="font-weight:700">New cards per deck per day</label><select id="npd">${[5,10,15,20,30,50].map(n=>`<option ${n===S.newPerDay?"selected":""}>${n}</option>`).join("")}</select></div>
+    <p class="label">Your reports</p>
+    <div class="card small">${(S.reports||[]).length ? `<p style="margin-top:0">${S.reports.length} reported · ${S.reports.filter(r=>!r.sent).length} not sent yet</p>
+      ${S.reports.slice(-5).reverse().map(r=>{ const it=itemByKey(r.k); return `<div class="spread" style="padding:4px 0;border-top:1px solid var(--line)"><span>${esc(it?it.src.title:r.k)}: ${esc(r.why)}</span><span class="pill ${r.sent?"ok":"gold"}">${r.sent?"Sent":"Not sent"}</span></div>`; }).join("")}
+      ${S.reports.some(r=>!r.sent)?`<button class="btn ghost" id="sendall" style="margin-top:10px">Send unsent reports</button>`:""}`
+      : `<p style="margin:0" class="muted">If you spot a mistake on a card, line or hadith, tap ${ICON.flag.replace("<svg",'<svg width="14" height="14" style="vertical-align:-2px"')} Report on it.</p>`}</div>
     <p class="label">About the content</p>
     <div class="card small"><p style="margin-top:0">Ihsan trains students year by year through the classical texts: Hanafi fiqh, Ash'ari and Maturidi creed, tasawwuf open to all the turuq, and the Arabic of the Qur'an.</p>
       <p>Flashcards are adapted from shared Anki decks. Qur'an word and root frequencies come from the Quranic Arabic Corpus. Meanings marked <span class="pill gold">AI · needs review</span> were written by AI and await a teacher's check.</p></div>
@@ -530,17 +545,36 @@ function buildIndex(){
   }
 }
 function searchResults(q){
-  const n = norm(q).trim(); if (n.length < 2) return `<p class="muted small">Type at least two letters, in English or Arabic. Searches every book and flashcard in the years you have opened.</p>`;
+  const n = norm(q).trim(); if (n.length < 2) return savedList();
   if (!INDEX) buildIndex();
   const words = n.split(/\s+/), hits = INDEX.filter(x => words.every(w => x.k.includes(w))).slice(0, 60);
   if (!hits.length) return `<p class="muted">No matches for “${esc(q)}”.</p>`;
   return `<p class="label">${hits.length===60?"First 60":hits.length} results</p><div class="stack">${hits.map((h,j)=>`<button class="item" data-hit="${j}"><span class="ico art-ico">${artFor(h.src,36)}</span><span style="min-width:0">${h.a?`<span class="t ar" style="display:block;font-size:1.1rem">${esc(snip(h.a,70))}</span>`:""}<span class="s" style="display:block">${esc(snip(h.e.replace(/^ — /,""),110))}</span><span class="s">${esc(h.src.title)} · Year ${h.y}</span></span></button>`).join("")}</div>`;
 }
+function savedList(){
+  const items = (S.saved||[]).map(k => ({ k, it:itemByKey(k) })).filter(x => x.it);
+  return `<p class="muted small">Type at least two letters, in English or Arabic. Searches every book and flashcard in the years you have opened.</p>
+    <p class="label">${ICON.saved.replace("<svg",'<svg width="14" height="14" style="vertical-align:-2px"')} Saved (${items.length})</p>
+    ${items.length ? `<div class="stack">${items.map(({k,it})=>{ const a = it.kind==="card" ? (it.c.fa?it.c.f:it.c.ba?it.c.b:"") : it.l.ar||"", e = it.kind==="card" ? (it.c.fa?"":it.c.f) : it.l.en;
+      return `<button class="item" data-open="${esc(k)}"><span class="ico art-ico">${artFor(it.src,36)}</span><span style="min-width:0">${a?`<span class="t ar" style="display:block;font-size:1.1rem">${esc(snip(a,70))}</span>`:""}<span class="s" style="display:block">${esc(snip(e||"",110))}</span><span class="s">${esc(it.src.title)} · Year ${it.y}</span></span></button>`; }).join("")}</div>`
+    : `<div class="card small muted">Tap ${ICON.save.replace("<svg",'<svg width="14" height="14" style="vertical-align:-2px"')} Save on any flashcard, line or hadith to keep it here.</div>`}`;
+}
+function openItem(k){
+  const it = itemByKey(k); if (!it) return;
+  const body = it.kind === "card" ? cardFront(it.c, it.src) + cardBack(it.c)
+    : `<div class="kicker">${esc(it.src.title)}</div>${it.l.ar?`<p class="line-ar">${esc(it.l.ar)}</p>`:""}<p>${esc(it.l.en)}</p>${it.l.note?`<div class="small muted">${points(it.l.note)}</div>`:""}`;
+  modal(`<div style="max-height:62vh;overflow:auto">${body}</div>${toolRow(k,false)}<div class="btnrow" style="margin-top:12px"><button class="btn" id="mok">Close</button></div>`, (d,c) => {
+    d.querySelector("#mok").onclick = c;
+    d.querySelectorAll("[data-save]").forEach(b => b.onclick = () => { toggleSave(k); c(); if (view.name === "search") render(); });
+    d.querySelectorAll("[data-report]").forEach(b => b.onclick = () => { c(); openReport(k); }); });
+}
 let HITS = [];
 function bindResults(){
   const q = norm(($("#sq")||{}).value||"").trim(); if (!INDEX) buildIndex(); const words = q.split(/\s+/);
   HITS = q.length < 2 ? [] : INDEX.filter(x => words.every(w => x.k.includes(w))).slice(0, 60);
+  document.querySelectorAll("[data-open]").forEach(b => b.onclick = () => openItem(b.dataset.open));
   document.querySelectorAll("[data-hit]").forEach(b => b.onclick = () => { const h = HITS[+b.dataset.hit];
+    if (h.kind === "card") return openItem(keyCard(h.c)); if (h.src.lines) return openItem(keyLine(h.src, h.src.lines[h.i]));
     const body = h.kind === "card" ? cardFront(h.c, h.src) + cardBack(h.c)
       : `<div class="kicker">${esc(h.src.title)}</div>${h.a?`<p class="line-ar">${esc(h.a)}</p>`:""}<p>${esc(h.e)}</p>${h.n?`<div class="small muted">${points(h.n)}</div>`:""}`;
     modal(`<div style="max-height:70vh;overflow:auto">${body}</div><div class="btnrow" style="margin-top:12px"><button class="btn" id="mok">Close</button></div>`, (d,c)=>d.querySelector("#mok").onclick=c); });
@@ -572,6 +606,49 @@ function specView(){
     <div class="btnrow" style="margin-top:12px"><button class="btn ghost" id="changespec">Change specialisation</button></div></div>`);
   return shell(`${intro}<p class="label">Choose a module</p><div class="stack">${MODULES.map(m => `<button class="item" data-pick="${esc(m.name)}" ${open?"":"disabled"}>
       <span class="ico art-ico">${art(m.art, m.color, 40)}</span><span><span class="t">${esc(m.name)}</span><br><span class="s">${esc(m.about)}</span></span>${open?`<span class="pill gold">Choose</span>`:ICON.lock}</button>`).join("")}</div>`);
+}
+
+/* ---- Save, report, "I know this" ---- */
+// Where reports go. Set to an email address (or leave empty to use the phone's share sheet / copy).
+const REPORT_TO = "";
+const isSaved = k => (S.saved||[]).includes(k);
+function toggleSave(k){ S.saved = S.saved||[]; const i = S.saved.indexOf(k); if (i >= 0) S.saved.splice(i,1); else S.saved.unshift(k); save(); toast(i >= 0 ? "Removed from saved" : "Saved. Find it under Search"); }
+function toast(t){ document.querySelectorAll(".toast").forEach(x => x.remove()); const el = document.createElement("div"); el.className = "toast"; el.setAttribute("role","status"); el.textContent = t; document.body.appendChild(el); setTimeout(() => el.remove(), 2200); }
+function toolRow(k, know){ return `<div class="tools"><button class="tool ${isSaved(k)?"on":""}" data-save="${esc(k)}" aria-label="Save">${isSaved(k)?ICON.saved:ICON.save}<span>${isSaved(k)?"Saved":"Save"}</span></button>
+  <button class="tool" data-report="${esc(k)}" aria-label="Report a problem">${ICON.flag}<span>Report</span></button>
+  ${know?`<button class="tool" id="know" aria-label="I already know this">${ICON.know}<span>I know this</span></button>`:""}</div>`; }
+function itemByKey(k){
+  const [kind, id, i] = k.split("|");
+  if (kind === "c") for (const y of YEARS) for (const d of y.decks) { const c = (d.cards||[]).find(c => c.id === id); if (c) return { kind:"card", c, src:d, y:y.n }; }
+  if (kind === "l") for (const y of YEARS) for (const b of y.books) if (b.id === id && b.lines && b.lines[+i]) return { kind:"line", l:b.lines[+i], src:b, y:y.n, i:+i };
+  return null;
+}
+const keyCard = c => `c|${c.id}`, keyLine = (b, l) => `l|${b.id}|${b.lines.indexOf(l)}`;
+function reportText(r){ const it = itemByKey(r.k); const what = !it ? r.k : it.kind === "card" ? `${it.src.title}\nQ: ${it.c.f}\nA: ${it.c.b}` : `${it.src.title}, ${it.src.type==="hadith"?"hadith":"line"} ${it.i+1}\n${it.l.ar||""}\n${it.l.en||""}`;
+  return `Ihsan report [${r.k}]\nProblem: ${r.why}${r.note?`\nNote: ${r.note}`:""}\n\n${what}`; }
+async function sendReports(list){
+  const body = list.map(reportText).join("\n\n----------\n\n"), subject = `Ihsan: ${list.length} card report${list.length>1?"s":""}`;
+  if (REPORT_TO) { location.href = `mailto:${REPORT_TO}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`; }
+  else if (navigator.share) { try { await navigator.share({ title:subject, text:body }); } catch(e){ return false; } }
+  else { try { await navigator.clipboard.writeText(body); toast("Report copied. Paste it to the Ihsan team"); } catch(e){ return false; } }
+  list.forEach(r => r.sent = true); save(); return true;
+}
+function openReport(k){
+  const reasons = ["The answer is wrong","Spelling or translation mistake","Arabic text or harakat mistake","Missing or wrong honorific","Something else"];
+  modal(`<h2 style="margin:0 0 4px">Report a problem</h2><p class="small muted" style="margin:0 0 12px">Our teachers will check it and correct it, in sha' Allah.</p>
+    <div class="opts" id="why">${reasons.map((r,i)=>`<button class="opt" data-why="${i}">${r}</button>`).join("")}</div>
+    <textarea id="rnote" rows="3" placeholder="What should it say? (optional)" class="search" style="margin-top:10px;resize:vertical"></textarea>
+    <div class="btnrow" style="margin-top:12px"><button class="btn ghost" id="mno">Cancel</button><button class="btn" id="msend" disabled>Send report</button></div>`, (d, close) => {
+    let why = null;
+    d.querySelectorAll("[data-why]").forEach(b => b.onclick = () => { why = reasons[+b.dataset.why]; d.querySelectorAll("[data-why]").forEach(x => x.classList.toggle("sel", x === b)); d.querySelector("#msend").disabled = false; });
+    d.querySelector("#mno").onclick = close;
+    d.querySelector("#msend").onclick = async () => { const r = { k, why, note:d.querySelector("#rnote").value.trim(), at:Date.now(), sent:false };
+      S.reports = S.reports||[]; S.reports.push(r); save(); close(); const ok = await sendReports([r]); toast(ok ? "Thank you, jazak Allahu khayran" : "Saved. You can send it later from Progress"); };
+  });
+}
+function bindTools(root, rerender){
+  root.querySelectorAll("[data-save]").forEach(b => b.onclick = () => { toggleSave(b.dataset.save); rerender && rerender(); });
+  root.querySelectorAll("[data-report]").forEach(b => b.onclick = () => openReport(b.dataset.report));
 }
 
 /* ======================= STUDY SESSION ======================= */
@@ -607,10 +684,18 @@ function renderStudy(){
     : simple ? `<div class="pfoot"><div class="grades two"><button class="grade g0" data-g="0">↻ Redo<span>see it again soon</span></button><button class="grade g2" data-g="2">✓ Got it<span>${st && st.ivl >= 1 ? `next check in ${ivlLabel(st,2)}` : "tick it off"}</span></button></div></div>`
     : `<div class="pfoot"><div class="grades">${["Again","Hard","Good","Easy"].map((l,g)=>`<button class="grade g${g}" data-g="${g}">${l}<span>${ivlLabel(st,g)}</span></button>`).join("")}</div></div>`;
   $("#app").innerHTML = `<div class="player"><div class="player-in"><div class="phead"><button class="x" id="quit" aria-label="Stop studying">${ICON.x}</button><div class="bar"><i style="width:${Q.done/Q.total*100}%"></i></div><span class="count">${Q.q.length-Q.i} left</span></div>
-    <div class="pbody">${cardFront(c,d)}${Q.shown?cardBack(c):""}</div>${foot}</div></div>`;
+    <div class="pbody">${cardFront(c,d)}${Q.shown?cardBack(c):""}${toolRow(keyCard(c), !st || st.ivl < MASTER_IVL)}</div>${foot}</div></div>`;
+  bindTools($("#app"), renderStudy);
+  const kn = $("#know"); if (kn) kn.onclick = () => knowCard(c);
   const sh = $("#show"); if (sh) sh.onclick = () => { Q.shown = true; renderStudy(); };
   document.querySelectorAll("[data-g]").forEach(b => b.onclick = () => grade(+b.dataset.g));
   $("#quit").onclick = () => { Q = null; touchDay(0); render(); };
+}
+function knowCard(c){
+  if (!S.cards[c.id]){ const t = today(); S.newDone[t] = S.newDone[t]||{}; S.newDone[t][c.deck] = (S.newDone[t][c.deck]||0) + 1; }
+  S.cards[c.id] = { ivl:21, ease:2.6, reps:1, lapses:0, due:today()+21, known:true };
+  Q.q = Q.q.filter((x, j) => j <= Q.i || x.id !== c.id); Q.done++; Q.i++; Q.shown = false; save();
+  toast("Marked as known. It returns in 3 weeks for a quick check"); renderStudy();
 }
 function grade(g){
   const c = Q.q[Q.i], prev = S.cards[c.id];
@@ -652,6 +737,7 @@ function renderLesson(){
       ${B.b.type==="hadith"
         ? `<p style="margin:0 0 10px;font-size:1.02rem">${esc(st.l.en)}</p><details><summary>Arabic text</summary><p class="line-ar" style="font-size:1.25rem;margin-top:8px">${esc(st.l.ar)}</p></details><p class="ref" style="margin-top:10px">${esc(st.l.note)}</p>`
         : `<p class="line-ar">${esc(st.l.ar)}</p><p style="margin:0">${esc(st.l.en)}</p>${st.l.note?`<details><summary>${B.b.id==="majalla"?"Explanation and example":"Commentary"}</summary><div class="small answer">${points(st.l.note)}</div></details>`:""}`}</div>`;
+    body += toolRow(keyLine(B.b, st.l), false);
     foot = `<div class="pfoot"><button class="btn" id="next">Continue</button></div>`;
   } else {
     body = `<div class="kicker">Check your understanding</div>${st.prompt?`<p class="line-ar">${esc(st.prompt)}</p>`:""}<p class="q" style="font-size:1.05rem">${esc(st.q)}</p>
@@ -662,6 +748,7 @@ function renderLesson(){
     else { const ok = st.options[B.sel] === st.answer; foot = `<div class="pfoot ${ok?"ok":"bad"}" role="status"><div class="fb"><strong>${ok?"Correct, masha'Allah":"Not quite"}</strong>${ok?"":`<span class="small">The highlighted answer is correct.</span>`}</div><button class="btn" id="next">Continue</button></div>`; }
   }
   $("#app").innerHTML = `<div class="player"><div class="player-in"><div class="phead"><button class="x" id="quit" aria-label="Leave lesson">${ICON.x}</button><div class="bar"><i style="width:${B.i/B.steps.length*100}%;background:${B.b.color}"></i></div></div><div class="pbody">${body}</div>${foot}</div></div>`;
+  bindTools($("#app"), renderLesson);
   document.querySelectorAll("[data-o]").forEach(x => x.onclick = () => { B.sel = +x.dataset.o; renderLesson(); });
   const ck = $("#check"); if (ck) ck.onclick = () => { B.answered = true; if (st.options[B.sel] === st.answer) B.correct++; renderLesson(); };
   const nx = $("#next"); if (nx) nx.onclick = () => { B.i++; B.sel = null; B.answered = false; renderLesson(); };
@@ -743,6 +830,7 @@ function render(){
   const cs = $("#changespec"); if (cs) cs.onclick = () => confirmBox("Change your specialisation? Your progress in the five years is kept.", () => { S.spec = null; save(); render(); });
   const cn = $("#continue"); if (cn) cn.onclick = () => { const nl = nextLesson(); if (nl) startLesson(nl.b.id, nl.i); };
   const sq = $("#sq"); if (sq){ sq.oninput = () => { view.q = sq.value; $("#sres").innerHTML = searchResults(sq.value); bindResults(); }; bindResults(); if (view.q !== undefined) { sq.focus(); sq.setSelectionRange(sq.value.length, sq.value.length); } }
+  const sd = $("#sendall"); if (sd) sd.onclick = async () => { const ok = await sendReports(S.reports.filter(r=>!r.sent)); if (ok) { toast("Thank you, jazak Allahu khayran"); render(); } };
   const sa = $("#simpleall"); if (sa) sa.onchange = () => { S.simpleAll = sa.checked; save(); };
   const npd = $("#npd"); if (npd) npd.onchange = () => { S.newPerDay = +npd.value; save(); };
   const sk = $("#skipday"); if (sk) sk.onclick = () => { S.offset++; save(); render(); };
@@ -764,5 +852,5 @@ function render(){
 })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=d09d3026dd");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=2cd6b7dd70");</script></body>
 </html>
