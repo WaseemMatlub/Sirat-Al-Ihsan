@@ -45,14 +45,15 @@ def write(book, secs, extra=None):
 META_P = re.compile(r"^(المؤلف|الناشر|الطبعة|عدد الأجزاء|المحقق|حققه|راجعه|«المحققون»|\[ترقيم|\[الكتاب مرقم)")
 for b in ["majalla", "kanz", "jalalayn", "qatr", "alfiyya", "mughni", "iqtisad", "hidaya",
           "risala", "kafiya", "maqamat", "manar", "shifa", "tadhkira", "baydawi", "mukhtasar_maani", "milal", "ihya", "tawdih",
-          "muwatta", "abudawud", "tirmidhi", "nasai", "ibnmajah", "sharh_maani"]:
+          "muwatta", "abudawud", "tirmidhi", "nasai", "ibnmajah", "sharh_maani", "tamhid", "ibnhisham", "nuryaqin", "fusul"]:
     raw = open(f"{RAW}/{b}.txt", encoding="utf-8").read()
     raw = re.sub(r"### \| \[حكم الألباني\] :\n# [^\n]*\n(~~[^\n]*\n)*", "", raw)     # modern gradings added by an editor
     secs = parse(raw)
     for x in secs:                                   # edition footnote markers and Shamela catalogue lines
         x["p"] = [re.sub(r"\s*«\d+»", "", q) for q in x["p"] if not META_P.match(q) and "الناشر:" not in q]
         x["h"] = re.sub(r"^CHECK\s*", "", x["h"]); x["h"] = re.sub(r"^\d+\s*-\s*", "", x["h"])
-    secs = [x for x in secs if x["p"]]
+    for x in secs: x["p"] = [q for q in x["p"] if not re.fullmatch(r"&\s*فصل\s*&", q.strip())]
+    secs = [x for x in secs if x["p"] and not x["h"].startswith("مقدمة الطبعة")]      # publishers' prefaces
     merged = []                                      # page-number headings ("[ص: 12]") are not chapters
     for x in secs:
         if merged and re.fullmatch(r"\[?\s*ص\s*:\s*\d+\s*\]?\s*:?", x["h"]): merged[-1]["p"] += x["p"]

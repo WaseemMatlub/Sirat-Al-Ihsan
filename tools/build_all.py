@@ -68,8 +68,11 @@ for ci,ch in enumerate(y1['nur']):
     for c in ch['cards']: nur.append(card('nur'+c['id'][1:],c['q'],c['a'],g=ch['title']))
 bk=J('Hadith__Sahih_Bukhari')
 signs=[{'id':f"sg{r['Hadithnumber']}",'ar':r['Arabic'],'en':fixjoin(r['English']),'note':f"Sahih al-Bukhari {r['Hadithnumber']}"} for r in bk if r['Chapter'].startswith('Afflictions')]
+from authored_tajwid import T as _TJ
+from authored_seerah import S as _SR
+_aw=lambda rows,pre: [dict(card(f'{pre}{i}',q,a),aw=1) for i,(q,a) in enumerate(rows)]
 save(1,{'tahawiyya':y1['tahawiyya'],'umm':y1['umm'],'signs':signs},
-       {'quran':quran,'nur':nur,'ajr':qa('Nahw__Ajrumiyyah_QA','aj'),'bina':qa('Sarf__Bina_al-Afaal','bn'),'izzi':qa('Sarf__Tasreef_Izzi','iz')})
+       {'tajwid':_aw(_TJ,'tj'),'seerah1':_aw(_SR,'sr'),'quran':quran,'nur':nur,'ajr':qa('Nahw__Ajrumiyyah_QA','aj'),'bina':qa('Sarf__Bina_al-Afaal','bn'),'izzi':qa('Sarf__Tasreef_Izzi','iz')})
 # ---------- verbs (merge, dedup, rank by MSA frequency) ----------
 seen={};
 for f in ['Arabic_Verbs__2000_Most_Frequent','Arabic_Verbs__1800_Most_Frequent']:
@@ -103,7 +106,8 @@ for i,r in enumerate(J('Mufradat_al-Raghib__English')):
         if r.get('Original','').strip(): c['tr']={'ar':{'f':r['Root'].strip(),'b':NOTES.sub('',r['Original']).strip()}}
         mufr.append(c)
 burda=fb('Qasida_al-Burdah__','bd')
-save(2,{'jawhara':lines('Aqeedah_Ashari__Jawharat_al-Tawhid','jw'),'signs2':signs2},
+from jazariyya import V as _JZ
+save(2,{'jawhara':lines('Aqeedah_Ashari__Jawharat_al-Tawhid','jw'),'signs2':signs2,'jazariyya':[{'id':f'jz{i}','ar':a,'en':e,'note':'','aw':1} for i,(ch,a,e) in enumerate(_JZ)]},
        {'quduri':qa('Fiqh_Hanafi__Mukthasar_Quduri_QA','qd'),'roots':rc,'verbs1':vc[:700],'ithaf':qa('Fiqh_Hanafi__Ithaf_al-Talib','it',ar=True),
         'qatr':bilingual('Nahw__Sharh_Qatr_al-Nada_QA','qt'),'burda':burda},
        {'mufradat':mufr,'themed':fb('Arabic_Themed_Dictionary','th','Singular','English',s=lambda r:r.get('Category','')),

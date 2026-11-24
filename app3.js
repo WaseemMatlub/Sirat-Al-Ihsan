@@ -10,6 +10,8 @@ const YEARS = [
      ],
    decks:[
      { id:"quran", title:"Qur'an words: top 500", sub:"About 86% of the Qur'an's text", glyph:"ق", color:"#8A4FA3", subject:"Arabic" },
+     { id:"tajwid", simple:true, title:"Tajweed essentials", sub:"Points of articulation, qualities, nun and mim, madd and stopping", glyph:"", color:"#1E4D3B", subject:"Tajweed" },
+     { id:"seerah1", simple:true, title:"Seerah essentials", sub:"The life of the Prophet ﷺ from birth to his passing", glyph:"", color:"#9A6A1F", subject:"Seerah" },
      { id:"nur", simple:true, title:"Nur al-Idah", sub:"Imam al-Shurunbulali رحمه الله: purification, prayer, fasting", glyph:"ن", color:"#2F6E8F", subject:"Fiqh" },
      { id:"ajr", simple:true, title:"al-Ajurrumiyyah", sub:"The first text of nahw, question by question", glyph:"", color:"#B5651D", subject:"Arabic" },
      { id:"bina", simple:true, title:"Bina' al-Af'al", sub:"Sarf: how Arabic verbs are built", glyph:"", color:"#B5651D", subject:"Arabic" },
@@ -17,6 +19,7 @@ const YEARS = [
    coming:[["Is'af al-Muridin li-Iqamat Fara'id al-Din","Fiqh"],["Jamal al-Qur'an","Tajweed"],["Tuhfat al-Atfal","Tajweed"],["Tarjamat al-Qur'an: Juz' 'Amma to al-Kahf","Tafsir"],["Zad al-Talibin","Hadith"],["Sarf: Mizan al-Sarf and Munsha'ib","Arabic"],["Nahw: Nahw Mir","Arabic"],["Ayyuha'l-Walad of Imam al-Ghazali","Tasawwuf"],["'Amal al-Yawm wa'l-Laylah of Imam al-Suyuti: sunnahs and du'as of the day and night","Tasawwuf"],["The Mawlid of Imam al-Suyuti","Seerah"],["The Seerah of Imam al-Nawawi (excerpt)","Seerah"]] },
  { n:2, title:"Building blocks", desc:"Mukhtasar al-Quduri, Maraqi al-Falah, Usul al-Shashi, the Jawharah, Qur'anic roots and the most used Arabic verbs.",
    books:[ { id:"jawhara", type:"lines", per:8, title:"Jawharat al-Tawhid", sub:"The poem on creed by Imam al-Laqqani رحمه الله", glyph:"ج", color:"#0E5A43", subject:"Aqeedah" },
+     { id:"jazariyya", type:"lines", per:6, title:"al-Muqaddimah al-Jazariyyah", sub:"Imam Ibn al-Jazari's رحمه الله poem on tajweed, verse by verse", glyph:"", color:"#1E4D3B", subject:"Tajweed" },
      { id:"signs2", type:"hadith", per:3, title:"Signs of the Hour: Sahih Muslim", sub:"The Book of Tribulations and Portents of the Last Hour", glyph:"", color:"#8C3B3B", subject:"Signs of the Hour" },
      ],
    decks:[
@@ -30,7 +33,7 @@ const YEARS = [
      { id:"themed", opt:true, title:"Arabic vocabulary by theme", sub:"Everyday words, grouped by topic", glyph:"", color:"#B5651D", subject:"Arabic" },
      { id:"sirr", opt:true, simple:true, title:"Sirr al-Asrar", sub:"Shaykh 'Abd al-Qadir al-Jilani رحمه الله on the secret of secrets", glyph:"", color:"#5C6B2E", subject:"Tasawwuf" },
      { id:"naqsh", opt:true, simple:true, title:"Etiquettes of the Naqshbandi Path", sub:"For those on the Naqshbandi tariqa", glyph:"", color:"#5C6B2E", subject:"Tasawwuf" } ],
-   coming:[["al-Rawdah al-Bahiyyah: Ash'aris and Maturidis","Comparative Aqeedah"],["al-Muqaddimah al-Jazariyyah","Tajweed"],["Tarjamat al-Qur'an: al-Kahf to al-Nas","Tafsir"],["Nahw: Hidayat al-Nahw","Arabic"],["Nahw: Sharh Mi'at 'Amil","Arabic"],["Adab: Qasas al-Nabiyyin","Arabic"],["I'rab practice: short sentences","Arabic"],["al-Isha'ah li-Ashrat al-Sa'ah","Signs of the Hour"],["al-Sughra and al-Kubra","Mantiq"],["Isaghuji","Mantiq"]] },
+   coming:[["al-Rawdah al-Bahiyyah: Ash'aris and Maturidis","Comparative Aqeedah"],["Tarjamat al-Qur'an: al-Kahf to al-Nas","Tafsir"],["Nahw: Hidayat al-Nahw","Arabic"],["Nahw: Sharh Mi'at 'Amil","Arabic"],["Adab: Qasas al-Nabiyyin","Arabic"],["I'rab practice: short sentences","Arabic"],["al-Isha'ah li-Ashrat al-Sa'ah","Signs of the Hour"],["al-Sughra and al-Kubra","Mantiq"],["Isaghuji","Mantiq"]] },
  { n:3, title:"Depth", desc:"Sharh al-'Aqa'id al-Nasafiyyah, Kanz al-Daqa'iq, al-Jalalayn, Mishkat al-Masabih, al-Kafiyah and Nur al-Anwar.",
    books:[ { id:"majalla", type:"lines", per:5, title:"The Majallah: 99 legal maxims", sub:"Al-Majallah al-Ahkam al-'Adliyyah, with explanations", glyph:"م", color:"#5C6B2E", subject:"Fiqh" } ],
    decks:[
@@ -88,6 +91,11 @@ const LIBRARY = [
   [4,"t_iqtisad","iqtisad","Aqeedah","al-Iqtisad fi'l-I'tiqad","الاقتصاد في الاعتقاد","Imam Abu Hamid al-Ghazali","الإمام أبو حامد الغزالي","d. 505 AH","Moderation in belief, with its proofs"],
   [5,"t_bukhari","bukhari","Hadith","Sahih al-Bukhari","صحيح البخاري","Imam Muhammad ibn Isma'il al-Bukhari","الإمام محمد بن إسماعيل البخاري","d. 256 AH","The complete collection, in Arabic and English"],
   [5,"t_shamail","shamail","Seerah","al-Shama'il al-Muhammadiyyah","الشمائل المحمدية","Imam Abu 'Isa al-Tirmidhi","الإمام أبو عيسى الترمذي","d. 279 AH","The description and character of the Prophet ﷺ"],
+  [1,"t_fusul","fusul","Seerah","al-Fusul fi Sirat al-Rasul ﷺ","الفصول في سيرة الرسول","Imam Ibn Kathir","الإمام ابن كثير","d. 774 AH","A short seerah, chapter by chapter"],
+  [2,"t_jazariyya","jazariyya","Tajweed","al-Muqaddimah al-Jazariyyah","المقدمة الجزرية","Imam Ibn al-Jazari","الإمام ابن الجزري","d. 833 AH","The classic poem on tajweed, with harakat and English"],
+  [2,"t_nuryaqin","nuryaqin","Seerah","Nur al-Yaqin","نور اليقين في سيرة سيد المرسلين","Shaykh Muhammad al-Khudari","الشيخ محمد الخضري","d. 1345 AH","The seerah taught in madrasas for a century"],
+  [3,"t_tamhid","tamhid","Tajweed","al-Tamhid fi 'Ilm al-Tajwid","التمهيد في علم التجويد","Imam Ibn al-Jazari","الإمام ابن الجزري","d. 833 AH","Ibn al-Jazari's prose work on tajweed"],
+  [4,"t_ibnhisham","ibnhisham","Seerah","al-Sirah al-Nabawiyyah","السيرة النبوية","Imam Ibn Hisham","الإمام ابن هشام","d. 213 AH","The great early seerah, from Ibn Ishaq"],
   [5,"t_alfiyya","alfiyya","Arabic","Alfiyyat Ibn Malik","ألفية ابن مالك","Imam Jamal al-Din Ibn Malik","الإمام جمال الدين ابن مالك","d. 672 AH","The thousand-line poem of grammar"],
   [2,"t_risala","risala","Tasawwuf","al-Risalah al-Qushayriyyah","الرسالة القشيرية","Imam Abu'l-Qasim al-Qushayri","الإمام أبو القاسم القشيري","d. 465 AH","The classic guide to Tasawwuf: its people, stations and states"],
   [3,"t_kafiya","kafiya","Arabic","al-Kafiyah","الكافية في النحو","Imam Ibn al-Hajib","الإمام ابن الحاجب","d. 646 AH","The classic concise text of nahw"],
@@ -175,7 +183,7 @@ const PLAIN = { nur:"Hanafi fiqh: purification, prayer, fasting", ajr:"Arabic gr
   majalla:"99 principles of Islamic law", nasafiyyah:"Islamic theology, explained", kanz:"Hanafi fiqh: the advanced manual", sharhizzi:"Verb patterns, explained",
   jalalayn:"Tafsir of the whole Qur'an", fuqaha:"Dictionary of fiqh terms", ghawth:"On the awliya' and the Qutb", qasaid:"Poems in praise of the Prophet ﷺ",
   mughni:"Advanced Arabic grammar", iqtisad:"Belief, with its rational proofs", qushayri:"Tafsir of the heart", nuqaya:"A Hanafi summary in Arabic",
-  philosophy:"Terms of logic and theology", poetry:"Classical Arabic poetry", hidaya1:"Hanafi fiqh with proofs: part 1", hidaya2:"Hanafi fiqh with proofs: part 2", hidaya3:"Hanafi fiqh with proofs: part 3", hidaya4:"Hanafi fiqh with proofs: part 4", alfiyya:"The thousand-line grammar poem", proofs:"The evidence for Hanafi rulings" };
+  philosophy:"Terms of logic and theology", tajwid:"How to recite the Qur'an correctly", seerah1:"The life of the Prophet ﷺ", jazariyya:"The tajweed poem", poetry:"Classical Arabic poetry", hidaya1:"Hanafi fiqh with proofs: part 1", hidaya2:"Hanafi fiqh with proofs: part 2", hidaya3:"Hanafi fiqh with proofs: part 3", hidaya4:"Hanafi fiqh with proofs: part 4", alfiyya:"The thousand-line grammar poem", proofs:"The evidence for Hanafi rulings" };
 const nameOf = x => PLAIN[x.id] || x.title;
 const classicOf = x => PLAIN[x.id] && PLAIN[x.id] !== x.title ? `<span class="classic">${esc(x.title)}</span>` : "<br>";          // optional decks never gate a year or appear in its test
 /* Optional decks: one file each, fetched the first time a student opens one, then on every start */
@@ -960,7 +968,7 @@ function cardBack(c){
   return `<div class="card answer" style="margin-top:12px">${note}
     ${c.ba ? `<div class="ar" style="font-size:1.3rem;line-height:1.9;text-align:right">${esc(c.b)}</div>`
       : c.b.length < 80 ? `<div style="font-size:1.2rem;font-weight:800">${esc(c.b)}</div>` : points(c.b)}
-    ${c.ai?`<span class="pill gold" style="margin-top:6px">AI · needs review</span>`:""}
+    ${c.aw?`<span class="pill gold" style="margin-top:6px">Written with AI · needs review</span>`:c.ai?`<span class="pill gold" style="margin-top:6px">AI · needs review</span>`:""}
     ${c.ex?`<div class="ayah">${escQ(c.ex)}</div>`:""}${c.exr?`<div class="ref">${esc(c.exr)}</div>`:""}</div>`;
 }
 function renderStudy(){

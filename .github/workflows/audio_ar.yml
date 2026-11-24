@@ -1,0 +1,37 @@
+name: Generate Arabic narration (Piper)
+on:
+  workflow_dispatch:
+    inputs:
+      book:
+        description: "Book file name in data/texts (e.g. arbain). Empty = every book marked narrate_ar"
+        default: "arbain"
+permissions:
+  contents: write
+concurrency: { group: audio, cancel-in-progress: false }
+jobs:
+  narrate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Install Piper and the Arabic voice
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+          pip install --quiet piper-tts
+          base=https://huggingface.co/rhasspy/piper-voices/resolve/main/ar/ar_JO/kareem/medium
+          curl -sSL -o ar_JO-kareem-medium.onnx "$base/ar_JO-kareem-medium.onnx"
+          curl -sSL -o ar_JO-kareem-medium.onnx.json "$base/ar_JO-kareem-medium.onnx.json"
+      - name: Generate audio
+        env: { BOOK: "${{ github.event.inputs.book }}" }
+        run: python tools/gen_audio_ar.py
+      - name: Save audio
+        run: |
+          git config user.name "ihsan-audio-bot"; git config user.email "actions@users.noreply.github.com"
+          rm -f ar_JO-kareem-medium.onnx*
+          git add audio data/texts
+          git diff --cached --quiet && exit 0
+          git commit -m "Add Arabic narration (Piper) [skip ci]"
+          for i in 1 2 3 4 5; do git pull --rebase -X theirs origin main && git push && exit 0; sleep 10; done
+          exit 1
