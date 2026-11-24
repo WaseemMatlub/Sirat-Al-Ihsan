@@ -269,7 +269,7 @@ nav.tabs .in{grid-template-columns:repeat(4,1fr)}
 <script>
 "use strict";
 /* ============================ SYLLABUS ============================ */
-const META = {"1": {"books": {"tahawiyya": 108, "umm": 57, "signs": 83}, "decks": {"quran": 500, "nur": 1083}}, "2": {"books": {"jawhara": 142}, "decks": {"quduri": 2441, "roots": 1000, "verbs1": 700, "ithaf": 311}}, "3": {"books": {"majalla": 99}, "decks": {"nasafiyyah": 1401, "kanz": 1433, "verbs2": 700}}, "texts": {"shamail": 58, "riyad": 373, "fiqh_akbar": 27, "maraqi": 92, "arbain": 45, "ajurrumiyya": 25, "quduri": 119, "nur_idah": 337, "usul_shashi": 103}, "textsAudio": {"shamail": false, "riyad": false, "fiqh_akbar": true, "maraqi": false, "arbain": false, "ajurrumiyya": true, "quduri": false, "nur_idah": false, "usul_shashi": false}, "textsAi": {"shamail": false, "riyad": false, "fiqh_akbar": true, "maraqi": false, "arbain": false, "ajurrumiyya": true, "quduri": false, "nur_idah": false, "usul_shashi": false}};
+const META = {"1": {"books": {"tahawiyya": 108, "umm": 57, "signs": 83}, "decks": {"quran": 500, "nur": 1083, "ajr": 150, "bina": 241, "izzi": 471}, "opt": {}}, "2": {"books": {"jawhara": 142, "signs2": 179}, "decks": {"quduri": 2441, "roots": 1000, "verbs1": 700, "ithaf": 311, "qatr": 1875, "burda": 336}, "opt": {"mufradat": 1630, "themed": 6012, "sirr": 536, "naqsh": 1391}}, "3": {"books": {"majalla": 99}, "decks": {"nasafiyyah": 1401, "kanz": 1433, "verbs2": 700}, "opt": {"sharhizzi": 2488, "jalalayn": 6121, "msa1": 3400, "fuqaha": 3548, "ghawth": 232, "qasaid": 4090}}, "4": {"books": {}, "decks": {"mughni": 751, "iqtisad": 1413}, "opt": {"msa2": 3372, "qushayri": 578, "mercy": 770, "nuqaya": 2519, "philosophy": 3699}}, "5": {"books": {}, "decks": {"alfiyya": 1257, "proofs": 228}, "opt": {}}, "texts": {"shamail": 58, "riyad": 373, "fiqh_akbar": 27, "maraqi": 92, "arbain": 45, "ajurrumiyya": 25, "quduri": 119, "nur_idah": 337, "usul_shashi": 103}, "textsAudio": {"shamail": false, "riyad": false, "fiqh_akbar": true, "maraqi": false, "arbain": false, "ajurrumiyya": true, "quduri": false, "nur_idah": false, "usul_shashi": false}, "textsAi": {"shamail": false, "riyad": false, "fiqh_akbar": true, "maraqi": false, "arbain": false, "ajurrumiyya": true, "quduri": false, "nur_idah": false, "usul_shashi": false}};
 const YEARS = [
  { n:1, title:"Foundations", desc:"The Tahawiyyah, Nur al-Idah and Is'af al-Muridin, tajweed, the first books of sarf and nahw, and the most common words of the Qur'an.",
    books:[
@@ -281,31 +281,56 @@ const YEARS = [
      { id:"t_arbain", type:"text", file:"arbain", per:1, title:"al-Arba'in al-Nawawiyyah", sub:"The forty hadith of Imam al-Nawawi رحمه الله, in Arabic", glyph:"", color:"#7A5230", subject:"Hadith" } ],
    decks:[
      { id:"quran", title:"Qur'an words: top 500", sub:"About 86% of the Qur'an's text", glyph:"ق", color:"#8A4FA3", subject:"Arabic" },
-     { id:"nur", simple:true, title:"Nur al-Idah", sub:"Imam al-Shurunbulali رحمه الله: purification, prayer, fasting", glyph:"ن", color:"#2F6E8F", subject:"Fiqh" } ],
-   coming:[["Is'af al-Muridin li-Iqamat Fara'id al-Din","Fiqh"],["Jamal al-Qur'an","Tajweed"],["Tuhfat al-Atfal","Tajweed"],["Tarjamat al-Qur'an: Juz' 'Amma to al-Kahf","Tafsir"],["Zad al-Talibin","Hadith"],["Sarf: Mizan al-Sarf and Munsha'ib","Arabic"],["Sarf: Tasrif al-'Izzi","Arabic"],["Nahw: Nahw Mir","Arabic"],["Ayyuha'l-Walad of Imam al-Ghazali","Tasawwuf"],["'Amal al-Yawm wa'l-Laylah of Imam al-Suyuti: sunnahs and du'as of the day and night","Tasawwuf"],["The Mawlid of Imam al-Suyuti","Seerah"],["The Seerah of Imam al-Nawawi (excerpt)","Seerah"],["Sahih Muslim: the ten major signs","Signs of the Hour"]] },
+     { id:"nur", simple:true, title:"Nur al-Idah", sub:"Imam al-Shurunbulali رحمه الله: purification, prayer, fasting", glyph:"ن", color:"#2F6E8F", subject:"Fiqh" },
+     { id:"ajr", simple:true, title:"al-Ajurrumiyyah", sub:"The first text of nahw, question by question", glyph:"", color:"#B5651D", subject:"Arabic" },
+     { id:"bina", simple:true, title:"Bina' al-Af'al", sub:"Sarf: how Arabic verbs are built", glyph:"", color:"#B5651D", subject:"Arabic" },
+     { id:"izzi", simple:true, title:"Tasrif al-'Izzi", sub:"Sarf: the patterns of the verb", glyph:"", color:"#B5651D", subject:"Arabic" } ],
+   coming:[["Is'af al-Muridin li-Iqamat Fara'id al-Din","Fiqh"],["Jamal al-Qur'an","Tajweed"],["Tuhfat al-Atfal","Tajweed"],["Tarjamat al-Qur'an: Juz' 'Amma to al-Kahf","Tafsir"],["Zad al-Talibin","Hadith"],["Sarf: Mizan al-Sarf and Munsha'ib","Arabic"],["Nahw: Nahw Mir","Arabic"],["Ayyuha'l-Walad of Imam al-Ghazali","Tasawwuf"],["'Amal al-Yawm wa'l-Laylah of Imam al-Suyuti: sunnahs and du'as of the day and night","Tasawwuf"],["The Mawlid of Imam al-Suyuti","Seerah"],["The Seerah of Imam al-Nawawi (excerpt)","Seerah"]] },
  { n:2, title:"Building blocks", desc:"Mukhtasar al-Quduri, Maraqi al-Falah, Usul al-Shashi, the Jawharah, Qur'anic roots and the most used Arabic verbs.",
    books:[ { id:"jawhara", type:"lines", per:8, title:"Jawharat al-Tawhid", sub:"The poem on creed by Imam al-Laqqani رحمه الله", glyph:"ج", color:"#0E5A43", subject:"Aqeedah" },
      { id:"t_fiqhakbar", type:"text", file:"fiqh_akbar", per:1, title:"al-Fiqh al-Akbar", sub:"Imam Abu Hanifah رحمه الله, with harakat and English", glyph:"", color:"#0E5A43", subject:"Aqeedah" },
      { id:"t_quduri", type:"text", file:"quduri", per:1, title:"Mukhtasar al-Quduri: full text", sub:"The complete Arabic text, kitab by kitab", glyph:"", color:"#2F6E8F", subject:"Fiqh" },
      { id:"t_maraqi", type:"text", file:"maraqi", per:1, title:"Maraqi al-Falah", sub:"Imam al-Shurunbulali's رحمه الله commentary on Nur al-Idah", glyph:"", color:"#2F6E8F", subject:"Fiqh" },
      { id:"t_shashi", type:"text", file:"usul_shashi", per:1, title:"Usul al-Shashi", sub:"The first text of Hanafi usul, in Arabic", glyph:"", color:"#4E6B3A", subject:"Usul al-Fiqh" },
+     { id:"signs2", type:"hadith", per:3, title:"Signs of the Hour: Sahih Muslim", sub:"The Book of Tribulations and Portents of the Last Hour", glyph:"", color:"#8C3B3B", subject:"Signs of the Hour" },
      { id:"t_riyad", type:"text", file:"riyad", per:1, title:"Riyad al-Salihin", sub:"Imam al-Nawawi's رحمه الله collection, bab by bab", glyph:"", color:"#7A5230", subject:"Hadith" } ],
    decks:[
      { id:"quduri", simple:true, title:"Mukhtasar al-Quduri", sub:"Imam al-Quduri's رحمه الله Hanafi primer, question by question", glyph:"ق", color:"#2F6E8F", subject:"Fiqh" },
      { id:"roots", title:"Qur'an roots: top 1,000", sub:"Ranked by how often they occur in the Qur'an", glyph:"ج", color:"#8A4FA3", subject:"Arabic" },
      { id:"verbs1", title:"Arabic verbs: 1–700", sub:"The most used verbs, with past, present and verbal noun", glyph:"ف", color:"#B5651D", subject:"Arabic" },
-     { id:"ithaf", simple:true, title:"Ithaf al-Talib", sub:"Fiqh questions and answers in Arabic, with English", glyph:"إ", color:"#1F6F78", subject:"Fiqh" } ],
-   coming:[["al-Rawdah al-Bahiyyah: Ash'aris and Maturidis","Comparative Aqeedah"],["al-Muqaddimah al-Jazariyyah","Tajweed"],["Tarjamat al-Qur'an: al-Kahf to al-Nas","Tafsir"],["Nahw: Hidayat al-Nahw","Arabic"],["Nahw: Sharh Mi'at 'Amil","Arabic"],["Nahw: Sharh Qatr al-Nada","Arabic"],["Adab: Qasas al-Nabiyyin","Arabic"],["Mufradat al-Qur'an: root meanings","Arabic"],["I'rab practice: short sentences","Arabic"],["al-Risalah al-Qushayriyyah (selections)","Tasawwuf"],["Qasidat al-Burdah","Seerah"],["al-Isha'ah li-Ashrat al-Sa'ah","Signs of the Hour"],["al-Sughra and al-Kubra","Mantiq"],["Isaghuji","Mantiq"]] },
+     { id:"ithaf", simple:true, title:"Ithaf al-Talib", sub:"Fiqh questions and answers in Arabic, with English", glyph:"إ", color:"#1F6F78", subject:"Fiqh" },
+     { id:"qatr", simple:true, title:"Sharh Qatr al-Nada", sub:"Ibn Hisham's رحمه الله nahw, question by question", glyph:"", color:"#B5651D", subject:"Arabic" },
+     { id:"burda", title:"Qasidat al-Burdah", sub:"Imam al-Busiri's رحمه الله poem in praise of the Prophet ﷺ, verse by verse", glyph:"", color:"#9A6A1F", subject:"Seerah" },
+     { id:"mufradat", opt:true, title:"Mufradat al-Qur'an", sub:"Imam al-Raghib's رحمه الله root meanings, in Arabic and English", glyph:"", color:"#B5651D", subject:"Arabic" },
+     { id:"themed", opt:true, title:"Arabic vocabulary by theme", sub:"Everyday words, grouped by topic", glyph:"", color:"#B5651D", subject:"Arabic" },
+     { id:"sirr", opt:true, simple:true, title:"Sirr al-Asrar", sub:"Shaykh 'Abd al-Qadir al-Jilani رحمه الله on the secret of secrets", glyph:"", color:"#5C6B2E", subject:"Tasawwuf" },
+     { id:"naqsh", opt:true, simple:true, title:"Etiquettes of the Naqshbandi Path", sub:"For those on the Naqshbandi tariqa", glyph:"", color:"#5C6B2E", subject:"Tasawwuf" } ],
+   coming:[["al-Rawdah al-Bahiyyah: Ash'aris and Maturidis","Comparative Aqeedah"],["al-Muqaddimah al-Jazariyyah","Tajweed"],["Tarjamat al-Qur'an: al-Kahf to al-Nas","Tafsir"],["Nahw: Hidayat al-Nahw","Arabic"],["Nahw: Sharh Mi'at 'Amil","Arabic"],["Adab: Qasas al-Nabiyyin","Arabic"],["I'rab practice: short sentences","Arabic"],["al-Risalah al-Qushayriyyah (selections)","Tasawwuf"],["al-Isha'ah li-Ashrat al-Sa'ah","Signs of the Hour"],["al-Sughra and al-Kubra","Mantiq"],["Isaghuji","Mantiq"]] },
  { n:3, title:"Depth", desc:"Sharh al-'Aqa'id al-Nasafiyyah, Kanz al-Daqa'iq, al-Jalalayn, Mishkat al-Masabih, al-Kafiyah and Nur al-Anwar.",
    books:[ { id:"majalla", type:"lines", per:5, title:"The Majallah: 99 legal maxims", sub:"Al-Majallah al-Ahkam al-'Adliyyah, with explanations", glyph:"م", color:"#5C6B2E", subject:"Fiqh" } ],
    decks:[
      { id:"nasafiyyah", simple:true, title:"Sharh al-'Aqa'id al-Nasafiyyah", sub:"The commentary of al-Taftazani رحمه الله, question by question", glyph:"ع", color:"#0E5A43", subject:"Aqeedah" },
      { id:"kanz", simple:true, title:"Kanz al-Daqa'iq", sub:"The Hanafi text of Imam al-Nasafi رحمه الله", glyph:"ك", color:"#2F6E8F", subject:"Fiqh" },
-     { id:"verbs2", title:"Arabic verbs: 701–1,400", sub:"The next most used verbs", glyph:"ف", color:"#B5651D", subject:"Arabic" } ],
-   coming:[["al-Farq bayn al-Firaq (selections)","Comparative Aqeedah"],["Fawa'id Makkiyyah","Tajweed"],["Tafsir al-Jalalayn","Tafsir"],["al-Fawz al-Kabir fi Usul al-Tafsir","Tafsir"],["Mishkat al-Masabih, volume 1","Hadith"],["Sharh Nukhbat al-Fikar","Hadith"],["Nahw: al-Kafiyah","Arabic"],["Balaghah: Durus al-Balaghah","Arabic"],["Adab: Maqamat al-Hariri (selections)","Arabic"],["Sarf: Sharh Tasrif al-'Izzi","Arabic"],["MSA vocabulary (corrected, frequency-ordered)","Arabic"],["I'rab of Qur'anic ayat","Arabic"],["Fara'id: al-Sirajiyyah","Fiqh"],["Nur al-Anwar","Usul al-Fiqh"],["al-Hikam of Ibn 'Ata'illah","Tasawwuf"],["al-Shifa of Qadi 'Iyad (selections)","Seerah"],["al-Tadhkirah of al-Qurtubi (selections)","Signs of the Hour"],["Mirqat","Mantiq"],["Sharh al-Tahdhib","Mantiq"]] },
- { n:4, title:"Advanced texts", desc:"The great commentaries: al-Hidayah, al-Baydawi, Mishkat al-Masabih, Mukhtasar al-Ma'ani and the higher texts of usul and mantiq.", books:[], decks:[],
+     { id:"verbs2", title:"Arabic verbs: 701–1,400", sub:"The next most used verbs", glyph:"ف", color:"#B5651D", subject:"Arabic" },
+     { id:"sharhizzi", opt:true, simple:true, title:"Sharh Tasrif al-'Izzi", sub:"The commentary on the patterns of the verb", glyph:"", color:"#B5651D", subject:"Arabic" },
+     { id:"jalalayn", opt:true, title:"Tafsir al-Jalalayn", sub:"Ayah by ayah, from al-Fatihah", glyph:"", color:"#1F6F78", subject:"Tafsir" },
+     { id:"msa1", opt:true, title:"Arabic vocabulary: 1–3,400", sub:"Core vocabulary of written Arabic", glyph:"", color:"#B5651D", subject:"Arabic" },
+     { id:"fuqaha", opt:true, title:"Mu'jam Lughat al-Fuqaha'", sub:"The technical terms of the jurists", glyph:"", color:"#2F6E8F", subject:"Fiqh" },
+     { id:"ghawth", opt:true, simple:true, title:"The Answer Concerning the Ghawth", sub:"Imam Ibn 'Abidin رحمه الله on the Qutb and the awliya'", glyph:"", color:"#5C6B2E", subject:"Tasawwuf" },
+     { id:"qasaid", opt:true, title:"Qasa'id from around the world", sub:"Poems of praise and love of the Prophet ﷺ", glyph:"", color:"#5C6B2E", subject:"Tasawwuf" } ],
+   coming:[["al-Farq bayn al-Firaq (selections)","Comparative Aqeedah"],["Fawa'id Makkiyyah","Tajweed"],["al-Fawz al-Kabir fi Usul al-Tafsir","Tafsir"],["Mishkat al-Masabih, volume 1","Hadith"],["Sharh Nukhbat al-Fikar","Hadith"],["Nahw: al-Kafiyah","Arabic"],["Balaghah: Durus al-Balaghah","Arabic"],["Adab: Maqamat al-Hariri (selections)","Arabic"],["I'rab of Qur'anic ayat","Arabic"],["Fara'id: al-Sirajiyyah","Fiqh"],["Nur al-Anwar","Usul al-Fiqh"],["al-Hikam of Ibn 'Ata'illah","Tasawwuf"],["al-Shifa of Qadi 'Iyad (selections)","Seerah"],["al-Tadhkirah of al-Qurtubi (selections)","Signs of the Hour"],["Mirqat","Mantiq"],["Sharh al-Tahdhib","Mantiq"]] },
+ { n:4, title:"Advanced texts", desc:"The great commentaries: al-Hidayah, al-Baydawi, Mishkat al-Masabih, Mughni al-Labib, al-Iqtisad and the higher texts of usul and mantiq.", books:[],
+   decks:[ { id:"mughni", simple:true, title:"Mukhtasar Mughni al-Labib", sub:"Ibn Hisham's رحمه الله advanced nahw, in Arabic and English", glyph:"", color:"#B5651D", subject:"Arabic" },
+     { id:"iqtisad", simple:true, title:"al-Iqtisad fi'l-I'tiqad", sub:"Imam al-Ghazali's رحمه الله moderation in belief", glyph:"", color:"#0E5A43", subject:"Aqeedah" },
+     { id:"msa2", opt:true, title:"Arabic vocabulary: 3,401–6,772", sub:"The rest of the core vocabulary", glyph:"", color:"#B5651D", subject:"Arabic" },
+     { id:"qushayri", opt:true, title:"Lata'if al-Isharat", sub:"Imam al-Qushayri's رحمه الله subtle indications in the Qur'an", glyph:"", color:"#1F6F78", subject:"Tafsir" },
+     { id:"mercy", opt:true, simple:true, title:"Mercy in the Difference of the Four Schools", sub:"How the four madhabs differ, ruling by ruling", glyph:"", color:"#2F6E8F", subject:"Fiqh" },
+     { id:"nuqaya", opt:true, simple:true, title:"al-Nuqayah", sub:"Sadr al-Shari'ah's رحمه الله Hanafi summary, in Arabic", glyph:"", color:"#2F6E8F", subject:"Fiqh" },
+     { id:"philosophy", opt:true, title:"Dictionary of Arabic philosophy", sub:"The terms of mantiq and kalam", glyph:"", color:"#5A5A78", subject:"Mantiq" } ],
    coming:[["al-Musayarah of Ibn al-Humam","Aqeedah"],["al-Milal wa'l-Nihal of al-Shahrastani (selections)","Comparative Aqeedah"],["Tafsir al-Baydawi (selections)","Tafsir"],["Mishkat al-Masabih, volumes 2 and 3","Hadith"],["Balaghah: Mukhtasar al-Ma'ani","Arabic"],["Adab: al-Mu'allaqat al-Sab'","Arabic"],["Adab: Diwan al-Hamasah and al-Mutanabbi (selections)","Arabic"],["Sharh al-Wiqayah","Fiqh"],["al-Hidayah, volumes 1 and 2","Fiqh"],["al-Husami","Usul al-Fiqh"],["al-Tawdih wa'l-Talwih (selections)","Usul al-Fiqh"],["Ihya' 'Ulum al-Din (selected books)","Tasawwuf"],["al-Mawahib al-Ladunniyyah (selections)","Seerah"],["al-Qutbi","Mantiq"],["Sullam al-'Ulum","Mantiq"]] },
- { n:5, title:"Dawrat al-Hadith", desc:"The six books of hadith, both Muwatta's, al-Tahawi's Sharh Ma'ani al-Athar and the Shama'il, with the rest of al-Hidayah.", decks:[],
+ { n:5, title:"Dawrat al-Hadith", desc:"The six books of hadith, both Muwatta's, al-Tahawi's Sharh Ma'ani al-Athar and the Shama'il, with the Alfiyyah and the rest of al-Hidayah.",
+   decks:[ { id:"alfiyya", simple:true, title:"Alfiyyat Ibn Malik", sub:"The thousand-line poem of nahw, in Arabic and English", glyph:"", color:"#B5651D", subject:"Arabic" },
+     { id:"proofs", simple:true, title:"The Imam's key proofs", sub:"The evidences of Imam Abu Hanifah's رحمه الله fiqh", glyph:"", color:"#2F6E8F", subject:"Fiqh" } ],
    books:[ { id:"t_shamail", type:"text", file:"shamail", per:1, title:"al-Shama'il al-Muhammadiyyah", sub:"Imam al-Tirmidhi's رحمه الله description of the Prophet ﷺ", glyph:"", color:"#9A6A1F", subject:"Seerah" } ],
    coming:[["Sahih al-Bukhari","Hadith"],["Sahih Muslim","Hadith"],["Sunan Abi Dawud","Hadith"],["Jami' al-Tirmidhi","Hadith"],["Sunan al-Nasa'i","Hadith"],["Sunan Ibn Majah","Hadith"],["al-Muwatta' of Imam Malik","Hadith"],["al-Muwatta' of Imam Muhammad","Hadith"],["Sharh Ma'ani al-Athar of Imam al-Tahawi","Hadith"],["al-Hidayah, volumes 3 and 4","Fiqh"],["Musallam al-Thubut (selections)","Usul al-Fiqh"]] },
 ];
@@ -341,7 +366,8 @@ async function loadYear(n){ INDEX = null;
   const r = await fetch(`data/year${n}.json`);
   if (!r.ok) throw new Error("Could not load Year " + n);
   const d = await r.json();
-  for (const y of YEARS) if (y.n === n) for (const dk of y.decks) dk.cards = d.decks[dk.id].map(c => ({ ...c, deck:dk.id }));
+  for (const y of YEARS) if (y.n === n) for (const dk of y.decks) if (!dk.opt) dk.cards = d.decks[dk.id].map(c => ({ ...c, deck:dk.id }));
+  await Promise.all(yearOf(n).decks.filter(dk => dk.opt && (S.optOn||{})[dk.id]).map(dk => loadDeck(dk).catch(() => {})));
   for (const y of YEARS) if (y.n === n) for (const b of y.books) b.lines = d.books[b.id];
   return (DATA[n] = d);
 }
@@ -353,7 +379,11 @@ const TEXTS = {};
 async function loadText(file){ if (TEXTS[file]) return TEXTS[file]; const r = await fetch(`data/texts/${file}.json`); if (!r.ok) throw new Error("Could not load text"); return (TEXTS[file] = await r.json()); }
 const bookById = id => YEARS.flatMap(y=>y.books).find(x=>x.id===id);
 YEARS.forEach(y => { y.prepared = y.books.filter(b => b.type !== "text").length + y.decks.length > 0; y.books.forEach(b => b.year = y.n); y.decks.forEach(d => d.year = y.n); });
-const deckSize = d => d.cards ? d.cards.length : META[d.year].decks[d.id];
+const deckSize = d => d.cards ? d.cards.length : (d.opt ? (META[d.year].opt||{})[d.id] : META[d.year].decks[d.id]) || 0;
+const core = decks => decks.filter(d => !d.opt);          // optional decks never gate a year or appear in its test
+/* Optional decks: one file each, fetched the first time a student opens one, then on every start */
+async function loadDeck(d){ if (d.cards) return d; const r = await fetch(`data/decks/${d.id}.json`); if (!r.ok) throw new Error("Could not load " + d.title);
+  d.cards = (await r.json()).map(c => ({ ...c, deck:d.id })); INDEX = null; return d; }
 
 /* ============================ STATE ============================ */
 const KEY = "ihsan.v3";
@@ -379,7 +409,7 @@ function schedule(st, g){
 }
 const ivlLabel = (st, g) => { const n = schedule(st, g).s.ivl; return n === 0 ? "again" : n < 30 ? n + "d" : Math.round(n/30) + "mo"; };
 function deckStats(deck){
-  if (!deck.cards) return { total:deckSize(deck), nw:deckSize(deck), learning:0, due:0, mastered:0 };
+  if (!deck.cards) return { total:deckSize(deck), nw:deck.opt ? 0 : deckSize(deck), learning:0, due:0, mastered:0 };
   let nw=0, learning=0, due=0, mastered=0; const t = today();
   for (const c of deck.cards){ const st = S.cards[c.id];
     if (!st) nw++; else { if (st.ivl >= MASTER_IVL) mastered++; else learning++; if (st.due <= t) due++; } }
@@ -393,7 +423,7 @@ const activeYears = () => YEARS.filter(y => S.unlocked.includes(y.n) && loaded(y
 const bookDone = b => Math.min((S.books[b.id]||[]).length, lessonsOf(b));
 function yearStatus(y){
   const gb = y.books.filter(b => b.type !== "text"), lt = gb.reduce((a,b)=>a+lessonsOf(b),0), ld = gb.reduce((a,b)=>a+bookDone(b),0);
-  const ct = y.decks.reduce((a,d)=>a+deckSize(d),0), cm = y.decks.reduce((a,d)=>a+deckStats(d).mastered,0);
+  const ct = core(y.decks).reduce((a,d)=>a+deckSize(d),0), cm = core(y.decks).reduce((a,d)=>a+deckStats(d).mastered,0);
   const ret = retention(), booksOk = ld >= lt, cardsOk = ct === 0 || (cm >= ct && ret !== null && ret >= RETAIN);
   const t = S.tests[y.n];
   return { books:lt?ld/lt:0, booksOk, ld, lt, flash:ct?cm/ct:0, cardsOk, cm, ct, ret, ready:y.prepared && booksOk && cardsOk, passed:!!(t && t.passed), best:t ? t.best : null };
@@ -521,7 +551,7 @@ function homeView(){
       <div class="pic" style="background:color-mix(in srgb,${b.color} 10%,var(--surface))">${artFor(b, 118)}</div>
       <div class="lbody"><div class="kicker" style="margin:0">${esc(b.subject)}</div><h3>${esc(b.title)}</h3><p class="small muted">Lesson ${i+1} of ${L} · about 3 minutes</p></div>
       ${locked ? `<div class="lbtn off">${ICON.lock} Lesson locked</div>` : `<button class="lbtn" data-startlesson="${b.id}|${i}">Start lesson</button>`}</div>`).join("");
-  let due = 0, nw = 0; activeYears().forEach(yy => yy.decks.forEach(d => { const s = deckStats(d); due += s.due; nw += Math.min(newLeft(d), s.nw); }));
+  let due = 0, nw = 0; activeYears().forEach(yy => yy.decks.filter(d => d.cards).forEach(d => { const s = deckStats(d); due += s.due; nw += Math.min(newLeft(d), s.nw); }));
   const last = S.lastRead && bookById(S.lastRead.id);
   return shell(`
     <h1 style="margin:2px 0 2px">${greet}</h1>
@@ -577,18 +607,21 @@ function itemBook(b, open){
 }
 function itemDeck(d, open){
   const s = deckStats(d), avail = s.due + Math.min(newLeft(d), s.nw);
+  if (d.opt && !d.cards) return `<button class="item" ${open?`data-deck="${d.id}"`:"disabled"}><span class="ico art-ico">${artFor(d,40)}</span>
+    <span><span class="t">${esc(d.title)}</span><br><span class="s">${esc(d.sub)} · ${s.total.toLocaleString()} cards</span></span>
+    ${open?`<span class="pill">Optional</span>`:ICON.lock}</button>`;
   return `<button class="item" ${open?`data-deck="${d.id}"`:"disabled"}><span class="ico art-ico">${artFor(d,40)}</span>
     <span><span class="t">${esc(d.title)}</span><br><span class="s">${esc(d.sub)} · ${s.total.toLocaleString()} cards${open?` · ${s.mastered} mastered`:""}</span>
     ${open?`<span class="bar" style="display:block;margin-top:6px"><i style="width:${s.mastered/s.total*100}%;background:${d.color}"></i></span>`:""}</span>
-    ${!open?ICON.lock:avail?`<span class="pill brand">${avail} to study</span>`:`<span class="pill ok">Done today</span>`}</button>`;
+    ${!open?ICON.lock:avail?`<span class="pill brand">${avail} to study</span>`:`<span class="pill ok">Done today</span>`}${d.opt?`<span class="pill" style="margin-left:4px">Optional</span>`:""}</button>`;
 }
 function yearView(n){
   const y = yearOf(n), open = S.unlocked.includes(n) && loaded(y), st = yearStatus(y);
-  const items = [...y.books.filter(b=>b.type!=="text").map(b=>({x:b, h:itemBook(b,open), f:bookDone(b)/lessonsOf(b)})), ...y.decks.map(d=>({x:d, h:itemDeck(d,open), f:d.cards?deckStats(d).mastered/deckStats(d).total:0}))];
+  const items = [...y.books.filter(b=>b.type!=="text").map(b=>({x:b, h:itemBook(b,open), f:bookDone(b)/lessonsOf(b)})), ...y.decks.map(d=>({x:d, h:itemDeck(d,open), f:d.cards?deckStats(d).mastered/deckStats(d).total:0, opt:!!d.opt}))];
   const mods = MODULES.map(m => {
     const its = items.filter(i => i.x.subject === m.name), soon = y.coming.filter(c => c[1] === m.name), lib = y.books.filter(b => b.type === "text" && b.subject === m.name);
     if (!its.length && !soon.length && !lib.length) return "";
-    const frac = its.length ? its.reduce((s,i)=>s+i.f,0)/its.length : 0, doneAll = its.length && frac >= 1;
+    const req = its.filter(i => !i.opt), frac = req.length ? req.reduce((s,i)=>s+i.f,0)/req.length : 0, doneAll = req.length && frac >= 1;
     const status = !its.length ? (lib.length ? `<span class="pill gold">${lib.length} in Library</span>` : `<span class="pill">${soon.length} coming</span>`) : doneAll ? `<span class="pill ok">Complete</span>` : `<span class="pill">${its.length} ${its.length>1?"texts":"text"}</span>`;
     return `<details class="module" ${its.length||lib.length?"open":""}><summary>
         <span class="m-art">${art(m.art, m.color, 46)}</span>
@@ -922,14 +955,14 @@ function startStudy(decks){
 }
 /* ---- Bilingual Q&A: one switch shows question AND answer in Arabic or English (more languages later) ---- */
 const LANGS = { ar:"العربية", en:"English" };
-const isQA = c => !!c.fa === !!c.ba;                    // both sides in one language (not vocab)
-const origLang = c => c.fa ? "ar" : "en";
+const isQA = c => !!c.tr || !!c.fa === !!c.ba;           // switchable: same-language Q&A, or any card carrying a translation
+const origLang = c => c.lang || (c.fa && c.ba ? "ar" : c.fa && !c.ba ? "en" : c.fa ? "ar" : "en");
 function viewCard(c){
   if (!isQA(c)) return c;
   const want = S.cardLang || origLang(c); if (want === origLang(c)) return c;
   const t = c.tr && c.tr[want];
   if (!t) return { ...c, missing:want };
-  return { ...c, f:t.f, b:t.b, fa: want === "ar" ? 1 : 0, ba: want === "ar" ? 1 : 0, translated:want };
+  return { ...c, f:t.f, b:t.b, fa: want === "ar" || /^[\u0600-\u06FF\s]+$/.test(t.f) ? 1 : 0, ba: want === "ar" ? 1 : 0, translated:want, ai:!!t.ai };
 }
 const shownLang = c => { const v = viewCard(c); return v.translated || origLang(c); };
 function cardFront(c, d){
@@ -943,7 +976,7 @@ function cardFront(c, d){
 }
 function cardBack(c){
   c = viewCard(c);
-  const note = c.missing ? `<p class="small muted" style="margin:0 0 8px">Not available in ${LANGS[c.missing]} yet, so you're seeing the original.</p>` : c.translated ? `<span class="pill gold" style="margin-bottom:8px;display:inline-block">AI translation · needs review</span>` : "";
+  const note = c.missing ? `<p class="small muted" style="margin:0 0 8px">Not available in ${LANGS[c.missing]} yet, so you're seeing the original.</p>` : c.ai ? `<span class="pill gold" style="margin-bottom:8px;display:inline-block">AI translation · needs review</span>` : "";
   const esc = c.deck === "quran" ? escQ : window.escH;
   return `<div class="card answer" style="margin-top:12px">${note}
     ${c.ba ? `<div class="ar" style="font-size:1.3rem;line-height:1.9;text-align:right">${esc(c.b)}</div>`
@@ -1041,14 +1074,20 @@ function finishLesson(){
 /* ======================= FINAL TEST ======================= */
 let T = null;
 function makeTest(y){
-  const qs = [], decks = y.decks.filter(d=>d.cards), perDeck = Math.floor(30 / decks.length);
+  const lines = y.books.filter(b => b.lines).flatMap(b => b.lines.map(l => ({...l, b})));
+  const qs = [], decks = core(y.decks).filter(d=>d.cards), fromCards = lines.length ? 30 : TEST_LEN, perDeck = Math.floor(fromCards / decks.length);   // no book in the year: all questions from its decks
   decks.forEach((d, di) => {
-    const pool = d.cards.filter(c => c.b.length <= 170), n = di === decks.length-1 ? 30 - perDeck*(decks.length-1) : perDeck;
+    const pool = d.cards.filter(c => c.b.length <= 170), n = di === decks.length-1 ? fromCards - perDeck*(decks.length-1) : perDeck;
     for (const c of shuffle(pool).slice(0, n)){
       let same = pool.filter(x => x.g && x.g === c.g).map(x=>x.b), ds = distinct(same, c.b, 3); if (ds.length < 3) ds = distinct(pool.map(x=>x.b), c.b, 3);
       qs.push({ src:d.title, promptAr:c.fa && c.f.length < 60 ? c.f : null, q:c.fa && c.f.length < 60 ? "What does this mean?" : c.f, qAr:c.fa && c.f.length >= 60, answer:c.b, ansAr:!!c.ba, options:shuffle([c.b, ...ds]) });
     } });
-  const lines = y.books.filter(b => b.lines).flatMap(b => b.lines.map(l => ({...l, b})));
+  if (qs.length < fromCards && decks.length > 1) {        // a deck with few short answers: top up from the others
+    const have = new Set(qs.map(q => q.answer)), big = decks.filter(d => d.cards.filter(c => c.b.length <= 170).length > 40);
+    for (const d of big) { const pool = d.cards.filter(c => c.b.length <= 170);
+      for (const c of shuffle(pool)) { if (qs.length >= fromCards) break; if (have.has(c.b)) continue; have.add(c.b);
+        qs.push({ src:d.title, promptAr:c.fa && c.f.length < 60 ? c.f : null, q:c.fa && c.f.length < 60 ? "What does this mean?" : c.f, qAr:c.fa && c.f.length >= 60, answer:c.b, ansAr:!!c.ba, options:shuffle([c.b, ...distinct(pool.map(x=>x.b), c.b, 3)]) }); } }
+  }
   for (const l of shuffle(lines).slice(0, TEST_LEN - qs.length)){ const q = bookQuiz(l.b, l); qs.push({ src:l.b.title, promptAr:q.prompt, q:q.q, answer:q.answer, options:q.options }); }
   return shuffle(qs);
 }
@@ -1099,8 +1138,11 @@ function render(){
   app.querySelectorAll("[data-year]").forEach(b => b.onclick = () => go({ name:"year", n:+b.dataset.year }));
   app.querySelectorAll("[data-book]").forEach(b => b.onclick = () => go({ name:"book", id:b.dataset.book }));
   app.querySelectorAll("[data-lesson]").forEach(b => b.onclick = () => { if (!b.disabled) startLesson(view.id, +b.dataset.lesson); });
-  app.querySelectorAll("[data-deck]").forEach(b => b.onclick = () => startStudy([YEARS.flatMap(y=>y.decks).find(d=>d.id===b.dataset.deck)]));
-  app.querySelectorAll("[data-study]").forEach(b => b.onclick = () => startStudy(activeYears().flatMap(y=>y.decks)));
+  app.querySelectorAll("[data-deck]").forEach(b => b.onclick = async () => { const d = YEARS.flatMap(y=>y.decks).find(d=>d.id===b.dataset.deck);
+    if (d.opt && !d.cards) { b.disabled = true; b.querySelector(".s").textContent = "Loading…"; try { await loadDeck(d); } catch(e){ toast("Could not load this deck. Check your connection."); b.disabled = false; return; } }
+    if (d.opt) { S.optOn = S.optOn||{}; S.optOn[d.id] = true; save(); }
+    startStudy([d]); });
+  app.querySelectorAll("[data-study]").forEach(b => b.onclick = () => startStudy(activeYears().flatMap(y=>y.decks).filter(d => d.cards)));
   app.querySelectorAll("[data-test]").forEach(b => b.onclick = () => { if (!b.disabled) startTest(+b.dataset.test); });
   app.querySelectorAll("[data-startlesson]").forEach(b => b.onclick = () => { const [id, i] = b.dataset.startlesson.split("|"); startLesson(id, +i); });
   app.querySelectorAll("[data-read]").forEach(b => b.onclick = () => { const [id, i] = b.dataset.read.split("|"); openRead(id, +i); });
@@ -1129,7 +1171,7 @@ function render(){
       save(); loadYear(Math.min(y.n+1, YEARS.length)).then(() => go({ name:"home" })); });
     confirmBox(`Mark every Year ${y.n} lesson done and every flashcard mastered, so you can try the final test? (Testing only)`, () => {
       y.books.forEach(b => S.books[b.id] = [...Array(lessonsOf(b)).keys()]);
-      y.decks.forEach(d => d.cards.forEach(c => S.cards[c.id] = { ivl:MASTER_IVL+3, ease:2.5, reps:4, lapses:0, due:today()+10 }));
+      core(y.decks).forEach(d => d.cards.forEach(c => S.cards[c.id] = { ivl:MASTER_IVL+3, ease:2.5, reps:4, lapses:0, due:today()+10 }));
       S.log = S.log.concat(Array(60).fill(1)); save(); go({ name:"year", n:y.n }); }); };
   const rs = $("#reset"); if (rs) rs.onclick = () => confirmBox("Reset all progress, XP, flashcards and test results?", () => { S = fresh(); save(); go({ name:"home" }); });
 }
@@ -1142,5 +1184,5 @@ applyTheme(); try { matchMedia("(prefers-color-scheme: dark)").addEventListener(
 })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=539aea514f");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=e4944b7582");</script></body>
 </html>

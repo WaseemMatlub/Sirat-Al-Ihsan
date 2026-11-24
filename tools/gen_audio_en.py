@@ -31,6 +31,7 @@ def synth(text, mp3):
 made = 0
 for path in sorted(glob.glob("data/texts/*.json")):
     d = json.load(open(path, encoding="utf-8")); book = os.path.basename(path)[:-5]; changed = False
+    if not d.get("narrate"): continue          # only books marked for narration (keeps huge collections out)
     for i, s in enumerate(d["sections"]):
         if not s.get("en"): continue
         aud = s.get("aud_en") or [None] * len(s["en"])
