@@ -434,6 +434,9 @@ async function fillHome(){
   if (box && h) box.innerHTML = `<p class="label" style="margin-top:0">Hadith of the day</p><p class="hotd-en">${esc(h.e)}</p>
     <div class="spread small muted"><span>${esc(h.r)} · ${esc(h.c)}</span><button class="linkbtn" data-read="t_bukhari|${h.i}">Read in context</button></div>`, box.hidden = false, bindReadLinks(box);
 }
+function leftToday(){ const d = new Date(), m = (24*60) - (d.getHours()*60 + d.getMinutes()); return m >= 60 ? `${Math.floor(m/60)}h ${m%60}m` : `${m} min`; }
+setInterval(() => { const el = document.getElementById("sk-left"); if (el) el.textContent = leftToday(); }, 30000);
+function appBadge(){ try { if (!navigator.setAppBadge) return; const due = S.welcomed && S.lastDay !== today(); due ? navigator.setAppBadge(1) : navigator.clearAppBadge(); } catch(e){} }   // installed app icon shows a dot until today's study is done
 function bindReadLinks(root){ root.querySelectorAll("[data-read]").forEach(b => b.onclick = () => { const [id, i] = b.dataset.read.split("|"); openRead(id, +i); }); }
 function homeView(){
   const y = yearOf(Math.max(...S.unlocked.filter(n => loaded(yearOf(n))))), st = yearStatus(y);
@@ -450,9 +453,12 @@ function homeView(){
   const last = S.lastRead && bookById(S.lastRead.id);
   const readRow = last ? `<button class="card simple-row" data-read="${last.id}|${S.lastRead.i}"><span class="libthumb">${cover(last, 30)}</span>
       <span style="flex:1;min-width:0"><b>Keep reading</b><span class="small muted" style="display:block">${esc(last.title)}</span></span><span class="pill">Read</span></button>` : "";
+  const atRisk = S.streak > 0 && S.lastDay === today() - 1;            // studied yesterday, not yet today
+  const streakCard = atRisk ? `<section class="streak-card" role="status"><span class="sk-ico">${ICON.flame.replace("<svg",'<svg width="26" height="26"')}</span>
+      <span style="flex:1"><b id="sk-left">${leftToday()}</b><span class="small" style="display:block;opacity:.85">left today to keep your ${S.streak}-day streak</span></span></section>` : "";
   return shell(`
     <section class="illum"><p class="ar illum-ar">السَّلَامُ عَلَيْكُمْ</p><p class="illum-en">Assalamu 'alaykum${S.name?`, ${esc(S.name)}`:""}</p></section>
-    ${main}${cardsRow}${readRow}
+    ${streakCard}${main}${cardsRow}${readRow}
     <section class="card hotd" id="hotd" hidden></section>
     ${installCard()}`);
 }
@@ -1164,15 +1170,17 @@ async function finishTest(){
 /* ======================= RENDER ======================= */
 if (/[?&]dev=1/.test(location.search)) { S.dev = true; save(); } else if (/[?&]dev=0/.test(location.search)) { delete S.dev; save(); }
 /* ﷺ and similar marks: always draw them with an Arabic font, at a readable size */
-(function(){ const RX = /[\uFDFA\uFDFB\uFDFD]/;
-  const wrap = root => { const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, { acceptNode: n => RX.test(n.nodeValue) && !(n.parentNode && n.parentNode.closest && n.parentNode.closest(".saw,svg,textarea,input,.ar")) ? 1 : 2 });
+(function(){ const RX = /[ﷺﷻ﷽]/, AR = /[؀-ۿﷰ-﷿]/, LAT = /[A-Za-z]/, RUN = /([؀-ۿﷰ-﷿]+(?:[  ]+[؀-ۿﷰ-﷿]+)*)/;
+  // In English text, Arabic phrases (رضي الله عنه, ﷺ) are isolated so they keep their order and use an Arabic font
+  const skip = n => n.parentNode && n.parentNode.closest && n.parentNode.closest(".saw,svg,textarea,input,.ar,.ar-read,.line-ar,.word-ar,[dir=rtl]");
+  const wrap = root => { const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, { acceptNode: n => AR.test(n.nodeValue) && (RX.test(n.nodeValue) || LAT.test(n.nodeValue)) && !skip(n) ? 1 : 2 });
     const list = []; while (w.nextNode()) list.push(w.currentNode);
-    for (const n of list){ const parts = n.nodeValue.split(/([\uFDFA\uFDFB\uFDFD])/), f = document.createDocumentFragment();
-      for (const p of parts){ if (!p) continue; if (RX.test(p)) { const s = document.createElement("span"); s.className = "saw"; s.textContent = p; f.appendChild(s); } else f.appendChild(document.createTextNode(p)); }
+    for (const n of list){ const mixed = LAT.test(n.nodeValue), parts = n.nodeValue.split(mixed ? RUN : /([ﷺﷻ﷽])/), f = document.createDocumentFragment();
+      for (const p of parts){ if (!p) continue; if (mixed ? AR.test(p) : RX.test(p)) { const s = document.createElement("bdi"); s.className = "saw"; s.dir = "rtl"; s.textContent = p; f.appendChild(s); } else f.appendChild(document.createTextNode(p)); }
       n.parentNode.replaceChild(f, n); } };
   new MutationObserver(ms => ms.forEach(m => m.addedNodes.forEach(n => n.nodeType === 1 ? wrap(n) : n.nodeType === 3 && n.parentNode && wrap(n.parentNode)))).observe(document.getElementById("app"), { childList:true, subtree:true });
 })();
-function render(){
+function render(){ appBadge();
   const app = $("#app");
   if (!S.welcomed){ app.innerHTML = welcomeView(); bindWelcome(); return; }
   if (view.name === "home") app.innerHTML = homeView();

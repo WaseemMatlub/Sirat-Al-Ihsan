@@ -263,6 +263,21 @@ details.kitab>.stack{padding:0 8px 8px}
 .stephead .s3n{width:28px;height:28px;font-size:.9rem;margin-top:2px}
 details.more{margin-top:10px}
 details.more summary{cursor:pointer;color:var(--brand);font-weight:600;font-size:.92rem;padding:6px 2px}
+
+bdi.saw{font-size:1.08em}
+.streak-card{display:flex;align-items:center;gap:12px;margin:12px 0 0;padding:14px 16px;border-radius:18px;background:#0E5A43;color:#fff}
+.streak-card b{font-size:1.25rem;font-variant-numeric:tabular-nums}
+.sk-ico{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.12);color:#E2C27A;flex:none}
+
+/* contrast (WCAG AA) */
+.pill:not(.ok):not(.gold):not(.brand), button[data-theme]:not([aria-pressed=true]):not(.on){color:color-mix(in srgb,var(--muted) 62%,var(--ink))!important}
+.year.locked{opacity:1}.year.locked .yr-badge,.year.locked .lockic{opacity:.6}
+.tool.on,.tool.on *{color:color-mix(in srgb,var(--gold) 62%,var(--ink))!important}
+.pill.gold{color:color-mix(in srgb,var(--gold) 55%,var(--ink))!important}
+html[data-theme=light] .g2{background:#18763F}
+@media (prefers-color-scheme:light){html:not([data-theme=dark]) .g2{background:#18763F}}
+html[data-theme=dark] .g2{color:#06210F}
+@media (prefers-color-scheme:dark){html:not([data-theme=light]) .g2{color:#06210F}}
 </style>
 </head>
 <body>
