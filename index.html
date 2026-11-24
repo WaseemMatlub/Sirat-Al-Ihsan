@@ -505,7 +505,7 @@ async function loadYear(n){ INDEX = null;
   const r = await fetch(`data/year${n}.json`);
   if (!r.ok) throw new Error("Could not load Year " + n);
   const d = await r.json();
-  for (const y of YEARS) if (y.n === n) for (const dk of y.decks) if (!dk.opt) dk.cards = d.decks[dk.id].map(c => ({ ...c, deck:dk.id }));
+  for (const y of YEARS) if (y.n === n) for (const dk of y.decks) if (!dk.opt) dk.cards = d.decks[dk.id].map((c,k) => ({ ...c, deck:dk.id, _i:k }));
   await Promise.all([...yearOf(n).decks, ...(n === 1 ? FARD_DECKS : [])].filter(dk => dk.opt && (S.optOn||{})[dk.id]).map(dk => loadDeck(dk).catch(() => {})));
   for (const y of YEARS) if (y.n === n) for (const b of y.books) b.lines = d.books[b.id];
   return (DATA[n] = d);
@@ -539,7 +539,7 @@ const nameOf = x => PLAIN[x.id] || x.title;
 const classicOf = x => PLAIN[x.id] && PLAIN[x.id] !== x.title ? `<span class="classic">${esc(x.title)}</span>` : "<br>";          // optional decks never gate a year or appear in its test
 /* Optional decks: one file each, fetched the first time a student opens one, then on every start */
 async function loadDeck(d){ if (d.cards) return d; const r = await fetch(`data/decks/${d.id}.json`); if (!r.ok) throw new Error("Could not load " + d.title);
-  d.cards = (await r.json()).map(c => ({ ...c, deck:d.id })); INDEX = null; return d; }
+  d.cards = (await r.json()).map((c,k) => ({ ...c, deck:d.id, _i:k })); INDEX = null; return d; }
 
 /* ============================ STATE ============================ */
 const KEY = "ihsan.v3";
@@ -600,6 +600,41 @@ const shuffle = a => { a = a.slice(); for (let i=a.length-1;i>0;i--){ const j=Ma
 const pct = x => Math.round(x*100) + "%";
 const isAr = s => /[؀-ۿ]/.test(String(s).slice(0,40));
 const snip = (s, n=170) => { s = String(s).replace(/^Narrated [^:]{1,80}:\s*/,""); return s.length > n ? s.slice(0, n).replace(/\s+\S*$/,"") + "…" : s; };
+/* ---- Multiple choice that makes sense ----
+   Only standalone questions; wrong options come from the same part of the same book, in the same language and of a similar length */
+const STOP = new Set("what which when where does with that this from have there their they them into about would could should what's whose these those than then also only such upon been being because according".split(" "));
+const kw = s => new Set((s.toLowerCase().match(/[a-zʿʾāīūḥṣḍṭẓ\u0621-\u064A'’]{4,}/g)||[]).filter(w => !STOP.has(w)));
+const arRatio = s => ((s.match(/[\u0621-\u064A]/g)||[]).length) / Math.max(1, s.replace(/[\s\p{P}\d]/gu,"").length);
+const yesNo = s => /^(yes|no|neither|both)\b/i.test(s.trim());
+const CONTEXTUAL = /\[i\.e\.|^(how does (he|she|one) do (that|this)|is there anything|and if\b|what if (he|she|it)\b|does the ruling change|why\?|explain\.?$)|\b(the above|mentioned above|in this case|in that case|the previous)\b|^(he|she|they|it)\b/i;
+function mcqOK(c){
+  const q = c.f || "", a = c.b || "";
+  if (a.length < 2 || a.length > 170 || q.length < 2) return false;
+  if (!c.fa && yesNo(a)) return false;                                   // a bare yes/no can be guessed from the other options
+  if (CONTEXTUAL.test(q)) return false;                                  // needs the previous card to make sense
+  if (!c.fa && /\b(additional|anything else|what else|another|the same|the rest|these|those|its ruling|the ruling)\b/i.test(q) && kw(q).size < 3) return false;
+  if (!c.fa && arRatio(q) < .5 && kw(q).size < 2) return false;          // too vague to stand alone
+  if (/\n/.test(a) || /^\(?\d\.\s/.test(a)) return false;                // numbered lists don't fit an option button
+  if (/\b(AH|CE)\b/.test(a) && /\b1[34]\d\d\b/.test(a)) return false;      // editors' notes about the printed edition
+  return true;
+}
+function pickDistractors(c, pool, n=3){
+  const qk = kw(c.f), al = Math.max(4, c.b.length), aAr = arRatio(c.b) > .5, i0 = c._i ?? 0, out = [];
+  for (const x of pool){
+    if (x === c || !x.b || x.b === c.b || x.b.length > 200) continue;
+    if ((arRatio(x.b) > .5) !== aAr || yesNo(x.b) !== yesNo(c.b)) continue;
+    const lr = x.b.length / al; if (lr < .35 || lr > 2.8) continue;
+    let ov = 0; for (const w of kw(x.f)) if (qk.has(w)) ov++;
+    const near = Math.max(0, 1 - Math.abs((x._i ?? 0) - i0) / 80);
+    out.push([ov*2 + near*2.5 + (x.g && x.g === c.g ? 3 : 0) - Math.abs(Math.log(lr)) + Math.random()*.8, x.b]);
+  }
+  out.sort((p,q) => q[0]-p[0]);
+  return distinct(out.slice(0, 10).map(s => s[1]), c.b, n);
+}
+function narrator(en){
+  const m = (en||"").match(/^(?:Narrated\s+|It (?:is|was) narrated (?:on the authority of|from|that)\s+|This hadith has been (?:narrated|reported) (?:on the authority of|by)\s+)?([A-Z][A-Za-z'`’ .-]{2,50}?)(?:\s*رضي الله عن\S*)?\s*(?::|,|\breported\b|\bnarrated\b|\bsaid\b|\bthat\b)/);
+  return m && !/^(The|Allah|He|She|They|This|It)\b/.test(m[1]) ? m[1].replace(/\s+(b\.|bin|ibn)$/,"").trim() : null;
+}
 function distinct(pool, answer, n){ const seen = new Set([answer]), out = []; for (const x of shuffle(pool)){ if (!seen.has(x)){ seen.add(x); out.push(x); if (out.length === n) break; } } return out; }
 const ICON = {
   globe:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg>',
@@ -1327,15 +1362,23 @@ function finishStudy(){
 /* ======================= BOOK LESSON ======================= */
 let B = null;
 function bookQuiz(b, l){
-  if (b.type === "hadith") return { prompt:null, q:"Which of these hadith did you just read?", answer:snip(l.en), options:shuffle([snip(l.en), ...distinct(b.lines.map(x=>snip(x.en)), snip(l.en), 3)]),
-    explain:{ title:l.note, body:snip(l.en, 420) } };
-  const ans = snip(l.en, 260);
-  return { prompt:l.ar, q:"What does this line mean?", answer:ans, options:shuffle([ans, ...distinct(b.lines.map(x=>snip(x.en,260)), ans, 3)]),
-    explain:{ title:"The full line", body:l.en, note:l.note && snip(l.note, 360) } };
+  const i = b.lines.indexOf(l), near = (fn, ok) => b.lines.map((x,k) => ({ x, k })).filter(({x,k}) => k !== i && ok(x)).sort((p,q) => Math.abs(p.k-i) - Math.abs(q.k-i) + (Math.random()-.5)*6).slice(0, 12).map(({x}) => fn(x));
+  if (b.type === "hadith"){
+    const who = narrator(l.en); if (!who) return null;
+    const others = distinct([...new Set(b.lines.map(x => narrator(x.en)).filter(n => n && n !== who))], who, 3); if (others.length < 3) return null;
+    const saying = l.en.replace(/^[^:"“]{0,160}?:\s*/, "").replace(/^Allah's (Messenger|Apostle)[^:]{0,40}:\s*/, "");
+    return { prompt:null, q:`Who narrated this hadith? “${snip(saying, 200)}”`, answer:who, options:shuffle([who, ...others]), explain:{ title:l.note, body:snip(l.en, 420) } };
+  }
+  if (l.en.length <= 240) {
+    const opts = distinct(near(x => x.en, x => x.en.length <= 240 && x.en.length > l.en.length*.35 && x.en.length < l.en.length*2.8), l.en, 3);
+    if (opts.length === 3) return { prompt:l.ar, q:"What does this line mean?", answer:l.en, options:shuffle([l.en, ...opts]), explain:{ title:"The full line", body:l.en, note:l.note && snip(l.note, 360) } };
+  }
+  const opts = distinct(near(x => x.ar, x => x.ar.length < 220), l.ar, 3);         // long English: ask the other way round
+  return { prompt:null, q:`Which line says: “${snip(l.en, 220)}”`, answer:l.ar, ansAr:true, options:shuffle([l.ar, ...opts]), explain:{ title:"The full line", body:l.en, note:l.note && snip(l.note, 360) } };
 }
 function startLesson(bookId, idx){
   const b = YEARS.flatMap(y=>y.books).find(x=>x.id===bookId), lines = b.lines.slice(idx*b.per, idx*b.per+b.per);
-  const quiz = shuffle(lines).slice(0, Math.min(3, lines.length)).map(l => ({ kind:"mcq", ...bookQuiz(b, l) }));
+  const quiz = shuffle(lines).map(l => bookQuiz(b, l)).filter(Boolean).slice(0, Math.min(3, lines.length)).map(q => ({ kind:"mcq", ...q }));
   B = { b, idx, steps:[...lines.map(l=>({kind:"read", l})), ...quiz], i:0, sel:null, answered:false, correct:0, nq:quiz.length };
   renderLesson();
 }
@@ -1353,7 +1396,7 @@ function renderLesson(){
   } else {
     body = `<div class="kicker">Check your understanding</div>${st.prompt?`<p class="line-ar">${esc(st.prompt)}</p>`:""}<p class="q" style="font-size:1.05rem">${esc(st.q)}</p>
       <div class="opts">${st.options.map((o,i)=>{ let cls=""; if (B.answered){ if (o===st.answer) cls="right"; else if (i===B.sel) cls="wrong"; } else if (i===B.sel) cls="sel";
-        return `<button class="opt ${cls}" data-o="${i}" ${B.answered?"disabled":""}>${esc(o)}</button>`; }).join("")}</div>
+        return `<button class="opt ${cls} ${st.ansAr?"ar":""}" style="${st.ansAr?"text-align:right;font-size:1.15rem":""}" data-o="${i}" ${B.answered?"disabled":""}>${esc(o)}</button>`; }).join("")}</div>
       ${B.answered && st.explain ? `<div class="explain"><div class="kicker" style="margin:0 0 6px">${esc(st.explain.title)}</div><p style="margin:0">${esc(st.explain.body)}</p>${st.explain.note?`<div class="small muted" style="margin-top:8px">${points(st.explain.note)}</div>`:""}</div>` : ""}`;
     if (!B.answered) foot = `<div class="pfoot"><button class="btn" id="check" ${B.sel===null?"disabled":""}>Check</button></div>`;
     else { const ok = st.options[B.sel] === st.answer; foot = `<div class="pfoot ${ok?"ok":"bad"}" role="status"><div class="fb"><strong>${ok?"Correct, masha'Allah":"Not quite"}</strong>${ok?"":`<span class="small">The highlighted answer is correct.</span>`}</div><button class="btn" id="next">Continue</button></div>`; }
@@ -1378,21 +1421,14 @@ function finishLesson(){ try { navigator.vibrate && navigator.vibrate([12, 60, 1
 /* ======================= FINAL TEST ======================= */
 let T = null;
 function makeTest(y){
-  const lines = y.books.filter(b => b.lines).flatMap(b => b.lines.map(l => ({...l, b})));
-  const qs = [], decks = core(y.decks).filter(d=>d.cards), fromCards = lines.length ? 30 : TEST_LEN, perDeck = Math.floor(fromCards / decks.length);   // no book in the year: all questions from its decks
-  decks.forEach((d, di) => {
-    const pool = d.cards.filter(c => c.b.length <= 170), n = di === decks.length-1 ? fromCards - perDeck*(decks.length-1) : perDeck;
-    for (const c of shuffle(pool).slice(0, n)){
-      let same = pool.filter(x => x.g && x.g === c.g).map(x=>x.b), ds = distinct(same, c.b, 3); if (ds.length < 3) ds = distinct(pool.map(x=>x.b), c.b, 3);
-      qs.push({ src:d.title, promptAr:c.fa && c.f.length < 60 ? c.f : null, q:c.fa && c.f.length < 60 ? "What does this mean?" : c.f, qAr:c.fa && c.f.length >= 60, answer:c.b, ansAr:!!c.ba, options:shuffle([c.b, ...ds]) });
-    } });
-  if (qs.length < fromCards && decks.length > 1) {        // a deck with few short answers: top up from the others
-    const have = new Set(qs.map(q => q.answer)), big = decks.filter(d => d.cards.filter(c => c.b.length <= 170).length > 40);
-    for (const d of big) { const pool = d.cards.filter(c => c.b.length <= 170);
-      for (const c of shuffle(pool)) { if (qs.length >= fromCards) break; if (have.has(c.b)) continue; have.add(c.b);
-        qs.push({ src:d.title, promptAr:c.fa && c.f.length < 60 ? c.f : null, q:c.fa && c.f.length < 60 ? "What does this mean?" : c.f, qAr:c.fa && c.f.length >= 60, answer:c.b, ansAr:!!c.ba, options:shuffle([c.b, ...distinct(pool.map(x=>x.b), c.b, 3)]) }); } }
-  }
-  for (const l of shuffle(lines).slice(0, TEST_LEN - qs.length)){ const q = bookQuiz(l.b, l); qs.push({ src:l.b.title, promptAr:q.prompt, q:q.q, answer:q.answer, options:q.options }); }
+  const lines = y.books.filter(b => b.lines).flatMap(b => b.lines.map(l => ({ l, b })));
+  const qs = [], have = new Set(), decks = core(y.decks).filter(d => d.cards), fromCards = lines.length ? 30 : TEST_LEN;
+  const fromCard = (d, c) => { if (have.has(c.b)) return false; const ds = pickDistractors(c, d.cards); if (ds.length < 3) return false; have.add(c.b);
+    qs.push({ src:d.title, promptAr:c.fa && c.f.length < 60 ? c.f : null, q:c.fa && c.f.length < 60 ? "What does this mean?" : c.f, qAr:c.fa && c.f.length >= 60, answer:c.b, ansAr:arRatio(c.b) > .5, options:shuffle([c.b, ...ds]) }); return true; };
+  const pools = decks.map(d => ({ d, p:shuffle(d.cards.filter(mcqOK)) })).filter(x => x.p.length);
+  for (let round = 0; qs.length < fromCards && pools.some(x => x.p.length); round++)            // take turns between decks so every book is tested
+    for (const x of pools) { if (qs.length >= fromCards) break; while (x.p.length && !fromCard(x.d, x.p.pop())); }
+  for (const { l, b } of shuffle(lines)) { if (qs.length >= TEST_LEN) break; const q = bookQuiz(b, l); if (q) qs.push({ src:b.title, promptAr:q.prompt, q:q.q, answer:q.answer, ansAr:q.ansAr, options:q.options }); }
   return shuffle(qs);
 }
 function startTest(n){ T = { n, qs:makeTest(yearOf(n)), i:0, sel:null, wrong:[], right:0 }; renderTest(); }
@@ -1503,5 +1539,5 @@ applyTheme(); try { matchMedia("(prefers-color-scheme: dark)").addEventListener(
 })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=937b0940e0");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=f289bca432");</script></body>
 </html>
