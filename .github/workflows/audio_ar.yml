@@ -25,12 +25,14 @@ jobs:
           curl -sSL -o ar_JO-kareem-medium.onnx.json "$base/ar_JO-kareem-medium.onnx.json"
       - name: Generate audio
         env: { BOOK: "${{ github.event.inputs.book }}" }
-        run: python tools/gen_audio_ar.py
+        run: |
+          python tools/gen_audio_ar.py
+          python tools/gen_words_ar.py
       - name: Save audio
         run: |
           git config user.name "ihsan-audio-bot"; git config user.email "actions@users.noreply.github.com"
           rm -f ar_JO-kareem-medium.onnx*
-          git add audio data/texts
+          git add audio data/texts data/wordaudio.json
           git diff --cached --quiet && exit 0
           git commit -m "Add Arabic narration (Piper) [skip ci]"
           for i in 1 2 3 4 5; do git pull --rebase -X theirs origin main && git push && exit 0; sleep 10; done
