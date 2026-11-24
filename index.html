@@ -138,6 +138,50 @@ select{font:inherit;padding:8px 10px;border-radius:10px;border:1px solid var(--l
 .review-list .card{padding:12px 14px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 
+/* Library: shelves of covers */
+.ychips{display:flex;gap:6px;overflow-x:auto;margin:4px -2px 6px;padding:2px;scrollbar-width:none}
+.ychip{flex:none;padding:7px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-weight:600;font-size:.9rem}
+.ychip.on{background:var(--brand);border-color:var(--brand);color:var(--brand-ink)}
+.shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:18px 14px;margin-bottom:8px}
+.bookcard{display:flex;flex-direction:column;align-items:stretch;text-align:left;background:none;border:0;padding:0;color:var(--ink);cursor:pointer;min-width:0}
+.cv{position:relative;display:block;line-height:0}
+.cv .cover{width:100%;height:auto;border-radius:4px 7px 7px 4px;box-shadow:0 1px 2px rgba(0,0,0,.18),0 8px 18px -6px rgba(0,0,0,.35);transition:transform .15s}
+.bookcard:active .cover{transform:scale(.97)}
+.cvbar{position:absolute;left:8%;right:8%;bottom:6px;height:4px;border-radius:2px;background:rgba(0,0,0,.35);overflow:hidden}
+.cvbar i{display:block;height:100%;background:#E2C27A}
+.bt{font-weight:700;font-size:.95rem;line-height:1.25;margin-top:9px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ba{font-size:.82rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bl{font-size:.75rem;color:var(--muted);margin-top:1px}
+.lib-cont{display:flex;align-items:center;gap:14px;text-align:left;padding:12px}
+.lib-cont .cv{width:58px;flex:none}
+.bookhead{display:flex;gap:16px;align-items:flex-end;margin:6px 0 0}
+.bookhead .cv{width:118px;flex:none}
+.bookhead h1{font-size:1.55rem;line-height:1.2}
+.booktitle-ar{font-size:1.35rem;margin:4px 0 6px;text-align:left;color:var(--brand)}
+.byline{margin:0 0 2px;font-weight:600;font-size:.92rem}
+details.kitab{border:1px solid var(--line);border-radius:12px;background:var(--surface);margin-bottom:8px}
+details.kitab>summary{display:flex;gap:10px;align-items:center;padding:12px 14px;cursor:pointer;list-style:none;font-weight:600}
+details.kitab>summary .ar{font-size:1.15rem}
+details.kitab>.stack{padding:0 8px 8px}
+.item.toc{padding:9px 10px;gap:10px}
+.item.toc .num{width:28px;height:28px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:.78rem;font-weight:700;background:color-mix(in srgb,var(--brand) 10%,var(--surface));color:var(--brand)}
+.item.toc .num.on{background:var(--ok);color:#fff}
+.item.toc .t.ar{font-size:1.1rem;text-align:right}
+.libthumb{width:34px;flex:none;line-height:0}.libthumb .cover{width:100%;height:auto;border-radius:2px 4px 4px 2px;box-shadow:0 2px 6px -2px rgba(0,0,0,.4)}
+/* Today plan */
+.today-card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;margin:12px 0}
+.today-card h2{font-size:1.25rem;margin:0 0 2px}
+.step{display:flex;align-items:center;gap:12px;padding:11px 0;border-top:1px solid var(--line)}
+.step:first-of-type{border-top:0}
+.step .dot{width:30px;height:30px;border-radius:50%;flex:none;display:grid;place-items:center;font-weight:800;font-size:.85rem;border:2px solid var(--line);color:var(--muted)}
+.step.next .dot{border-color:var(--brand);color:var(--brand)}
+.step.done .dot{background:var(--ok);border-color:var(--ok);color:#fff}
+.step.done .st{text-decoration:line-through;text-decoration-color:color-mix(in srgb,var(--muted) 60%,transparent);color:var(--muted)}
+.step .st{font-weight:700;display:block}.step .ss{font-size:.85rem;color:var(--muted);display:block}
+.ring{--p:0;width:46px;height:46px;border-radius:50%;flex:none;display:grid;place-items:center;font-size:.78rem;font-weight:800;background:conic-gradient(var(--ok) calc(var(--p)*1%),var(--line) 0)}
+.ring span{width:36px;height:36px;border-radius:50%;background:var(--surface);display:grid;place-items:center}
+.classic{display:block;font-size:.8rem;color:var(--muted);font-style:italic}
+
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--line);padding:4px;border-radius:14px}
 .seg button{border:0;background:transparent;border-radius:10px;padding:10px 6px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
 .seg button.on{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
@@ -269,16 +313,14 @@ nav.tabs .in{grid-template-columns:repeat(4,1fr)}
 <script>
 "use strict";
 /* ============================ SYLLABUS ============================ */
-const META = {"1": {"books": {"tahawiyya": 108, "umm": 57, "signs": 83}, "decks": {"quran": 500, "nur": 1083, "ajr": 150, "bina": 241, "izzi": 471}, "opt": {}}, "2": {"books": {"jawhara": 142, "signs2": 179}, "decks": {"quduri": 2441, "roots": 1000, "verbs1": 700, "ithaf": 311, "qatr": 1875, "burda": 336}, "opt": {"mufradat": 1630, "themed": 6012, "sirr": 536, "naqsh": 1391}}, "3": {"books": {"majalla": 99}, "decks": {"nasafiyyah": 1401, "kanz": 1433, "verbs2": 700}, "opt": {"sharhizzi": 2488, "jalalayn": 6121, "msa1": 3400, "fuqaha": 3548, "ghawth": 232, "qasaid": 4090}}, "4": {"books": {}, "decks": {"mughni": 751, "iqtisad": 1413}, "opt": {"msa2": 3372, "qushayri": 578, "mercy": 770, "nuqaya": 2519, "philosophy": 3699}}, "5": {"books": {}, "decks": {"alfiyya": 1257, "proofs": 228}, "opt": {}}, "texts": {"shamail": 58, "riyad": 373, "fiqh_akbar": 27, "maraqi": 92, "arbain": 45, "ajurrumiyya": 25, "quduri": 119, "nur_idah": 337, "usul_shashi": 103}, "textsAudio": {"shamail": false, "riyad": false, "fiqh_akbar": true, "maraqi": false, "arbain": false, "ajurrumiyya": true, "quduri": false, "nur_idah": false, "usul_shashi": false}, "textsAi": {"shamail": false, "riyad": false, "fiqh_akbar": true, "maraqi": false, "arbain": false, "ajurrumiyya": true, "quduri": false, "nur_idah": false, "usul_shashi": false}};
+const META = {"1": {"books": {"tahawiyya": 108, "umm": 57, "signs": 83}, "decks": {"quran": 500, "nur": 1083, "ajr": 150, "bina": 241, "izzi": 471}, "opt": {}}, "2": {"books": {"jawhara": 142, "signs2": 179}, "decks": {"quduri": 2441, "roots": 1000, "verbs1": 700, "ithaf": 311, "qatr": 1875, "burda": 336}, "opt": {"mufradat": 1630, "themed": 6012, "sirr": 536, "naqsh": 1391}}, "3": {"books": {"majalla": 99}, "decks": {"nasafiyyah": 1401, "kanz": 1433, "verbs2": 700}, "opt": {"sharhizzi": 2488, "jalalayn": 6121, "msa1": 3400, "fuqaha": 3548, "ghawth": 232, "qasaid": 4090}}, "4": {"books": {}, "decks": {"mughni": 751, "iqtisad": 1413}, "opt": {"msa2": 3372, "qushayri": 578, "mercy": 770, "nuqaya": 2519, "philosophy": 3699}}, "5": {"books": {}, "decks": {"alfiyya": 1257, "proofs": 228}, "opt": {}}, "texts": {"tahawiyya_full": 11, "burda": 17, "shamail": 58, "qatr": 92, "riyad": 373, "fiqh_akbar": 27, "maraqi": 92, "iqtisad": 63, "arbain": 45, "ajurrumiyya": 25, "mughni": 138, "quduri": 119, "jalalayn": 252, "muslim": 758, "alfiyya": 82, "jawhara": 12, "kanz": 200, "hidaya": 456, "nur_idah": 337, "usul_shashi": 103, "majalla": 74, "umm": 6, "bukhari": 780}, "textsAudio": {"tahawiyya_full": false, "burda": false, "shamail": false, "qatr": false, "riyad": false, "fiqh_akbar": true, "maraqi": false, "iqtisad": false, "arbain": false, "ajurrumiyya": true, "mughni": false, "quduri": false, "jalalayn": false, "muslim": false, "alfiyya": false, "jawhara": false, "kanz": false, "hidaya": false, "nur_idah": false, "usul_shashi": false, "majalla": false, "umm": false, "bukhari": false}, "textsAi": {"tahawiyya_full": false, "burda": false, "shamail": false, "qatr": false, "riyad": false, "fiqh_akbar": true, "maraqi": false, "iqtisad": false, "arbain": false, "ajurrumiyya": true, "mughni": false, "quduri": false, "jalalayn": false, "muslim": false, "alfiyya": false, "jawhara": false, "kanz": false, "hidaya": false, "nur_idah": false, "usul_shashi": false, "majalla": false, "umm": false, "bukhari": false}, "textsEn": {"tahawiyya_full": true, "burda": true, "shamail": false, "qatr": false, "riyad": false, "fiqh_akbar": true, "maraqi": false, "iqtisad": false, "arbain": false, "ajurrumiyya": true, "mughni": false, "quduri": false, "jalalayn": false, "muslim": true, "alfiyya": false, "jawhara": true, "kanz": false, "hidaya": false, "nur_idah": false, "usul_shashi": false, "majalla": false, "umm": true, "bukhari": true}};
 const YEARS = [
  { n:1, title:"Foundations", desc:"The Tahawiyyah, Nur al-Idah and Is'af al-Muridin, tajweed, the first books of sarf and nahw, and the most common words of the Qur'an.",
    books:[
      { id:"tahawiyya", type:"lines", per:8, title:"Al-'Aqidah al-Tahawiyyah", sub:"The creed of Imam al-Tahawi رحمه الله, line by line", glyph:"ط", color:"#0E5A43", subject:"Aqeedah" },
      { id:"umm", type:"lines", per:6, title:"Umm al-Barahin", sub:"The short creed of Imam al-Sanusi رحمه الله", glyph:"ب", color:"#5C6B2E", subject:"Aqeedah" },
      { id:"signs", type:"hadith", per:3, title:"Signs of the Hour", sub:"Kitab al-Fitan of Imam al-Bukhari رحمه الله", glyph:"س", color:"#8C3B3B", subject:"Signs of the Hour" },
-     { id:"t_nur", type:"text", file:"nur_idah", per:1, title:"Nur al-Idah: full text", sub:"The complete Arabic text of Imam al-Shurunbulali رحمه الله", glyph:"", color:"#2F6E8F", subject:"Fiqh" },
-     { id:"t_ajurrum", type:"text", file:"ajurrumiyya", per:1, title:"al-Ajurrumiyyah", sub:"The complete Arabic text of Ibn Ajurrum رحمه الله", glyph:"", color:"#B5651D", subject:"Arabic" },
-     { id:"t_arbain", type:"text", file:"arbain", per:1, title:"al-Arba'in al-Nawawiyyah", sub:"The forty hadith of Imam al-Nawawi رحمه الله, in Arabic", glyph:"", color:"#7A5230", subject:"Hadith" } ],
+     ],
    decks:[
      { id:"quran", title:"Qur'an words: top 500", sub:"About 86% of the Qur'an's text", glyph:"ق", color:"#8A4FA3", subject:"Arabic" },
      { id:"nur", simple:true, title:"Nur al-Idah", sub:"Imam al-Shurunbulali رحمه الله: purification, prayer, fasting", glyph:"ن", color:"#2F6E8F", subject:"Fiqh" },
@@ -288,12 +330,8 @@ const YEARS = [
    coming:[["Is'af al-Muridin li-Iqamat Fara'id al-Din","Fiqh"],["Jamal al-Qur'an","Tajweed"],["Tuhfat al-Atfal","Tajweed"],["Tarjamat al-Qur'an: Juz' 'Amma to al-Kahf","Tafsir"],["Zad al-Talibin","Hadith"],["Sarf: Mizan al-Sarf and Munsha'ib","Arabic"],["Nahw: Nahw Mir","Arabic"],["Ayyuha'l-Walad of Imam al-Ghazali","Tasawwuf"],["'Amal al-Yawm wa'l-Laylah of Imam al-Suyuti: sunnahs and du'as of the day and night","Tasawwuf"],["The Mawlid of Imam al-Suyuti","Seerah"],["The Seerah of Imam al-Nawawi (excerpt)","Seerah"]] },
  { n:2, title:"Building blocks", desc:"Mukhtasar al-Quduri, Maraqi al-Falah, Usul al-Shashi, the Jawharah, Qur'anic roots and the most used Arabic verbs.",
    books:[ { id:"jawhara", type:"lines", per:8, title:"Jawharat al-Tawhid", sub:"The poem on creed by Imam al-Laqqani رحمه الله", glyph:"ج", color:"#0E5A43", subject:"Aqeedah" },
-     { id:"t_fiqhakbar", type:"text", file:"fiqh_akbar", per:1, title:"al-Fiqh al-Akbar", sub:"Imam Abu Hanifah رحمه الله, with harakat and English", glyph:"", color:"#0E5A43", subject:"Aqeedah" },
-     { id:"t_quduri", type:"text", file:"quduri", per:1, title:"Mukhtasar al-Quduri: full text", sub:"The complete Arabic text, kitab by kitab", glyph:"", color:"#2F6E8F", subject:"Fiqh" },
-     { id:"t_maraqi", type:"text", file:"maraqi", per:1, title:"Maraqi al-Falah", sub:"Imam al-Shurunbulali's رحمه الله commentary on Nur al-Idah", glyph:"", color:"#2F6E8F", subject:"Fiqh" },
-     { id:"t_shashi", type:"text", file:"usul_shashi", per:1, title:"Usul al-Shashi", sub:"The first text of Hanafi usul, in Arabic", glyph:"", color:"#4E6B3A", subject:"Usul al-Fiqh" },
      { id:"signs2", type:"hadith", per:3, title:"Signs of the Hour: Sahih Muslim", sub:"The Book of Tribulations and Portents of the Last Hour", glyph:"", color:"#8C3B3B", subject:"Signs of the Hour" },
-     { id:"t_riyad", type:"text", file:"riyad", per:1, title:"Riyad al-Salihin", sub:"Imam al-Nawawi's رحمه الله collection, bab by bab", glyph:"", color:"#7A5230", subject:"Hadith" } ],
+     ],
    decks:[
      { id:"quduri", simple:true, title:"Mukhtasar al-Quduri", sub:"Imam al-Quduri's رحمه الله Hanafi primer, question by question", glyph:"ق", color:"#2F6E8F", subject:"Fiqh" },
      { id:"roots", title:"Qur'an roots: top 1,000", sub:"Ranked by how often they occur in the Qur'an", glyph:"ج", color:"#8A4FA3", subject:"Arabic" },
@@ -331,9 +369,37 @@ const YEARS = [
  { n:5, title:"Dawrat al-Hadith", desc:"The six books of hadith, both Muwatta's, al-Tahawi's Sharh Ma'ani al-Athar and the Shama'il, with the Alfiyyah and the rest of al-Hidayah.",
    decks:[ { id:"alfiyya", simple:true, title:"Alfiyyat Ibn Malik", sub:"The thousand-line poem of nahw, in Arabic and English", glyph:"", color:"#B5651D", subject:"Arabic" },
      { id:"proofs", simple:true, title:"The Imam's key proofs", sub:"The evidences of Imam Abu Hanifah's رحمه الله fiqh", glyph:"", color:"#2F6E8F", subject:"Fiqh" } ],
-   books:[ { id:"t_shamail", type:"text", file:"shamail", per:1, title:"al-Shama'il al-Muhammadiyyah", sub:"Imam al-Tirmidhi's رحمه الله description of the Prophet ﷺ", glyph:"", color:"#9A6A1F", subject:"Seerah" } ],
-   coming:[["Sahih al-Bukhari","Hadith"],["Sahih Muslim","Hadith"],["Sunan Abi Dawud","Hadith"],["Jami' al-Tirmidhi","Hadith"],["Sunan al-Nasa'i","Hadith"],["Sunan Ibn Majah","Hadith"],["al-Muwatta' of Imam Malik","Hadith"],["al-Muwatta' of Imam Muhammad","Hadith"],["Sharh Ma'ani al-Athar of Imam al-Tahawi","Hadith"],["al-Hidayah, volumes 3 and 4","Fiqh"],["Musallam al-Thubut (selections)","Usul al-Fiqh"]] },
+   books:[],
+   coming:[["Sunan Abi Dawud","Hadith"],["Jami' al-Tirmidhi","Hadith"],["Sunan al-Nasa'i","Hadith"],["Sunan Ibn Majah","Hadith"],["al-Muwatta' of Imam Malik","Hadith"],["al-Muwatta' of Imam Muhammad","Hadith"],["Sharh Ma'ani al-Athar of Imam al-Tahawi","Hadith"],["al-Hidayah, volumes 3 and 4","Fiqh"],["Musallam al-Thubut (selections)","Usul al-Fiqh"]] },
 ];
+/* The Library: complete books, by year. Covers are drawn from these fields. */
+const LIBRARY = [
+  [1,"t_tahawiyya","tahawiyya_full","Aqeedah","The Creed of Imam al-Tahawi","العقيدة الطحاوية","Imam Abu Ja'far al-Tahawi","الإمام أبو جعفر الطحاوي","d. 321 AH","The creed of Ahl al-Sunnah, point by point"],
+  [1,"t_umm","umm","Aqeedah","Umm al-Barahin","أم البراهين","Imam Muhammad ibn Yusuf al-Sanusi","الإمام محمد بن يوسف السنوسي","d. 895 AH","What is necessary, impossible and possible for Allah and His messengers ﷺ"],
+  [1,"t_nur","nur_idah","Fiqh","Nur al-Idah","نور الإيضاح","Imam Hasan al-Shurunbulali","الإمام حسن الشرنبلالي","d. 1069 AH","Hanafi fiqh of purification, prayer and fasting"],
+  [1,"t_ajurrum","ajurrumiyya","Arabic","al-Ajurrumiyyah","المقدمة الآجرومية","Imam Ibn Ajurrum al-Sanhaji","الإمام ابن آجروم الصنهاجي","d. 723 AH","The first text of Arabic grammar"],
+  [1,"t_arbain","arbain","Hadith","The Forty Hadith","الأربعون النووية","Imam Yahya ibn Sharaf al-Nawawi","الإمام يحيى بن شرف النووي","d. 676 AH","Forty-two hadith on which the religion turns"],
+  [2,"t_jawhara","jawhara","Aqeedah","Jawharat al-Tawhid","جوهرة التوحيد","Imam Ibrahim al-Laqqani","الإمام إبراهيم اللقاني","d. 1041 AH","The Ash'ari creed in verse"],
+  [2,"t_fiqhakbar","fiqh_akbar","Aqeedah","al-Fiqh al-Akbar","الفقه الأكبر","Imam Abu Hanifah al-Nu'man","الإمام أبو حنيفة النعمان","d. 150 AH","The greatest understanding: the Imam's creed"],
+  [2,"t_quduri","quduri","Fiqh","Mukhtasar al-Quduri","مختصر القدوري","Imam Abu'l-Husayn al-Quduri","الإمام أبو الحسين القدوري","d. 428 AH","The classic Hanafi manual, every kitab"],
+  [2,"t_maraqi","maraqi","Fiqh","Maraqi al-Falah","مراقي الفلاح","Imam Hasan al-Shurunbulali","الإمام حسن الشرنبلالي","d. 1069 AH","The commentary on Nur al-Idah"],
+  [2,"t_shashi","usul_shashi","Usul al-Fiqh","Usul al-Shashi","أصول الشاشي","Imam Nizam al-Din al-Shashi","الإمام نظام الدين الشاشي","d. 344 AH","The first text of Hanafi usul"],
+  [2,"t_qatr","qatr","Arabic","Sharh Qatr al-Nada","شرح قطر الندى","Imam Jamal al-Din Ibn Hisham","الإمام جمال الدين ابن هشام","d. 761 AH","Arabic grammar, explained by its author"],
+  [2,"t_riyad","riyad","Hadith","Riyad al-Salihin","رياض الصالحين","Imam Yahya ibn Sharaf al-Nawawi","الإمام يحيى بن شرف النووي","d. 676 AH","The gardens of the righteous, bab by bab"],
+  [2,"t_muslim","muslim","Hadith","Sahih Muslim","صحيح مسلم","Imam Muslim ibn al-Hajjaj","الإمام مسلم بن الحجاج","d. 261 AH","The complete collection, in Arabic and English"],
+  [2,"t_burda","burda","Seerah","Qasidat al-Burdah","قصيدة البردة","Imam Sharaf al-Din al-Busiri","الإمام شرف الدين البوصيري","d. 696 AH","The poem of the Cloak, in praise of the Prophet ﷺ"],
+  [3,"t_majalla","majalla","Fiqh","The Majallah","مجلة الأحكام العدلية","The Ottoman committee of jurists","لجنة من فقهاء الدولة العثمانية","1293 AH","The Hanafi civil code, all sixteen books"],
+  [3,"t_kanz","kanz","Fiqh","Kanz al-Daqa'iq","كنز الدقائق","Imam Hafiz al-Din al-Nasafi","الإمام حافظ الدين النسفي","d. 710 AH","The treasure of fine points: advanced Hanafi fiqh"],
+  [3,"t_jalalayn","jalalayn","Tafsir","Tafsir al-Jalalayn","تفسير الجلالين","Imams al-Mahalli and al-Suyuti","الإمامان المحلي والسيوطي","d. 864 and 911 AH","Tafsir of the whole Qur'an"],
+  [4,"t_hidaya","hidaya","Fiqh","al-Hidayah","الهداية","Imam Burhan al-Din al-Marghinani","الإمام برهان الدين المرغيناني","d. 593 AH","The great Hanafi commentary, with its proofs"],
+  [4,"t_mughni","mughni","Arabic","Mughni al-Labib","مغني اللبيب","Imam Jamal al-Din Ibn Hisham","الإمام جمال الدين ابن هشام","d. 761 AH","Advanced grammar: particles and sentences"],
+  [4,"t_iqtisad","iqtisad","Aqeedah","al-Iqtisad fi'l-I'tiqad","الاقتصاد في الاعتقاد","Imam Abu Hamid al-Ghazali","الإمام أبو حامد الغزالي","d. 505 AH","Moderation in belief, with its proofs"],
+  [5,"t_bukhari","bukhari","Hadith","Sahih al-Bukhari","صحيح البخاري","Imam Muhammad ibn Isma'il al-Bukhari","الإمام محمد بن إسماعيل البخاري","d. 256 AH","The complete collection, in Arabic and English"],
+  [5,"t_shamail","shamail","Seerah","al-Shama'il al-Muhammadiyyah","الشمائل المحمدية","Imam Abu 'Isa al-Tirmidhi","الإمام أبو عيسى الترمذي","d. 279 AH","The description and character of the Prophet ﷺ"],
+  [5,"t_alfiyya","alfiyya","Arabic","Alfiyyat Ibn Malik","ألفية ابن مالك","Imam Jamal al-Din Ibn Malik","الإمام جمال الدين ابن مالك","d. 672 AH","The thousand-line poem of grammar"],
+].map(([y,id,file,subject,title,ar,author,authorAr,when,sub]) => ({ y, id, file, subject, title, ar, author, authorAr, when, sub, type:"text", per:1, glyph:"",
+  honor: author.startsWith("The Ottoman") ? "" : author.startsWith("Imams") ? "رحمهما الله" : "رحمه الله" }));
+LIBRARY.forEach(b => YEARS[b.y-1].books.push(b));
 /* After Year 5: one year of further study in a module the student chooses */
 const SPEC_YEAR = 6;
 /* Each year's syllabus is made of these modules */
@@ -377,10 +443,27 @@ const lessonsOf = b => b.type === "text" ? ((META.texts||{})[b.file]||1) : Math.
 /* Full texts load one book at a time */
 const TEXTS = {};
 async function loadText(file){ if (TEXTS[file]) return TEXTS[file]; const r = await fetch(`data/texts/${file}.json`); if (!r.ok) throw new Error("Could not load text"); return (TEXTS[file] = await r.json()); }
+/* Big books (Bukhari, Muslim, al-Hidayah…) come as an index plus parts; fetch the part a section is in */
+async function loadSection(file, i){
+  const T = await loadText(file); if (!T.split || T.sections[i].p) return T;
+  const k = Math.floor(i / T.split), r = await fetch(`data/texts/${file}/${k}.json`); if (!r.ok) throw new Error("Could not load text");
+  (await r.json()).forEach((s, j) => Object.assign(T.sections[k*T.split + j], s)); return T; }
+const secLen = s => s.p ? s.p.length : s.n || 0;
 const bookById = id => YEARS.flatMap(y=>y.books).find(x=>x.id===id);
 YEARS.forEach(y => { y.prepared = y.books.filter(b => b.type !== "text").length + y.decks.length > 0; y.books.forEach(b => b.year = y.n); y.decks.forEach(d => d.year = y.n); });
 const deckSize = d => d.cards ? d.cards.length : (d.opt ? (META[d.year].opt||{})[d.id] : META[d.year].decks[d.id]) || 0;
-const core = decks => decks.filter(d => !d.opt);          // optional decks never gate a year or appear in its test
+const core = decks => decks.filter(d => !d.opt);
+/* What each text is, in plain English: shown first, with the classical title under it */
+const PLAIN = { nur:"Hanafi fiqh: purification, prayer, fasting", ajr:"Arabic grammar: first steps", bina:"How Arabic verbs are built", izzi:"The patterns of the Arabic verb",
+  tahawiyya:"The core beliefs of Sunni Islam", umm:"What we believe about Allah and His messengers ﷺ", signs:"Signs of the Hour, from al-Bukhari", jawhara:"The creed, in verse",
+  quduri:"Hanafi fiqh: the complete manual", ithaf:"Fiqh questions and answers", qatr:"Arabic grammar: the next level", burda:"The Poem of the Cloak", signs2:"Signs of the Hour, from Muslim",
+  mufradat:"Qur'an words and their root meanings", themed:"Everyday Arabic words", sirr:"The secret of secrets", naqsh:"Manners of the Naqshbandi path",
+  majalla:"99 principles of Islamic law", nasafiyyah:"Islamic theology, explained", kanz:"Hanafi fiqh: the advanced manual", sharhizzi:"Verb patterns, explained",
+  jalalayn:"Tafsir of the whole Qur'an", fuqaha:"Dictionary of fiqh terms", ghawth:"On the awliya' and the Qutb", qasaid:"Poems in praise of the Prophet ﷺ",
+  mughni:"Advanced Arabic grammar", iqtisad:"Belief, with its rational proofs", qushayri:"Tafsir of the heart", nuqaya:"A Hanafi summary in Arabic",
+  philosophy:"Terms of logic and theology", alfiyya:"The thousand-line grammar poem", proofs:"The evidence for Hanafi rulings" };
+const nameOf = x => PLAIN[x.id] || x.title;
+const classicOf = x => PLAIN[x.id] && PLAIN[x.id] !== x.title ? `<span class="classic">${esc(x.title)}</span>` : "<br>";          // optional decks never gate a year or appear in its test
 /* Optional decks: one file each, fetched the first time a student opens one, then on every start */
 async function loadDeck(d){ if (d.cards) return d; const r = await fetch(`data/decks/${d.id}.json`); if (!r.ok) throw new Error("Could not load " + d.title);
   d.cards = (await r.json()).map(c => ({ ...c, deck:d.id })); INDEX = null; return d; }
@@ -520,7 +603,7 @@ function shell(inner){
   return `<header class="topbar"><div class="brandmark">${ICON.logo}<span>Ihsan</span></div>
     <div class="stats"><button class="chip iconbtn" data-go="search" aria-label="Search">${ICON.search}</button><span class="chip" aria-label="${S.streak} day streak">${ICON.flame}${S.streak}</span><span class="chip" aria-label="${S.xp} XP">${ICON.star}${S.xp}</span></div></header>
     <main>${inner}</main>
-    <nav class="tabs"><div class="in"><button data-go="home" ${view.name==="home"?'aria-current="page"':""}>${ICON.home}Home</button><button data-go="syllabus" ${["syllabus","year","spec"].includes(view.name)||(view.name==="book"&&!isLibBook())?'aria-current="page"':""}>${ICON.learn}Syllabus</button><button data-go="library" ${view.name==="library"||isLibBook()?'aria-current="page"':""}>${ICON.shelf}Library</button><button data-go="profile" ${view.name==="profile"?'aria-current="page"':""}>${ICON.user}Progress</button></div></nav>`;
+    <nav class="tabs"><div class="in"><button data-go="home" ${view.name==="home"?'aria-current="page"':""}>${ICON.home}Home</button><button data-go="syllabus" ${["syllabus","year","spec"].includes(view.name)||(view.name==="book"&&!isLibBook())?'aria-current="page"':""}>${ICON.learn}Course</button><button data-go="library" ${view.name==="library"||isLibBook()?'aria-current="page"':""}>${ICON.shelf}Library</button><button data-go="profile" ${view.name==="profile"?'aria-current="page"':""}>${ICON.user}Progress</button></div></nav>`;
 }
 function welcomeView(){
   return `<div class="welcome"><div class="welcome-in">
@@ -541,27 +624,38 @@ function welcomeView(){
 function homeView(){
   const y = yearOf(Math.max(...S.unlocked.filter(n => loaded(yearOf(n))))), st = yearStatus(y);
   const parts = [st.lt ? st.ld/st.lt : 0, st.ct ? st.cm/st.ct : 0], pctDone = Math.round(parts.reduce((p,q)=>p+q,0)/parts.length*100);
-  const greet = "Assalamu 'alaykum";
   const order = b => MODULES.findIndex(m => m.name === b.subject);
   const books = y.books.filter(b => b.type !== "text").sort((p,q) => order(p)-order(q));
-  const open = [], later = [];
-  for (const b of books){ const L = lessonsOf(b), done = S.books[b.id]||[]; const i = [...Array(L).keys()].find(k => !done.includes(k));
-    if (i === undefined) continue; open.push({ b, i, L }); if (i+1 < L) later.push({ b, i:i+1, L, locked:true }); }
-  const cards = [...open, ...later].slice(0, 10).map(({b,i,L,locked}) => `<div class="lcard ${locked?"locked":""}">
-      <div class="pic" style="background:color-mix(in srgb,${b.color} 10%,var(--surface))">${artFor(b, 118)}</div>
-      <div class="lbody"><div class="kicker" style="margin:0">${esc(b.subject)}</div><h3>${esc(b.title)}</h3><p class="small muted">Lesson ${i+1} of ${L} · about 3 minutes</p></div>
-      ${locked ? `<div class="lbtn off">${ICON.lock} Lesson locked</div>` : `<button class="lbtn" data-startlesson="${b.id}|${i}">Start lesson</button>`}</div>`).join("");
+  const open = [];
+  for (const b of books){ const L = lessonsOf(b), done = S.books[b.id]||[]; const i = [...Array(L).keys()].find(k => !done.includes(k)); if (i !== undefined) open.push({ b, i, L }); }
   let due = 0, nw = 0; activeYears().forEach(yy => yy.decks.filter(d => d.cards).forEach(d => { const s = deckStats(d); due += s.due; nw += Math.min(newLeft(d), s.nw); }));
-  const last = S.lastRead && bookById(S.lastRead.id);
+  const last = S.lastRead && bookById(S.lastRead.id), libFirst = LIB().find(b => b.year === y.n) || LIB()[0];
+  const readBook = last || libFirst, readAt = last ? S.lastRead.i : 0;
+  /* Today: one lesson, the day's flashcards, and a page of a book. In that order. */
+  const steps = [];
+  if (open.length) { const o = open[0];
+    steps.push({ done: !!(S.lessonDay && S.lessonDay.d === today()), t:"Learn a lesson", s:`${nameOf(o.b)} · lesson ${o.i+1} of ${o.L} · 3 min`, act:`data-startlesson="${o.b.id}|${o.i}"`, go:"Start lesson" }); }
+  steps.push({ done: due + nw === 0, t:"Review your flashcards", s: due + nw ? `${due ? `${due} to review` : ""}${due && nw ? " · " : ""}${nw ? `${nw} new` : ""} · about ${Math.max(2, Math.round((due+nw)*0.15))} min` : "All caught up for today", act:`data-study="all"`, go:"Study cards" });
+  if (readBook) steps.push({ done: S.readDay === today(), t:"Read from the Library", s:`${readBook.title} · section ${readAt+1}`, act:`data-read="${readBook.id}|${readAt}"`, go:"Read" });
+  const nDone = steps.filter(x => x.done).length, next = steps.find(x => !x.done);
+  const plan = `<section class="today-card"><div class="spread" style="align-items:center;gap:12px"><div><div class="kicker" style="margin:0">Today</div><h2>${next ? "Your plan for today" : "Today's plan is done, alhamdulillah"}</h2>
+      <p class="small muted" style="margin:0">${next ? `About ${steps.filter(x=>!x.done).length * 5} minutes. Tap start and we'll take you through it.` : "Come back tomorrow, or keep going below."}</p></div>
+      <span class="ring" style="--p:${nDone/steps.length*100}"><span>${nDone}/${steps.length}</span></span></div>
+    <div style="margin-top:8px">${steps.map((x,k) => `<div class="step ${x.done?"done":x===next?"next":""}"><span class="dot">${x.done?ICON.check.replace("<svg",'<svg width="15" height="15"'):k+1}</span>
+      <span style="flex:1;min-width:0"><span class="st">${esc(x.t)}</span><span class="ss">${esc(x.s)}</span></span>${!x.done && x!==next ? `<button class="btn ghost small-btn" ${x.act}>${x.go}</button>` : ""}</div>`).join("")}</div>
+    ${next ? `<button class="btn gold" ${next.act} style="margin-top:10px">${next === steps[0] && nDone === 0 ? "Start today's plan" : next.go}</button>` : ""}</section>`;
+  const more = open.slice(1, 8).map(({b,i,L}) => `<div class="lcard">
+      <div class="pic" style="background:color-mix(in srgb,${b.color} 10%,var(--surface))">${artFor(b, 96)}</div>
+      <div class="lbody"><div class="kicker" style="margin:0">${esc(b.subject)}</div><h3>${esc(nameOf(b))}</h3><p class="small muted">Lesson ${i+1} of ${L}</p></div>
+      <button class="lbtn" data-startlesson="${b.id}|${i}">Start lesson</button></div>`).join("");
   return shell(`
-    <h1 style="margin:2px 0 2px">${greet}</h1>
-    <p class="muted" style="margin:0 0 12px">${(S.days[today()]||0) ? "Well done today, keep going." : "Let's learn something today, bismillah."}</p>
-    <button class="coursebar" data-go="syllabus"><span><b>Year ${y.n}: ${esc(y.title)}</b> <span class="pill">Change</span></span>
+    <h1 style="margin:2px 0 2px">Assalamu 'alaykum</h1>
+    <p class="muted" style="margin:0 0 12px">${nDone ? "Well done today, keep going." : "Let's learn something today, bismillah."}</p>
+    <button class="coursebar" data-year="${y.n}"><span><b>Year ${y.n}: ${esc(y.title)}</b></span>
       <span class="bar"><i style="width:${pctDone}%"></i></span><span class="small muted">${pctDone}%</span></button>
-    ${cards ? `<div class="carousel">${cards}</div>` : `<div class="card" style="margin:12px 0"><b>Every book lesson in Year ${y.n} is done.</b><p class="small muted" style="margin:4px 0 0">Keep up your flashcards, then take the final test in the Syllabus.</p></div>`}
-    <div class="minicard"><span class="mi">${ICON.flame}</span><span style="flex:1"><b>Flashcards</b><br><span class="small muted">${due+nw ? `${due} to review · ${nw} new today` : "All done for today"}</span></span>
-      <button class="btn gold small-btn" data-study="all" ${due+nw===0?"disabled":""}>${due+nw ? "Study" : "Done ✓"}</button></div>
-    ${last ? `<div class="minicard"><span class="mi">${ICON.shelf}</span><span style="flex:1"><b>Continue reading</b><br><span class="small muted">${esc(last.title)} · section ${S.lastRead.i+1}</span></span><button class="btn ghost small-btn" data-read="${last.id}|${S.lastRead.i}">Read</button></div>` : ""}`);
+    ${plan}
+    ${!open.length ? `<div class="card" style="margin:12px 0"><b>Every lesson in Year ${y.n} is done.</b><p class="small muted" style="margin:4px 0 0">Keep up your flashcards, then take the final test on the Year ${y.n} page.</p></div>` : ""}
+    ${more ? `<p class="label">Other lessons</p><div class="carousel">${more}</div>` : ""}`);
 }
 /* Optional course before Year 1: what every Muslim must know. Never required, never locks anything. */
 const FARD_AYN = { title:"Fard 'Ayn: the essentials", parts:[
@@ -580,7 +674,7 @@ function fardAynCard(){
       <p class="small muted" style="margin:4px 2px">Texts: ${FARD_AYN.texts.map(esc).join(", ")}. This course is being prepared.</p></div></details>`;
 }
 function syllabusView(){
-  return shell(`<h1>Syllabus</h1><p class="muted" style="margin:0 0 14px">Five years through the classical texts, then a year of specialisation. Each year opens when you pass the one before.</p>
+  return shell(`<h1>Course</h1><p class="muted" style="margin:0 0 14px">Five years through the classical texts, then a year of specialisation. Each year opens when you pass the one before.</p>
     ${fardAynCard()}
     <div class="stack" style="margin-top:12px">${YEARS.map(yearCard).join("")}${specCard()}</div>
     <p class="small muted" style="margin:14px 2px 0">Studied before? A placement test to start from a later year is planned once the full programme is in place.</p>`);
@@ -602,22 +696,22 @@ function itemBook(b, open){
     <span><span class="t">${esc(b.title)}</span><br><span class="s">${esc(b.sub)} · ${L} ${L>1?"sections":"section"}</span></span>
     ${!open?ICON.lock:d>=L?`<span class="pill ok">Read</span>`:`<span class="pill">${d?`${d}/${L}`:"Read"}</span>`}</button>`;
   return `<button class="item" ${open?`data-book="${b.id}"`:"disabled"}><span class="ico art-ico">${artFor(b,40)}</span>
-    <span><span class="t">${esc(b.title)}</span><br><span class="s">${esc(b.sub)} · ${L} lessons</span></span>
+    <span><span class="t">${esc(nameOf(b))}</span>${classicOf(b)}<span class="s">${L} short lessons</span></span>
     ${!open?ICON.lock:d>=L?`<span class="pill ok">Done</span>`:`<span class="pill">${d}/${L}</span>`}</button>`;
 }
 function itemDeck(d, open){
   const s = deckStats(d), avail = s.due + Math.min(newLeft(d), s.nw);
   if (d.opt && !d.cards) return `<button class="item" ${open?`data-deck="${d.id}"`:"disabled"}><span class="ico art-ico">${artFor(d,40)}</span>
-    <span><span class="t">${esc(d.title)}</span><br><span class="s">${esc(d.sub)} · ${s.total.toLocaleString()} cards</span></span>
+    <span><span class="t">${esc(nameOf(d))}</span>${classicOf(d)}<span class="s">${s.total.toLocaleString()} cards</span></span>
     ${open?`<span class="pill">Optional</span>`:ICON.lock}</button>`;
   return `<button class="item" ${open?`data-deck="${d.id}"`:"disabled"}><span class="ico art-ico">${artFor(d,40)}</span>
-    <span><span class="t">${esc(d.title)}</span><br><span class="s">${esc(d.sub)} · ${s.total.toLocaleString()} cards${open?` · ${s.mastered} mastered`:""}</span>
+    <span><span class="t">${esc(nameOf(d))}</span>${classicOf(d)}<span class="s">${s.total.toLocaleString()} cards${open?` · ${s.mastered} mastered`:""}</span>
     ${open?`<span class="bar" style="display:block;margin-top:6px"><i style="width:${s.mastered/s.total*100}%;background:${d.color}"></i></span>`:""}</span>
     ${!open?ICON.lock:avail?`<span class="pill brand">${avail} to study</span>`:`<span class="pill ok">Done today</span>`}${d.opt?`<span class="pill" style="margin-left:4px">Optional</span>`:""}</button>`;
 }
 function yearView(n){
   const y = yearOf(n), open = S.unlocked.includes(n) && loaded(y), st = yearStatus(y);
-  const items = [...y.books.filter(b=>b.type!=="text").map(b=>({x:b, h:itemBook(b,open), f:bookDone(b)/lessonsOf(b)})), ...y.decks.map(d=>({x:d, h:itemDeck(d,open), f:d.cards?deckStats(d).mastered/deckStats(d).total:0, opt:!!d.opt}))];
+  const items = [...y.books.filter(b=>b.type!=="text").map(b=>({x:b, h:itemBook(b,open), f:bookDone(b)/lessonsOf(b)})), ...core(y.decks).map(d=>({x:d, h:itemDeck(d,open), f:d.cards?deckStats(d).mastered/deckStats(d).total:0}))], extra = y.decks.filter(d => d.opt);
   const mods = MODULES.map(m => {
     const its = items.filter(i => i.x.subject === m.name), soon = y.coming.filter(c => c[1] === m.name), lib = y.books.filter(b => b.type === "text" && b.subject === m.name);
     if (!its.length && !soon.length && !lib.length) return "";
@@ -627,17 +721,20 @@ function yearView(n){
         <span class="m-art">${art(m.art, m.color, 46)}</span>
         <span class="m-txt"><span class="t">${esc(m.name)}</span><span class="s">${esc(m.about)}</span>${its.length&&open?`<span class="bar"><i style="width:${frac*100}%;background:${m.color}"></i></span>`:""}</span>${status}</summary>
       <div class="stack">${its.map(i=>i.h).join("")}
-        ${lib.map(b=>`<button class="item lib-link" data-book="${b.id}"><span class="ico art-ico">${ICON.shelf.replace("<svg",`<svg width="26" height="26" style="color:${b.color}"`)}</span><span><span class="t">${esc(b.title)}</span><br><span class="s">Full text · read it in the Library</span></span><span class="pill gold">Read →</span></button>`).join("")}
+        ${lib.map(b=>`<button class="item lib-link" data-book="${b.id}"><span class="libthumb">${cover(b, 34)}</span><span><span class="t">${esc(b.title)}</span><br><span class="s">The full book · ${esc(b.author.replace(/^Imams? /,""))}</span></span><span class="pill gold">Read</span></button>`).join("")}
         ${soon.map(([t])=>`<div class="item soon"><span class="ico art-ico" style="opacity:.45">${art(m.art, m.color, 36)}</span><span><span class="t">${esc(t)}</span><br><span class="s">Coming soon</span></span></div>`).join("")}
         ${m.name==="Tasawwuf"&&n===1?`<p class="small muted" style="margin:4px 2px">Optional reading by tariqa: ${TARIQA_OPTIONAL.map(esc).join(", ")}.</p>`:""}</div></details>`; }).join("");
   const checks = [[st.booksOk, `Finish every book lesson (${st.ld}/${st.lt})`],
     [st.cm >= st.ct, `Master every flashcard, reviewed until it is ${MASTER_IVL}+ days apart (${st.cm.toLocaleString()}/${st.ct.toLocaleString()})`],
     [st.ret !== null && st.ret >= RETAIN, `Keep recall at ${RETAIN*100}%+ on reviews (now ${st.ret===null?"no reviews yet":pct(st.ret)})`]];
-  return shell(`<button class="back" data-go="syllabus">${ICON.back} Syllabus</button>
+  return shell(`<button class="back" data-go="syllabus">${ICON.back} Course</button>
     <section class="hero" style="--c:${open?"var(--brand)":"var(--muted)"}"><h1>Year ${n}: ${esc(y.title)}</h1><p>${esc(y.desc)}</p></section>
     ${open && !y.prepared ? `<div class="notice">${ICON.book||""}<span>The texts for Year ${n} are being chosen. Each module below will fill in as they are added, and the final test opens then.</span></div>` : ""}
     ${open?"":`<div class="notice">${ICON.lock}<span>Locked. Pass the Year ${n-1} final test (${PASS*100}% or more) to open this year. You can preview what it contains below.</span></div>`}
-    <p class="label">Year ${n} syllabus</p><div class="modules">${mods}</div>
+    <p class="label">What you study in Year ${n}</p><div class="modules">${mods}</div>
+    ${extra.length ? `<details class="module extra"><summary><span class="yr-badge" style="width:46px;height:46px;font-size:1.2rem;background:var(--gold, #B8892B)">+</span>
+        <span class="m-txt"><span class="t">Extra study</span><span class="s">Optional decks for students who want more. They don't count towards the final test.</span></span><span class="pill">${extra.length}</span></summary>
+      <div class="stack">${extra.map(d => itemDeck(d, open)).join("")}</div></details>` : ""}
     ${(()=>{ const rest = MODULES.filter(m => ![...y.books, ...y.decks].some(x=>x.subject===m.name) && !y.coming.some(c=>c[1]===m.name)).map(m=>m.name);
       return rest.length ? `<p class="small muted" style="margin:10px 2px 0">Not studied this year: ${rest.map(esc).join(", ")}.</p>` : ""; })()}
     <p class="label">Final test</p>
@@ -688,8 +785,9 @@ function profileView(){
       <p style="margin-bottom:0">Flashcards are adapted from shared Anki decks; Qur'an word frequencies come from the Quranic Arabic Corpus; full Arabic texts come from the OpenITI corpus. Anything marked <span class="pill gold">AI · needs review</span> awaits a teacher's check.</p></div></details>
     <details class="setgroup"><summary>Advanced</summary><div class="setlist">
       ${row("advgrades","Advanced grading","Four buttons (Again, Hard, Good, Easy) instead of Got it / Redo", toggle("advgrades", !!S.advancedGrades))}</div>
-      <div class="card small" style="margin-top:8px"><b>Testing tools</b><p class="muted" style="margin:2px 0 8px">For trying the year system without waiting weeks.</p>
-      <div class="btnrow"><button class="btn ghost" id="skipday">Skip to tomorrow</button><button class="btn ghost" id="fasttrack">Fast-track Year ${cy}</button><button class="btn ghost" id="reset">Reset everything</button></div></div></details>`);
+      ${S.dev ? `<div class="card small" style="margin-top:8px"><b>Testing tools</b><p class="muted" style="margin:2px 0 8px">Only shown in testing mode.</p>
+      <div class="btnrow"><button class="btn ghost" id="skipday">Skip to tomorrow</button><button class="btn ghost" id="fasttrack">Fast-track Year ${cy}</button></div></div>` : ""}
+      <div class="btnrow" style="margin-top:8px"><button class="btn ghost" id="reset">Reset all progress</button></div></details>`);
 }
 
 function streakBurst(){ return `<div class="burst">${ICON.flame.replace('<svg','<svg width="34" height="34"')}<div><b>${S.streak} day streak!</b><span>${S.streak===1?"A new streak begins, bismillah.":"Keep going, may Allah put barakah in it."}</span></div></div>`; }
@@ -698,9 +796,9 @@ const norm = s => String(s||"").normalize("NFKD").replace(/[\u0610-\u061A\u064B-
 let INDEX = null;
 function buildIndex(){
   INDEX = [];
-  for (const y of YEARS){ if (!loaded(y)) { for (const b of y.books.filter(b => b.type === "text" && TEXTS[b.file])) TEXTS[b.file].sections.forEach((s,i) => INDEX.push({ y:y.n, src:b, kind:"sec", i, a:(s.v||s.p).join(" "), e:s.he||s.h, k:norm(s.h+" "+(s.he||"")+" "+s.p.join(" ")+" "+(s.en||[]).join(" ")) })); continue; }
+  for (const y of YEARS){ if (!loaded(y)) { for (const b of y.books.filter(b => b.type === "text" && TEXTS[b.file])) TEXTS[b.file].sections.forEach((s,i) => s.p && INDEX.push({ y:y.n, src:b, kind:"sec", i, a:(s.v||s.p).join(" "), e:s.he||s.h, k:norm(s.h+" "+(s.he||"")+" "+s.p.join(" ")+" "+(s.en||[]).join(" ")) })); continue; }
     for (const b of y.books.filter(b => b.type !== "text")) (b.lines||[]).forEach((l,i) => INDEX.push({ y:y.n, src:b, kind:"line", i, a:l.ar, e:l.en, n:l.note||"", k:norm(l.ar+" "+l.en+" "+(l.note||"")) }));
-    for (const b of y.books.filter(b => b.type === "text" && TEXTS[b.file])) TEXTS[b.file].sections.forEach((s,i) => INDEX.push({ y:y.n, src:b, kind:"sec", i, a:(s.v||s.p).join(" "), e:s.he||s.h, k:norm(s.h+" "+(s.he||"")+" "+s.p.join(" ")+" "+(s.en||[]).join(" ")) }));
+    for (const b of y.books.filter(b => b.type === "text" && TEXTS[b.file])) TEXTS[b.file].sections.forEach((s,i) => s.p && INDEX.push({ y:y.n, src:b, kind:"sec", i, a:(s.v||s.p).join(" "), e:s.he||s.h, k:norm(s.h+" "+(s.he||"")+" "+s.p.join(" ")+" "+(s.en||[]).join(" ")) }));
     for (const d of y.decks) (d.cards||[]).forEach(c => INDEX.push({ y:y.n, src:d, kind:"card", c, a:c.fa?c.f:(c.ba?c.b:""), e:(c.fa?"":c.f)+" — "+(c.ba?"":c.b), k:norm(c.f+" "+c.b+" "+(c.s||"")) }));
   }
 }
@@ -753,45 +851,73 @@ function searchView(){
 
 /* ---- Library: every full text, open to all ---- */
 const LIB = () => YEARS.flatMap(y => y.books.filter(b => b.type === "text"));
+const hasAr = t => /[\u0621-\u064A]/.test(t||"");
+/* Book covers: original designs drawn in SVG (cloth colour by subject, gold frame, arch panel, Arabic title, author) */
+const CLOTH = { Aqeedah:"#14463A", Fiqh:"#1D3557", Hadith:"#5E1F2B", Arabic:"#5B3418", Tafsir:"#0F4A52", Seerah:"#4A2444", "Usul al-Fiqh":"#2E3B4E", Tasawwuf:"#3B4520", "Signs of the Hour":"#4B2323" };
+let COVER_N = 0;
+function wrapAr(t, max){ const w = t.split(" "), out = [""]; for (const x of w){ const l = out[out.length-1]; if (l && (l+" "+x).length > max) out.push(x); else out[out.length-1] = l ? l+" "+x : x; } return out; }
+function cover(b, w=120){
+  const id = "cv" + (++COVER_N), base = CLOTH[b.subject] || "#2B3A4A", gold = "#E2C27A", h = Math.round(w*1.45);
+  const hash = [...b.id].reduce((s,c)=>s+c.charCodeAt(0),0), pat = hash % 3;
+  const tl = wrapAr(b.ar || b.title, 11), fs = tl.length === 1 ? (tl[0].length > 8 ? 24 : 30) : tl.length === 2 ? 21 : 17, y0 = 132 - (tl.length-1)*fs*0.62;
+  const al = wrapAr(b.authorAr || "", 20).slice(0,2);
+  const motif = pat === 0 ? `<path d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3z" fill="none" stroke="${gold}" stroke-width=".7"/>`
+    : pat === 1 ? `<rect x="6" y="6" width="12" height="12" transform="rotate(45 12 12)" fill="none" stroke="${gold}" stroke-width=".7"/><circle cx="12" cy="12" r="2" fill="${gold}"/>`
+    : `<path d="M0 12h24M12 0v24" stroke="${gold}" stroke-width=".5"/><circle cx="12" cy="12" r="5" fill="none" stroke="${gold}" stroke-width=".7"/>`;
+  return `<svg class="cover" viewBox="0 0 200 290" width="${w}" height="${h}" role="img" aria-label="${esc(b.title)}">
+    <defs><pattern id="${id}p" width="24" height="24" patternUnits="userSpaceOnUse">${motif}</pattern>
+      <linearGradient id="${id}g" x1="0" x2="1"><stop offset="0" stop-color="#000" stop-opacity=".38"/><stop offset=".07" stop-color="#000" stop-opacity=".05"/><stop offset=".09" stop-color="#fff" stop-opacity=".06"/><stop offset=".2" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".18"/></linearGradient></defs>
+    <rect width="200" height="290" rx="5" fill="${base}"/><rect width="200" height="290" fill="url(#${id}p)" opacity=".16"/>
+    <rect x="24" y="14" width="164" height="262" fill="none" stroke="${gold}" stroke-width="1.6"/><rect x="29" y="19" width="154" height="252" fill="none" stroke="${gold}" stroke-width=".6"/>
+    <path d="M44 236V100Q44 52 106 40Q168 52 168 100V236Z" fill="#000" fill-opacity=".22" stroke="${gold}" stroke-width="1.2"/>
+    <path d="M106 54l4 8 8 4-8 4-4 8-4-8-8-4 8-4z" fill="${gold}"/>
+    ${tl.map((l,k)=>`<text x="106" y="${y0+k*fs*1.25}" text-anchor="middle" font-family="Amiri, serif" font-weight="700" font-size="${fs}" fill="${gold}" direction="rtl">${esc(l)}</text>`).join("")}
+    <path d="M78 ${y0+(tl.length-1)*fs*1.25+16}h56" stroke="${gold}" stroke-width=".8"/><circle cx="106" cy="${y0+(tl.length-1)*fs*1.25+16}" r="2.4" fill="${gold}"/>
+    ${al.map((l,k)=>`<text x="106" y="${206+k*16}" text-anchor="middle" font-family="Amiri, serif" font-size="12.5" fill="${gold}" fill-opacity=".9" direction="rtl">${esc(l)}</text>`).join("")}
+    <circle cx="35" cy="25" r="2" fill="${gold}"/><circle cx="177" cy="25" r="2" fill="${gold}"/><circle cx="35" cy="265" r="2" fill="${gold}"/><circle cx="177" cy="265" r="2" fill="${gold}"/>
+    <rect width="200" height="290" rx="5" fill="url(#${id}g)"/></svg>`;
+}
+const byline = b => `${esc(b.author)}${b.honor?` <span class="ar">${b.honor}</span>`:""}`;
+const hasEn = b => (META.textsEn||{})[b.file];
+function bookCard(b){
+  const d = bookDone(b), L = lessonsOf(b);
+  return `<button class="bookcard" data-book="${b.id}"><span class="cv">${cover(b, 140)}${d?`<span class="cvbar"><i style="width:${Math.max(4,d/L*100)}%"></i></span>`:""}</span>
+    <span class="bt">${esc(b.title)}</span><span class="ba">${esc(b.author.replace(/^Imams? /,""))}</span>
+    <span class="bl">${hasEn(b)?"Arabic · English":"Arabic"}${(META.textsAudio||{})[b.file]?" · 🎧":""}</span></button>`;
+}
 function libraryView(){
-  const books = LIB(), last = S.lastRead && bookById(S.lastRead.id);
-  const cont = last ? `<section class="continue"><div class="c-art">${artFor(last, 92)}</div><div class="kicker">Continue reading</div><h2>${esc(last.title)}</h2>
-      <p class="small muted" style="margin:4px 0 14px">Section ${S.lastRead.i+1} of ${lessonsOf(last)} · ${bookDone(last)} read</p>
-      <button class="btn" data-read="${last.id}|${S.lastRead.i}">Continue</button></section>` : "";
-  const order = b => MODULES.findIndex(m => m.name === b.subject);
-  const groups = YEARS.map(y => { const bs = books.filter(b => b.year === y.n).sort((p,q) => order(p) - order(q)), soon = y.coming;
-    return `<details class="module" ${bs.length?"open":""}><summary><span class="yr-badge" style="width:44px;height:44px;font-size:1.25rem">${y.n}</span>
-      <span class="m-txt"><span class="t">Year ${y.n}: ${esc(y.title)}</span><span class="s">${bs.length ? `${bs.length} ${bs.length>1?"books":"book"} to read${soon.length?` · ${soon.length} more coming`:""}` : `${soon.length} books coming`}</span></span></summary>
-      <div class="stack">${bs.map(b => libItem(b)).join("")}
-        ${soon.length ? `<details class="soon-list"><summary class="small">Coming to the Library (${soon.length})</summary><div class="small muted" style="margin-top:6px">${soon.map(([t,s]) => `<div class="spread" style="padding:5px 0;border-top:1px solid var(--line)"><span>${esc(t)}</span><span class="pill">${esc(s)}</span></div>`).join("")}</div></details>` : ""}</div></details>`; }).join("");
-  return shell(`<h1>Library</h1><p class="muted" style="margin:0 0 14px">The complete texts of the course, open to every student. Read bab by bab and pick up where you left off.</p>
-    ${cont}<div class="modules">${groups}</div>
-    <p class="small muted" style="margin-top:16px">More books are being added. Arabic texts come from the OpenITI corpus; harakat and English marked “AI · needs review” are waiting for a teacher's check.</p>`);
+  const books = LIB(), last = S.lastRead && bookById(S.lastRead.id), f = S.libYear || 0;
+  const cont = last ? `<section class="continue lib-cont"><span class="cv">${cover(last, 74)}</span><span style="flex:1;min-width:0"><span class="kicker" style="margin:0">Continue reading</span><b style="display:block">${esc(last.title)}</b>
+      <span class="small muted">Section ${S.lastRead.i+1} of ${lessonsOf(last)}</span></span><button class="btn small-btn" data-read="${last.id}|${S.lastRead.i}">Read</button></section>` : "";
+  const chips = `<div class="ychips">${[0,1,2,3,4,5].map(n => `<button class="ychip ${f===n?"on":""}" data-libyear="${n}">${n?`Year ${n}`:"All"}</button>`).join("")}</div>`;
+  const shelves = YEARS.filter(y => !f || y.n === f).map(y => { const bs = books.filter(b => b.year === y.n);
+    return bs.length ? `<p class="label">Year ${y.n} · ${esc(y.title)}</p><div class="shelf">${bs.map(bookCard).join("")}</div>` : ""; }).join("");
+  return shell(`<h1>Library</h1><p class="muted" style="margin:0 0 12px">${books.length} complete books, from the first texts to Sahih al-Bukhari. Free to read, bab by bab.</p>
+    ${cont}${chips}${shelves}
+    <p class="small muted" style="margin-top:18px">Arabic texts from the OpenITI corpus. Harakat and English marked “AI · needs review” are waiting for a teacher's check.</p>`);
 }
-function libItem(b){
-  const d = bookDone(b), L = lessonsOf(b), ai = (META.textsAi||{})[b.file];
-  return `<button class="item" data-book="${b.id}"><span class="ico art-ico">${artFor(b,40)}</span>
-    <span style="min-width:0"><span class="t">${esc(b.title)}</span><br><span class="s">${esc(b.sub)}</span><br>
-      <span class="tags"><span class="pill">${esc(b.subject)}</span><span class="pill">${L} sections</span>${ai?`<span class="pill gold">Harakat + English</span>`:`<span class="pill">Arabic text</span>`}${(META.textsAudio||{})[b.file]?`<span class="pill ok">🎧 Narrated</span>`:""}</span>
-      ${d?`<span class="bar" style="display:block;margin-top:6px"><i style="width:${d/L*100}%;background:${b.color}"></i></span>`:""}</span>
-    ${d>=L?`<span class="pill ok">Read</span>`:""}</button>`;
-}
-
 /* ---- Full-text reader ---- */
 function textView(b){
   const T = TEXTS[b.file], done = S.books[b.id]||[];
   if (!T) return shell(`<p class="muted">Loading…</p>`);
-  let lastParent = null;
-  const rows = T.sections.map((s,i) => { const head = s.parent && s.parent !== lastParent ? `<p class="label ar" style="text-align:right;font-size:1rem;letter-spacing:0">${esc(s.parent)}</p>` : ""; lastParent = s.parent || lastParent;
-    return `${head}<button class="item" data-read="${b.id}|${i}"><span class="ico" style="background:${done.includes(i)?"var(--ok)":"color-mix(in srgb,"+b.color+" 14%,var(--surface))"};color:${done.includes(i)?"#fff":b.color};font-family:var(--body);font-size:.9rem;font-weight:800">${done.includes(i)?ICON.check.replace("<svg",'<svg width="18" height="18"'):i+1}</span>
-      <span style="min-width:0"><span class="t ar" style="display:block;font-size:1.1rem">${esc(snip(s.h,60))}</span>${s.he?`<span class="s" style="display:block">${esc(s.he)}</span>`:""}<span class="s">${s.p.length} ${s.p.length>1?"paragraphs":"paragraph"}</span></span>
-      ${done.includes(i)?`<span class="pill ok">Read</span>`:""}</button>`; }).join("");
-  const next = T.sections.findIndex((_,i) => !done.includes(i));
+  const n = T.sections.length, next = T.sections.findIndex((_,i) => !done.includes(i));
+  const row = (s,i) => `<button class="item toc" data-read="${b.id}|${i}"><span class="num ${done.includes(i)?"on":""}">${done.includes(i)?ICON.check.replace("<svg",'<svg width="14" height="14"'):i+1}</span>
+      <span style="min-width:0;flex:1"><span class="t ${hasAr(s.h)?"ar":""}" style="display:block">${esc(snip(s.h,70))}</span>${s.he?`<span class="s" style="display:block">${esc(s.he)}</span>`:""}</span></button>`;
+  let toc;
+  const groups = []; T.sections.forEach((s,i) => { const p = s.parent || s.h; if (!groups.length || groups[groups.length-1].p !== p) groups.push({ p, is:[] }); groups[groups.length-1].is.push(i); });
+  if (n > 30 && groups.length > 1 && groups.length < n) toc = groups.map(g => { if (g.is.length === 1) return `<div class="stack" style="margin-bottom:8px">${row(T.sections[g.is[0]], g.is[0])}</div>`; const read = g.is.filter(i => done.includes(i)).length, here = g.is.includes(next);
+      return `<details class="kitab" ${here?"open":""}><summary><span class="${hasAr(g.p)?"ar":""}" style="flex:1">${esc(snip(g.p,60))}</span><span class="small muted">${read?`${read}/`:""}${g.is.length}</span></summary><div class="stack">${g.is.map(i => row(T.sections[i], i)).join("")}</div></details>`; }).join("");
+  else toc = `<div class="stack">${T.sections.map(row).join("")}</div>`;
   return shell(`<button class="back" data-go="library">${ICON.back} Library</button>
-    <section class="hero" style="--c:${b.color}"><div class="hero-art">${art(ART_OF[b.id]||MODULES.find(m=>m.name===b.subject)?.art||"star", b.color, 84)}</div><h1>${esc(b.title)}</h1><p>${esc(b.sub)}. ${T.ai?"Harakat and English were added by AI and are waiting for a teacher's review.":"Arabic text only for now; harakat and English will be added."}</p></section>
-    ${next>=0?`<button class="btn" data-read="${b.id}|${next}" style="margin:10px 0 4px">${done.length?"Continue reading":"Start reading"}</button>`:""}
-    <p class="label">${done.length} of ${T.sections.length} sections read</p><div class="stack">${rows}</div>
-    <p class="small muted" style="margin-top:14px">Arabic text from the OpenITI corpus. Reading these texts is not yet part of the year's final test.</p>`);
+    <section class="bookhead"><span class="cv">${cover(b, 128)}</span><div style="min-width:0">
+      <h1>${esc(b.title)}</h1><p class="ar booktitle-ar">${esc(b.ar||"")}</p>
+      <p class="byline">${byline(b)}</p><p class="small muted" style="margin:0">${esc(b.when||"")}</p></div></section>
+    <p style="margin:12px 0 8px">${esc(b.sub)}.</p>
+    <div class="tags" style="margin-bottom:12px"><span class="pill">${esc(b.subject)}</span><span class="pill">Year ${b.year}</span><span class="pill">${n} sections</span>${hasEn(b)?`<span class="pill gold">Arabic + English</span>`:`<span class="pill">Arabic</span>`}${(META.textsAudio||{})[b.file]?`<span class="pill ok">🎧 Narrated</span>`:""}</div>
+    ${done.length?`<div class="spread small muted"><span>${done.length} of ${n} read</span><span>${Math.round(done.length/n*100)}%</span></div><span class="bar" style="display:block;margin:4px 0 10px"><i style="width:${done.length/n*100}%;background:var(--brand)"></i></span>`:""}
+    ${next>=0?`<button class="btn" data-read="${b.id}|${next}" style="margin:4px 0 6px">${done.length?`Continue · section ${next+1}`:"Start reading"}</button>`:`<div class="notice">${ICON.check}<span>You've read the whole book, alhamdulillah.</span></div>`}
+    <p class="label">Contents</p>${toc}
+    <p class="small muted" style="margin-top:14px">${T.ai?"Harakat and English were added by AI and are waiting for a teacher's review. ":""}${hasEn(b)?"":"Arabic text from the OpenITI corpus; English will be added."}</p>`);
 }
 function readView(b, i){
   const T = TEXTS[b.file]; if (!T) return `<p class="muted">Loading…</p>`;
@@ -799,8 +925,8 @@ function readView(b, i){
   const ar = s.v || s.p;   // esc() removes harakat when they're switched off, but never inside ayat
   const paras = ar.map((t,j) => `<div class="para" data-pj="${j}"><p class="ar-read">${esc(t)}</p>${P.english && s.en && s.en[j] ? `<p class="en-read">${esc(s.en[j])}</p>` : ""}</div>`).join("");
   return `<div class="player"><div class="player-in"><div class="phead"><button class="x" id="rquit" aria-label="Close">${ICON.x}</button><div class="bar"><i style="width:${(i+1)/T.sections.length*100}%;background:${b.color}"></i></div><span class="count">${i+1}/${T.sections.length}</span></div>
-    <div class="pbody reader"><div class="kicker">${esc(b.title)}${s.parent?` · <span class="ar">${esc(s.parent)}</span>`:""}</div>
-      <h2 class="ar" style="text-align:right;font-size:1.5rem;margin:4px 0 2px">${esc(s.h)}</h2>${s.he?`<p class="muted" style="margin:0 0 8px">${esc(s.he)}</p>`:""}
+    <div class="pbody reader"><div class="kicker">${esc(b.title)}${s.parent?` · <span class="${hasAr(s.parent)?"ar":""}">${esc(s.parent)}</span>`:""}</div>
+      ${hasAr(s.h)?`<h2 class="ar" style="text-align:right;font-size:1.5rem;margin:4px 0 2px">${esc(s.h)}</h2>`:`<h2 style="font-size:1.25rem;margin:4px 0 2px">${esc(s.h)}</h2>`}${s.he?`<p class="muted" style="margin:0 0 8px">${esc(s.he)}</p>`:""}
       <div class="tools" style="margin:6px 0 10px"><button class="tool listen ${AUD.on?"on":""}" id="listen">${AUD.on?"❚❚ Pause":"▶ Listen"}</button>
         ${s.v ? `<button class="tool ${S.harakat!==false?"on":""}" id="tg-h">حَ Harakat ${S.harakat!==false?"on":"off"}</button>` : `<button class="tool" disabled style="opacity:.55" title="Harakat for this book are being added">حَ No harakat yet</button>`}${s.en?`<button class="tool ${P.english?"on":""}" id="tg-e">EN English</button>`:""}
         <button class="tool" id="fsdn" aria-label="Smaller text">A−</button><button class="tool" id="fsup" aria-label="Larger text">A+</button>
@@ -820,7 +946,7 @@ function bindRead(b, i){
   $("#listen").onclick = () => { if (AUD.on) { stopAudio(); redraw(); } else { AUD.on = true; redraw(); speakFrom(b, i, 0); } };
   $("#rquit").onclick = () => { stopAudio(); go({ name:"book", id:b.id }); };
   $("#rprev").onclick = () => { stopAudio(); if (i > 0) openRead(b.id, i-1); };
-  $("#rnext").onclick = () => { const d = S.books[b.id] = S.books[b.id]||[]; const first = !d.includes(i); if (first) d.push(i);
+  $("#rnext").onclick = () => { const d = S.books[b.id] = S.books[b.id]||[]; const first = !d.includes(i); if (first) d.push(i); S.readDay = today();
     const adv = touchDay(first ? 2 : 0); if (adv) toast(`${S.streak} day streak! Keep going`);
     stopAudio(); if (i+1 < T.sections.length) openRead(b.id, i+1); else { toast("Book finished, alhamdulillah"); go({ name:"book", id:b.id }); } };
 }
@@ -865,7 +991,7 @@ async function speakFrom(b, i, j0){
 }
 if (hasTTS()) { speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices(); }
 async function openRead(id, i){
-  const b = bookById(id); if (!TEXTS[b.file]) { $("#app").innerHTML = `<div class="done-screen" style="min-height:60vh"><p class="muted">Loading ${esc(b.title)}…</p></div>`; try { await loadText(b.file); } catch(e){ toast("Could not load the text. Check your connection."); return go({name:"year", n:b.year}); } }
+  const b = bookById(id); if (!TEXTS[b.file] || !TEXTS[b.file].sections[i].p) { $("#app").innerHTML = `<div class="done-screen" style="min-height:60vh"><p class="muted">Loading ${esc(b.title)}…</p></div>`; try { await loadSection(b.file, i); } catch(e){ toast("Could not load the text. Check your connection."); return go({name:"library"}); } }
   view = { name:"read", id, i }; S.lastRead = { id, i }; save(); $("#app").innerHTML = readView(b, i); bindRead(b, i); window.scrollTo(0,0); const pb = document.querySelector(".pbody"); if (pb) pb.scrollTop = 0;
 }
 
@@ -880,7 +1006,7 @@ function specCard(){
 }
 function specView(){
   const open = specOpen(), chosen = MODULES.find(x => x.name === S.spec);
-  const intro = `<button class="back" data-go="syllabus">${ICON.back} Syllabus</button>
+  const intro = `<button class="back" data-go="syllabus">${ICON.back} Course</button>
     <section class="hero" style="--c:var(--gold)"><div class="hero-art">${art("star","#C8912B",84)}</div><h1>Specialisation (Takhassus)</h1>
     <p>After the Dawrat al-Hadith, spend a year of further study in one module, going deeper into its texts with a teacher.</p></section>
     ${open?"":`<div class="notice">${ICON.lock}<span>Pass the Year ${YEARS.length} final test to choose your specialisation. You can look at the options now.</span></div>`}`;
@@ -912,7 +1038,7 @@ function itemByKey(k){
   return null;
 }
 const keyCard = c => `c|${c.id}`, keyLine = (b, l) => `l|${b.id}|${b.lines.indexOf(l)}`;
-function reportText(r){ const it = itemByKey(r.k); const what = !it ? r.k : it.kind === "sec" ? `${it.src.title}, section ${it.i+1}${it.s?`: ${it.s.h}\n${it.s.p.slice(0,2).join("\n")}`:""}` : it.kind === "card" ? `${it.src.title}\nQ: ${it.c.f}\nA: ${it.c.b}` : `${it.src.title}, ${it.src.type==="hadith"?"hadith":"line"} ${it.i+1}\n${it.l.ar||""}\n${it.l.en||""}`;
+function reportText(r){ const it = itemByKey(r.k); const what = !it ? r.k : it.kind === "sec" ? `${it.src.title}, section ${it.i+1}${it.s?`: ${it.s.h}\n${(it.s.p||[]).slice(0,2).join("\n")}`:""}` : it.kind === "card" ? `${it.src.title}\nQ: ${it.c.f}\nA: ${it.c.b}` : `${it.src.title}, ${it.src.type==="hadith"?"hadith":"line"} ${it.i+1}\n${it.l.ar||""}\n${it.l.en||""}`;
   return `Ihsan report [${r.k}]\nProblem: ${r.why}${r.note?`\nNote: ${r.note}`:""}\n\n${what}`; }
 async function sendReports(list){
   const body = list.map(reportText).join("\n\n----------\n\n"), subject = `Ihsan: ${list.length} card report${list.length>1?"s":""}`;
@@ -1064,6 +1190,7 @@ function renderLesson(){
 }
 function finishLesson(){
   const done = S.books[B.b.id] = S.books[B.b.id] || [], first = !done.includes(B.idx); if (first) done.push(B.idx);
+  S.lessonDay = { d:today(), n:(S.lessonDay && S.lessonDay.d === today() ? S.lessonDay.n : 0) + 1 };
   const xp = first ? 10 + B.correct*2 : 3, adv = touchDay(xp);
   const id = B.b.id, score = `${B.correct}/${B.nq}`; B = null;
   $("#app").innerHTML = `<div class="player"><div class="player-in"><div class="done-screen"><div style="width:80px">${ICON.logo}</div><div class="big">Lesson complete</div>${adv?streakBurst():""}
@@ -1122,6 +1249,7 @@ async function finishTest(){
 }
 
 /* ======================= RENDER ======================= */
+if (/[?&]dev=1/.test(location.search)) { S.dev = true; save(); } else if (/[?&]dev=0/.test(location.search)) { delete S.dev; save(); }
 function render(){
   const app = $("#app");
   if (!S.welcomed){ app.innerHTML = welcomeView(); $("#begin").onclick = () => { S.welcomed = true; save(); go({name:"home"}); }; return; }
@@ -1151,6 +1279,7 @@ function render(){
     confirmBox(`Choose ${m} as your specialisation?`, () => { S.spec = m; save(); render(); }); });
   const cs = $("#changespec"); if (cs) cs.onclick = () => confirmBox("Change your specialisation? Your progress in the five years is kept.", () => { S.spec = null; save(); render(); });
   const cn = $("#continue"); if (cn) cn.onclick = () => { const nl = nextLesson(); if (nl) startLesson(nl.b.id, nl.i); };
+  app.querySelectorAll("[data-libyear]").forEach(c => c.onclick = () => { S.libYear = +c.dataset.libyear; save(); render(); });
   const la = $("#loadall"); if (la) la.onclick = async () => { la.disabled = true; la.textContent = "Loading the books…"; try { await Promise.all(LIB().map(b => loadText(b.file))); } catch(e){ toast("Some books could not load"); } INDEX = null; render(); };
   const sq = $("#sq"); if (sq){ sq.oninput = () => { view.q = sq.value; $("#sres").innerHTML = searchResults(sq.value); bindResults(); }; bindResults(); if (view.q !== undefined) { sq.focus(); sq.setSelectionRange(sq.value.length, sq.value.length); } }
   const sd = $("#sendall"); if (sd) sd.onclick = async () => { const ok = await sendReports(S.reports.filter(r=>!r.sent)); if (ok) { toast("Thank you, jazak Allahu khayran"); render(); } };
@@ -1184,5 +1313,5 @@ applyTheme(); try { matchMedia("(prefers-color-scheme: dark)").addEventListener(
 })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=e4944b7582");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=187ce97af5");</script></body>
 </html>
