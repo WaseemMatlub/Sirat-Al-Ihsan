@@ -294,7 +294,7 @@ const YEARS = [
      { id:"quduri", simple:true, title:"Mukhtasar al-Quduri", sub:"Imam al-Quduri's رحمه الله Hanafi primer, question by question", glyph:"ق", color:"#2F6E8F", subject:"Fiqh" },
      { id:"roots", title:"Qur'an roots: top 1,000", sub:"Ranked by how often they occur in the Qur'an", glyph:"ج", color:"#8A4FA3", subject:"Arabic" },
      { id:"verbs1", title:"Arabic verbs: 1–700", sub:"The most used verbs, with past, present and verbal noun", glyph:"ف", color:"#B5651D", subject:"Arabic" },
-     { id:"ithaf", simple:true, title:"Ithaf al-Talib (Arabic)", sub:"Fiqh questions and answers read in Arabic", glyph:"إ", color:"#1F6F78", subject:"Fiqh" } ],
+     { id:"ithaf", simple:true, title:"Ithaf al-Talib", sub:"Fiqh questions and answers in Arabic, with English", glyph:"إ", color:"#1F6F78", subject:"Fiqh" } ],
    coming:[["al-Rawdah al-Bahiyyah: Ash'aris and Maturidis","Comparative Aqeedah"],["al-Muqaddimah al-Jazariyyah","Tajweed"],["Tarjamat al-Qur'an: al-Kahf to al-Nas","Tafsir"],["Nahw: Hidayat al-Nahw","Arabic"],["Nahw: Sharh Mi'at 'Amil","Arabic"],["Nahw: Sharh Qatr al-Nada","Arabic"],["Adab: Qasas al-Nabiyyin","Arabic"],["Mufradat al-Qur'an: root meanings","Arabic"],["I'rab practice: short sentences","Arabic"],["al-Risalah al-Qushayriyyah (selections)","Tasawwuf"],["Qasidat al-Burdah","Seerah"],["al-Isha'ah li-Ashrat al-Sa'ah","Signs of the Hour"],["al-Sughra and al-Kubra","Mantiq"],["Isaghuji","Mantiq"]] },
  { n:3, title:"Depth", desc:"Sharh al-'Aqa'id al-Nasafiyyah, Kanz al-Daqa'iq, al-Jalalayn, Mishkat al-Masabih, al-Kafiyah and Nur al-Anwar.",
    books:[ { id:"majalla", type:"lines", per:5, title:"The Majallah: 99 legal maxims", sub:"Al-Majallah al-Ahkam al-'Adliyyah, with explanations", glyph:"م", color:"#5C6B2E", subject:"Fiqh" } ],
@@ -641,6 +641,7 @@ function profileView(){
     <p class="label">Settings</p>
     <div class="setlist">
       ${row("hk","Show harakat","Qur'anic text always keeps its harakat", toggle("hk", S.harakat!==false))}
+      ${row("clang","Question and answer language","Applies to every Q&A deck. More languages are planned", `<select id="clang"><option value="" ${!S.cardLang?"selected":""}>As written</option><option value="en" ${S.cardLang==="en"?"selected":""}>English</option><option value="ar" ${S.cardLang==="ar"?"selected":""}>العربية</option></select>`)}
       ${row("npd","New flashcards a day","Per deck", `<select id="npd">${[5,10,15,20,30,50].map(n=>`<option ${n===S.newPerDay?"selected":""}>${n}</option>`).join("")}</select>`)}
       ${row("madhab","Madhab","Other madhabs are coming", `<select id="madhab"><option selected>Hanafi</option><option disabled>Maliki</option><option disabled>Shafi'i</option><option disabled>Hanbali</option></select>`)}
     </div>
@@ -864,7 +865,9 @@ const REPORT_TO = "";
 const isSaved = k => (S.saved||[]).includes(k);
 function toggleSave(k){ S.saved = S.saved||[]; const i = S.saved.indexOf(k); if (i >= 0) S.saved.splice(i,1); else S.saved.unshift(k); save(); toast(i >= 0 ? "Removed from saved" : "Saved. Find it under Search"); }
 function toast(t){ document.querySelectorAll(".toast").forEach(x => x.remove()); const el = document.createElement("div"); el.className = "toast"; el.setAttribute("role","status"); el.textContent = t; document.body.appendChild(el); setTimeout(() => el.remove(), 2200); }
-function toolRow(k, know){ return `<div class="tools"><button class="tool ${isSaved(k)?"on":""}" data-save="${esc(k)}" aria-label="Save">${isSaved(k)?ICON.saved:ICON.save}<span>${isSaved(k)?"Saved":"Save"}</span></button>
+function toolRow(k, know){ const it = k.startsWith("c|") ? itemByKey(k) : null, qa = it && it.kind === "card" && isQA(it.c);
+  const langBtn = qa ? `<button class="tool lang" data-lang="1" aria-label="Switch question and answer language">🌐 ${shownLang(it.c) === "ar" ? "English" : "العربية"}</button>` : "";
+  return `<div class="tools">${langBtn}<button class="tool ${isSaved(k)?"on":""}" data-save="${esc(k)}" aria-label="Save">${isSaved(k)?ICON.saved:ICON.save}<span>${isSaved(k)?"Saved":"Save"}</span></button>
   <button class="tool" data-report="${esc(k)}" aria-label="Report a problem">${ICON.flag}<span>Report</span></button>
   <button class="tool ${S.harakat!==false?"on":""}" data-harakat="1" aria-label="Harakat on or off">حَ ${S.harakat!==false?"on":"off"}</button>
   ${know?`<button class="tool" id="know" aria-label="I already know this">${ICON.know}<span>I know this</span></button>`:""}</div>`; }
@@ -899,6 +902,8 @@ function openReport(k){
   });
 }
 function bindTools(root, rerender){
+  root.querySelectorAll("[data-lang]").forEach(b => b.onclick = () => { const k = b.closest(".tools").querySelector("[data-save]").dataset.save, it = itemByKey(k);
+    S.cardLang = shownLang(it.c) === "ar" ? "en" : "ar"; save(); rerender && rerender(); });
   root.querySelectorAll("[data-harakat]").forEach(b => b.onclick = () => { S.harakat = S.harakat === false; save(); toast(S.harakat ? "Harakat on" : "Harakat off (Qur'anic text keeps its harakat)"); rerender && rerender(); });
   root.querySelectorAll("[data-save]").forEach(b => b.onclick = () => { toggleSave(b.dataset.save); rerender && rerender(); });
   root.querySelectorAll("[data-report]").forEach(b => b.onclick = () => openReport(b.dataset.report));
@@ -915,7 +920,20 @@ function startStudy(decks){
   Q = { q, i:0, shown:false, total:q.length, done:0, xp:0, deckById };
   renderStudy();
 }
+/* ---- Bilingual Q&A: one switch shows question AND answer in Arabic or English (more languages later) ---- */
+const LANGS = { ar:"العربية", en:"English" };
+const isQA = c => !!c.fa === !!c.ba;                    // both sides in one language (not vocab)
+const origLang = c => c.fa ? "ar" : "en";
+function viewCard(c){
+  if (!isQA(c)) return c;
+  const want = S.cardLang || origLang(c); if (want === origLang(c)) return c;
+  const t = c.tr && c.tr[want];
+  if (!t) return { ...c, missing:want };
+  return { ...c, f:t.f, b:t.b, fa: want === "ar" ? 1 : 0, ba: want === "ar" ? 1 : 0, translated:want };
+}
+const shownLang = c => { const v = viewCard(c); return v.translated || origLang(c); };
 function cardFront(c, d){
+  c = viewCard(c);
   const esc = c.deck === "quran" ? escQ : window.escH;
   const big = c.fa && c.f.length < 24;
   return `<div class="kicker">${esc(d.title)}${c.g?` · ${esc(c.g)}`:""}</div>
@@ -924,8 +942,10 @@ function cardFront(c, d){
       ${c.s?`<span class="pill" style="margin-top:8px">${esc(c.s)}</span>`:""}</div>`;
 }
 function cardBack(c){
+  c = viewCard(c);
+  const note = c.missing ? `<p class="small muted" style="margin:0 0 8px">Not available in ${LANGS[c.missing]} yet, so you're seeing the original.</p>` : c.translated ? `<span class="pill gold" style="margin-bottom:8px;display:inline-block">AI translation · needs review</span>` : "";
   const esc = c.deck === "quran" ? escQ : window.escH;
-  return `<div class="card answer" style="margin-top:12px">
+  return `<div class="card answer" style="margin-top:12px">${note}
     ${c.ba ? `<div class="ar" style="font-size:1.3rem;line-height:1.9;text-align:right">${esc(c.b)}</div>`
       : c.b.length < 80 ? `<div style="font-size:1.2rem;font-weight:800">${esc(c.b)}</div>` : points(c.b)}
     ${c.ai?`<span class="pill gold" style="margin-top:6px">AI · needs review</span>`:""}
@@ -1097,6 +1117,7 @@ function render(){
     sayOne(l === "en" ? "Whoever takes a path seeking knowledge, Allah makes easy for him a path to Paradise." : "مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا، سَهَّلَ اللهُ لَهُ بِهِ طَرِيقًا إِلَى الْجَنَّةِ", l, l === "en" ? 0.95 : 0.9, AUD.token); });
   if (hasTTS() && view.name === "profile" && !voicesFor("en").length) speechSynthesis.onvoiceschanged = () => { if (view.name === "profile") render(); };
   const av = $("#arvoice"); if (av) av.onchange = () => { S.arVoice = av.checked; save(); };
+  const cl = $("#clang"); if (cl) cl.onchange = () => { S.cardLang = cl.value || null; save(); };
   const hk = $("#hk"); if (hk) hk.onchange = () => { S.harakat = hk.checked; save(); };
   app.querySelectorAll("[data-theme]").forEach(b => b.onclick = () => { S.theme = b.dataset.theme; save(); applyTheme(); render(); });
   const ag = $("#advgrades"); if (ag) ag.onchange = () => { S.advancedGrades = ag.checked; save(); };
@@ -1121,5 +1142,5 @@ applyTheme(); try { matchMedia("(prefers-color-scheme: dark)").addEventListener(
 })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=6c6610208d");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=539aea514f");</script></body>
 </html>
