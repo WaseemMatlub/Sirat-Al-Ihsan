@@ -190,7 +190,7 @@ details.kitab>.stack{padding:0 8px 8px}
 .ar-read{cursor:pointer}
 
 /* Illuminated greeting: the one ornamental moment on Home */
-.illum{position:relative;margin:4px 0 14px;padding:34px 20px 18px;text-align:center;color:#F4E7C8;border-radius:150px 150px 20px 20px/90px 90px 20px 20px;
+.illum{position:relative;margin:4px 0 14px;padding:34px 20px 20px;text-align:center;color:#F4E7C8;border-radius:150px 150px 20px 20px/90px 90px 20px 20px;
   background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28'%3E%3Cpath d='M14 2l3.6 8.4L26 14l-8.4 3.6L14 26l-3.6-8.4L2 14l8.4-3.6z' fill='none' stroke='%23D9B56A' stroke-width='.8' opacity='.28'/%3E%3C/svg%3E"),linear-gradient(160deg,#0E5A43,#0A3F30);
   box-shadow:inset 0 0 0 2px rgba(226,194,122,.55),inset 0 0 0 7px #0B4535,inset 0 0 0 8px rgba(226,194,122,.35)}
 .illum-ar{font-family:"Amiri",serif;font-weight:700;font-size:2.15rem;line-height:1.5;margin:0;color:#E2C27A;text-align:center}
@@ -728,28 +728,13 @@ function installCard(){
   return `<section class="card install"><b>Put Ihsan on your home screen</b><p class="small muted" style="margin:4px 0 10px">${INSTALL ? "It opens like an app and works offline for the pages you've visited." : "Tap the Share button in Safari, then “Add to Home Screen”."}</p>
     <div class="btnrow">${INSTALL?`<button class="btn small-btn" id="inst">Add to home screen</button>`:""}<button class="btn ghost small-btn" id="noinst">Not now</button></div></section>`;
 }
-/* ---- Home extras: Hijri date, prayer times (free AlAdhan API, opt-in), hadith of the day ---- */
-const hijri = () => { try { return new Intl.DateTimeFormat("en-GB-u-ca-islamic-umalqura", { day:"numeric", month:"long", year:"numeric" }).format(new Date()); } catch(e){ return ""; } };
-const PRAYERS = ["Fajr","Dhuhr","Asr","Maghrib","Isha"];
-async function loadPrayer(){
-  const P = S.prayer; if (!P || !P.city) return null;
-  const key = `${today()}|${P.city}|${P.country}`; if (S.pt && S.pt.k === key) return S.pt.t;
-  try { const r = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent(P.city)}&country=${encodeURIComponent(P.country||"")}&method=${P.method||15}&school=${P.school??1}`);
-    const j = await r.json(); if (j.code !== 200) return null; S.pt = { k:key, t:j.data.timings }; save(); return S.pt.t; } catch(e){ return null; }
-}
-function nextPrayer(t){
-  if (!t) return null; const now = new Date(), mins = now.getHours()*60 + now.getMinutes();
-  for (const p of PRAYERS){ const [h,m] = t[p].slice(0,5).split(":").map(Number); if (h*60+m > mins) return { p, at:t[p].slice(0,5) }; }
-  return { p:"Fajr", at:t.Fajr.slice(0,5), tomorrow:true };
-}
+/* ---- Home: hadith of the day ---- */
 const DAILY = {};
 async function hadithOfDay(){
   const d = new Date(), m = d.getMonth(); if (!DAILY[m]) { try { const r = await fetch(`data/daily/${m}.json`); DAILY[m] = await r.json(); } catch(e){ return null; } }
   return DAILY[m][(d.getDate()-1) % DAILY[m].length];
 }
 async function fillHome(){
-  const t = await loadPrayer(), np = nextPrayer(t), el = $("#np");
-  if (el && np) el.textContent = `${np.p} ${np.at}${np.tomorrow?" tomorrow":""}`;
   const h = await hadithOfDay(), box = $("#hotd");
   if (box && h) box.innerHTML = `<p class="label" style="margin-top:0">Hadith of the day</p><p class="ar hotd-ar">${esc(h.a)}</p><p class="hotd-en">${esc(h.e)}</p>
     <div class="spread small muted"><span>${esc(h.r)} · ${esc(h.c)}</span><button class="linkbtn" data-read="t_bukhari|${h.i}">Read in context</button></div>`, box.hidden = false, bindReadLinks(box);
@@ -783,8 +768,7 @@ function homeView(){
       <div class="lbody"><div class="kicker" style="margin:0">${esc(b.subject)}</div><h3>${esc(nameOf(b))}</h3><p class="small muted">Lesson ${i+1} of ${L}</p></div>
       <button class="lbtn" data-startlesson="${b.id}|${i}">Start lesson</button></div>`).join("");
   return shell(`
-    <section class="illum"><p class="ar illum-ar">السَّلَامُ عَلَيْكُمْ</p><p class="illum-en">Assalamu 'alaykum${S.name?`, ${esc(S.name)}`:""}</p>
-      <p class="illum-meta"><span>${hijri()}</span>${S.prayer&&S.prayer.city?`<span>Next: <b id="np">…</b></span>`:""}</p></section>
+    <section class="illum"><p class="ar illum-ar">السَّلَامُ عَلَيْكُمْ</p><p class="illum-en">Assalamu 'alaykum${S.name?`, ${esc(S.name)}`:""}</p></section>
     <button class="coursebar" data-year="${y.n}"><span><b>Year ${y.n}: ${esc(y.title)}</b></span>
       <span class="bar"><i style="width:${pctDone}%"></i></span><span class="small muted">${pctDone}%</span></button>
     ${plan}
@@ -916,7 +900,6 @@ function profileView(){
       ${row("hk","Show harakat","Qur'anic text always keeps its harakat", toggle("hk", S.harakat!==false))}
       ${row("clang","Question and answer language","Applies to every Q&A deck. More languages are planned", `<select id="clang"><option value="" ${!S.cardLang?"selected":""}>As written</option><option value="en" ${S.cardLang==="en"?"selected":""}>English</option><option value="ar" ${S.cardLang==="ar"?"selected":""}>العربية</option></select>`)}
       ${row("npd","New flashcards a day","Per deck", `<select id="npd">${[5,10,15,20,30,50].map(n=>`<option ${n===S.newPerDay?"selected":""}>${n}</option>`).join("")}</select>`)}
-      ${row("pcity","Prayer times on Home","Your town, e.g. Leeds, United Kingdom. Times from AlAdhan, Hanafi Asr", `<input id="pcity" placeholder="Town, country" value="${esc(S.prayer?[S.prayer.city,S.prayer.country].filter(Boolean).join(", "):"")}" style="max-width:170px">`)}
       ${row("madhab","Madhab","Other madhabs are coming", `<select id="madhab"><option selected>Hanafi</option><option disabled>Maliki</option><option disabled>Shafi'i</option><option disabled>Hanbali</option></select>`)}
     </div>
     <details class="setgroup"><summary>Listening</summary><div class="setlist">
@@ -1498,7 +1481,6 @@ function render(){
   const cl = $("#clang"); if (cl) cl.onchange = () => { S.cardLang = cl.value || null; save(); };
   const hk = $("#hk"); if (hk) hk.onchange = () => { S.harakat = hk.checked; save(); };
   app.querySelectorAll("[data-theme]").forEach(b => b.onclick = () => { S.theme = b.dataset.theme; save(); applyTheme(); render(); });
-  const pc = $("#pcity"); if (pc) pc.onchange = () => { const [city, ...rest] = pc.value.split(","); S.prayer = city.trim() ? { city:city.trim(), country:rest.join(",").trim() } : null; delete S.pt; save(); toast(S.prayer ? "Prayer times will show on Home" : "Prayer times turned off"); };
   const ag = $("#advgrades"); if (ag) ag.onchange = () => { S.advancedGrades = ag.checked; save(); };
   const npd = $("#npd"); if (npd) npd.onchange = () => { S.newPerDay = +npd.value; save(); };
   const sk = $("#skipday"); if (sk) sk.onclick = () => { S.offset++; save(); render(); };
@@ -1521,5 +1503,5 @@ applyTheme(); try { matchMedia("(prefers-color-scheme: dark)").addEventListener(
 })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=5103ee0d82");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=937b0940e0");</script></body>
 </html>
