@@ -182,6 +182,13 @@ details.kitab>.stack{padding:0 8px 8px}
 .ring span{width:36px;height:36px;border-radius:50%;background:var(--surface);display:grid;place-items:center}
 .classic{display:block;font-size:.8rem;color:var(--muted);font-style:italic}
 
+.modal.sheet{place-items:end center;padding:0}
+.modal.sheet .card{max-width:640px;max-height:78vh;overflow:auto;border-radius:20px 20px 0 0;padding:16px 18px 24px}
+.dword{font-size:2rem;line-height:1.6}
+.dent{white-space:pre-line;font-size:.94rem;line-height:1.55;margin:6px 0 10px}
+.dent.ar{font-size:1.15rem;line-height:1.9}
+.ar-read{cursor:pointer}
+
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--line);padding:4px;border-radius:14px}
 .seg button{border:0;background:transparent;border-radius:10px;padding:10px 6px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
 .seg button.on{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
@@ -313,7 +320,7 @@ nav.tabs .in{grid-template-columns:repeat(4,1fr)}
 <script>
 "use strict";
 /* ============================ SYLLABUS ============================ */
-const META = {"1": {"books": {"tahawiyya": 108, "umm": 57, "signs": 83}, "decks": {"quran": 500, "nur": 1083, "ajr": 150, "bina": 241, "izzi": 471}, "opt": {}}, "2": {"books": {"jawhara": 142, "signs2": 179}, "decks": {"quduri": 2441, "roots": 1000, "verbs1": 700, "ithaf": 311, "qatr": 1875, "burda": 336}, "opt": {"mufradat": 1630, "themed": 6012, "sirr": 536, "naqsh": 1391}}, "3": {"books": {"majalla": 99}, "decks": {"nasafiyyah": 1401, "kanz": 1433, "verbs2": 700}, "opt": {"sharhizzi": 2488, "jalalayn": 6121, "msa1": 3400, "fuqaha": 3548, "ghawth": 232, "qasaid": 4090}}, "4": {"books": {}, "decks": {"mughni": 751, "iqtisad": 1413}, "opt": {"msa2": 3372, "qushayri": 578, "mercy": 770, "nuqaya": 2519, "philosophy": 3699}}, "5": {"books": {}, "decks": {"alfiyya": 1257, "proofs": 228}, "opt": {}}, "texts": {"tahawiyya_full": 11, "burda": 17, "shamail": 58, "qatr": 92, "riyad": 373, "fiqh_akbar": 27, "maraqi": 92, "iqtisad": 63, "arbain": 45, "ajurrumiyya": 25, "mughni": 138, "quduri": 119, "jalalayn": 252, "muslim": 758, "alfiyya": 82, "jawhara": 12, "kanz": 200, "hidaya": 456, "nur_idah": 337, "usul_shashi": 103, "majalla": 74, "umm": 6, "bukhari": 780}, "textsAudio": {"tahawiyya_full": false, "burda": false, "shamail": false, "qatr": false, "riyad": false, "fiqh_akbar": true, "maraqi": false, "iqtisad": false, "arbain": false, "ajurrumiyya": true, "mughni": false, "quduri": false, "jalalayn": false, "muslim": false, "alfiyya": false, "jawhara": false, "kanz": false, "hidaya": false, "nur_idah": false, "usul_shashi": false, "majalla": false, "umm": false, "bukhari": false}, "textsAi": {"tahawiyya_full": false, "burda": false, "shamail": false, "qatr": false, "riyad": false, "fiqh_akbar": true, "maraqi": false, "iqtisad": false, "arbain": false, "ajurrumiyya": true, "mughni": false, "quduri": false, "jalalayn": false, "muslim": false, "alfiyya": false, "jawhara": false, "kanz": false, "hidaya": false, "nur_idah": false, "usul_shashi": false, "majalla": false, "umm": false, "bukhari": false}, "textsEn": {"tahawiyya_full": true, "burda": true, "shamail": false, "qatr": false, "riyad": false, "fiqh_akbar": true, "maraqi": false, "iqtisad": false, "arbain": false, "ajurrumiyya": true, "mughni": false, "quduri": false, "jalalayn": false, "muslim": true, "alfiyya": false, "jawhara": true, "kanz": false, "hidaya": false, "nur_idah": false, "usul_shashi": false, "majalla": false, "umm": true, "bukhari": true}};
+const META = {"1": {"books": {"tahawiyya": 108, "umm": 57, "signs": 83}, "decks": {"quran": 500, "nur": 1083, "ajr": 150, "bina": 241, "izzi": 471}, "opt": {}}, "2": {"books": {"jawhara": 142, "signs2": 179}, "decks": {"quduri": 2441, "roots": 1000, "verbs1": 700, "ithaf": 311, "qatr": 1875, "burda": 336}, "opt": {"mufradat": 1630, "themed": 6012, "sirr": 536, "naqsh": 1391}}, "3": {"books": {"majalla": 99}, "decks": {"nasafiyyah": 1401, "kanz": 1433, "verbs2": 700}, "opt": {"sharhizzi": 2488, "jalalayn": 6121, "msa1": 3400, "fuqaha": 3548, "ghawth": 232, "qasaid": 4090}}, "4": {"books": {}, "decks": {"mughni": 751, "iqtisad": 1413}, "opt": {"msa2": 3372, "qushayri": 578, "mercy": 770, "nuqaya": 2519, "philosophy": 3699, "poetry": 4971, "hidaya1": 6454, "hidaya2": 5901}}, "5": {"books": {}, "decks": {"alfiyya": 1257, "proofs": 228}, "opt": {"hidaya3": 6490, "hidaya4": 6376}}, "fard": {"fard_aqeedah": 57, "fard_tahara": 206, "fard_salah": 432, "fard_sawm": 74, "fard_zakat": 92, "fard_halal": 50}, "texts": {"tahawiyya_full": 11, "burda": 17, "shamail": 58, "qatr": 92, "ibnmajah": 1424, "ihya": 997, "abudawud": 1882, "milal": 259, "kafiya": 103, "riyad": 373, "fiqh_akbar": 27, "maraqi": 92, "muwatta": 703, "iqtisad": 63, "risala": 105, "maqamat": 60, "tirmidhi": 2265, "arbain": 45, "tawdih": 117, "ajurrumiyya": 25, "shifa": 185, "mughni": 138, "quduri": 119, "manar": 4, "jalalayn": 252, "muslim": 758, "alfiyya": 82, "jawhara": 12, "kanz": 200, "mukhtasar_maani": 73, "baydawi": 3458, "hidaya": 456, "sharh_maani": 597, "nasai": 2514, "nur_idah": 337, "usul_shashi": 103, "majalla": 74, "tadhkira": 356, "umm": 6, "bukhari": 780}, "textsAudio": {"tahawiyya_full": false, "burda": false, "shamail": false, "qatr": false, "ibnmajah": false, "ihya": false, "abudawud": false, "milal": false, "kafiya": false, "riyad": false, "fiqh_akbar": true, "maraqi": false, "muwatta": false, "iqtisad": false, "risala": false, "maqamat": false, "tirmidhi": false, "arbain": false, "tawdih": false, "ajurrumiyya": true, "shifa": false, "mughni": false, "quduri": false, "manar": false, "jalalayn": false, "muslim": false, "alfiyya": false, "jawhara": false, "kanz": false, "mukhtasar_maani": false, "baydawi": false, "hidaya": false, "sharh_maani": false, "nasai": false, "nur_idah": false, "usul_shashi": false, "majalla": false, "tadhkira": false, "umm": false, "bukhari": false}, "textsAi": {"tahawiyya_full": false, "burda": false, "shamail": false, "qatr": false, "ibnmajah": false, "ihya": false, "abudawud": false, "milal": false, "kafiya": false, "riyad": false, "fiqh_akbar": true, "maraqi": false, "muwatta": false, "iqtisad": false, "risala": false, "maqamat": false, "tirmidhi": false, "arbain": false, "tawdih": false, "ajurrumiyya": true, "shifa": false, "mughni": false, "quduri": false, "manar": false, "jalalayn": false, "muslim": false, "alfiyya": false, "jawhara": false, "kanz": false, "mukhtasar_maani": false, "baydawi": false, "hidaya": false, "sharh_maani": false, "nasai": false, "nur_idah": false, "usul_shashi": false, "majalla": false, "tadhkira": false, "umm": false, "bukhari": false}, "textsEn": {"tahawiyya_full": true, "burda": true, "shamail": false, "qatr": false, "ibnmajah": false, "ihya": false, "abudawud": false, "milal": false, "kafiya": false, "riyad": false, "fiqh_akbar": true, "maraqi": false, "muwatta": false, "iqtisad": false, "risala": false, "maqamat": false, "tirmidhi": false, "arbain": false, "tawdih": false, "ajurrumiyya": true, "shifa": false, "mughni": false, "quduri": false, "manar": false, "jalalayn": false, "muslim": true, "alfiyya": false, "jawhara": true, "kanz": false, "mukhtasar_maani": false, "baydawi": false, "hidaya": false, "sharh_maani": false, "nasai": false, "nur_idah": false, "usul_shashi": false, "majalla": false, "tadhkira": false, "umm": true, "bukhari": true}};
 const YEARS = [
  { n:1, title:"Foundations", desc:"The Tahawiyyah, Nur al-Idah and Is'af al-Muridin, tajweed, the first books of sarf and nahw, and the most common words of the Qur'an.",
    books:[
@@ -343,7 +350,7 @@ const YEARS = [
      { id:"themed", opt:true, title:"Arabic vocabulary by theme", sub:"Everyday words, grouped by topic", glyph:"", color:"#B5651D", subject:"Arabic" },
      { id:"sirr", opt:true, simple:true, title:"Sirr al-Asrar", sub:"Shaykh 'Abd al-Qadir al-Jilani رحمه الله on the secret of secrets", glyph:"", color:"#5C6B2E", subject:"Tasawwuf" },
      { id:"naqsh", opt:true, simple:true, title:"Etiquettes of the Naqshbandi Path", sub:"For those on the Naqshbandi tariqa", glyph:"", color:"#5C6B2E", subject:"Tasawwuf" } ],
-   coming:[["al-Rawdah al-Bahiyyah: Ash'aris and Maturidis","Comparative Aqeedah"],["al-Muqaddimah al-Jazariyyah","Tajweed"],["Tarjamat al-Qur'an: al-Kahf to al-Nas","Tafsir"],["Nahw: Hidayat al-Nahw","Arabic"],["Nahw: Sharh Mi'at 'Amil","Arabic"],["Adab: Qasas al-Nabiyyin","Arabic"],["I'rab practice: short sentences","Arabic"],["al-Risalah al-Qushayriyyah (selections)","Tasawwuf"],["al-Isha'ah li-Ashrat al-Sa'ah","Signs of the Hour"],["al-Sughra and al-Kubra","Mantiq"],["Isaghuji","Mantiq"]] },
+   coming:[["al-Rawdah al-Bahiyyah: Ash'aris and Maturidis","Comparative Aqeedah"],["al-Muqaddimah al-Jazariyyah","Tajweed"],["Tarjamat al-Qur'an: al-Kahf to al-Nas","Tafsir"],["Nahw: Hidayat al-Nahw","Arabic"],["Nahw: Sharh Mi'at 'Amil","Arabic"],["Adab: Qasas al-Nabiyyin","Arabic"],["I'rab practice: short sentences","Arabic"],["al-Isha'ah li-Ashrat al-Sa'ah","Signs of the Hour"],["al-Sughra and al-Kubra","Mantiq"],["Isaghuji","Mantiq"]] },
  { n:3, title:"Depth", desc:"Sharh al-'Aqa'id al-Nasafiyyah, Kanz al-Daqa'iq, al-Jalalayn, Mishkat al-Masabih, al-Kafiyah and Nur al-Anwar.",
    books:[ { id:"majalla", type:"lines", per:5, title:"The Majallah: 99 legal maxims", sub:"Al-Majallah al-Ahkam al-'Adliyyah, with explanations", glyph:"م", color:"#5C6B2E", subject:"Fiqh" } ],
    decks:[
@@ -356,7 +363,7 @@ const YEARS = [
      { id:"fuqaha", opt:true, title:"Mu'jam Lughat al-Fuqaha'", sub:"The technical terms of the jurists", glyph:"", color:"#2F6E8F", subject:"Fiqh" },
      { id:"ghawth", opt:true, simple:true, title:"The Answer Concerning the Ghawth", sub:"Imam Ibn 'Abidin رحمه الله on the Qutb and the awliya'", glyph:"", color:"#5C6B2E", subject:"Tasawwuf" },
      { id:"qasaid", opt:true, title:"Qasa'id from around the world", sub:"Poems of praise and love of the Prophet ﷺ", glyph:"", color:"#5C6B2E", subject:"Tasawwuf" } ],
-   coming:[["al-Farq bayn al-Firaq (selections)","Comparative Aqeedah"],["Fawa'id Makkiyyah","Tajweed"],["al-Fawz al-Kabir fi Usul al-Tafsir","Tafsir"],["Mishkat al-Masabih, volume 1","Hadith"],["Sharh Nukhbat al-Fikar","Hadith"],["Nahw: al-Kafiyah","Arabic"],["Balaghah: Durus al-Balaghah","Arabic"],["Adab: Maqamat al-Hariri (selections)","Arabic"],["I'rab of Qur'anic ayat","Arabic"],["Fara'id: al-Sirajiyyah","Fiqh"],["Nur al-Anwar","Usul al-Fiqh"],["al-Hikam of Ibn 'Ata'illah","Tasawwuf"],["al-Shifa of Qadi 'Iyad (selections)","Seerah"],["al-Tadhkirah of al-Qurtubi (selections)","Signs of the Hour"],["Mirqat","Mantiq"],["Sharh al-Tahdhib","Mantiq"]] },
+   coming:[["al-Farq bayn al-Firaq (selections)","Comparative Aqeedah"],["Fawa'id Makkiyyah","Tajweed"],["al-Fawz al-Kabir fi Usul al-Tafsir","Tafsir"],["Mishkat al-Masabih","Hadith"],["Sharh Nukhbat al-Fikar","Hadith"],["Balaghah: Durus al-Balaghah","Arabic"],["I'rab of Qur'anic ayat","Arabic"],["Fara'id: al-Sirajiyyah","Fiqh"],["Nur al-Anwar","Usul al-Fiqh"],["al-Hikam of Ibn 'Ata'illah","Tasawwuf"],["Mirqat","Mantiq"],["Sharh al-Tahdhib","Mantiq"]] },
  { n:4, title:"Advanced texts", desc:"The great commentaries: al-Hidayah, al-Baydawi, Mishkat al-Masabih, Mughni al-Labib, al-Iqtisad and the higher texts of usul and mantiq.", books:[],
    decks:[ { id:"mughni", simple:true, title:"Mukhtasar Mughni al-Labib", sub:"Ibn Hisham's رحمه الله advanced nahw, in Arabic and English", glyph:"", color:"#B5651D", subject:"Arabic" },
      { id:"iqtisad", simple:true, title:"al-Iqtisad fi'l-I'tiqad", sub:"Imam al-Ghazali's رحمه الله moderation in belief", glyph:"", color:"#0E5A43", subject:"Aqeedah" },
@@ -364,13 +371,18 @@ const YEARS = [
      { id:"qushayri", opt:true, title:"Lata'if al-Isharat", sub:"Imam al-Qushayri's رحمه الله subtle indications in the Qur'an", glyph:"", color:"#1F6F78", subject:"Tafsir" },
      { id:"mercy", opt:true, simple:true, title:"Mercy in the Difference of the Four Schools", sub:"How the four madhabs differ, ruling by ruling", glyph:"", color:"#2F6E8F", subject:"Fiqh" },
      { id:"nuqaya", opt:true, simple:true, title:"al-Nuqayah", sub:"Sadr al-Shari'ah's رحمه الله Hanafi summary, in Arabic", glyph:"", color:"#2F6E8F", subject:"Fiqh" },
-     { id:"philosophy", opt:true, title:"Dictionary of Arabic philosophy", sub:"The terms of mantiq and kalam", glyph:"", color:"#5A5A78", subject:"Mantiq" } ],
-   coming:[["al-Musayarah of Ibn al-Humam","Aqeedah"],["al-Milal wa'l-Nihal of al-Shahrastani (selections)","Comparative Aqeedah"],["Tafsir al-Baydawi (selections)","Tafsir"],["Mishkat al-Masabih, volumes 2 and 3","Hadith"],["Balaghah: Mukhtasar al-Ma'ani","Arabic"],["Adab: al-Mu'allaqat al-Sab'","Arabic"],["Adab: Diwan al-Hamasah and al-Mutanabbi (selections)","Arabic"],["Sharh al-Wiqayah","Fiqh"],["al-Hidayah, volumes 1 and 2","Fiqh"],["al-Husami","Usul al-Fiqh"],["al-Tawdih wa'l-Talwih (selections)","Usul al-Fiqh"],["Ihya' 'Ulum al-Din (selected books)","Tasawwuf"],["al-Mawahib al-Ladunniyyah (selections)","Seerah"],["al-Qutbi","Mantiq"],["Sullam al-'Ulum","Mantiq"]] },
+     { id:"philosophy", opt:true, title:"Dictionary of Arabic philosophy", sub:"The terms of mantiq and kalam", glyph:"", color:"#5A5A78", subject:"Mantiq" },
+     { id:"poetry", opt:true, simple:true, title:"Classical Arabic poetry", sub:"Verses of the Arab poets, with English", glyph:"", color:"#B5651D", subject:"Arabic" },
+     { id:"hidaya1", opt:true, simple:true, title:"al-Hidayah, part 1", sub:"Imam al-Marghinani's رحمه الله Hanafi fiqh with its proofs", glyph:"", color:"#2F6E8F", subject:"Fiqh" },
+     { id:"hidaya2", opt:true, simple:true, title:"al-Hidayah, part 2", sub:"Imam al-Marghinani's رحمه الله Hanafi fiqh with its proofs", glyph:"", color:"#2F6E8F", subject:"Fiqh" } ],
+   coming:[["al-Musayarah of Ibn al-Humam","Aqeedah"],["Adab: al-Mu'allaqat al-Sab'","Arabic"],["Adab: Diwan al-Hamasah and al-Mutanabbi (selections)","Arabic"],["Sharh al-Wiqayah","Fiqh"],["al-Husami","Usul al-Fiqh"],["al-Mawahib al-Ladunniyyah (selections)","Seerah"],["al-Qutbi","Mantiq"],["Sullam al-'Ulum","Mantiq"]] },
  { n:5, title:"Dawrat al-Hadith", desc:"The six books of hadith, both Muwatta's, al-Tahawi's Sharh Ma'ani al-Athar and the Shama'il, with the Alfiyyah and the rest of al-Hidayah.",
    decks:[ { id:"alfiyya", simple:true, title:"Alfiyyat Ibn Malik", sub:"The thousand-line poem of nahw, in Arabic and English", glyph:"", color:"#B5651D", subject:"Arabic" },
-     { id:"proofs", simple:true, title:"The Imam's key proofs", sub:"The evidences of Imam Abu Hanifah's رحمه الله fiqh", glyph:"", color:"#2F6E8F", subject:"Fiqh" } ],
+     { id:"proofs", simple:true, title:"The Imam's key proofs", sub:"The evidences of Imam Abu Hanifah's رحمه الله fiqh", glyph:"", color:"#2F6E8F", subject:"Fiqh" },
+     { id:"hidaya3", opt:true, simple:true, title:"al-Hidayah, part 3", sub:"Imam al-Marghinani's رحمه الله Hanafi fiqh with its proofs", glyph:"", color:"#2F6E8F", subject:"Fiqh" },
+     { id:"hidaya4", opt:true, simple:true, title:"al-Hidayah, part 4", sub:"Imam al-Marghinani's رحمه الله Hanafi fiqh with its proofs", glyph:"", color:"#2F6E8F", subject:"Fiqh" } ],
    books:[],
-   coming:[["Sunan Abi Dawud","Hadith"],["Jami' al-Tirmidhi","Hadith"],["Sunan al-Nasa'i","Hadith"],["Sunan Ibn Majah","Hadith"],["al-Muwatta' of Imam Malik","Hadith"],["al-Muwatta' of Imam Muhammad","Hadith"],["Sharh Ma'ani al-Athar of Imam al-Tahawi","Hadith"],["al-Hidayah, volumes 3 and 4","Fiqh"],["Musallam al-Thubut (selections)","Usul al-Fiqh"]] },
+   coming:[["al-Muwatta' of Imam Muhammad","Hadith"],["Musallam al-Thubut (selections)","Usul al-Fiqh"]] },
 ];
 /* The Library: complete books, by year. Covers are drawn from these fields. */
 const LIBRARY = [
@@ -397,6 +409,23 @@ const LIBRARY = [
   [5,"t_bukhari","bukhari","Hadith","Sahih al-Bukhari","صحيح البخاري","Imam Muhammad ibn Isma'il al-Bukhari","الإمام محمد بن إسماعيل البخاري","d. 256 AH","The complete collection, in Arabic and English"],
   [5,"t_shamail","shamail","Seerah","al-Shama'il al-Muhammadiyyah","الشمائل المحمدية","Imam Abu 'Isa al-Tirmidhi","الإمام أبو عيسى الترمذي","d. 279 AH","The description and character of the Prophet ﷺ"],
   [5,"t_alfiyya","alfiyya","Arabic","Alfiyyat Ibn Malik","ألفية ابن مالك","Imam Jamal al-Din Ibn Malik","الإمام جمال الدين ابن مالك","d. 672 AH","The thousand-line poem of grammar"],
+  [2,"t_risala","risala","Tasawwuf","al-Risalah al-Qushayriyyah","الرسالة القشيرية","Imam Abu'l-Qasim al-Qushayri","الإمام أبو القاسم القشيري","d. 465 AH","The classic guide to Tasawwuf: its people, stations and states"],
+  [3,"t_kafiya","kafiya","Arabic","al-Kafiyah","الكافية في النحو","Imam Ibn al-Hajib","الإمام ابن الحاجب","d. 646 AH","The classic concise text of nahw"],
+  [3,"t_maqamat","maqamat","Arabic","Maqamat al-Hariri","مقامات الحريري","Imam Abu Muhammad al-Hariri","الإمام أبو محمد الحريري","d. 516 AH","Fifty tales in the finest Arabic prose"],
+  [3,"t_manar","manar","Usul al-Fiqh","al-Manar","منار الأنوار","Imam Hafiz al-Din al-Nasafi","الإمام حافظ الدين النسفي","d. 710 AH","The usul text explained in Nur al-Anwar"],
+  [3,"t_shifa","shifa","Seerah","al-Shifa","الشفا بتعريف حقوق المصطفى","Qadi 'Iyad","القاضي عياض","d. 544 AH","The rights of the Prophet ﷺ and his perfect qualities"],
+  [3,"t_tadhkira","tadhkira","Signs of the Hour","al-Tadhkirah","التذكرة بأحوال الموتى وأمور الآخرة","Imam al-Qurtubi","الإمام القرطبي","d. 671 AH","Death, the grave, the Hour and the Hereafter"],
+  [4,"t_baydawi","baydawi","Tafsir","Tafsir al-Baydawi","أنوار التنزيل وأسرار التأويل","Qadi Nasir al-Din al-Baydawi","القاضي ناصر الدين البيضاوي","d. 685 AH","The lights of revelation: tafsir of the whole Qur'an"],
+  [4,"t_mukhtasar","mukhtasar_maani","Arabic","Mukhtasar al-Ma'ani","مختصر المعاني","Imam Sa'd al-Din al-Taftazani","الإمام سعد الدين التفتازاني","d. 792 AH","Balaghah: meanings, expression and ornament"],
+  [4,"t_milal","milal","Comparative Aqeedah","al-Milal wa'l-Nihal","الملل والنحل","Imam al-Shahrastani","الإمام الشهرستاني","d. 548 AH","The religions and sects, and what each one holds"],
+  [4,"t_ihya","ihya","Tasawwuf","Ihya' 'Ulum al-Din","إحياء علوم الدين","Imam Abu Hamid al-Ghazali","الإمام أبو حامد الغزالي","d. 505 AH","The revival of the religious sciences, all forty books"],
+  [4,"t_tawdih","tawdih","Usul al-Fiqh","al-Tawdih","التوضيح في حل غوامض التنقيح","Imam Sadr al-Shari'ah al-Mahbubi","الإمام صدر الشريعة المحبوبي","d. 747 AH","Advanced Hanafi usul al-fiqh"],
+  [5,"t_muwatta","muwatta","Hadith","al-Muwatta'","الموطأ","Imam Malik ibn Anas","الإمام مالك بن أنس","d. 179 AH","The first great book of hadith and fiqh"],
+  [5,"t_abudawud","abudawud","Hadith","Sunan Abi Dawud","سنن أبي داود","Imam Abu Dawud al-Sijistani","الإمام أبو داود السجستاني","d. 275 AH","The hadith of rulings"],
+  [5,"t_tirmidhi","tirmidhi","Hadith","Jami' al-Tirmidhi","جامع الترمذي","Imam Abu 'Isa al-Tirmidhi","الإمام أبو عيسى الترمذي","d. 279 AH","Hadith with their grading and the views of the jurists"],
+  [5,"t_nasai","nasai","Hadith","Sunan al-Nasa'i","سنن النسائي","Imam Ahmad ibn Shu'ayb al-Nasa'i","الإمام أحمد بن شعيب النسائي","d. 303 AH","al-Mujtaba, the shorter Sunan"],
+  [5,"t_ibnmajah","ibnmajah","Hadith","Sunan Ibn Majah","سنن ابن ماجه","Imam Ibn Majah al-Qazwini","الإمام ابن ماجه القزويني","d. 273 AH","The sixth of the six books"],
+  [5,"t_sharhmaani","sharh_maani","Hadith","Sharh Ma'ani al-Athar","شرح معاني الآثار","Imam Abu Ja'far al-Tahawi","الإمام أبو جعفر الطحاوي","d. 321 AH","Hadith that seem to differ, reconciled with Hanafi reasoning"],
 ].map(([y,id,file,subject,title,ar,author,authorAr,when,sub]) => ({ y, id, file, subject, title, ar, author, authorAr, when, sub, type:"text", per:1, glyph:"",
   honor: author.startsWith("The Ottoman") ? "" : author.startsWith("Imams") ? "رحمهما الله" : "رحمه الله" }));
 LIBRARY.forEach(b => YEARS[b.y-1].books.push(b));
@@ -433,7 +462,7 @@ async function loadYear(n){ INDEX = null;
   if (!r.ok) throw new Error("Could not load Year " + n);
   const d = await r.json();
   for (const y of YEARS) if (y.n === n) for (const dk of y.decks) if (!dk.opt) dk.cards = d.decks[dk.id].map(c => ({ ...c, deck:dk.id }));
-  await Promise.all(yearOf(n).decks.filter(dk => dk.opt && (S.optOn||{})[dk.id]).map(dk => loadDeck(dk).catch(() => {})));
+  await Promise.all([...yearOf(n).decks, ...(n === 1 ? FARD_DECKS : [])].filter(dk => dk.opt && (S.optOn||{})[dk.id]).map(dk => loadDeck(dk).catch(() => {})));
   for (const y of YEARS) if (y.n === n) for (const b of y.books) b.lines = d.books[b.id];
   return (DATA[n] = d);
 }
@@ -451,7 +480,7 @@ async function loadSection(file, i){
 const secLen = s => s.p ? s.p.length : s.n || 0;
 const bookById = id => YEARS.flatMap(y=>y.books).find(x=>x.id===id);
 YEARS.forEach(y => { y.prepared = y.books.filter(b => b.type !== "text").length + y.decks.length > 0; y.books.forEach(b => b.year = y.n); y.decks.forEach(d => d.year = y.n); });
-const deckSize = d => d.cards ? d.cards.length : (d.opt ? (META[d.year].opt||{})[d.id] : META[d.year].decks[d.id]) || 0;
+const deckSize = d => d.cards ? d.cards.length : d.size ? d.size : (d.opt ? (META[d.year].opt||{})[d.id] : META[d.year].decks[d.id]) || 0;
 const core = decks => decks.filter(d => !d.opt);
 /* What each text is, in plain English: shown first, with the classical title under it */
 const PLAIN = { nur:"Hanafi fiqh: purification, prayer, fasting", ajr:"Arabic grammar: first steps", bina:"How Arabic verbs are built", izzi:"The patterns of the Arabic verb",
@@ -461,7 +490,7 @@ const PLAIN = { nur:"Hanafi fiqh: purification, prayer, fasting", ajr:"Arabic gr
   majalla:"99 principles of Islamic law", nasafiyyah:"Islamic theology, explained", kanz:"Hanafi fiqh: the advanced manual", sharhizzi:"Verb patterns, explained",
   jalalayn:"Tafsir of the whole Qur'an", fuqaha:"Dictionary of fiqh terms", ghawth:"On the awliya' and the Qutb", qasaid:"Poems in praise of the Prophet ﷺ",
   mughni:"Advanced Arabic grammar", iqtisad:"Belief, with its rational proofs", qushayri:"Tafsir of the heart", nuqaya:"A Hanafi summary in Arabic",
-  philosophy:"Terms of logic and theology", alfiyya:"The thousand-line grammar poem", proofs:"The evidence for Hanafi rulings" };
+  philosophy:"Terms of logic and theology", poetry:"Classical Arabic poetry", hidaya1:"Hanafi fiqh with proofs: part 1", hidaya2:"Hanafi fiqh with proofs: part 2", hidaya3:"Hanafi fiqh with proofs: part 3", hidaya4:"Hanafi fiqh with proofs: part 4", alfiyya:"The thousand-line grammar poem", proofs:"The evidence for Hanafi rulings" };
 const nameOf = x => PLAIN[x.id] || x.title;
 const classicOf = x => PLAIN[x.id] && PLAIN[x.id] !== x.title ? `<span class="classic">${esc(x.title)}</span>` : "<br>";          // optional decks never gate a year or appear in its test
 /* Optional decks: one file each, fetched the first time a student opens one, then on every start */
@@ -628,7 +657,7 @@ function homeView(){
   const books = y.books.filter(b => b.type !== "text").sort((p,q) => order(p)-order(q));
   const open = [];
   for (const b of books){ const L = lessonsOf(b), done = S.books[b.id]||[]; const i = [...Array(L).keys()].find(k => !done.includes(k)); if (i !== undefined) open.push({ b, i, L }); }
-  let due = 0, nw = 0; activeYears().forEach(yy => yy.decks.filter(d => d.cards).forEach(d => { const s = deckStats(d); due += s.due; nw += Math.min(newLeft(d), s.nw); }));
+  let due = 0, nw = 0; studyDecks().forEach(d => { const s = deckStats(d); due += s.due; nw += Math.min(newLeft(d), s.nw); });
   const last = S.lastRead && bookById(S.lastRead.id), libFirst = LIB().find(b => b.year === y.n) || LIB()[0];
   const readBook = last || libFirst, readAt = last ? S.lastRead.i : 0;
   /* Today: one lesson, the day's flashcards, and a page of a book. In that order. */
@@ -658,26 +687,33 @@ function homeView(){
     ${more ? `<p class="label">Other lessons</p><div class="carousel">${more}</div>` : ""}`);
 }
 /* Optional course before Year 1: what every Muslim must know. Never required, never locks anything. */
-const FARD_AYN = { title:"Fard 'Ayn: the essentials", parts:[
-  ["Aqeedah","What every Muslim must believe about Allah, His messengers ﷺ and the Last Day"],
-  ["Purification","Wudu, ghusl, tayammum and what breaks them"],
-  ["Prayer","The five prayers: conditions, pillars and what invalidates them"],
-  ["Fasting and zakat","The essentials of Ramadan and the zakat on wealth"],
-  ["Halal and haram","Earnings, food, and the rights of others"],
-  ["The heart","Sincerity, repentance, and the diseases of the heart"] ],
-  texts:["Is'af al-Muridin li-Iqamat Fara'id al-Din", "Selected chapters of Nur al-Idah"] };
+/* Optional course before Year 1: what every Muslim must know. Never required, never locks anything.
+   Its cards are taken from Umm al-Barahin, Nur al-Idah and Mukhtasar al-Quduri. */
+const FARD_DECKS = [
+  ["fard_aqeedah","Belief","What every Muslim must believe about Allah and His messengers ﷺ, from Umm al-Barahin","Aqeedah","#0E5A43","t_umm"],
+  ["fard_tahara","Purification","Water, wudu, ghusl, tayammum and impurities, from Nur al-Idah","Fiqh","#2F6E8F","t_nur"],
+  ["fard_salah","Prayer","The prayer: its conditions, pillars and what breaks it, from Nur al-Idah","Fiqh","#2F6E8F","t_nur"],
+  ["fard_sawm","Fasting","Ramadan, what breaks the fast and making it up, from Nur al-Idah","Fiqh","#2F6E8F",""],
+  ["fard_zakat","Zakat","Who pays zakat, on what, and how much, from Mukhtasar al-Quduri","Fiqh","#1F6F78",""],
+  ["fard_halal","Halal food and drink","Slaughter, hunting and what may be eaten and drunk, from Mukhtasar al-Quduri","Fiqh","#1F6F78",""],
+].map(([id,title,sub,subject,color,read]) => ({ id, title, sub, subject, color, read, opt:true, fard:true, simple:true, glyph:"", year:1, get size(){ return (META.fard||{})[id]||0; } }));
+const allDecks = () => [...YEARS.flatMap(y=>y.decks), ...FARD_DECKS];
+const studyDecks = () => [...activeYears().flatMap(y=>y.decks), ...FARD_DECKS].filter(d => d.cards);
 function fardAynCard(){
-  return `<details class="module fard"><summary><span class="yr-badge" style="width:44px;height:44px;font-size:1.1rem">✓</span>
-      <span class="m-txt"><span class="t">${esc(FARD_AYN.title)} <span class="pill gold" style="font-size:.66rem;vertical-align:2px">Optional</span></span>
-      <span class="s">What every Muslim must know. Already covered it? Skip straight to Year 1.</span></span></summary>
-    <div class="stack">${FARD_AYN.parts.map(([t,d],i) => `<div class="item soon"><span class="ico" style="background:color-mix(in srgb,var(--brand) 12%,var(--surface));color:var(--brand);font-weight:800">${i+1}</span><span><span class="t">${esc(t)}</span><br><span class="s">${esc(d)}</span></span></div>`).join("")}
-      <p class="small muted" style="margin:4px 2px">Texts: ${FARD_AYN.texts.map(esc).join(", ")}. This course is being prepared.</p></div></details>`;
+  const started = FARD_DECKS.filter(d => d.cards).length;
+  return `<details class="module fard" ${started?"open":""}><summary><span class="yr-badge" style="width:44px;height:44px;font-size:1.1rem">✓</span>
+      <span class="m-txt"><span class="t">Fard 'Ayn: the essentials <span class="pill gold" style="font-size:.66rem;vertical-align:2px">Optional</span></span>
+      <span class="s">What every Muslim must know: belief, purification, prayer, fasting, zakat and halal. Already know it? Go straight to Year 1.</span></span></summary>
+    <div class="stack">${FARD_DECKS.map(d => itemDeck(d, true)).join("")}
+      <button class="item lib-link" data-read="t_riyad|0"><span class="ico art-ico">${art("moon", "#9A6A1F", 36)}</span><span><span class="t">The heart</span><br><span class="s">Sincerity, repentance and patience: the first chapters of Riyad al-Salihin</span></span><span class="pill gold">Read</span></button></div></details>`;
 }
 function syllabusView(){
   return shell(`<h1>Course</h1><p class="muted" style="margin:0 0 14px">Five years through the classical texts, then a year of specialisation. Each year opens when you pass the one before.</p>
     ${fardAynCard()}
     <div class="stack" style="margin-top:12px">${YEARS.map(yearCard).join("")}${specCard()}</div>
-    <p class="small muted" style="margin:14px 2px 0">Studied before? A placement test to start from a later year is planned once the full programme is in place.</p>`);
+    ${(() => { const N = Math.max(...S.unlocked); return N <= YEARS.length && !(S.tests[N] && S.tests[N].passed) ? `<div class="card" style="margin-top:14px"><b>Studied before?</b>
+      <p class="small muted" style="margin:4px 0 10px">Take the Year ${N} final test now as a placement test. Score ${PASS*100}% or more and Year ${N+1 <= YEARS.length ? N+1 : "s"} opens, so you can start where you really are. You can keep going year by year.</p>
+      <button class="btn ghost" data-place="${N}">Take the Year ${N} placement test</button></div>` : ""; })()}`);
 }
 function gate(label, frac, done){ return `<div class="gate ${done?"done":""}"><span>${label}</span><div class="bar"><i style="width:${Math.min(100,frac*100)}%;${done?"background:var(--ok)":""}"></i></div></div>`; }
 function yearCard(y){
@@ -703,11 +739,11 @@ function itemDeck(d, open){
   const s = deckStats(d), avail = s.due + Math.min(newLeft(d), s.nw);
   if (d.opt && !d.cards) return `<button class="item" ${open?`data-deck="${d.id}"`:"disabled"}><span class="ico art-ico">${artFor(d,40)}</span>
     <span><span class="t">${esc(nameOf(d))}</span>${classicOf(d)}<span class="s">${s.total.toLocaleString()} cards</span></span>
-    ${open?`<span class="pill">Optional</span>`:ICON.lock}</button>`;
+    ${open?(d.fard?`<span class="pill brand">Start</span>`:`<span class="pill">Optional</span>`):ICON.lock}</button>`;
   return `<button class="item" ${open?`data-deck="${d.id}"`:"disabled"}><span class="ico art-ico">${artFor(d,40)}</span>
     <span><span class="t">${esc(nameOf(d))}</span>${classicOf(d)}<span class="s">${s.total.toLocaleString()} cards${open?` · ${s.mastered} mastered`:""}</span>
     ${open?`<span class="bar" style="display:block;margin-top:6px"><i style="width:${s.mastered/s.total*100}%;background:${d.color}"></i></span>`:""}</span>
-    ${!open?ICON.lock:avail?`<span class="pill brand">${avail} to study</span>`:`<span class="pill ok">Done today</span>`}${d.opt?`<span class="pill" style="margin-left:4px">Optional</span>`:""}</button>`;
+    ${!open?ICON.lock:avail?`<span class="pill brand">${avail} to study</span>`:`<span class="pill ok">Done today</span>`}${d.opt && !d.fard?`<span class="pill" style="margin-left:4px">Optional</span>`:""}</button>`;
 }
 function yearView(n){
   const y = yearOf(n), open = S.unlocked.includes(n) && loaded(y), st = yearStatus(y);
@@ -853,7 +889,7 @@ function searchView(){
 const LIB = () => YEARS.flatMap(y => y.books.filter(b => b.type === "text"));
 const hasAr = t => /[\u0621-\u064A]/.test(t||"");
 /* Book covers: original designs drawn in SVG (cloth colour by subject, gold frame, arch panel, Arabic title, author) */
-const CLOTH = { Aqeedah:"#14463A", Fiqh:"#1D3557", Hadith:"#5E1F2B", Arabic:"#5B3418", Tafsir:"#0F4A52", Seerah:"#4A2444", "Usul al-Fiqh":"#2E3B4E", Tasawwuf:"#3B4520", "Signs of the Hour":"#4B2323" };
+const CLOTH = { Aqeedah:"#14463A", Fiqh:"#1D3557", Hadith:"#5E1F2B", Arabic:"#5B3418", Tafsir:"#0F4A52", Seerah:"#4A2444", "Usul al-Fiqh":"#2E3B4E", Tasawwuf:"#3B4520", "Signs of the Hour":"#4B2323", "Comparative Aqeedah":"#3A2F55", Mantiq:"#3D3D55", Tajweed:"#1E4D3B" };
 let COVER_N = 0;
 function wrapAr(t, max){ const w = t.split(" "), out = [""]; for (const x of w){ const l = out[out.length-1]; if (l && (l+" "+x).length > max) out.push(x); else out[out.length-1] = l ? l+" "+x : x; } return out; }
 function cover(b, w=120){
@@ -905,6 +941,7 @@ function textView(b){
       <span style="min-width:0;flex:1"><span class="t ${hasAr(s.h)?"ar":""}" style="display:block">${esc(snip(s.h,70))}</span>${s.he?`<span class="s" style="display:block">${esc(s.he)}</span>`:""}</span></button>`;
   let toc;
   const groups = []; T.sections.forEach((s,i) => { const p = s.parent || s.h; if (!groups.length || groups[groups.length-1].p !== p) groups.push({ p, is:[] }); groups[groups.length-1].is.push(i); });
+  if (n > 60 && groups.length > n/2) { groups.length = 0; for (let k = 0; k < n; k += 50) groups.push({ p:`Sections ${k+1}–${Math.min(n, k+50)}`, is:[...Array(Math.min(50, n-k)).keys()].map(j => k+j) }); }
   if (n > 30 && groups.length > 1 && groups.length < n) toc = groups.map(g => { if (g.is.length === 1) return `<div class="stack" style="margin-bottom:8px">${row(T.sections[g.is[0]], g.is[0])}</div>`; const read = g.is.filter(i => done.includes(i)).length, here = g.is.includes(next);
       return `<details class="kitab" ${here?"open":""}><summary><span class="${hasAr(g.p)?"ar":""}" style="flex:1">${esc(snip(g.p,60))}</span><span class="small muted">${read?`${read}/`:""}${g.is.length}</span></summary><div class="stack">${g.is.map(i => row(T.sections[i], i)).join("")}</div></details>`; }).join("");
   else toc = `<div class="stack">${T.sections.map(row).join("")}</div>`;
@@ -931,11 +968,60 @@ function readView(b, i){
         ${s.v ? `<button class="tool ${S.harakat!==false?"on":""}" id="tg-h">حَ Harakat ${S.harakat!==false?"on":"off"}</button>` : `<button class="tool" disabled style="opacity:.55" title="Harakat for this book are being added">حَ No harakat yet</button>`}${s.en?`<button class="tool ${P.english?"on":""}" id="tg-e">EN English</button>`:""}
         <button class="tool" id="fsdn" aria-label="Smaller text">A−</button><button class="tool" id="fsup" aria-label="Larger text">A+</button>
         ${AUD.on?`<button class="tool" id="rate">${P.rate}× speed</button>`:""}${T.ai?`<span class="pill gold">AI · needs review</span>`:""}</div>
-      <div class="card fs${P.size}">${paras}</div>${toolRow(key,false)}</div>
+      ${S.dictUsed ? "" : `<p class="small muted" style="margin:0 0 8px">Tip: tap any Arabic word to look it up in the dictionary.</p>`}<div class="card fs${P.size}">${paras}</div>${toolRow(key,false)}</div>
     <div class="pfoot"><div class="grades two"><button class="grade" id="rprev" style="background:var(--surface);color:var(--ink);border:1px solid var(--line)" ${i===0?"disabled":""}>← Previous</button><button class="grade g2" id="rnext">${i+1<T.sections.length?"✓ Read · next":"✓ Finish"}</button></div></div></div></div>`;
+}
+/* ---- Dictionary: tap an Arabic word in the reader ----
+   Lane's Lexicon (English, public domain) and a classical Arabic dictionary, fetched by the word's first two letters */
+const DICT = {};
+const normAr = s => s.replace(/[ً-ٰٟـ]/g,"").replace(/[أإآٱ]/g,"ا").replace(/ى/g,"ي");
+const bucketOf = k => [...k.slice(0,2)].map(c => c.charCodeAt(0).toString(16).padStart(4,"0")).join("_");
+async function dictGet(src, k){ const key = src + bucketOf(k);
+  if (!(key in DICT)) { try { const r = await fetch(`data/dict/${src}/${bucketOf(k)}.json`); DICT[key] = r.ok ? await r.json() : {}; } catch(e){ DICT[key] = {}; } }
+  return DICT[key][k]; }
+function stems(w){
+  const P = ["وال","فال","بال","كال","لل","ال","و","ف","ب","ك","ل","س"], X = ["هما","كما","هم","هن","كم","كن","نا","ها","ات","ون","ين","ان","وا","تم","ه","ك","ي","ة","ت"];
+  const out = new Set([w]);
+  for (const p of P) if (w.startsWith(p) && w.length - p.length >= 2) out.add(w.slice(p.length));
+  for (const x of [...out]) for (const s of X) if (x.endsWith(s) && x.length - s.length >= 2) out.add(x.slice(0, -s.length));
+  return [...out];
+}
+function rootsOf(w){                                   // rough guesses at the three root letters
+  const out = new Set();
+  for (let x of stems(w)) {
+    const m = x.match(/^(است|مست|ان|ت|م|ي|ن|ا)/); if (m && x.length - m[0].length >= 3) x = x.slice(m[0].length);
+    const core = x.length > 3 ? x[0] + x.slice(1,-1).replace(/[اوي]/g,"") + x.slice(-1) : x;
+    if (core.length === 3) out.add(core); if (core.length === 2) out.add(core + core[1]);
+    if (core.length === 4 && core[1] === "ت") out.add(core[0] + core.slice(2));          // ifta'ala
+  }
+  return [...out];
+}
+async function lookup(word){
+  const w = normAr(word), st = stems(w), rt = rootsOf(w), res = { lane:null, ar:null };
+  for (const k of [...st, ...rt]) { const e = await dictGet("lane", k); if (e) { res.lane = { k, e }; break; } }
+  for (const k of [...rt, ...st]) { const e = await dictGet("ar", k); if (e) { res.ar = { k, e }; break; } }
+  return res;
+}
+function wordAt(x, y){
+  let node, off; if (document.caretRangeFromPoint) { const r = document.caretRangeFromPoint(x, y); if (!r) return ""; node = r.startContainer; off = r.startOffset; }
+  else if (document.caretPositionFromPoint) { const p = document.caretPositionFromPoint(x, y); if (!p) return ""; node = p.offsetNode; off = p.offset; }
+  if (!node || node.nodeType !== 3) return "";
+  const t = node.textContent, L = /[ء-يً-ٰٟ]/; let s = off, e = off;
+  while (s > 0 && L.test(t[s-1])) s--; while (e < t.length && L.test(t[e])) e++;
+  return t.slice(s, e);
+}
+async function showLookup(word){
+  const d = modal(`<div class="dict"><div class="spread"><span class="ar dword">${esc(word)}</span><button class="x" id="dclose" aria-label="Close">${ICON.x}</button></div><p class="muted small">Looking up…</p></div>`, (d, close) => { d.querySelector("#dclose").onclick = close; d.onclick = e => { if (e.target === d) close(); }; });
+  d.classList.add("sheet"); S.dictUsed = true; save();
+  const r = await lookup(word), box = d.querySelector(".dict");
+  const lane = r.lane ? `<p class="label">Lane's Lexicon · <span class="ar">${esc(r.lane.k)}</span></p>${[...r.lane.e].sort((x,y) => /^\S+\s*:\s*see /.test(x) - /^\S+\s*:\s*see /.test(y)).slice(0,4).map(t => t.replace(/\s*(===|___)\s*/g, "\n")).map((t,k) => `<p class="dent ${k?"more":""}">${esc(t.length > 700 ? t.slice(0,700) + "…" : t)}</p>`).join("")}` : "";
+  const ar = r.ar ? `<p class="label">Arabic dictionary · <span class="ar">${esc(r.ar.k)}</span></p>${r.ar.e.slice(0,2).map(t => `<p class="dent ar" style="text-align:right">${esc(t.length > 900 ? t.slice(0,900) + "…" : t)}</p>`).join("")}` : "";
+  box.querySelector("p.muted").outerHTML = lane || ar ? lane + ar + `<p class="small muted" style="margin:10px 0 0">Matched by guessing the root, so check it fits the sentence.</p>`
+    : `<p class="muted">No entry found for this word. Particles and names usually aren't in the dictionary.</p>`;
 }
 function bindRead(b, i){
   const T = TEXTS[b.file]; bindTools($("#app"), () => { $("#app").innerHTML = readView(b, i); bindRead(b, i); });
+  $("#app").querySelectorAll(".ar-read").forEach(p => p.onclick = e => { if (String(getSelection())) return; const w = wordAt(e.clientX, e.clientY); if (normAr(w).length >= 2) showLookup(w); });
   const tg = (k) => () => { S.readPrefs[k] = !S.readPrefs[k]; save(); $("#app").innerHTML = readView(b, i); bindRead(b, i); };
   const th = $("#tg-h"); if (th) th.onclick = () => { S.harakat = S.harakat === false; save(); $("#app").innerHTML = readView(b, i); bindRead(b, i);
     if (S.harakat && !T.sections[i].v) toast("This book doesn't have harakat added yet. They'll appear when they're ready."); }; const te = $("#tg-e"); if (te) te.onclick = tg("english");
@@ -1032,7 +1118,7 @@ function toolRow(k, know){ const it = k.startsWith("c|") ? itemByKey(k) : null, 
   ${know?`<button class="tool" id="know" aria-label="I already know this">${ICON.know}<span>I know this</span></button>`:""}</div>`; }
 function itemByKey(k){
   const [kind, id, i] = k.split("|");
-  if (kind === "c") for (const y of YEARS) for (const d of y.decks) { const c = (d.cards||[]).find(c => c.id === id); if (c) return { kind:"card", c, src:d, y:y.n }; }
+  if (kind === "c") for (const d of allDecks()) { const c = (d.cards||[]).find(c => c.id === id); if (c) return { kind:"card", c, src:d, y:d.year }; }
   if (kind === "t") { const b = bookById(id), T = b && TEXTS[b.file]; if (b) return { kind:"sec", src:b, y:b.year, i:+i, s:T ? T.sections[+i] : null }; }
   if (kind === "l") for (const y of YEARS) for (const b of y.books) if (b.id === id && b.lines && b.lines[+i]) return { kind:"line", l:b.lines[+i], src:b, y:y.n, i:+i };
   return null;
@@ -1266,11 +1352,11 @@ function render(){
   app.querySelectorAll("[data-year]").forEach(b => b.onclick = () => go({ name:"year", n:+b.dataset.year }));
   app.querySelectorAll("[data-book]").forEach(b => b.onclick = () => go({ name:"book", id:b.dataset.book }));
   app.querySelectorAll("[data-lesson]").forEach(b => b.onclick = () => { if (!b.disabled) startLesson(view.id, +b.dataset.lesson); });
-  app.querySelectorAll("[data-deck]").forEach(b => b.onclick = async () => { const d = YEARS.flatMap(y=>y.decks).find(d=>d.id===b.dataset.deck);
+  app.querySelectorAll("[data-deck]").forEach(b => b.onclick = async () => { const d = allDecks().find(d=>d.id===b.dataset.deck);
     if (d.opt && !d.cards) { b.disabled = true; b.querySelector(".s").textContent = "Loading…"; try { await loadDeck(d); } catch(e){ toast("Could not load this deck. Check your connection."); b.disabled = false; return; } }
     if (d.opt) { S.optOn = S.optOn||{}; S.optOn[d.id] = true; save(); }
     startStudy([d]); });
-  app.querySelectorAll("[data-study]").forEach(b => b.onclick = () => startStudy(activeYears().flatMap(y=>y.decks).filter(d => d.cards)));
+  app.querySelectorAll("[data-study]").forEach(b => b.onclick = () => startStudy(studyDecks()));
   app.querySelectorAll("[data-test]").forEach(b => b.onclick = () => { if (!b.disabled) startTest(+b.dataset.test); });
   app.querySelectorAll("[data-startlesson]").forEach(b => b.onclick = () => { const [id, i] = b.dataset.startlesson.split("|"); startLesson(id, +i); });
   app.querySelectorAll("[data-read]").forEach(b => b.onclick = () => { const [id, i] = b.dataset.read.split("|"); openRead(id, +i); });
@@ -1279,6 +1365,7 @@ function render(){
     confirmBox(`Choose ${m} as your specialisation?`, () => { S.spec = m; save(); render(); }); });
   const cs = $("#changespec"); if (cs) cs.onclick = () => confirmBox("Change your specialisation? Your progress in the five years is kept.", () => { S.spec = null; save(); render(); });
   const cn = $("#continue"); if (cn) cn.onclick = () => { const nl = nextLesson(); if (nl) startLesson(nl.b.id, nl.i); };
+  app.querySelectorAll("[data-place]").forEach(b => b.onclick = () => { const n = +b.dataset.place; b.disabled = true; b.textContent = "Preparing the test…"; loadYear(n).then(() => startTest(n), () => { toast("Could not load the test. Check your connection."); b.disabled = false; }); });
   app.querySelectorAll("[data-libyear]").forEach(c => c.onclick = () => { S.libYear = +c.dataset.libyear; save(); render(); });
   const la = $("#loadall"); if (la) la.onclick = async () => { la.disabled = true; la.textContent = "Loading the books…"; try { await Promise.all(LIB().map(b => loadText(b.file))); } catch(e){ toast("Some books could not load"); } INDEX = null; render(); };
   const sq = $("#sq"); if (sq){ sq.oninput = () => { view.q = sq.value; $("#sres").innerHTML = searchResults(sq.value); bindResults(); }; bindResults(); if (view.q !== undefined) { sq.focus(); sq.setSelectionRange(sq.value.length, sq.value.length); } }
@@ -1313,5 +1400,5 @@ applyTheme(); try { matchMedia("(prefers-color-scheme: dark)").addEventListener(
 })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=187ce97af5");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=ec34360879");</script></body>
 </html>

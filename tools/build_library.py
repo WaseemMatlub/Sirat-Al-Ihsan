@@ -42,8 +42,26 @@ def write(book, secs, extra=None):
     print(book, len(secs), "sections, split into", -(-len(secs)//ch), "parts of", ch)
 
 # 1. OpenITI
-for b in ["majalla", "kanz", "jalalayn", "qatr", "alfiyya", "mughni", "iqtisad", "hidaya"]:
-    secs = parse(open(f"{RAW}/{b}.txt", encoding="utf-8").read())
+META_P = re.compile(r"^(المؤلف|الناشر|الطبعة|عدد الأجزاء|المحقق|حققه|راجعه|«المحققون»|\[ترقيم|\[الكتاب مرقم)")
+for b in ["majalla", "kanz", "jalalayn", "qatr", "alfiyya", "mughni", "iqtisad", "hidaya",
+          "risala", "kafiya", "maqamat", "manar", "shifa", "tadhkira", "baydawi", "mukhtasar_maani", "milal", "ihya", "tawdih",
+          "muwatta", "abudawud", "tirmidhi", "nasai", "ibnmajah", "sharh_maani"]:
+    raw = open(f"{RAW}/{b}.txt", encoding="utf-8").read()
+    raw = re.sub(r"### \| \[حكم الألباني\] :\n# [^\n]*\n(~~[^\n]*\n)*", "", raw)     # modern gradings added by an editor
+    secs = parse(raw)
+    for x in secs:                                   # edition footnote markers and Shamela catalogue lines
+        x["p"] = [re.sub(r"\s*«\d+»", "", q) for q in x["p"] if not META_P.match(q) and "الناشر:" not in q]
+        x["h"] = re.sub(r"^CHECK\s*", "", x["h"]); x["h"] = re.sub(r"^\d+\s*-\s*", "", x["h"])
+    secs = [x for x in secs if x["p"]]
+    merged = []                                      # page-number headings ("[ص: 12]") are not chapters
+    for x in secs:
+        if merged and re.fullmatch(r"\[?\s*ص\s*:\s*\d+\s*\]?\s*:?", x["h"]): merged[-1]["p"] += x["p"]
+        else: merged.append(x)
+    secs = merged
+    last = None                                      # babs inherit the kitab above them
+    for x in secs:
+        if x.get("parent"): last = x["parent"]
+        elif last and x["lvl"] > 1: x["parent"] = last
     for x in secs:
         for k in ("h", "parent"):
             if k in x: x[k] = re.sub(r"^\[\s*(\d+\s*-\s*)?|\s*\]$", "", x[k]).strip()
