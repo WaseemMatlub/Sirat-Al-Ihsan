@@ -6,6 +6,7 @@ from piper import PiperVoice
 
 MODEL = os.environ.get("MODEL", "ar_JO-kareem-medium.onnx")
 ONLY = os.environ.get("BOOK", "").strip()
+if ONLY.lower() in ("all", "*"): ONLY = ""
 voice = PiperVoice.load(MODEL)
 
 def clean(t):

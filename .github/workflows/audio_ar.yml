@@ -3,8 +3,8 @@ on:
   workflow_dispatch:
     inputs:
       book:
-        description: "Book file name in data/texts (e.g. arbain). Empty = every book marked narrate_ar"
-        default: "arbain"
+        description: "Book file name in data/texts (e.g. arbain), or all = every book marked narrate_ar"
+        default: "all"
 permissions:
   contents: write
 concurrency: { group: audio-ar, cancel-in-progress: false }
