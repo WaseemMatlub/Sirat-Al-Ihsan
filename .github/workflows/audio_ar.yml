@@ -7,7 +7,7 @@ on:
         default: "arbain"
 permissions:
   contents: write
-concurrency: { group: audio, cancel-in-progress: false }
+concurrency: { group: audio-ar, cancel-in-progress: false }
 jobs:
   narrate:
     runs-on: ubuntu-latest
