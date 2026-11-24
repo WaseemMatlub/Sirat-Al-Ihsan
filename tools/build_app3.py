@@ -25,7 +25,7 @@ input.switch:checked{background:var(--brand)}input.switch:checked::after{transfo
 .lcard{flex:0 0 80%;max-width:330px;scroll-snap-align:center;background:var(--surface);border:1px solid var(--line);border-radius:22px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 6px 18px rgba(60,50,20,.06)}
 .lcard .pic{height:180px;display:grid;place-items:center}
 .lcard .lbody{padding:12px 16px 4px;flex:1}.lcard h3{font-family:var(--display);font-size:1.22rem;margin:4px 0 2px;line-height:1.3}
-.lcard .lbtn{display:flex;align-items:center;justify-content:center;gap:6px;margin:10px 0 0;border:0;background:var(--brand);color:var(--brand-ink);font:inherit;font-weight:800;letter-spacing:.06em;text-transform:uppercase;font-size:.85rem;padding:15px;cursor:pointer}
+.lcard .lbtn{display:flex;align-items:center;justify-content:center;gap:6px;margin:10px 0 0;border:0;background:var(--brand);color:var(--brand-ink);font:inherit;font-weight:800;font-size:.85rem;padding:15px;cursor:pointer}
 .lcard .lbtn.off{background:var(--line);color:var(--muted);cursor:default}.lcard .lbtn svg{width:16px;height:16px}
 .lcard.locked{opacity:.6}.lcard.locked .pic{filter:grayscale(.7)}
 .minicard{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 14px;margin-top:10px}
@@ -124,7 +124,7 @@ nav.tabs .in{grid-template-columns:repeat(4,1fr)}
 .w-points div{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:grid;gap:2px}
 .w-points span{color:var(--muted);font-size:.9rem}
 .w-hadith{font-family:var(--display);font-size:1.05rem;margin:0 0 18px}
-.w-hadith span{display:block;font-family:var(--body);font-size:.78rem;color:var(--muted);margin-top:4px;letter-spacing:.06em;text-transform:uppercase}
+.w-hadith span{display:block;font-family:var(--body);font-size:.78rem;color:var(--muted);margin-top:4px;font-style:italic}
 .coming{display:grid;gap:8px}
 .item[disabled]{opacity:.8}
 '''

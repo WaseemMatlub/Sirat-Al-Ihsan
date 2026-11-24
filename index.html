@@ -13,7 +13,7 @@
   --bg:#F3F6F2; --surface:#FFFFFF; --ink:#14231C; --muted:#5B6B62; --line:#DCE4DE;
   --brand:#0E5A43; --brand-ink:#FFFFFF; --gold:#C8912B; --gold-soft:#F6E8C9;
   --ok:#1E8A4C; --ok-soft:#DDF3E5; --bad:#C2413A; --bad-soft:#FBE3E1; --warn:#B7791F;
-  --display:"Libre Baskerville", Georgia, serif; --body:"Inter", -apple-system, system-ui, "Segoe UI", sans-serif;
+  --display:"Libre Baskerville", Georgia, "Amiri", serif; --body:"Inter", -apple-system, system-ui, "Segoe UI", "Amiri", sans-serif;
   --arabic:"Scheherazade New", "Amiri", "Traditional Arabic", serif; --quran:"Amiri Quran", "Amiri", serif;
   color-scheme:light;
 }
@@ -42,7 +42,7 @@ h1{font-size:1.7rem} h2{font-size:1.3rem}
 .stats{display:flex;gap:8px}
 .chip{display:inline-flex;align-items:center;gap:5px;padding:5px 10px;border-radius:999px;background:var(--surface);border:1px solid var(--line);font-weight:700;font-size:.88rem;font-variant-numeric:tabular-nums}
 .chip svg{width:16px;height:16px}
-.label{font-size:.76rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:800;margin:22px 0 10px}
+.label{font-family:var(--display);font-size:1.05rem;color:var(--ink);font-weight:400;margin:24px 0 10px}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px}
 .stack{display:grid;gap:12px}
 .row{display:flex;gap:10px;align-items:center}
@@ -56,7 +56,7 @@ h1{font-size:1.7rem} h2{font-size:1.3rem}
 .today .nums{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .today .nums div{background:rgba(255,255,255,.12);border-radius:12px;padding:8px 10px}
 .today .nums b{display:block;font-size:1.4rem;font-variant-numeric:tabular-nums;line-height:1.2}
-.today .nums span{font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;font-weight:800;opacity:.85}
+.today .nums span{font-size:.8rem;font-weight:600;opacity:.85}
 /* year cards */
 .year{display:grid;gap:12px;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:16px;border-bottom-width:3px;width:100%}
 .year.current{border-color:var(--gold);box-shadow:0 0 0 3px var(--gold-soft)}
@@ -82,7 +82,7 @@ h1{font-size:1.7rem} h2{font-size:1.3rem}
 .check.on i{background:var(--ok);border-color:var(--ok);color:#fff}
 .check i svg{width:14px;height:14px}
 /* buttons */
-.btn{width:100%;border:0;border-radius:14px;padding:14px;font-weight:800;font-size:.98rem;letter-spacing:.03em;text-transform:uppercase;background:var(--brand);color:var(--brand-ink);box-shadow:0 4px 0 color-mix(in srgb,var(--brand) 62%,#000)}
+.btn{width:100%;border:0;border-radius:14px;padding:14px;font-weight:800;font-size:.98rem;background:var(--brand);color:var(--brand-ink);box-shadow:0 4px 0 color-mix(in srgb,var(--brand) 62%,#000)}
 .btn:active{transform:translateY(2px);box-shadow:0 2px 0 color-mix(in srgb,var(--brand) 62%,#000)}
 .btn[disabled]{background:var(--line);color:var(--muted);box-shadow:none;cursor:default;transform:none}
 .btn.ghost{background:transparent;color:var(--brand);box-shadow:none;border:2px solid var(--line)}
@@ -100,7 +100,7 @@ h1{font-size:1.7rem} h2{font-size:1.3rem}
 .pfoot.ok{background:var(--ok-soft);border-color:transparent} .pfoot.bad{background:var(--bad-soft);border-color:transparent}
 .fb{margin-bottom:12px} .fb strong{display:block;font-size:1.08rem}
 .pfoot.ok .fb strong{color:var(--ok)} .pfoot.bad .fb strong{color:var(--bad)}
-.kicker{font-size:.76rem;letter-spacing:.08em;text-transform:uppercase;font-weight:800;color:var(--brand);margin-bottom:8px}
+.kicker{font-size:.86rem;font-weight:700;color:var(--brand);margin-bottom:6px}
 .big-ar{font-family:var(--quran);direction:rtl;text-align:center;font-size:2.6rem;line-height:1.9;margin:6px 0}
 .line-ar{font-family:var(--arabic);direction:rtl;text-align:right;font-size:1.45rem;line-height:1.95;margin:0 0 10px}
 .ayah{font-family:var(--quran);direction:rtl;text-align:right;font-size:1.3rem;line-height:2.1;background:var(--bg);border-radius:12px;padding:10px 12px;margin:10px 0 4px}
@@ -122,7 +122,7 @@ details{margin-top:10px} summary{cursor:pointer;color:var(--brand);font-weight:7
 .tiles{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:100%;max-width:360px}
 .tile{border:1px solid var(--line);border-radius:14px;padding:12px;background:var(--surface)}
 .tile b{display:block;font-size:1.5rem;font-variant-numeric:tabular-nums}
-.tile span{font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);font-weight:800}
+.tile span{font-size:.82rem;color:var(--muted);font-weight:600}
 .notice{display:flex;gap:10px;align-items:flex-start;background:var(--gold-soft);border-radius:12px;padding:10px 12px;font-size:.86rem}
 .notice svg{flex:none;width:20px;height:20px;margin-top:1px}
 nav.tabs{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);z-index:10}
@@ -189,6 +189,50 @@ details.kitab>.stack{padding:0 8px 8px}
 .dent.ar{font-size:1.15rem;line-height:1.9}
 .ar-read{cursor:pointer}
 
+/* Illuminated greeting: the one ornamental moment on Home */
+.illum{position:relative;margin:4px 0 14px;padding:34px 20px 18px;text-align:center;color:#F4E7C8;border-radius:150px 150px 20px 20px/90px 90px 20px 20px;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28'%3E%3Cpath d='M14 2l3.6 8.4L26 14l-8.4 3.6L14 26l-3.6-8.4L2 14l8.4-3.6z' fill='none' stroke='%23D9B56A' stroke-width='.8' opacity='.28'/%3E%3C/svg%3E"),linear-gradient(160deg,#0E5A43,#0A3F30);
+  box-shadow:inset 0 0 0 2px rgba(226,194,122,.55),inset 0 0 0 7px #0B4535,inset 0 0 0 8px rgba(226,194,122,.35)}
+.illum-ar{font-family:"Amiri",serif;font-weight:700;font-size:2.15rem;line-height:1.5;margin:0;color:#E2C27A;text-align:center}
+.illum-en{font-family:var(--display);font-size:1.05rem;margin:2px 0 8px}
+.illum-meta{display:flex;justify-content:center;flex-wrap:wrap;gap:6px 16px;margin:0;font-size:.85rem;color:#D8CDAF}
+.illum-meta b{color:#fff;font-weight:600}
+.hotd{margin:14px 0}
+.hotd-ar{font-size:1.25rem;line-height:2;text-align:right;margin:0 0 8px}
+.hotd-en{margin:0 0 10px;line-height:1.6}
+.linkbtn{background:none;border:0;padding:4px 0;color:var(--brand);font-weight:700;font-size:.86rem}
+.install{margin-top:14px}
+.btnrow .small-btn{width:auto}
+/* Onboarding */
+.welcome-in{max-width:440px;margin:0 auto;padding:28px 22px 32px;text-align:center}
+.welcome-in.left{text-align:left}
+.welcome-in .arch{display:block;margin:6px auto 14px}
+.welcome-in h1{font-size:2rem;margin:4px 0 8px}
+.w-tag{font-size:1.05rem;line-height:1.55;margin:0 auto 16px;max-width:34ch}
+.ob-points{list-style:none;padding:0;margin:0 0 18px;text-align:left;display:grid;gap:10px}
+.ob-points li{padding-left:22px;position:relative;line-height:1.5}
+.ob-points li::before{content:"";position:absolute;left:2px;top:.5em;width:9px;height:9px;background:var(--gold);transform:rotate(45deg);border-radius:1px}
+.ob-dots{display:flex;justify-content:center;gap:7px;margin-top:18px}
+.ob-dots i{width:7px;height:7px;border-radius:50%;background:var(--line)}
+.ob-dots i.on{background:var(--brand);width:20px;border-radius:4px}
+.choices{display:grid;gap:10px;margin:16px 0 18px}
+.choice{display:block;text-align:left;background:var(--surface);border:1.5px solid var(--line);border-radius:16px;padding:14px 16px;color:var(--ink);transition:border-color .15s,background .15s}
+.choice b{display:block;font-size:1.02rem;margin-bottom:2px}.choice span{color:var(--muted);font-size:.9rem;line-height:1.45}
+.choice:hover{border-color:var(--brand)}
+.choice.on{border-color:var(--brand);background:color-mix(in srgb,var(--brand) 7%,var(--surface))}
+.ob-name{display:grid;gap:6px;margin:0 0 18px;font-weight:600}.ob-name em{font-style:normal;color:var(--muted);font-weight:400}
+.ob-name input,#pcity{font:inherit;padding:11px 12px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink)}
+/* Completion seal: draws itself once */
+.seal svg{overflow:visible}
+.seal-ring{stroke-dasharray:420;stroke-dashoffset:420;animation:sealDraw .9s ease-out forwards}
+.seal-in{transform-origin:60px 60px;transform:scale(0);animation:sealPop .35s .6s cubic-bezier(.3,1.6,.5,1) forwards}
+.seal-tick{stroke-dasharray:40;stroke-dashoffset:40;animation:sealDraw .3s .85s ease-out forwards}
+@keyframes sealDraw{to{stroke-dashoffset:0}}
+@keyframes sealPop{to{transform:scale(1)}}
+.ob-star{transform-origin:100px 100px;animation:sealPop .5s .2s cubic-bezier(.3,1.6,.5,1) both}
+@media (prefers-reduced-motion:reduce){.seal-ring,.seal-tick{animation:none;stroke-dashoffset:0}.seal-in,.ob-star{animation:none;transform:none}}
+.saw{font-family:"Amiri",serif;font-size:1.25em;line-height:1;font-weight:400;vertical-align:-.05em;margin:0 .08em}
+
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--line);padding:4px;border-radius:14px}
 .seg button{border:0;background:transparent;border-radius:10px;padding:10px 6px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
 .seg button.on{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
@@ -211,7 +255,7 @@ input.switch:checked{background:var(--brand)}input.switch:checked::after{transfo
 .lcard{flex:0 0 80%;max-width:330px;scroll-snap-align:center;background:var(--surface);border:1px solid var(--line);border-radius:22px;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 6px 18px rgba(60,50,20,.06)}
 .lcard .pic{height:180px;display:grid;place-items:center}
 .lcard .lbody{padding:12px 16px 4px;flex:1}.lcard h3{font-family:var(--display);font-size:1.22rem;margin:4px 0 2px;line-height:1.3}
-.lcard .lbtn{display:flex;align-items:center;justify-content:center;gap:6px;margin:10px 0 0;border:0;background:var(--brand);color:var(--brand-ink);font:inherit;font-weight:800;letter-spacing:.06em;text-transform:uppercase;font-size:.85rem;padding:15px;cursor:pointer}
+.lcard .lbtn{display:flex;align-items:center;justify-content:center;gap:6px;margin:10px 0 0;border:0;background:var(--brand);color:var(--brand-ink);font:inherit;font-weight:800;font-size:.85rem;padding:15px;cursor:pointer}
 .lcard .lbtn.off{background:var(--line);color:var(--muted);cursor:default}.lcard .lbtn svg{width:16px;height:16px}
 .lcard.locked{opacity:.6}.lcard.locked .pic{filter:grayscale(.7)}
 .minicard{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:12px 14px;margin-top:10px}
@@ -310,7 +354,7 @@ nav.tabs .in{grid-template-columns:repeat(4,1fr)}
 .w-points div{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:grid;gap:2px}
 .w-points span{color:var(--muted);font-size:.9rem}
 .w-hadith{font-family:var(--display);font-size:1.05rem;margin:0 0 18px}
-.w-hadith span{display:block;font-family:var(--body);font-size:.78rem;color:var(--muted);margin-top:4px;letter-spacing:.06em;text-transform:uppercase}
+.w-hadith span{display:block;font-family:var(--body);font-size:.78rem;color:var(--muted);margin-top:4px;font-style:italic}
 .coming{display:grid;gap:8px}
 .item[disabled]{opacity:.8}
 </style>
@@ -558,6 +602,10 @@ const isAr = s => /[؀-ۿ]/.test(String(s).slice(0,40));
 const snip = (s, n=170) => { s = String(s).replace(/^Narrated [^:]{1,80}:\s*/,""); return s.length > n ? s.slice(0, n).replace(/\s+\S*$/,"") + "…" : s; };
 function distinct(pool, answer, n){ const seen = new Set([answer]), out = []; for (const x of shuffle(pool)){ if (!seen.has(x)){ seen.add(x); out.push(x); if (out.length === n) break; } } return out; }
 const ICON = {
+  globe:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg>',
+  play:'<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.9l12-7.5a1 1 0 0 0 0-1.7l-12-7.5A1 1 0 0 0 7 4.5z"/></svg>',
+  pause:'<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4.5" height="16" rx="1"/><rect x="13.5" y="4" width="4.5" height="16" rx="1"/></svg>',
+  ear:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 14v-2a8 8 0 0 1 16 0v2"/><rect x="3" y="14" width="5" height="7" rx="2"/><rect x="16" y="14" width="5" height="7" rx="2"/></svg>',
   flame:'<svg viewBox="0 0 24 24"><path d="M12 2c1 4 5 5.5 5 11a5 5 0 0 1-10 0c0-2.5 1.2-4 2.5-5 .2 2 1 3 2 3.5C11 9 11 5.5 12 2Z" fill="var(--gold)"/></svg>',
   star:'<svg viewBox="0 0 24 24"><path d="m12 2.8 2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3L2.9 9.5l6.3-.9L12 2.8Z" fill="var(--brand)"/></svg>',
   learn:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5.5C5 4 9 4 12 6c3-2 7-2 10-.5V19c-3-1.5-7-1.5-10 .5-3-2-7-2-10-.5Z"/><path d="M12 6v13.5"/></svg>',
@@ -634,22 +682,79 @@ function shell(inner){
     <main>${inner}</main>
     <nav class="tabs"><div class="in"><button data-go="home" ${view.name==="home"?'aria-current="page"':""}>${ICON.home}Home</button><button data-go="syllabus" ${["syllabus","year","spec"].includes(view.name)||(view.name==="book"&&!isLibBook())?'aria-current="page"':""}>${ICON.learn}Course</button><button data-go="library" ${view.name==="library"||isLibBook()?'aria-current="page"':""}>${ICON.shelf}Library</button><button data-go="profile" ${view.name==="profile"?'aria-current="page"':""}>${ICON.user}Progress</button></div></nav>`;
 }
+/* First visit: three short steps, then straight into learning */
+const ARCH = (w=170) => `<svg class="arch" viewBox="0 0 200 240" width="${w}" aria-hidden="true"><defs><pattern id="ob-p" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M10 1l2.6 6.4L19 10l-6.4 2.6L10 19l-2.6-6.4L1 10l6.4-2.6z" fill="none" stroke="#E2C27A" stroke-width=".7" opacity=".45"/></pattern></defs>
+  <path d="M20 236V96Q20 24 100 8Q180 24 180 96V236Z" fill="#0E5A43"/><path d="M20 236V96Q20 24 100 8Q180 24 180 96V236Z" fill="url(#ob-p)" opacity=".5"/>
+  <path d="M38 236V102Q38 46 100 30Q162 46 162 102V236" fill="none" stroke="#E2C27A" stroke-width="2"/>
+  <path class="ob-star" d="M100.0 72.0 L105.0 88.0 L119.8 80.2 L112.0 95.0 L128.0 100.0 L112.0 105.0 L119.8 119.8 L105.0 112.0 L100.0 128.0 L95.0 112.0 L80.2 119.8 L88.0 105.0 L72.0 100.0 L88.0 95.0 L80.2 80.2 L95.0 88.0Z" fill="#E2C27A"/>
+  <text x="100" y="186" text-anchor="middle" font-family="Amiri, serif" font-weight="700" font-size="34" fill="#E2C27A" direction="rtl">إحسان</text></svg>`;
+let OB = { step:1 };
 function welcomeView(){
-  return `<div class="welcome"><div class="welcome-in">
-    <div class="w-logo">${ICON.logo}</div>
-    <p class="w-ar ar">إِحْسَان</p>
-    <h1>Ihsan</h1>
-    <p class="w-tag">A traditional path to sacred knowledge, year by year.</p>
-    <div class="w-points">
-      <div><b>Read the classical texts</b><span>Tahawiyya, Nur al-Idah, Quduri, the Nasafiyyah and more, in Arabic and English.</span></div>
-      <div><b>Learn the language of the Qur'an</b><span>Start with the 500 words that make up 86% of the Qur'an, then roots and verbs.</span></div>
-      <div><b>Remember it for life</b><span>Flashcards return just before you would forget them.</span></div>
-      <div><b>Earn each year</b><span>Pass the final test with 80% to unlock the next year.</span></div>
-    </div>
+  const dots = `<div class="ob-dots" aria-hidden="true">${[1,2,3].map(k => `<i class="${k===OB.step?"on":""}"></i>`).join("")}</div>`;
+  if (OB.step === 1) return `<div class="welcome"><div class="welcome-in">${ARCH()}
+    <h1>Ihsan</h1><p class="w-tag">Study the classical books of the deen, year by year, the way the scholars have always taught them.</p>
+    <ul class="ob-points"><li><b>A plan for every day.</b> A short lesson, your flashcards and a page of a book.</li>
+      <li><b>Forty complete books.</b> From the Tahawiyyah to Sahih al-Bukhari, free to read.</li>
+      <li><b>Earn each year.</b> Pass the final test to open the next one.</li></ul>
     <p class="w-hadith">The Prophet ﷺ said: “Whoever takes a path seeking knowledge, Allah makes easy for him a path to Paradise.” <span>Sahih Muslim</span></p>
-    <button class="btn gold" id="begin">Bismillah, start Year 1</button>
-    <p class="small muted" style="margin:12px 0 0">Prototype. Content is being reviewed by teachers.</p></div></div>`;
+    <button class="btn gold" id="ob-next">Continue</button>${dots}</div></div>`;
+  if (OB.step === 2) return `<div class="welcome"><div class="welcome-in left"><button class="back" id="ob-back">${ICON.back} Back</button>
+    <h1>Where would you like to start?</h1><p class="muted">You can change this later.</p>
+    <div class="choices">
+      <button class="choice" data-start="fard"><b>The essentials first</b><span>Fard 'Ayn: what every Muslim must know about belief, purification, prayer and fasting. Year 1 is open alongside it.</span></button>
+      <button class="choice" data-start="y1"><b>Year 1</b><span>Begin the course from the start: the Tahawiyyah, Nur al-Idah and the first steps in Arabic.</span></button>
+      <button class="choice" data-start="place"><b>I've studied before</b><span>Take a placement test and start in a later year.</span></button></div>${dots}</div></div>`;
+  return `<div class="welcome"><div class="welcome-in left"><button class="back" id="ob-back">${ICON.back} Back</button>
+    <h1>How much time each day?</h1><p class="muted">This sets how many new flashcards you get. Lessons stay short either way.</p>
+    <div class="choices">${[[5,"Light","About 10 minutes"],[10,"Steady","About 20 minutes"],[20,"Serious","About 40 minutes"]].map(([n,t,d]) => `<button class="choice ${S.newPerDay===n?"on":""}" data-pace="${n}"><b>${t}</b><span>${d}</span></button>`).join("")}</div>
+    <label class="ob-name"><span>What should we call you? <em>Optional</em></span><input id="ob-name" autocomplete="given-name" maxlength="30" value="${esc(S.name||"")}"></label>
+    <button class="btn gold" id="begin">Bismillah, let's begin</button>${dots}</div></div>`;
 }
+function bindWelcome(){
+  const app = $("#app"), redraw = () => { app.innerHTML = welcomeView(); bindWelcome(); window.scrollTo(0,0); };
+  const nx = $("#ob-next"); if (nx) nx.onclick = () => { OB.step = 2; redraw(); };
+  const bk = $("#ob-back"); if (bk) bk.onclick = () => { OB.step--; redraw(); };
+  app.querySelectorAll("[data-start]").forEach(b => b.onclick = () => { OB.start = b.dataset.start; OB.step = 3; redraw(); });
+  app.querySelectorAll("[data-pace]").forEach(b => b.onclick = () => { S.newPerDay = +b.dataset.pace; app.querySelectorAll("[data-pace]").forEach(x => x.classList.toggle("on", x === b)); });
+  const bg = $("#begin"); if (bg) bg.onclick = () => { const n = $("#ob-name").value.trim(); if (n) S.name = n; S.welcomed = true; S.start = OB.start || "y1"; save();
+    if (S.start === "fard") { S.openFard = true; save(); go({ name:"syllabus" }); }
+    else if (S.start === "place") go({ name:"syllabus" }); else go({ name:"home" }); };
+}
+let INSTALL = null; window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); INSTALL = e; if (view.name === "home") render(); });
+const standalone = () => matchMedia("(display-mode: standalone)").matches || navigator.standalone;
+function installCard(){
+  if (S.noInstall || standalone()) return ""; const ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
+  if (!INSTALL && !ios) return "";
+  return `<section class="card install"><b>Put Ihsan on your home screen</b><p class="small muted" style="margin:4px 0 10px">${INSTALL ? "It opens like an app and works offline for the pages you've visited." : "Tap the Share button in Safari, then “Add to Home Screen”."}</p>
+    <div class="btnrow">${INSTALL?`<button class="btn small-btn" id="inst">Add to home screen</button>`:""}<button class="btn ghost small-btn" id="noinst">Not now</button></div></section>`;
+}
+/* ---- Home extras: Hijri date, prayer times (free AlAdhan API, opt-in), hadith of the day ---- */
+const hijri = () => { try { return new Intl.DateTimeFormat("en-GB-u-ca-islamic-umalqura", { day:"numeric", month:"long", year:"numeric" }).format(new Date()); } catch(e){ return ""; } };
+const PRAYERS = ["Fajr","Dhuhr","Asr","Maghrib","Isha"];
+async function loadPrayer(){
+  const P = S.prayer; if (!P || !P.city) return null;
+  const key = `${today()}|${P.city}|${P.country}`; if (S.pt && S.pt.k === key) return S.pt.t;
+  try { const r = await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${encodeURIComponent(P.city)}&country=${encodeURIComponent(P.country||"")}&method=${P.method||15}&school=${P.school??1}`);
+    const j = await r.json(); if (j.code !== 200) return null; S.pt = { k:key, t:j.data.timings }; save(); return S.pt.t; } catch(e){ return null; }
+}
+function nextPrayer(t){
+  if (!t) return null; const now = new Date(), mins = now.getHours()*60 + now.getMinutes();
+  for (const p of PRAYERS){ const [h,m] = t[p].slice(0,5).split(":").map(Number); if (h*60+m > mins) return { p, at:t[p].slice(0,5) }; }
+  return { p:"Fajr", at:t.Fajr.slice(0,5), tomorrow:true };
+}
+const DAILY = {};
+async function hadithOfDay(){
+  const d = new Date(), m = d.getMonth(); if (!DAILY[m]) { try { const r = await fetch(`data/daily/${m}.json`); DAILY[m] = await r.json(); } catch(e){ return null; } }
+  return DAILY[m][(d.getDate()-1) % DAILY[m].length];
+}
+async function fillHome(){
+  const t = await loadPrayer(), np = nextPrayer(t), el = $("#np");
+  if (el && np) el.textContent = `${np.p} ${np.at}${np.tomorrow?" tomorrow":""}`;
+  const h = await hadithOfDay(), box = $("#hotd");
+  if (box && h) box.innerHTML = `<p class="label" style="margin-top:0">Hadith of the day</p><p class="ar hotd-ar">${esc(h.a)}</p><p class="hotd-en">${esc(h.e)}</p>
+    <div class="spread small muted"><span>${esc(h.r)} · ${esc(h.c)}</span><button class="linkbtn" data-read="t_bukhari|${h.i}">Read in context</button></div>`, box.hidden = false, bindReadLinks(box);
+}
+function bindReadLinks(root){ root.querySelectorAll("[data-read]").forEach(b => b.onclick = () => { const [id, i] = b.dataset.read.split("|"); openRead(id, +i); }); }
 function homeView(){
   const y = yearOf(Math.max(...S.unlocked.filter(n => loaded(yearOf(n))))), st = yearStatus(y);
   const parts = [st.lt ? st.ld/st.lt : 0, st.ct ? st.cm/st.ct : 0], pctDone = Math.round(parts.reduce((p,q)=>p+q,0)/parts.length*100);
@@ -667,7 +772,7 @@ function homeView(){
   steps.push({ done: due + nw === 0, t:"Review your flashcards", s: due + nw ? `${due ? `${due} to review` : ""}${due && nw ? " · " : ""}${nw ? `${nw} new` : ""} · about ${Math.max(2, Math.round((due+nw)*0.15))} min` : "All caught up for today", act:`data-study="all"`, go:"Study cards" });
   if (readBook) steps.push({ done: S.readDay === today(), t:"Read from the Library", s:`${readBook.title} · section ${readAt+1}`, act:`data-read="${readBook.id}|${readAt}"`, go:"Read" });
   const nDone = steps.filter(x => x.done).length, next = steps.find(x => !x.done);
-  const plan = `<section class="today-card"><div class="spread" style="align-items:center;gap:12px"><div><div class="kicker" style="margin:0">Today</div><h2>${next ? "Your plan for today" : "Today's plan is done, alhamdulillah"}</h2>
+  const plan = `<section class="today-card"><div class="spread" style="align-items:center;gap:12px"><div><h2>${next ? "Your plan for today" : "Today's plan is done, alhamdulillah"}</h2>
       <p class="small muted" style="margin:0">${next ? `About ${steps.filter(x=>!x.done).length * 5} minutes. Tap start and we'll take you through it.` : "Come back tomorrow, or keep going below."}</p></div>
       <span class="ring" style="--p:${nDone/steps.length*100}"><span>${nDone}/${steps.length}</span></span></div>
     <div style="margin-top:8px">${steps.map((x,k) => `<div class="step ${x.done?"done":x===next?"next":""}"><span class="dot">${x.done?ICON.check.replace("<svg",'<svg width="15" height="15"'):k+1}</span>
@@ -678,13 +783,15 @@ function homeView(){
       <div class="lbody"><div class="kicker" style="margin:0">${esc(b.subject)}</div><h3>${esc(nameOf(b))}</h3><p class="small muted">Lesson ${i+1} of ${L}</p></div>
       <button class="lbtn" data-startlesson="${b.id}|${i}">Start lesson</button></div>`).join("");
   return shell(`
-    <h1 style="margin:2px 0 2px">Assalamu 'alaykum</h1>
-    <p class="muted" style="margin:0 0 12px">${nDone ? "Well done today, keep going." : "Let's learn something today, bismillah."}</p>
+    <section class="illum"><p class="ar illum-ar">السَّلَامُ عَلَيْكُمْ</p><p class="illum-en">Assalamu 'alaykum${S.name?`, ${esc(S.name)}`:""}</p>
+      <p class="illum-meta"><span>${hijri()}</span>${S.prayer&&S.prayer.city?`<span>Next: <b id="np">…</b></span>`:""}</p></section>
     <button class="coursebar" data-year="${y.n}"><span><b>Year ${y.n}: ${esc(y.title)}</b></span>
       <span class="bar"><i style="width:${pctDone}%"></i></span><span class="small muted">${pctDone}%</span></button>
     ${plan}
     ${!open.length ? `<div class="card" style="margin:12px 0"><b>Every lesson in Year ${y.n} is done.</b><p class="small muted" style="margin:4px 0 0">Keep up your flashcards, then take the final test on the Year ${y.n} page.</p></div>` : ""}
-    ${more ? `<p class="label">Other lessons</p><div class="carousel">${more}</div>` : ""}`);
+    <section class="card hotd" id="hotd" hidden></section>
+    ${more ? `<p class="label">Other lessons</p><div class="carousel">${more}</div>` : ""}
+    ${installCard()}`);
 }
 /* Optional course before Year 1: what every Muslim must know. Never required, never locks anything. */
 /* Optional course before Year 1: what every Muslim must know. Never required, never locks anything.
@@ -701,7 +808,7 @@ const allDecks = () => [...YEARS.flatMap(y=>y.decks), ...FARD_DECKS];
 const studyDecks = () => [...activeYears().flatMap(y=>y.decks), ...FARD_DECKS].filter(d => d.cards);
 function fardAynCard(){
   const started = FARD_DECKS.filter(d => d.cards).length;
-  return `<details class="module fard" ${started?"open":""}><summary><span class="yr-badge" style="width:44px;height:44px;font-size:1.1rem">✓</span>
+  return `<details class="module fard" ${started||S.openFard?"open":""}><summary><span class="yr-badge" style="width:44px;height:44px;font-size:1.1rem">✓</span>
       <span class="m-txt"><span class="t">Fard 'Ayn: the essentials <span class="pill gold" style="font-size:.66rem;vertical-align:2px">Optional</span></span>
       <span class="s">What every Muslim must know: belief, purification, prayer, fasting, zakat and halal. Already know it? Go straight to Year 1.</span></span></summary>
     <div class="stack">${FARD_DECKS.map(d => itemDeck(d, true)).join("")}
@@ -809,11 +916,12 @@ function profileView(){
       ${row("hk","Show harakat","Qur'anic text always keeps its harakat", toggle("hk", S.harakat!==false))}
       ${row("clang","Question and answer language","Applies to every Q&A deck. More languages are planned", `<select id="clang"><option value="" ${!S.cardLang?"selected":""}>As written</option><option value="en" ${S.cardLang==="en"?"selected":""}>English</option><option value="ar" ${S.cardLang==="ar"?"selected":""}>العربية</option></select>`)}
       ${row("npd","New flashcards a day","Per deck", `<select id="npd">${[5,10,15,20,30,50].map(n=>`<option ${n===S.newPerDay?"selected":""}>${n}</option>`).join("")}</select>`)}
+      ${row("pcity","Prayer times on Home","Your town, e.g. Leeds, United Kingdom. Times from AlAdhan, Hanafi Asr", `<input id="pcity" placeholder="Town, country" value="${esc(S.prayer?[S.prayer.city,S.prayer.country].filter(Boolean).join(", "):"")}" style="max-width:170px">`)}
       ${row("madhab","Madhab","Other madhabs are coming", `<select id="madhab"><option selected>Hanafi</option><option disabled>Maliki</option><option disabled>Shafi'i</option><option disabled>Hanbali</option></select>`)}
     </div>
     <details class="setgroup"><summary>Listening</summary><div class="setlist">
       ${row("arvoice","Read Arabic with the device voice","Recorded narration is always used when a book has it", toggle("arvoice", S.arVoice!==false))}
-      ${["en","ar"].map(l => row(`v-${l}`, l==="en"?"English voice":"Arabic voice", "", `<span style="display:flex;gap:6px;min-width:0;flex:1;justify-content:flex-end"><select id="v-${l}" style="max-width:150px">${voicesFor(l).length ? voicesFor(l).map(v => `<option ${voiceFor(l)&&voiceFor(l).name===v.name?"selected":""}>${esc(v.name)}</option>`).join("") : `<option>None found</option>`}</select><button class="tool" data-vtest="${l}">▶</button></span>`)).join("")}
+      ${["en","ar"].map(l => row(`v-${l}`, l==="en"?"English voice":"Arabic voice", "", `<span style="display:flex;gap:6px;min-width:0;flex:1;justify-content:flex-end"><select id="v-${l}" style="max-width:150px">${voicesFor(l).length ? voicesFor(l).map(v => `<option ${voiceFor(l)&&voiceFor(l).name===v.name?"selected":""}>${esc(v.name)}</option>`).join("") : `<option>None found</option>`}</select><button class="tool" data-vtest="${l}" aria-label="Test voice">${ICON.play}</button></span>`)).join("")}
       <p class="small muted" style="margin:8px 2px 0">Better voices on iPhone: Settings → Accessibility → Spoken Content → Voices, and download one marked “Enhanced” or “Premium”.</p></div></details>
     <details class="setgroup"><summary>Your reports${(S.reports||[]).some(r=>!r.sent)?` <span class="pill gold">${S.reports.filter(r=>!r.sent).length} unsent</span>`:""}</summary><div class="card small" style="margin-top:8px">${(S.reports||[]).length ? `${S.reports.slice(-5).reverse().map(r=>{ const it=itemByKey(r.k); return `<div class="spread" style="padding:4px 0;border-bottom:1px solid var(--line)"><span>${esc(it?it.src.title:r.k)}: ${esc(r.why)}</span><span class="pill ${r.sent?"ok":"gold"}">${r.sent?"Sent":"Not sent"}</span></div>`; }).join("")}
       ${S.reports.some(r=>!r.sent)?`<button class="btn ghost" id="sendall" style="margin-top:10px">Send unsent reports</button>`:""}` : `<p style="margin:0" class="muted">Spotted a mistake? Tap ${ICON.flag.replace("<svg",'<svg width="14" height="14" style="vertical-align:-2px"')} Report on any card, line or hadith.</p>`}</div></details>
@@ -919,7 +1027,7 @@ function bookCard(b){
   const d = bookDone(b), L = lessonsOf(b);
   return `<button class="bookcard" data-book="${b.id}"><span class="cv">${cover(b, 140)}${d?`<span class="cvbar"><i style="width:${Math.max(4,d/L*100)}%"></i></span>`:""}</span>
     <span class="bt">${esc(b.title)}</span><span class="ba">${esc(b.author.replace(/^Imams? /,""))}</span>
-    <span class="bl">${hasEn(b)?"Arabic · English":"Arabic"}${(META.textsAudio||{})[b.file]?" · 🎧":""}</span></button>`;
+    <span class="bl">${hasEn(b)?"Arabic · English":"Arabic"}${(META.textsAudio||{})[b.file]?"":""}</span></button>`;
 }
 function libraryView(){
   const books = LIB(), last = S.lastRead && bookById(S.lastRead.id), f = S.libYear || 0;
@@ -950,7 +1058,7 @@ function textView(b){
       <h1>${esc(b.title)}</h1><p class="ar booktitle-ar">${esc(b.ar||"")}</p>
       <p class="byline">${byline(b)}</p><p class="small muted" style="margin:0">${esc(b.when||"")}</p></div></section>
     <p style="margin:12px 0 8px">${esc(b.sub)}.</p>
-    <div class="tags" style="margin-bottom:12px"><span class="pill">${esc(b.subject)}</span><span class="pill">Year ${b.year}</span><span class="pill">${n} sections</span>${hasEn(b)?`<span class="pill gold">Arabic + English</span>`:`<span class="pill">Arabic</span>`}${(META.textsAudio||{})[b.file]?`<span class="pill ok">🎧 Narrated</span>`:""}</div>
+    <div class="tags" style="margin-bottom:12px"><span class="pill">${esc(b.subject)}</span><span class="pill">Year ${b.year}</span><span class="pill">${n} sections</span>${hasEn(b)?`<span class="pill gold">Arabic + English</span>`:`<span class="pill">Arabic</span>`}${(META.textsAudio||{})[b.file]?`<span class="pill ok">${ICON.ear} Narrated</span>`:""}</div>
     ${done.length?`<div class="spread small muted"><span>${done.length} of ${n} read</span><span>${Math.round(done.length/n*100)}%</span></div><span class="bar" style="display:block;margin:4px 0 10px"><i style="width:${done.length/n*100}%;background:var(--brand)"></i></span>`:""}
     ${next>=0?`<button class="btn" data-read="${b.id}|${next}" style="margin:4px 0 6px">${done.length?`Continue · section ${next+1}`:"Start reading"}</button>`:`<div class="notice">${ICON.check}<span>You've read the whole book, alhamdulillah.</span></div>`}
     <p class="label">Contents</p>${toc}
@@ -964,7 +1072,7 @@ function readView(b, i){
   return `<div class="player"><div class="player-in"><div class="phead"><button class="x" id="rquit" aria-label="Close">${ICON.x}</button><div class="bar"><i style="width:${(i+1)/T.sections.length*100}%;background:${b.color}"></i></div><span class="count">${i+1}/${T.sections.length}</span></div>
     <div class="pbody reader"><div class="kicker">${esc(b.title)}${s.parent?` · <span class="${hasAr(s.parent)?"ar":""}">${esc(s.parent)}</span>`:""}</div>
       ${hasAr(s.h)?`<h2 class="ar" style="text-align:right;font-size:1.5rem;margin:4px 0 2px">${esc(s.h)}</h2>`:`<h2 style="font-size:1.25rem;margin:4px 0 2px">${esc(s.h)}</h2>`}${s.he?`<p class="muted" style="margin:0 0 8px">${esc(s.he)}</p>`:""}
-      <div class="tools" style="margin:6px 0 10px"><button class="tool listen ${AUD.on?"on":""}" id="listen">${AUD.on?"❚❚ Pause":"▶ Listen"}</button>
+      <div class="tools" style="margin:6px 0 10px"><button class="tool listen ${AUD.on?"on":""}" id="listen">${AUD.on?ICON.pause+" Pause":ICON.play+" Listen"}</button>
         ${s.v ? `<button class="tool ${S.harakat!==false?"on":""}" id="tg-h">حَ Harakat ${S.harakat!==false?"on":"off"}</button>` : `<button class="tool" disabled style="opacity:.55" title="Harakat for this book are being added">حَ No harakat yet</button>`}${s.en?`<button class="tool ${P.english?"on":""}" id="tg-e">EN English</button>`:""}
         <button class="tool" id="fsdn" aria-label="Smaller text">A−</button><button class="tool" id="fsup" aria-label="Larger text">A+</button>
         ${AUD.on?`<button class="tool" id="rate">${P.rate}× speed</button>`:""}${T.ai?`<span class="pill gold">AI · needs review</span>`:""}</div>
@@ -1111,7 +1219,7 @@ const isSaved = k => (S.saved||[]).includes(k);
 function toggleSave(k){ S.saved = S.saved||[]; const i = S.saved.indexOf(k); if (i >= 0) S.saved.splice(i,1); else S.saved.unshift(k); save(); toast(i >= 0 ? "Removed from saved" : "Saved. Find it under Search"); }
 function toast(t){ document.querySelectorAll(".toast").forEach(x => x.remove()); const el = document.createElement("div"); el.className = "toast"; el.setAttribute("role","status"); el.textContent = t; document.body.appendChild(el); setTimeout(() => el.remove(), 2200); }
 function toolRow(k, know){ const it = k.startsWith("c|") ? itemByKey(k) : null, qa = it && it.kind === "card" && isQA(it.c);
-  const langBtn = qa ? `<button class="tool lang" data-lang="1" aria-label="Switch question and answer language">🌐 ${shownLang(it.c) === "ar" ? "English" : "العربية"}</button>` : "";
+  const langBtn = qa ? `<button class="tool lang" data-lang="1" aria-label="Switch question and answer language">${ICON.globe} ${shownLang(it.c) === "ar" ? "English" : "العربية"}</button>` : "";
   return `<div class="tools">${langBtn}<button class="tool ${isSaved(k)?"on":""}" data-save="${esc(k)}" aria-label="Save">${isSaved(k)?ICON.saved:ICON.save}<span>${isSaved(k)?"Saved":"Save"}</span></button>
   <button class="tool" data-report="${esc(k)}" aria-label="Report a problem">${ICON.flag}<span>Report</span></button>
   <button class="tool ${S.harakat!==false?"on":""}" data-harakat="1" aria-label="Harakat on or off">حَ ${S.harakat!==false?"on":"off"}</button>
@@ -1227,7 +1335,7 @@ function grade(g){
 }
 function finishStudy(){
   const xp = Q.xp, adv = touchDay(0); Q = null;
-  $("#app").innerHTML = `<div class="player"><div class="player-in"><div class="done-screen"><div style="width:80px">${ICON.logo}</div><div class="big">Session complete</div>${adv?streakBurst():""}
+  $("#app").innerHTML = `<div class="player"><div class="player-in"><div class="done-screen"><div class="seal" aria-hidden="true"><svg viewBox="0 0 120 120" width="112"><path class="seal-ring" d="M60.0 6.0 L75.3 23.0 L98.2 21.8 L97.0 44.7 L114.0 60.0 L97.0 75.3 L98.2 98.2 L75.3 97.0 L60.0 114.0 L44.7 97.0 L21.8 98.2 L23.0 75.3 L6.0 60.0 L23.0 44.7 L21.8 21.8 L44.7 23.0Z" fill="none" stroke="var(--gold)" stroke-width="3" stroke-linejoin="round"/><circle class="seal-in" cx="60" cy="60" r="26" fill="var(--brand)"/><path class="seal-tick" d="M48 60l8 8 16-17" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="big">Session complete</div>${adv?streakBurst():""}
     <div class="tiles"><div class="tile"><b>${xp}</b><span>Cards studied</span></div><div class="tile"><b>${S.streak}</b><span>Day streak</span></div></div>
     <p class="muted small" style="margin:0;max-width:320px">Cards you knew well come back in a few days. Ones you missed come back sooner.</p></div><div class="pfoot"><button class="btn" id="cont">Continue</button></div></div></div>`;
   $("#cont").onclick = () => render();
@@ -1274,12 +1382,12 @@ function renderLesson(){
   const nx = $("#next"); if (nx) nx.onclick = () => { B.i++; B.sel = null; B.answered = false; renderLesson(); };
   $("#quit").onclick = () => confirmBox("Leave this lesson? It won't be marked as done.", () => { const id = B.b.id; B = null; go({name:"book", id}); });
 }
-function finishLesson(){
+function finishLesson(){ try { navigator.vibrate && navigator.vibrate([12, 60, 18]); } catch(e){}
   const done = S.books[B.b.id] = S.books[B.b.id] || [], first = !done.includes(B.idx); if (first) done.push(B.idx);
   S.lessonDay = { d:today(), n:(S.lessonDay && S.lessonDay.d === today() ? S.lessonDay.n : 0) + 1 };
   const xp = first ? 10 + B.correct*2 : 3, adv = touchDay(xp);
   const id = B.b.id, score = `${B.correct}/${B.nq}`; B = null;
-  $("#app").innerHTML = `<div class="player"><div class="player-in"><div class="done-screen"><div style="width:80px">${ICON.logo}</div><div class="big">Lesson complete</div>${adv?streakBurst():""}
+  $("#app").innerHTML = `<div class="player"><div class="player-in"><div class="done-screen"><div class="seal" aria-hidden="true"><svg viewBox="0 0 120 120" width="112"><path class="seal-ring" d="M60.0 6.0 L75.3 23.0 L98.2 21.8 L97.0 44.7 L114.0 60.0 L97.0 75.3 L98.2 98.2 L75.3 97.0 L60.0 114.0 L44.7 97.0 L21.8 98.2 L23.0 75.3 L6.0 60.0 L23.0 44.7 L21.8 21.8 L44.7 23.0Z" fill="none" stroke="var(--gold)" stroke-width="3" stroke-linejoin="round"/><circle class="seal-in" cx="60" cy="60" r="26" fill="var(--brand)"/><path class="seal-tick" d="M48 60l8 8 16-17" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="big">Lesson complete</div>${adv?streakBurst():""}
     <div class="tiles"><div class="tile"><b>+${xp}</b><span>XP</span></div><div class="tile"><b>${score}</b><span>Questions right</span></div></div></div><div class="pfoot"><button class="btn" id="cont">Continue</button></div></div></div>`;
   $("#cont").onclick = () => go({name:"book", id});
 }
@@ -1336,9 +1444,18 @@ async function finishTest(){
 
 /* ======================= RENDER ======================= */
 if (/[?&]dev=1/.test(location.search)) { S.dev = true; save(); } else if (/[?&]dev=0/.test(location.search)) { delete S.dev; save(); }
+/* ﷺ and similar marks: always draw them with an Arabic font, at a readable size */
+(function(){ const RX = /[\uFDFA\uFDFB\uFDFD]/;
+  const wrap = root => { const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, { acceptNode: n => RX.test(n.nodeValue) && !(n.parentNode && n.parentNode.closest && n.parentNode.closest(".saw,svg,textarea,input,.ar")) ? 1 : 2 });
+    const list = []; while (w.nextNode()) list.push(w.currentNode);
+    for (const n of list){ const parts = n.nodeValue.split(/([\uFDFA\uFDFB\uFDFD])/), f = document.createDocumentFragment();
+      for (const p of parts){ if (!p) continue; if (RX.test(p)) { const s = document.createElement("span"); s.className = "saw"; s.textContent = p; f.appendChild(s); } else f.appendChild(document.createTextNode(p)); }
+      n.parentNode.replaceChild(f, n); } };
+  new MutationObserver(ms => ms.forEach(m => m.addedNodes.forEach(n => n.nodeType === 1 ? wrap(n) : n.nodeType === 3 && n.parentNode && wrap(n.parentNode)))).observe(document.getElementById("app"), { childList:true, subtree:true });
+})();
 function render(){
   const app = $("#app");
-  if (!S.welcomed){ app.innerHTML = welcomeView(); $("#begin").onclick = () => { S.welcomed = true; save(); go({name:"home"}); }; return; }
+  if (!S.welcomed){ app.innerHTML = welcomeView(); bindWelcome(); return; }
   if (view.name === "home") app.innerHTML = homeView();
   else if (view.name === "year") app.innerHTML = yearView(view.n);
   else if (view.name === "book") { const b = bookById(view.id); if (b.type === "text" && !TEXTS[b.file]) { app.innerHTML = shell(`<p class="muted">Loading ${esc(b.title)}…</p>`); loadText(b.file).then(render, () => { toast("Could not load the text. Check your connection."); go({name:"year", n:b.year}); }); return; } app.innerHTML = bookView(view.id); }
@@ -1349,6 +1466,9 @@ function render(){
   else if (view.name === "syllabus") app.innerHTML = syllabusView();
   else app.innerHTML = profileView();
   app.querySelectorAll("[data-go]").forEach(b => b.onclick = () => go({ name:b.dataset.go }));
+  if (view.name === "home") { fillHome();
+    const ins = $("#inst"); if (ins) ins.onclick = async () => { INSTALL.prompt(); await INSTALL.userChoice; INSTALL = null; render(); };
+    const ni = $("#noinst"); if (ni) ni.onclick = () => { S.noInstall = true; save(); render(); }; }
   app.querySelectorAll("[data-year]").forEach(b => b.onclick = () => go({ name:"year", n:+b.dataset.year }));
   app.querySelectorAll("[data-book]").forEach(b => b.onclick = () => go({ name:"book", id:b.dataset.book }));
   app.querySelectorAll("[data-lesson]").forEach(b => b.onclick = () => { if (!b.disabled) startLesson(view.id, +b.dataset.lesson); });
@@ -1359,7 +1479,7 @@ function render(){
   app.querySelectorAll("[data-study]").forEach(b => b.onclick = () => startStudy(studyDecks()));
   app.querySelectorAll("[data-test]").forEach(b => b.onclick = () => { if (!b.disabled) startTest(+b.dataset.test); });
   app.querySelectorAll("[data-startlesson]").forEach(b => b.onclick = () => { const [id, i] = b.dataset.startlesson.split("|"); startLesson(id, +i); });
-  app.querySelectorAll("[data-read]").forEach(b => b.onclick = () => { const [id, i] = b.dataset.read.split("|"); openRead(id, +i); });
+  bindReadLinks(app);
   app.querySelectorAll("[data-spec]").forEach(b => b.onclick = () => go({ name:"spec" }));
   app.querySelectorAll("[data-pick]").forEach(b => b.onclick = () => { if (!specOpen()) return; const m = b.dataset.pick;
     confirmBox(`Choose ${m} as your specialisation?`, () => { S.spec = m; save(); render(); }); });
@@ -1378,6 +1498,7 @@ function render(){
   const cl = $("#clang"); if (cl) cl.onchange = () => { S.cardLang = cl.value || null; save(); };
   const hk = $("#hk"); if (hk) hk.onchange = () => { S.harakat = hk.checked; save(); };
   app.querySelectorAll("[data-theme]").forEach(b => b.onclick = () => { S.theme = b.dataset.theme; save(); applyTheme(); render(); });
+  const pc = $("#pcity"); if (pc) pc.onchange = () => { const [city, ...rest] = pc.value.split(","); S.prayer = city.trim() ? { city:city.trim(), country:rest.join(",").trim() } : null; delete S.pt; save(); toast(S.prayer ? "Prayer times will show on Home" : "Prayer times turned off"); };
   const ag = $("#advgrades"); if (ag) ag.onchange = () => { S.advancedGrades = ag.checked; save(); };
   const npd = $("#npd"); if (npd) npd.onchange = () => { S.newPerDay = +npd.value; save(); };
   const sk = $("#skipday"); if (sk) sk.onclick = () => { S.offset++; save(); render(); };
@@ -1400,5 +1521,5 @@ applyTheme(); try { matchMedia("(prefers-color-scheme: dark)").addEventListener(
 })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=ec34360879");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=5103ee0d82");</script></body>
 </html>
