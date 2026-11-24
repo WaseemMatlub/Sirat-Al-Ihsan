@@ -33,7 +33,7 @@ async def main():
     print('search hits dajjal/rahma/wudu',c1,c2,c3); assert c1 and c2 and c3
     await pg.locator('[data-hit]').first.click(); await pg.wait_for_selector('.modal'); await pg.screenshot(path='/tmp/s4.png'); await pg.click('#mok')
     # flashcards with points
-    await pg.evaluate("go({name:'year',n:1})"); await pg.locator('[data-deck=nur]').click(); await pg.click('#show'); await pg.screenshot(path='/tmp/s5.png'); await pg.click('#quit')
+    await pg.evaluate("go({name:'year',n:1})"); await pg.evaluate("document.querySelectorAll('details').forEach(d=>d.open=true)"); await pg.locator('[data-deck=nur]').click(); await pg.click('#show'); await pg.screenshot(path='/tmp/s5.png'); await pg.click('#quit')
     # fast track all years and pass tests
     for y in (1,2,3,4,5):
       await pg.evaluate("go({name:'profile'})"); await pg.evaluate("document.querySelectorAll('details').forEach(d=>d.open=true)"); await pg.click('#fasttrack'); await pg.click('#myes')
@@ -42,7 +42,7 @@ async def main():
         idx=await pg.evaluate("T.qs[T.i].options.indexOf(T.qs[T.i].answer)")
         await pg.locator('[data-o]').nth(idx).click(); await pg.click('#next')
       txt=await pg.locator('.big').inner_text(); print('year',y,txt); await pg.click('#cont')
-    await pg.evaluate("go({name:'year',n:5})"); print('y5 modules', await pg.locator('details.module .m-txt .t').all_inner_texts()); print('y5 btn', await pg.locator('[data-test]').inner_text())
+    await pg.evaluate("go({name:'year',n:5})"); print('y5 modules', await pg.locator('.stepsec .item .t').all_inner_texts()); print('y5 btn', await pg.locator('[data-test]').inner_text())
     await pg.evaluate("go({name:'syllabus'})"); print('spec card:', (await pg.locator('[data-spec]').inner_text()).replace('\n',' | '))
     await pg.click('[data-spec]'); await pg.screenshot(path='/tmp/sp1.png', full_page=True)
     await pg.click('[data-pick="Seerah"]'); await pg.click('#myes'); print('chosen:', await pg.locator('.card h2').inner_text()); await pg.screenshot(path='/tmp/sp2.png')

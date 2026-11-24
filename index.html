@@ -248,6 +248,22 @@ details.kitab>.stack{padding:0 8px 8px}
 .word-ex{margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
 .opt-tl{display:block;font-family:var(--body);font-size:.8rem;color:var(--muted);direction:ltr;text-align:right;margin-top:2px}
 
+.next-card h2{font-size:1.35rem;line-height:1.3}
+.simple-row{display:flex;align-items:center;gap:12px;width:100%;text-align:left;margin-top:12px;padding:14px 16px;font:inherit;color:inherit;cursor:pointer}
+.simple-row:disabled{cursor:default;opacity:.85}
+.sr-ico{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:color-mix(in srgb,var(--brand) 12%,transparent);color:var(--brand);flex:none}
+.year.row{display:flex;align-items:center;gap:12px;padding:12px 14px}
+.year.row .yr-badge{width:38px;height:38px;font-size:1.05rem}
+.year.locked{opacity:.7}
+.lockic{color:var(--muted);display:grid}
+.year.current .btn{display:flex}
+.stepsec{margin:22px 0 0}
+.stephead{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px}
+.stephead h2{margin:0;font-size:1.15rem}.stephead p{margin:2px 0 0}
+.stephead .s3n{width:28px;height:28px;font-size:.9rem;margin-top:2px}
+details.more{margin-top:10px}
+details.more summary{cursor:pointer;color:var(--brand);font-weight:600;font-size:.92rem;padding:6px 2px}
+
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--line);padding:4px;border-radius:14px}
 .seg button{border:0;background:transparent;border-radius:10px;padding:10px 6px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
 .seg button.on{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
@@ -580,7 +596,7 @@ async function loadDeck(d){ if (d.cards) return d; const r = await fetch(`data/d
 /* ============================ STATE ============================ */
 const KEY = "ihsan.v3";
 const PASS = 0.8, MASTER_IVL = 7, RETAIN = 0.85, TEST_LEN = 40;
-function fresh(){ return { welcomed:false, xp:0, streak:0, lastDay:null, days:{}, offset:0, newPerDay:15, newDone:{}, books:{}, cards:{}, log:[], tests:{}, unlocked:[1], spec:null, advancedGrades:false, saved:[], reports:[] }; }
+function fresh(){ return { welcomed:false, xp:0, streak:0, lastDay:null, days:{}, offset:0, newPerDay:10, newDone:{}, books:{}, cards:{}, log:[], tests:{}, unlocked:[1], spec:null, advancedGrades:false, saved:[], reports:[] }; }
 function load(){ try{ const s = JSON.parse(localStorage.getItem(KEY)); return s && s.cards ? Object.assign(fresh(), s) : fresh(); }catch(e){ return fresh(); } }
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
 let S = load();
@@ -608,7 +624,9 @@ function deckStats(deck){
   return { total:deck.cards.length, nw, learning, due, mastered };
 }
 function retention(){ const r = S.log.slice(-300); return r.length ? r.filter(x=>x).length / r.length : null; }
-const newLeft = deck => Math.max(0, S.newPerDay - ((S.newDone[today()]||{})[deck.id]||0));
+const newToday = () => Object.values(S.newDone[today()]||{}).reduce((p,q)=>p+q,0);
+const newLeft = () => Math.max(0, S.newPerDay - newToday());          // one daily total across every deck
+const newAvail = decks => Math.min(newLeft(), decks.reduce((s,d) => s + deckStats(d).nw, 0));
 const activeYears = () => YEARS.filter(y => S.unlocked.includes(y.n) && loaded(y));
 
 /* ======================= YEAR PROGRESS ======================= */
@@ -734,7 +752,8 @@ function weekStrip(){
     return `<div class="wd ${d===t?"now":""} ${on?"on":""}"><span>${l}</span>${ICON.flame.replace('<svg','<svg width="22" height="22"')}</div>`; }).join("")}</div>`;
 }
 function nextLesson(){
-  for (const y of activeYears()) for (const b of y.books.filter(b => b.type !== "text")){ const L = lessonsOf(b), done = S.books[b.id]||[];
+  const ord = b => (b.type === "words" ? 100 : 0) + MODULES.findIndex(m => m.name === b.subject);     // belief first; word sets after the book lessons
+  for (const y of activeYears()) for (const b of y.books.filter(b => b.type !== "text").sort((p,q) => ord(p) - ord(q))){ const L = lessonsOf(b), done = S.books[b.id]||[];
     for (let i=0;i<L;i++) if (!done.includes(i)) return { b, i, L, y }; }
   return null;
 }
@@ -749,7 +768,7 @@ function applyTheme(){ const t = S.theme || "auto", r = document.documentElement
 function go(v){ if (typeof stopAudio === "function" && AUD.on) stopAudio(); view = v; render(); window.scrollTo(0,0); }
 function shell(inner){
   return `<header class="topbar"><div class="brandmark">${ICON.logo}<span>Ihsan</span></div>
-    <div class="stats"><button class="chip iconbtn" data-go="search" aria-label="Search">${ICON.search}</button><span class="chip" aria-label="${S.streak} day streak">${ICON.flame}${S.streak}</span><span class="chip" aria-label="${S.xp} XP">${ICON.star}${S.xp}</span></div></header>
+    <div class="stats"><button class="chip iconbtn" data-go="search" aria-label="Search">${ICON.search}</button><span class="chip" aria-label="${S.streak} day streak">${ICON.flame}${S.streak}</span></div></header>
     <main>${inner}</main>
     <nav class="tabs"><div class="in"><button data-go="home" ${view.name==="home"?'aria-current="page"':""}>${ICON.home}Home</button><button data-go="syllabus" ${["syllabus","year","spec"].includes(view.name)||(view.name==="book"&&!isLibBook())?'aria-current="page"':""}>${ICON.learn}Course</button><button data-go="library" ${view.name==="library"||isLibBook()?'aria-current="page"':""}>${ICON.shelf}Library</button><button data-go="profile" ${view.name==="profile"?'aria-current="page"':""}>${ICON.user}Progress</button></div></nav>`;
 }
@@ -807,45 +826,29 @@ async function hadithOfDay(){
 }
 async function fillHome(){
   const h = await hadithOfDay(), box = $("#hotd");
-  if (box && h) box.innerHTML = `<p class="label" style="margin-top:0">Hadith of the day</p><p class="ar hotd-ar">${esc(h.a)}</p><p class="hotd-en">${esc(h.e)}</p>
+  if (box && h) box.innerHTML = `<p class="label" style="margin-top:0">Hadith of the day</p><p class="hotd-en">${esc(h.e)}</p>
     <div class="spread small muted"><span>${esc(h.r)} · ${esc(h.c)}</span><button class="linkbtn" data-read="t_bukhari|${h.i}">Read in context</button></div>`, box.hidden = false, bindReadLinks(box);
 }
 function bindReadLinks(root){ root.querySelectorAll("[data-read]").forEach(b => b.onclick = () => { const [id, i] = b.dataset.read.split("|"); openRead(id, +i); }); }
 function homeView(){
   const y = yearOf(Math.max(...S.unlocked.filter(n => loaded(yearOf(n))))), st = yearStatus(y);
-  const parts = [st.lt ? st.ld/st.lt : 0, st.ct ? st.cm/st.ct : 0], pctDone = Math.round(parts.reduce((p,q)=>p+q,0)/parts.length*100);
-  const order = b => MODULES.findIndex(m => m.name === b.subject);
-  const books = y.books.filter(b => b.type !== "text").sort((p,q) => order(p)-order(q));
-  const open = [];
-  for (const b of books){ const L = lessonsOf(b), done = S.books[b.id]||[]; const i = [...Array(L).keys()].find(k => !done.includes(k)); if (i !== undefined) open.push({ b, i, L }); }
-  let due = 0, nw = 0; studyDecks().forEach(d => { const s = deckStats(d); due += s.due; nw += Math.min(newLeft(d), s.nw); });
-  const last = S.lastRead && bookById(S.lastRead.id), libFirst = LIB().find(b => b.year === y.n) || LIB()[0];
-  const readBook = last || libFirst, readAt = last ? S.lastRead.i : 0;
-  /* Today: one lesson, the day's flashcards, and a page of a book. In that order. */
-  const steps = [];
-  if (open.length) { const o = open[0];
-    steps.push({ done: !!(S.lessonDay && S.lessonDay.d === today()), t:"Learn a lesson", s:`${nameOf(o.b)} · lesson ${o.i+1} of ${o.L} · 3 min`, act:`data-startlesson="${o.b.id}|${o.i}"`, go:"Start lesson" }); }
-  steps.push({ done: due + nw === 0, t:"Review your flashcards", s: due + nw ? `${due ? `${due} to review` : ""}${due && nw ? " · " : ""}${nw ? `${nw} new` : ""} · about ${Math.max(2, Math.round((due+nw)*0.15))} min` : "All caught up for today", act:`data-study="all"`, go:"Study cards" });
-  if (readBook) steps.push({ done: S.readDay === today(), t:"Read from the Library", s:`${readBook.title} · section ${readAt+1}`, act:`data-read="${readBook.id}|${readAt}"`, go:"Read" });
-  const nDone = steps.filter(x => x.done).length, next = steps.find(x => !x.done);
-  const plan = `<section class="today-card"><div class="spread" style="align-items:center;gap:12px"><div><h2>${next ? "Your plan for today" : "Today's plan is done, alhamdulillah"}</h2>
-      <p class="small muted" style="margin:0">${next ? `About ${steps.filter(x=>!x.done).length * 5} minutes. Tap start and we'll take you through it.` : "Come back tomorrow, or keep going below."}</p></div>
-      <span class="ring" style="--p:${nDone/steps.length*100}"><span>${nDone}/${steps.length}</span></span></div>
-    <div style="margin-top:8px">${steps.map((x,k) => `<div class="step ${x.done?"done":x===next?"next":""}"><span class="dot">${x.done?ICON.check.replace("<svg",'<svg width="15" height="15"'):k+1}</span>
-      <span style="flex:1;min-width:0"><span class="st">${esc(x.t)}</span><span class="ss">${esc(x.s)}</span></span>${!x.done && x!==next ? `<button class="btn ghost small-btn" ${x.act}>${x.go}</button>` : ""}</div>`).join("")}</div>
-    ${next ? `<button class="btn gold" ${next.act} style="margin-top:10px">${next === steps[0] && nDone === 0 ? "Start today's plan" : next.go}</button>` : ""}</section>`;
-  const more = open.slice(1, 8).map(({b,i,L}) => `<div class="lcard">
-      <div class="pic" style="background:color-mix(in srgb,${b.color} 10%,var(--surface))">${artFor(b, 96)}</div>
-      <div class="lbody"><div class="kicker" style="margin:0">${esc(b.subject)}</div><h3>${esc(nameOf(b))}</h3><p class="small muted">Lesson ${i+1} of ${L}</p></div>
-      <button class="lbtn" data-startlesson="${b.id}|${i}">Start lesson</button></div>`).join("");
+  const pctDone = Math.round(((st.lt ? st.ld/st.lt : 0) + (st.ct ? st.cm/st.ct : 0)) / 2 * 100);
+  const nl = nextLesson(), decks = studyDecks(), due = decks.reduce((s,d) => s + deckStats(d).due, 0), cards = due + newAvail(decks);
+  const lessonToday = S.lessonDay && S.lessonDay.d === today();
+  const main = nl ? `<section class="today-card next-card"><p class="small muted" style="margin:0">Year ${y.n} · ${pctDone}% done</p>
+      <p class="kicker" style="margin:14px 0 2px">${lessonToday ? "Next lesson" : "Today's lesson"}</p>
+      <h2 style="margin:0">${esc(nameOf(nl.b))}</h2><p class="small muted" style="margin:4px 0 16px">Lesson ${nl.i+1} of ${nl.L} · about 3 minutes</p>
+      <button class="btn gold" data-startlesson="${nl.b.id}|${nl.i}">Start lesson</button></section>`
+    : `<section class="today-card next-card"><h2 style="margin:0">Every lesson in Year ${y.n} is done</h2><p class="small muted" style="margin:6px 0 16px">Keep up your flashcards, then take the final test.</p><button class="btn gold" data-year="${y.n}">Go to Year ${y.n}</button></section>`;
+  const cardsRow = `<button class="card simple-row" data-study="all" ${cards?"":"disabled"}><span class="sr-ico">${ICON.cards||ICON.learn}</span>
+      <span style="flex:1"><b>Flashcards</b><span class="small muted" style="display:block">${cards ? `${cards} ready · about ${Math.max(2, Math.round(cards*0.15))} min` : "All done for today"}</span></span>${cards?`<span class="pill brand">Review</span>`:`<span class="pill ok">${ICON.check.replace("<svg",'<svg width="13" height="13"')}</span>`}</button>`;
+  const last = S.lastRead && bookById(S.lastRead.id);
+  const readRow = last ? `<button class="card simple-row" data-read="${last.id}|${S.lastRead.i}"><span class="libthumb">${cover(last, 30)}</span>
+      <span style="flex:1;min-width:0"><b>Keep reading</b><span class="small muted" style="display:block">${esc(last.title)}</span></span><span class="pill">Read</span></button>` : "";
   return shell(`
     <section class="illum"><p class="ar illum-ar">السَّلَامُ عَلَيْكُمْ</p><p class="illum-en">Assalamu 'alaykum${S.name?`, ${esc(S.name)}`:""}</p></section>
-    <button class="coursebar" data-year="${y.n}"><span><b>Year ${y.n}: ${esc(y.title)}</b></span>
-      <span class="bar"><i style="width:${pctDone}%"></i></span><span class="small muted">${pctDone}%</span></button>
-    ${plan}
-    ${!open.length ? `<div class="card" style="margin:12px 0"><b>Every lesson in Year ${y.n} is done.</b><p class="small muted" style="margin:4px 0 0">Keep up your flashcards, then take the final test on the Year ${y.n} page.</p></div>` : ""}
+    ${main}${cardsRow}${readRow}
     <section class="card hotd" id="hotd" hidden></section>
-    ${more ? `<p class="label">Other lessons</p><div class="carousel">${more}</div>` : ""}
     ${installCard()}`);
 }
 /* Optional course before Year 1: what every Muslim must know. Never required, never locks anything. */
@@ -863,31 +866,30 @@ const allDecks = () => [...YEARS.flatMap(y=>y.decks), ...FARD_DECKS];
 const studyDecks = () => [...activeYears().flatMap(y=>y.decks), ...FARD_DECKS].filter(d => d.cards);
 function fardAynCard(){
   const started = FARD_DECKS.filter(d => d.cards).length;
-  return `<details class="module fard" ${started||S.openFard?"open":""}><summary><span class="yr-badge" style="width:44px;height:44px;font-size:1.1rem">✓</span>
-      <span class="m-txt"><span class="t">Fard 'Ayn: the essentials <span class="pill gold" style="font-size:.66rem;vertical-align:2px">Optional</span></span>
-      <span class="s">What every Muslim must know: belief, purification, prayer, fasting, zakat and halal. Already know it? Go straight to Year 1.</span></span></summary>
+  return `<details class="module fard" ${S.openFard?"open":""}><summary><span class="yr-badge" style="width:44px;height:44px;font-size:1.1rem">✓</span>
+      <span class="m-txt"><span class="t">The essentials (Fard 'Ayn)</span>
+      <span class="s">What every Muslim must know. Optional.</span></span></summary>
     <div class="stack">${FARD_DECKS.map(d => itemDeck(d, true)).join("")}
       <button class="item lib-link" data-read="t_riyad|0"><span class="ico art-ico">${art("moon", "#9A6A1F", 36)}</span><span><span class="t">The heart</span><br><span class="s">Sincerity, repentance and patience: the first chapters of Riyad al-Salihin</span></span><span class="pill gold">Read</span></button></div></details>`;
 }
 function syllabusView(){
-  return shell(`<h1>Course</h1><p class="muted" style="margin:0 0 14px">Five years through the classical texts, then a year of specialisation. Each year opens when you pass the one before.</p>
+  const N = Math.max(...S.unlocked), place = N <= YEARS.length && !(S.tests[N] && S.tests[N].passed);
+  return shell(`<h1>Course</h1><p class="muted" style="margin:0 0 14px">Pass each year to open the next.</p>
+    <div class="stack">${YEARS.map(yearCard).join("")}${specCard()}</div>
+    <p class="label">Other ways in</p>
     ${fardAynCard()}
-    <div class="stack" style="margin-top:12px">${YEARS.map(yearCard).join("")}${specCard()}</div>
-    ${(() => { const N = Math.max(...S.unlocked); return N <= YEARS.length && !(S.tests[N] && S.tests[N].passed) ? `<div class="card" style="margin-top:14px"><b>Studied before?</b>
-      <p class="small muted" style="margin:4px 0 10px">Take the Year ${N} final test now as a placement test. Score ${PASS*100}% or more and Year ${N+1 <= YEARS.length ? N+1 : "s"} opens, so you can start where you really are. You can keep going year by year.</p>
-      <button class="btn ghost" data-place="${N}">Take the Year ${N} placement test</button></div>` : ""; })()}`);
+    ${place ? `<button class="card simple-row" data-place="${N}"><span style="flex:1"><b>Studied before?</b><span class="small muted" style="display:block">Take the Year ${N} test now. Pass it to skip ahead.</span></span><span class="pill">Test</span></button>` : ""}`);
 }
-function step3(n, title, sub, status, frac, done){ return `<div class="step3 ${done?"done":""}"><span class="s3n">${done?ICON.check.replace("<svg",'<svg width="13" height="13"'):n}</span><div class="s3b"><div class="spread"><b>${title}</b><span class="small muted">${status}</span></div><span class="s3s">${sub}</span><div class="bar"><i style="width:${Math.min(100,frac*100)}%;${done?"background:var(--ok)":""}"></i></div></div></div>`; }
+function step3(n, title, sub, status, frac, done){ return `<div class="step3 ${done?"done":""}"><span class="s3n">${done?ICON.check.replace("<svg",'<svg width="13" height="13"'):n}</span><div class="s3b"><div class="spread"><b>${title}</b><span class="small muted">${status}</span></div>${sub?`<span class="s3s">${sub}</span>`:""}<div class="bar"><i style="width:${Math.min(100,frac*100)}%;${done?"background:var(--ok)":""}"></i></div></div></div>`; }
 function gate(label, frac, done){ return `<div class="gate ${done?"done":""}"><span>${label}</span><div class="bar"><i style="width:${Math.min(100,frac*100)}%;${done?"background:var(--ok)":""}"></i></div></div>`; }
 function yearCard(y){
-  const open = S.unlocked.includes(y.n), st = yearStatus(y), cur = open && !st.passed;
-  const pill = st.passed ? `<span class="pill ok">Passed</span>` : open ? `<span class="pill gold">In progress</span>` : `<span class="pill">${ICON.lock} Locked</span>`;
-  const has = new Set([...y.books, ...y.decks].map(x=>x.subject)), subjects = MODULES.filter(m=>has.has(m.name)).map(m=>m.name).join(" · ");
-  return `<button class="year ${cur?"current":""} ${open?"":"locked"}" data-year="${y.n}">
-    <div class="head"><span class="yr-badge">${y.n}</span><div style="flex:1"><div class="spread"><h2>Year ${y.n}</h2>${pill}</div><div class="small muted">${esc(y.title)}${subjects?` · ${subjects}`:""}</div></div></div>
-    ${open && !y.prepared ? `<p class="small muted" style="margin:0">The texts for this year are being prepared.</p>`
-      : open ? `<div class="steps3">${step3(1, "Lessons", "Read this year's books in short lessons", `${st.ld} of ${st.lt} done`, st.books, st.booksOk)}${step3(2, "Flashcards", "Review what you learnt until you remember it", `${st.cm.toLocaleString()} of ${st.ct.toLocaleString()} remembered`, st.flash, st.cardsOk)}${step3(3, "Final test", `${TEST_LEN} questions; pass with ${PASS*100}% to open ${y.n < YEARS.length ? `Year ${y.n+1}` : "your specialisation"}`, st.passed ? "Passed" : st.ready ? "Ready to take" : "Opens after steps 1 and 2", st.passed?1:0, st.passed)}</div>`
-           : `<p class="small muted" style="margin:0">Unlocks when you pass the Year ${y.n-1} final test with ${PASS*100}% or more.</p>`}</button>`;
+  const open = S.unlocked.includes(y.n), st = yearStatus(y), cur = open && !st.passed && y.prepared;
+  if (!cur) return `<button class="year row ${open?"":"locked"}" data-year="${y.n}"><span class="yr-badge">${y.n}</span><span style="flex:1;text-align:left"><b>Year ${y.n}</b><span class="small muted" style="display:block">${esc(y.title)}</span></span>
+      ${st.passed ? `<span class="pill ok">Passed</span>` : open ? `<span class="pill">Soon</span>` : `<span class="lockic">${ICON.lock}</span>`}</button>`;
+  return `<button class="year current" data-year="${y.n}">
+    <div class="head"><span class="yr-badge">${y.n}</span><div style="flex:1"><h2>Year ${y.n}</h2><div class="small muted">${esc(y.title)}</div></div></div>
+    <div class="steps3">${step3(1, "Lessons", "", `${st.ld} of ${st.lt}`, st.books, st.booksOk)}${step3(2, "Flashcards", "", `${st.cm.toLocaleString()} of ${st.ct.toLocaleString()}`, st.flash, st.cardsOk)}${step3(3, "Final test", "", st.passed ? "Passed" : st.ready ? "Ready" : "After 1 and 2", st.passed?1:0, st.passed)}</div>
+    <span class="btn" style="margin-top:14px">Open Year ${y.n}</span></button>`;
 }
 function itemBook(b, open){
   const d = bookDone(b), L = lessonsOf(b);
@@ -910,39 +912,26 @@ function itemDeck(d, open){
 }
 function yearView(n){
   const y = yearOf(n), open = S.unlocked.includes(n) && loaded(y), st = yearStatus(y);
-  const items = [...y.books.filter(b=>b.type!=="text").map(b=>({x:b, h:itemBook(b,open), f:bookDone(b)/lessonsOf(b)})), ...core(y.decks).map(d=>({x:d, h:itemDeck(d,open), f:d.cards?deckStats(d).mastered/deckStats(d).total:0}))], extra = y.decks.filter(d => d.opt);
-  const mods = MODULES.map(m => {
-    const its = items.filter(i => i.x.subject === m.name), soon = y.coming.filter(c => c[1] === m.name), lib = y.books.filter(b => b.type === "text" && b.subject === m.name);
-    if (!its.length && !soon.length && !lib.length) return "";
-    const req = its.filter(i => !i.opt), frac = req.length ? req.reduce((s,i)=>s+i.f,0)/req.length : 0, doneAll = req.length && frac >= 1;
-    const status = !its.length ? (lib.length ? `<span class="pill gold">${lib.length} in Library</span>` : `<span class="pill">${soon.length} coming</span>`) : doneAll ? `<span class="pill ok">Complete</span>` : `<span class="pill">${its.length} ${its.length>1?"texts":"text"}</span>`;
-    return `<details class="module" ${its.length||lib.length?"open":""}><summary>
-        <span class="m-art">${art(m.art, m.color, 46)}</span>
-        <span class="m-txt"><span class="t">${esc(m.name)}</span><span class="s">${esc(m.about)}</span>${its.length&&open?`<span class="bar"><i style="width:${frac*100}%;background:${m.color}"></i></span>`:""}</span>${status}</summary>
-      <div class="stack">${(() => { const L = its.filter(i => i.x.type), F = its.filter(i => !i.x.type);
-          return (L.length ? `<p class="sublabel">Lessons</p>${L.map(i=>i.h).join("")}` : "") + (F.length ? `<p class="sublabel">Flashcards</p>${F.map(i=>i.h).join("")}` : ""); })()}
-        ${lib.length ? `<p class="sublabel">Full books to read</p>` : ""}${lib.map(b=>`<button class="item lib-link" data-book="${b.id}"><span class="libthumb">${cover(b, 34)}</span><span><span class="t">${esc(b.title)}</span><br><span class="s">The full book · ${esc(b.author.replace(/^Imams? /,""))}</span></span><span class="pill gold">Read</span></button>`).join("")}
-        ${soon.map(([t])=>`<div class="item soon"><span class="ico art-ico" style="opacity:.45">${art(m.art, m.color, 36)}</span><span><span class="t">${esc(t)}</span><br><span class="s">Coming soon</span></span></div>`).join("")}
-        ${m.name==="Tasawwuf"&&n===1?`<p class="small muted" style="margin:4px 2px">Optional reading by tariqa: ${TARIQA_OPTIONAL.map(esc).join(", ")}.</p>`:""}</div></details>`; }).join("");
-  const checks = [[st.booksOk, `Finish every book lesson (${st.ld}/${st.lt})`],
-    [st.cm >= st.ct, `Master every flashcard, reviewed until it is ${MASTER_IVL}+ days apart (${st.cm.toLocaleString()}/${st.ct.toLocaleString()})`],
-    [st.ret !== null && st.ret >= RETAIN, `Keep recall at ${RETAIN*100}%+ on reviews (now ${st.ret===null?"no reviews yet":pct(st.ret)})`]];
+  const ord = s => MODULES.findIndex(m => m.name === s);
+  const lessons = y.books.filter(b => b.type !== "text").sort((p,q) => ord(p.subject) - ord(q.subject));
+  const decks = core(y.decks).filter(d => !d.opt), extra = y.decks.filter(d => d.opt), ready = open ? decks.filter(d=>d.cards).reduce((s,d)=>s+deckStats(d).due,0) + newAvail(decks.filter(d=>d.cards)) : 0;
+  const head = (k, t, sub, right) => `<div class="stephead"><span class="s3n">${k}</span><div style="flex:1"><h2>${t}</h2><p class="small muted">${sub}</p></div>${right||""}</div>`;
+  const lessonRow = b => { const L = lessonsOf(b), d = bookDone(b); return `<button class="item" ${open?`data-book="${b.id}"`:"disabled"}><span class="ico art-ico">${artFor(b,36)}</span>
+      <span style="flex:1;min-width:0"><span class="kicker" style="margin:0">${esc(b.subject)}</span><span class="t" style="display:block">${esc(nameOf(b))}</span></span>
+      ${!open?ICON.lock:d>=L?`<span class="pill ok">Done</span>`:`<span class="pill">${d}/${L}</span>`}</button>`; };
   return shell(`<button class="back" data-go="syllabus">${ICON.back} Course</button>
-    <section class="hero" style="--c:${open?"var(--brand)":"var(--muted)"}"><h1>Year ${n}: ${esc(y.title)}</h1><p>${esc(y.desc)}</p></section>
-    ${open && !y.prepared ? `<div class="notice">${ICON.book||""}<span>The texts for Year ${n} are being chosen. Each module below will fill in as they are added, and the final test opens then.</span></div>` : ""}
-    ${open?"":`<div class="notice">${ICON.lock}<span>Locked. Pass the Year ${n-1} final test (${PASS*100}% or more) to open this year. You can preview what it contains below.</span></div>`}
-    ${open && y.prepared ? `<div class="card howyear"><b>How Year ${n} works</b>
-      <div class="steps3" style="margin-top:8px">${step3(1, "Lessons", "Short lessons from this year's books, subject by subject below", `${st.ld} of ${st.lt} done`, st.books, st.booksOk)}${step3(2, "Flashcards", "Each lesson adds cards. Review them each day until you remember them", `${st.cm.toLocaleString()} of ${st.ct.toLocaleString()} remembered`, st.flash, st.cardsOk)}${step3(3, "Final test", `${TEST_LEN} questions from this year. Pass with ${PASS*100}% to go on`, st.passed ? "Passed" : st.ready ? "Ready" : "After steps 1 and 2", st.passed?1:0, st.passed)}</div></div>` : ""}
-    <p class="label">What you study in Year ${n}</p><p class="small muted" style="margin:-4px 0 10px">Each subject has its lessons and flashcards. Full books to read are in the Library.</p><div class="modules">${mods}</div>
-    ${extra.length ? `<details class="module extra"><summary><span class="yr-badge" style="width:46px;height:46px;font-size:1.2rem;background:var(--gold, #B8892B)">+</span>
-        <span class="m-txt"><span class="t">Extra study</span><span class="s">Optional decks for students who want more. They don't count towards the final test.</span></span><span class="pill">${extra.length}</span></summary>
-      <div class="stack">${extra.map(d => itemDeck(d, open)).join("")}</div></details>` : ""}
-    ${(()=>{ const rest = MODULES.filter(m => ![...y.books, ...y.decks].some(x=>x.subject===m.name) && !y.coming.some(c=>c[1]===m.name)).map(m=>m.name);
-      return rest.length ? `<p class="small muted" style="margin:10px 2px 0">Not studied this year: ${rest.map(esc).join(", ")}.</p>` : ""; })()}
-    <p class="label">Step 3: the final test</p>
-    <div class="card">${checks.map(([ok,t])=>`<div class="check ${ok?"on":""}"><i>${ok?ICON.check:""}</i><span>${t}</span></div>`).join("")}
-      <p class="small muted" style="margin:10px 0 12px">${TEST_LEN} questions from this year's books and flashcards. Score ${PASS*100}% or more to ${n<YEARS.length?`unlock Year ${n+1}`:"complete the five years and unlock your specialisation"}.${st.best!==null?` Best so far: <b>${pct(st.best)}</b>.`:""}</p>
-      <button class="btn ${st.ready&&open?"gold":""}" data-test="${n}" ${st.ready&&open?"":"disabled"}>${st.passed?"Retake final test":st.ready&&open?"Start final test":!y.prepared?"Final test not available yet":"Final test locked"}</button></div>
+    <h1 style="margin-bottom:4px">Year ${n}: ${esc(y.title)}</h1>
+    ${open ? "" : `<div class="notice">${ICON.lock}<span>Pass the Year ${n-1} final test to open this year.</span></div>`}
+    ${open && !y.prepared ? `<div class="notice"><span>The books for Year ${n} are still being prepared.</span></div>` : ""}
+    <section class="stepsec">${head(1, "Lessons", "Short lessons from this year's books.", `<span class="small muted">${st.ld} of ${st.lt}</span>`)}
+      <div class="stack">${lessons.map(lessonRow).join("")}</div></section>
+    <section class="stepsec">${head(2, "Flashcards", "Each lesson adds cards. Review a few each day.", `<span class="small muted">${st.cm.toLocaleString()} of ${st.ct.toLocaleString()}</span>`)}
+      ${open ? `<button class="btn" data-study="all" ${ready?"":"disabled"}>${ready ? `Review flashcards (${ready})` : "All done for today"}</button>` : ""}
+      <details class="more"><summary>See all flashcard sets</summary><div class="stack" style="margin-top:8px">${decks.map(d => itemDeck(d, open)).join("")}
+        ${extra.length ? `<p class="sublabel">Extra (optional)</p>${extra.map(d => itemDeck(d, open)).join("")}` : ""}</div></details></section>
+    <section class="stepsec">${head(3, "Final test", `${TEST_LEN} questions. Pass with ${PASS*100}% to open ${n<YEARS.length?`Year ${n+1}`:"your specialisation"}.`)}
+      ${st.best!==null?`<p class="small muted" style="margin:0 0 10px">Best so far: <b>${pct(st.best)}</b></p>`:""}
+      <button class="btn ${st.ready&&open?"gold":"ghost"}" data-test="${n}" ${st.ready&&open?"":"disabled"}>${st.passed?"Retake the test":st.ready&&open?"Start the test":"Opens when steps 1 and 2 are done"}</button></section>
 `);
 }
 function bookView(id){
@@ -974,7 +963,7 @@ function profileView(){
     <div class="setlist">
       ${row("hk","Show harakat","Qur'anic text always keeps its harakat", toggle("hk", S.harakat!==false))}
       ${row("clang","Question and answer language","Applies to every Q&A deck. More languages are planned", `<select id="clang"><option value="" ${!S.cardLang?"selected":""}>As written</option><option value="en" ${S.cardLang==="en"?"selected":""}>English</option><option value="ar" ${S.cardLang==="ar"?"selected":""}>العربية</option></select>`)}
-      ${row("npd","New flashcards a day","Per deck", `<select id="npd">${[5,10,15,20,30,50].map(n=>`<option ${n===S.newPerDay?"selected":""}>${n}</option>`).join("")}</select>`)}
+      ${row("npd","New flashcards a day","Across all subjects", `<select id="npd">${[5,10,15,20,30,50].map(n=>`<option ${n===S.newPerDay?"selected":""}>${n}</option>`).join("")}</select>`)}
       ${row("tl","Pronunciation guide","English letters under new Arabic words, e.g. kitāb", `<select id="tl">${[["y1","Year 1 only"],["on","Always"],["off","Off"]].map(([v,t]) => `<option value="${v}" ${(S.translit||"y1")===v?"selected":""}>${t}</option>`).join("")}</select>`)}
       ${row("madhab","Madhab","Other madhabs are coming", `<select id="madhab"><option selected>Hanafi</option><option disabled>Maliki</option><option disabled>Shafi'i</option><option disabled>Hanbali</option></select>`)}
     </div>
@@ -1252,10 +1241,9 @@ async function openRead(id, i){
 const specOpen = () => !!(S.tests[YEARS.length] && S.tests[YEARS.length].passed);
 function specCard(){
   const open = specOpen(), m = MODULES.find(x => x.name === S.spec);
-  return `<button class="year ${open&&!m?"current":""} ${open?"":"locked"}" data-spec="1">
-    <div class="head"><span class="yr-badge">${ICON.star.replace("<svg",'<svg width="24" height="24"')}</span><div style="flex:1"><div class="spread"><h2>Specialisation</h2>${m?`<span class="pill ok">${esc(m.name)}</span>`:open?`<span class="pill gold">Choose</span>`:`<span class="pill">${ICON.lock} Locked</span>`}</div>
-    <div class="small muted">Takhassus · one module of your choice</div></div></div>
-    <p class="small muted" style="margin:0">${m?`Your year of further study in ${esc(m.name)}.`:open?"Choose the module you want to study further.":`Unlocks when you pass the Year ${YEARS.length} final test. You then choose one module to study in depth.`}</p></button>`;
+  return `<button class="year row ${open?"":"locked"}" data-spec="1"><span class="yr-badge">${ICON.star.replace("<svg",'<svg width="20" height="20"')}</span>
+    <span style="flex:1;text-align:left"><b>Specialisation</b><span class="small muted" style="display:block">${m ? esc(m.name) : "One subject in depth, after Year 5"}</span></span>
+    ${m ? `<span class="pill ok">Chosen</span>` : open ? `<span class="pill gold">Choose</span>` : `<span class="lockic">${ICON.lock}</span>`}</button>`;
 }
 function specView(){
   const open = specOpen(), chosen = MODULES.find(x => x.name === S.spec);
@@ -1326,7 +1314,9 @@ let Q = null;
 function startStudy(decks){
   const t = today(), q = [];
   for (const d of decks){ if (!d.cards) continue;
-    q.push(...d.cards.filter(c => S.cards[c.id] && S.cards[c.id].due <= t).sort((a,b)=>S.cards[a.id].due-S.cards[b.id].due), ...d.cards.filter(c => !S.cards[c.id]).slice(0, newLeft(d))); }
+    q.push(...d.cards.filter(c => S.cards[c.id] && S.cards[c.id].due <= t).sort((a,b)=>S.cards[a.id].due-S.cards[b.id].due)); }
+  const pools = decks.filter(d => d.cards).map(d => d.cards.filter(c => !S.cards[c.id])); let left = newLeft();   // new cards, a few from each subject in turn
+  for (let k = 0; left > 0 && pools.some(p => p.length); k = (k+1) % pools.length) if (pools[k].length) { q.push(pools[k].shift()); left--; }
   if (!q.length) return modal(`<p style="margin-top:0;font-weight:700">Nothing to study right now.</p><p class="small muted">Come back tomorrow for your next reviews, or raise new cards per day in Progress.</p><button class="btn" id="mok">OK</button>`, (d,c)=>d.querySelector("#mok").onclick=c);
   const deckById = Object.fromEntries(decks.map(d=>[d.id,d]));
   Q = { q, i:0, shown:false, total:q.length, done:0, xp:0, deckById };
@@ -1645,5 +1635,5 @@ applyTheme(); try { matchMedia("(prefers-color-scheme: dark)").addEventListener(
 })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=a326d857df");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=9275f4e995");</script></body>
 </html>
