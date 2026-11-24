@@ -499,15 +499,20 @@ const SPEC_TEXTS = {
   "Seerah":["al-Mawahib al-Ladunniyyah with al-Zurqani","Subul al-Huda wa'l-Rashad"], "Mantiq":["Sharh Sullam al-'Ulum (Hamdullah)","al-Qadi Mubarak"] };
 const TARIQA_OPTIONAL = ["Qadiri: Sirr al-Asrar","Chishti: Kashf al-Mahjub","Naqshbandi: Etiquettes of the Path","Shadhili: further Ibn 'Ata'illah"];
 const DATA = {};
-async function loadYear(n){ INDEX = null;
+/* Corrections from reports (data/fixes.json): { cards:{ id:{f?,b?,hide?} }, lines:{ id:{ar?,en?,note?,hide?} } }.
+   Applied on top of the decks, so a fix never needs the decks rebuilt. */
+let FIXES = null;
+async function loadFixes(){ if (FIXES) return FIXES; try { const r = await fetch("data/fixes.json", { cache:"no-cache" }); FIXES = r.ok ? await r.json() : {}; } catch(e){ FIXES = {}; } return FIXES; }
+const fixAll = (list, kind) => { const F = (FIXES && FIXES[kind]) || {}; return list.map(x => F[x.id] ? { ...x, ...F[x.id] } : x).filter(x => !x.hide); };
+async function loadYear(n){ INDEX = null; await loadFixes();
   if (DATA[n]) return DATA[n];
   if (!yearOf(n).prepared) return (DATA[n] = { books:{}, decks:{} });
   const r = await fetch(`data/year${n}.json`);
   if (!r.ok) throw new Error("Could not load Year " + n);
   const d = await r.json();
-  for (const y of YEARS) if (y.n === n) for (const dk of y.decks) if (!dk.opt) dk.cards = d.decks[dk.id].map((c,k) => ({ ...c, deck:dk.id, _i:k }));
+  for (const y of YEARS) if (y.n === n) for (const dk of y.decks) if (!dk.opt) dk.cards = fixAll(d.decks[dk.id], "cards").map((c,k) => ({ ...c, deck:dk.id, _i:k }));
   await Promise.all([...yearOf(n).decks, ...(n === 1 ? FARD_DECKS : [])].filter(dk => dk.opt && (S.optOn||{})[dk.id]).map(dk => loadDeck(dk).catch(() => {})));
-  for (const y of YEARS) if (y.n === n) for (const b of y.books) b.lines = d.books[b.id];
+  for (const y of YEARS) if (y.n === n) for (const b of y.books) if (d.books[b.id]) b.lines = fixAll(d.books[b.id], "lines");
   return (DATA[n] = d);
 }
 const yearOf = n => YEARS[n-1];
@@ -539,7 +544,7 @@ const nameOf = x => PLAIN[x.id] || x.title;
 const classicOf = x => PLAIN[x.id] && PLAIN[x.id] !== x.title ? `<span class="classic">${esc(x.title)}</span>` : "<br>";          // optional decks never gate a year or appear in its test
 /* Optional decks: one file each, fetched the first time a student opens one, then on every start */
 async function loadDeck(d){ if (d.cards) return d; const r = await fetch(`data/decks/${d.id}.json`); if (!r.ok) throw new Error("Could not load " + d.title);
-  d.cards = (await r.json()).map((c,k) => ({ ...c, deck:d.id, _i:k })); INDEX = null; return d; }
+  await loadFixes(); d.cards = fixAll(await r.json(), "cards").map((c,k) => ({ ...c, deck:d.id, _i:k })); INDEX = null; return d; }
 
 /* ============================ STATE ============================ */
 const KEY = "ihsan.v3";
@@ -1539,5 +1544,5 @@ applyTheme(); try { matchMedia("(prefers-color-scheme: dark)").addEventListener(
 })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=f289bca432");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=664b8b1854");</script></body>
 </html>
