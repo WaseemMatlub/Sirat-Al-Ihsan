@@ -13,27 +13,29 @@ const YEARS = [   // THE COURSE PLAN. To move or add something, edit this list o
      { id:"verbs1", title:"Arabic verbs: 1–700", sub:"Sarf drilling: past, present and verbal noun", glyph:"ف", color:"#B5651D", subject:"Arabic" },
      { id:"ajr", simple:true, title:"al-Ajurrumiyyah", sub:"Nahw: the first text, question by question", glyph:"", color:"#B5651D", subject:"Arabic" },
      { id:"seerah1", simple:true, title:"Seerah essentials", sub:"The life of the Prophet ﷺ from birth to his passing", glyph:"", color:"#9A6A1F", subject:"Seerah" },
-     { id:"nur", simple:true, title:"Nur al-Idah", sub:"Imam al-Shurunbulali رحمه الله: purification, prayer, fasting", glyph:"ن", color:"#2F6E8F", subject:"Fiqh" } ],
-   read:["t_azhari", "t_nawawi_seerah", "t_nur"],
-   coming:[["Vocabulary list (Madinah Arabic)","Arabic"]] },
+     { id:"nur", simple:true, title:"Nur al-Idah", sub:"Imam al-Shurunbulali رحمه الله: purification, prayer, fasting", glyph:"ن", color:"#2F6E8F", subject:"Fiqh" },
+     { id:"themed", opt:true, title:"Vocabulary list", sub:"Everyday Arabic words grouped by topic: the body, home, food, travel and more", glyph:"", color:"#B5651D", subject:"Arabic" } ],
+   read:["t_azhari", "t_nawawi_seerah", "t_nur"] },
  { n:2, title:"The Arabic of the Qur'an", desc:"Qur'anic vocabulary, Qatr al-Nada with i'rab practice, and al-Suyuti's works of the day and night.",
-   books:[],
+   books:[
+     { id:"juz_amma", type:"lines", per:5, title:"Translating Juz' 'Amma", sub:"The meaning of each ayah, from al-Nas back to al-Naba'", glyph:"", color:"#1F6F78", subject:"Tafsir", ask:"What does this ayah mean?", askTitle:"The ayah" },
+     { id:"irab", type:"lines", per:6, title:"I'rab practice", sub:"Al-Fatihah and five short surahs, word by word", glyph:"", color:"#B5651D", subject:"Arabic", ask:"What is the i'rab of this word?", askTitle:"Its i'rab" } ],
    decks:[
      { id:"roots", title:"Qur'an roots: top 1,000", sub:"Qur'an dictionary: the roots, ranked by how often they occur", glyph:"ج", color:"#8A4FA3", subject:"Arabic" },
      { id:"mufradat", title:"Mufradat al-Qur'an", sub:"Qur'an dictionary: Imam al-Raghib's رحمه الله root meanings, in Arabic and English", glyph:"", color:"#B5651D", subject:"Arabic" },
      { id:"qatr", simple:true, title:"Sharh Qatr al-Nada", sub:"Nahw: Ibn Hisham's رحمه الله text, question by question", glyph:"", color:"#B5651D", subject:"Arabic" } ],
-   read:["t_qatr"],
-   coming:[["Tarjamat al-Qur'an: Juz' 'Amma","Tafsir"],["Qur'an i'rab practice","Arabic"],["al-Suyuti's works of the day and night","Hadith"]] },
+   read:["t_qatr", "t_adhkar"] },
  { n:3, title:"Core texts", desc:"The Tahawiyyah, al-Quduri, the Forty Hadith, the Shama'il, Bidayat al-Hidayah, the End Times and Usul al-Shashi.",
    books:[
      { id:"tahawiyya", type:"lines", per:8, title:"Al-'Aqidah al-Tahawiyyah", sub:"The creed of Imam al-Tahawi رحمه الله, line by line", glyph:"ط", color:"#0E5A43", subject:"Aqeedah" },
      { id:"arbain", type:"lines", per:4, title:"The Forty Hadith", sub:"Imam al-Nawawi's رحمه الله forty, in Arabic and English", glyph:"", color:"#7A5230", subject:"Hadith" } ],
    decks:[
-     { id:"quduri", simple:true, title:"Mukhtasar al-Quduri", sub:"Imam al-Quduri's رحمه الله Hanafi primer, question by question", glyph:"ق", color:"#2F6E8F", subject:"Fiqh" } ],
-   read:["t_tahawiyya", "t_quduri", "t_shamail", "t_bidaya", "t_nihaya_fitan", "t_shashi"],
-   coming:[["al-Shama'il: question-and-answer study","Seerah"]] },
+     { id:"quduri", simple:true, title:"Mukhtasar al-Quduri", sub:"Imam al-Quduri's رحمه الله Hanafi primer, question by question", glyph:"ق", color:"#2F6E8F", subject:"Fiqh" },
+     { id:"shamail_qa", simple:true, title:"al-Shama'il, question by question", sub:"How the Prophet ﷺ looked, lived, ate, slept and prayed, from Imam al-Tirmidhi's رحمه الله collection", glyph:"", color:"#9A6A1F", subject:"Seerah" } ],
+   read:["t_tahawiyya", "t_quduri", "t_shamail", "t_bidaya", "t_nihaya_fitan", "t_shashi"] },
  { n:4, title:"Higher texts", desc:"Al-Hidayah volume 1, Riyad al-Salihin, the sciences of hadith, and Sirr al-Asrar.",
-   books:[],
+   books:[
+     { id:"bayquniyya", type:"lines", per:4, title:"al-Bayquniyyah", sub:"The 34 verses on the terms of hadith, with their meaning", glyph:"", color:"#7A5230", subject:"Hadith" } ],
    decks:[
      { id:"hidaya1", simple:true, title:"al-Hidayah, part 1", sub:"Volume 1: Imam al-Marghinani's رحمه الله Hanafi fiqh with its proofs", glyph:"", color:"#2F6E8F", subject:"Fiqh" },
      { id:"hidaya2", simple:true, title:"al-Hidayah, part 2", sub:"Volume 1, continued", glyph:"", color:"#2F6E8F", subject:"Fiqh" },
@@ -484,7 +486,7 @@ async function hadithOfDay(){
 async function fillHome(){
   const h = await hadithOfDay(), box = $("#hotd");
   if (box && h) box.innerHTML = `<p class="label" style="margin-top:0">Hadith of the day</p><p class="hotd-en">${esc(h.e)}</p>
-    <div class="spread small muted"><span>${esc(h.r)} · ${esc(h.c)}</span><button class="linkbtn" data-read="t_bukhari|${h.i}">Read in context</button></div>`, box.hidden = false, bindReadLinks(box);
+    <div class="spread small muted"><span>${esc(h.r)}, ${esc(h.c)}</span><button class="linkbtn" data-read="t_bukhari|${h.i}">Read in context</button></div>`, box.hidden = false, bindReadLinks(box);
 }
 function leftToday(){ const d = new Date(), m = (24*60) - (d.getHours()*60 + d.getMinutes()); return m >= 60 ? `${Math.floor(m/60)}h ${m%60}m` : `${m} min`; }
 setInterval(() => { const el = document.getElementById("sk-left"); if (el) el.textContent = leftToday(); }, 30000);
@@ -495,13 +497,13 @@ function homeView(){
   const pctDone = Math.round(((st.lt ? st.ld/st.lt : 0) + (st.ct ? st.cm/st.ct : 0)) / 2 * 100);
   const nl = nextLesson(), decks = studyDecks(), due = decks.reduce((s,d) => s + deckStats(d).due, 0), cards = due + newAvail(decks);
   const lessonToday = S.lessonDay && S.lessonDay.d === today();
-  const main = nl ? `<section class="today-card next-card"><p class="small muted" style="margin:0">Year ${y.n} · ${pctDone}% done</p>
+  const main = nl ? `<section class="today-card next-card"><p class="small muted" style="margin:0">Year ${y.n}, ${pctDone}% done</p>
       <p class="kicker" style="margin:14px 0 2px">${lessonToday ? "Next lesson" : "Today's lesson"}</p>
-      <h2 style="margin:0">${esc(nameOf(nl.b))}</h2><p class="small muted" style="margin:4px 0 16px">Lesson ${nl.i+1} of ${nl.L} · about 3 minutes</p>
+      <h2 style="margin:0">${esc(nameOf(nl.b))}</h2><p class="small muted" style="margin:4px 0 16px">Lesson ${nl.i+1} of ${nl.L}. About 3 minutes.</p>
       <button class="btn gold" data-startlesson="${nl.b.id}|${nl.i}">Start lesson</button></section>`
     : `<section class="today-card next-card"><h2 style="margin:0">Every lesson in Year ${y.n} is done</h2><p class="small muted" style="margin:6px 0 16px">Keep up your flashcards, then take the final test.</p><button class="btn gold" data-year="${y.n}">Go to Year ${y.n}</button></section>`;
   const cardsRow = `<button class="card simple-row" data-study="all" ${cards?"":"disabled"}><span class="sr-ico">${ICON.cards||ICON.learn}</span>
-      <span style="flex:1"><b>Flashcards</b><span class="small muted" style="display:block">${cards ? `${cards} ready · about ${Math.max(2, Math.round(cards*0.15))} min` : "All done for today"}</span></span>${cards?`<span class="pill brand">Review</span>`:`<span class="pill ok">${ICON.check.replace("<svg",'<svg width="13" height="13"')}</span>`}</button>`;
+      <span style="flex:1"><b>Flashcards</b><span class="small muted" style="display:block">${cards ? `${cards} to review, about ${Math.max(2, Math.round(cards*0.15))} min` : "All done for today"}</span></span>${cards?`<span class="pill brand">Review</span>`:`<span class="pill ok">${ICON.check.replace("<svg",'<svg width="13" height="13"')}</span>`}</button>`;
   const last = S.lastRead && bookById(S.lastRead.id);
   const readRow = last ? `<button class="card simple-row" data-read="${last.id}|${S.lastRead.i}"><span class="libthumb">${cover(last, 30)}</span>
       <span style="flex:1;min-width:0"><b>Keep reading</b><span class="small muted" style="display:block">${esc(last.title)}</span></span><span class="pill">Read</span></button>` : "";
@@ -563,7 +565,7 @@ function itemBook(b, open){
     <span><span class="t">${esc(b.title)}</span><br><span class="s">${esc(b.sub)} · ${L} ${L>1?"sections":"section"}</span></span>
     ${!open?ICON.lock:d>=L?`<span class="pill ok">Read</span>`:`<span class="pill">${d?`${d}/${L}`:"Read"}</span>`}</button>`;
   return `<button class="item" ${open?`data-book="${b.id}"`:"disabled"}><span class="ico art-ico">${artFor(b,40)}</span>
-    <span><span class="t">${esc(nameOf(b))}</span>${classicOf(b)}<span class="s">${b.type==="words" ? `${L} sets of ${b.per} words · learn, then quick checks` : `${L} short lessons`}</span></span>
+    <span><span class="t">${esc(nameOf(b))}</span>${classicOf(b)}<span class="s">${b.type==="words" ? `${L} sets of ${b.per} words` : `${L} short lessons`}</span></span>
     ${!open?ICON.lock:d>=L?`<span class="pill ok">Done</span>`:`<span class="pill">${d}/${L}</span>`}</button>`;
 }
 function itemDeck(d, open){
@@ -572,7 +574,7 @@ function itemDeck(d, open){
     <span><span class="t">${esc(nameOf(d))}</span>${classicOf(d)}<span class="s">${s.total.toLocaleString()} cards</span></span>
     ${open?(d.fard?`<span class="pill brand">Start</span>`:`<span class="pill">Optional</span>`):ICON.lock}</button>`;
   return `<button class="item" ${open?`data-deck="${d.id}"`:"disabled"}><span class="ico art-ico">${artFor(d,40)}</span>
-    <span><span class="t">${esc(nameOf(d))}</span>${classicOf(d)}<span class="s">${s.total.toLocaleString()} cards${open?` · ${s.mastered} mastered`:""}</span>
+    <span><span class="t">${esc(nameOf(d))}</span>${classicOf(d)}<span class="s">${s.total.toLocaleString()} cards${open && s.mastered?`, ${s.mastered.toLocaleString()} learnt`:""}</span>
     ${open?`<span class="bar" style="display:block;margin-top:6px"><i style="width:${s.mastered/s.total*100}%;background:${d.color}"></i></span>`:""}</span>
     ${!open?ICON.lock:avail?`<span class="pill brand">${avail} to study</span>`:`<span class="pill ok">Done today</span>`}${d.opt && !d.fard?`<span class="pill" style="margin-left:4px">Optional</span>`:""}</button>`;
 }
@@ -746,7 +748,7 @@ function bookCard(b){
   const d = bookDone(b), L = lessonsOf(b);
   return `<button class="bookcard" data-book="${b.id}"><span class="cv">${cover(b, 140)}${d?`<span class="cvbar"><i style="width:${Math.max(4,d/L*100)}%"></i></span>`:""}</span>
     <span class="bt">${esc(b.title)}</span><span class="ba">${esc(b.author.replace(/^Imams? /,""))}</span>
-    <span class="bl">${hasEn(b)?"Arabic · English":"Arabic"}${(META.textsAudio||{})[b.file]?"":""}</span></button>`;
+    <span class="bl">${hasEn(b)?"Arabic and English":"Arabic"}${(META.textsAudio||{})[b.file]?"":""}</span></button>`;
 }
 function libraryView(){
   const books = LIB(), last = S.lastRead && bookById(S.lastRead.id), f = S.libYear || 0;
@@ -754,10 +756,10 @@ function libraryView(){
       <span class="small muted">Section ${S.lastRead.i+1} of ${lessonsOf(last)}</span></span><button class="btn small-btn" data-read="${last.id}|${S.lastRead.i}">Read</button></section>` : "";
   const chips = `<div class="ychips">${[0,1,2,3,4,5].map(n => `<button class="ychip ${f===n?"on":""}" data-libyear="${n}">${n?`Year ${n}`:"All"}</button>`).join("")}</div>`;
   const shelves = YEARS.filter(y => !f || y.n === f).map(y => { const bs = books.filter(b => b.year === y.n);
-    return bs.length ? `<p class="label">Year ${y.n} · ${esc(y.title)}</p><div class="shelf">${bs.map(bookCard).join("")}</div>` : ""; }).join("");
+    return bs.length ? `<p class="label">Year ${y.n}: ${esc(y.title)}</p><div class="shelf">${bs.map(bookCard).join("")}</div>` : ""; }).join("");
   return shell(`<h1>Library</h1><p class="muted" style="margin:0 0 12px">${books.length} complete books, from the first texts to Sahih al-Bukhari. Free to read, bab by bab.</p>
     ${cont}${chips}${shelves}
-    <p class="small muted" style="margin-top:18px">Arabic texts from the OpenITI corpus. Harakat and English marked “AI · needs review” are waiting for a teacher's check.</p>`);
+    <p class="small muted" style="margin-top:18px">Arabic texts from the OpenITI corpus. Harakat and English marked “Awaiting a teacher's check” are waiting for a teacher's check.</p>`);
 }
 /* ---- Full-text reader ---- */
 function textView(b){
@@ -779,9 +781,9 @@ function textView(b){
     <p style="margin:12px 0 8px">${esc(b.sub)}.</p>
     <div class="tags" style="margin-bottom:12px"><span class="pill">${esc(b.subject)}</span><span class="pill">Year ${b.year}</span><span class="pill">${n} sections</span>${hasEn(b)?`<span class="pill gold">Arabic + English</span>`:`<span class="pill">Arabic</span>`}${(META.textsAudio||{})[b.file]?`<span class="pill ok">${ICON.ear} Narrated</span>`:""}</div>
     ${done.length?`<div class="spread small muted"><span>${done.length} of ${n} read</span><span>${Math.round(done.length/n*100)}%</span></div><span class="bar" style="display:block;margin:4px 0 10px"><i style="width:${done.length/n*100}%;background:var(--brand)"></i></span>`:""}
-    ${next>=0?`<button class="btn" data-read="${b.id}|${next}" style="margin:4px 0 6px">${done.length?`Continue · section ${next+1}`:"Start reading"}</button>`:`<div class="notice">${ICON.check}<span>You've read the whole book, alhamdulillah.</span></div>`}
+    ${next>=0?`<button class="btn" data-read="${b.id}|${next}" style="margin:4px 0 6px">${done.length?`Continue from section ${next+1}`:"Start reading"}</button>`:`<div class="notice">${ICON.check}<span>You've read the whole book, alhamdulillah.</span></div>`}
     <p class="label">Contents</p>${toc}
-    <p class="small muted" style="margin-top:14px">${T.ai?"Harakat and English were added by AI and are waiting for a teacher's review. ":""}${hasEn(b)?"":"Arabic text from the OpenITI corpus; English will be added."}</p>`);
+    <p class="small muted" style="margin-top:14px">${T.ai?"The harakat and English are awaiting a teacher's check. ":""}${hasEn(b)?"":"Arabic text from the OpenITI corpus; English will be added."}</p>`);
 }
 function readView(b, i){
   const T = TEXTS[b.file]; if (!T) return `<p class="muted">Loading…</p>`;
@@ -794,7 +796,7 @@ function readView(b, i){
       <div class="tools" style="margin:6px 0 10px"><button class="tool listen ${AUD.on?"on":""}" id="listen">${AUD.on?ICON.pause+" Pause":ICON.play+" Listen"}</button>
         ${s.v ? `<button class="tool ${S.harakat!==false?"on":""}" id="tg-h">حَ Harakat ${S.harakat!==false?"on":"off"}</button>` : `<button class="tool" disabled style="opacity:.55" title="Harakat for this book are being added">حَ No harakat yet</button>`}${s.en?`<button class="tool ${P.english?"on":""}" id="tg-e">EN English</button>`:""}
         <button class="tool" id="fsdn" aria-label="Smaller text">A−</button><button class="tool" id="fsup" aria-label="Larger text">A+</button>
-        ${AUD.on?`<button class="tool" id="rate">${P.rate}× speed</button>`:""}${T.ai?`<span class="pill gold">AI · needs review</span>`:""}</div>
+        ${AUD.on?`<button class="tool" id="rate">${P.rate}× speed</button>`:""}</div>
       ${S.dictUsed ? "" : `<p class="small muted" style="margin:0 0 8px">Tip: tap any Arabic word to look it up in the dictionary.</p>`}<div class="card fs${P.size}">${paras}</div>${toolRow(key,false)}</div>
     <div class="pfoot"><div class="grades two"><button class="grade" id="rprev" style="background:var(--surface);color:var(--ink);border:1px solid var(--line)" ${i===0?"disabled":""}>← Previous</button><button class="grade g2" id="rnext">${i+1<T.sections.length?"✓ Read · next":"✓ Finish"}</button></div></div></div></div>`;
 }
@@ -1021,7 +1023,7 @@ function cardBack(c){
   return `<div class="card answer" style="margin-top:12px">${note}
     ${c.ba ? `<div class="ar" style="font-size:1.3rem;line-height:1.9;text-align:right">${esc(c.b)}</div>`
       : c.b.length < 80 ? `<div style="font-size:1.2rem;font-weight:800">${esc(c.b)}</div>` : points(c.b)}
-    ${c.aw?`<span class="pill gold" style="margin-top:6px">Written with AI · needs review</span>`:c.ai?`<span class="pill gold" style="margin-top:6px">AI · needs review</span>`:""}
+    ${c.aw||c.ai?`<p class="review-note">Awaiting a teacher's check</p>`:""}
     ${c.ex?`<div class="ayah">${escQ(c.ex)}</div>`:""}${c.exr?`<div class="ref">${esc(c.exr)}</div>`:""}</div>`;
 }
 function renderStudy(){
@@ -1072,8 +1074,9 @@ function bookQuiz(b, l){
     return { prompt:null, q:`Who narrated this hadith? “${snip(saying, 200)}”`, answer:who, options:shuffle([who, ...others]), explain:{ title:l.note, body:snip(l.en, 420) } };
   }
   if (l.en.length <= 240) {
-    const opts = distinct(near(x => x.en, x => x.en.length <= 240 && x.en.length > l.en.length*.35 && x.en.length < l.en.length*2.8), l.en, 3);
-    if (opts.length === 3) return { prompt:l.ar, q:"What does this line mean?", answer:l.en, options:shuffle([l.en, ...opts]), explain:{ title:"The full line", body:l.en, note:l.note && snip(l.note, 360) } };
+    const head = s => s.split(/[\s(,;:]/)[0].toLowerCase();          // i'rab and ayah practice: no choice that is the same word or starts the same way
+    const opts = distinct(near(x => x.en, x => x.en.length <= 240 && x.en.length > l.en.length*.35 && x.en.length < l.en.length*2.8 && (!b.ask || (x.ar !== l.ar && head(x.en) !== head(l.en)))).filter((e, k, arr) => !b.ask || arr.findIndex(f => head(f) === head(e)) === k), l.en, 3);
+    if (opts.length === 3) return { prompt:l.ar, q:b.ask || "What does this line mean?", answer:l.en, options:shuffle([l.en, ...opts]), explain:{ title:b.askTitle || "The full line", body:l.en, note:l.note && snip(l.note, 360) } };
   }
   const opts = distinct(near(x => x.ar, x => x.ar.length < 220), l.ar, 3);         // long English: ask the other way round
   return { prompt:null, q:`Which line says: “${snip(l.en, 220)}”`, answer:l.ar, ansAr:true, options:shuffle([l.ar, ...opts]), explain:{ title:"The full line", body:l.en, note:l.note && snip(l.note, 360) } };
@@ -1201,7 +1204,7 @@ function startTest(n){ T = { n, qs:makeTest(yearOf(n)), i:0, sel:null, wrong:[],
 function renderTest(){
   const q = T.qs[T.i]; if (!q) return finishTest();
   $("#app").innerHTML = `<div class="player"><div class="player-in"><div class="phead"><button class="x" id="quit" aria-label="Leave test">${ICON.x}</button><div class="bar"><i style="width:${T.i/T.qs.length*100}%;background:var(--gold)"></i></div><span class="count">${T.i+1}/${T.qs.length}</span></div>
-    <div class="pbody"><div class="kicker">Year ${T.n} final test · ${esc(q.src)}</div>
+    <div class="pbody"><div class="kicker">Year ${T.n} final test</div>
     ${q.promptAr?`<p class="line-ar" style="text-align:center;font-size:${q.promptAr.length<20?"2.2rem":"1.4rem"}">${esc(q.promptAr)}</p>`:""}
     <p class="q ${q.qAr?"ar":""}" style="${q.qAr?"text-align:right;font-size:1.3rem;line-height:1.9":""}">${esc(q.q)}</p>
     <div class="opts">${q.options.map((o,i)=>`<button class="opt ${i===T.sel?"sel":""} ${q.ansAr?"ar":""}" style="${q.ansAr?"text-align:right;font-size:1.15rem":""}" data-o="${i}">${esc(o)}</button>`).join("")}</div></div>

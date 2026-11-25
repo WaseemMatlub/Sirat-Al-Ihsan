@@ -1,4 +1,4 @@
-const V="ihsan-c525b025c5";
+const V="ihsan-e061b242ce";
 const CORE=["./","index.html","manifest.json","icon-192.png","icon-512.png","data/meta.json"];
 self.addEventListener("install",e=>{e.waitUntil(caches.open(V).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting()))});
 self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==V).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
