@@ -373,6 +373,9 @@ def old_lessons():
     return out
 
 if __name__ == "__main__":
+    from learn_more import MORE, ORDER
+    NEW.update(MORE)
+    COURSES = [(c[0], c[1], c[2], c[3], c[4], c[5], ORDER.get(c[0], c[6])) for c in COURSES]
     OLD = old_lessons(); used = set(); out = []
     for cid, title, ar, sub, book, color, ids in COURSES:
         ls = []

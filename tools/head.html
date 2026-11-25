@@ -322,7 +322,7 @@ html[data-theme=dark] .unit-t{color:color-mix(in srgb,var(--uc) 45%,#fff)}
 .dots i.on{width:20px;border-radius:4px;background:var(--ink)}
 .swipe-foot{display:flex;gap:10px}.swipe-foot #prev{flex:0 0 56px;padding:0;display:grid;place-items:center}.swipe-foot #next{flex:1}
 @media (prefers-reduced-motion:reduce){.dots i{transition:none}}
-.topic{padding:14px 16px;margin-bottom:12px}
+.topic{display:block;width:100%;text-align:left;color:var(--ink);font:inherit;padding:14px 16px;margin-bottom:12px;cursor:pointer}.topic:active{transform:scale(.99)}.topic-r,.topic-b,.topic-p{display:flex}.topic-b{display:block}
 .topic-r{display:flex;align-items:center;gap:10px}.topic-t{font-weight:700;font-size:1.05rem}
 .chip-btn{border:1px solid var(--line);background:var(--bg);color:var(--muted);border-radius:999px;padding:4px 11px;font-size:.78rem;font-weight:700}
 .topic-p{display:flex;align-items:center;gap:10px;margin-top:10px}.topic-p .bar{flex:1;height:6px}

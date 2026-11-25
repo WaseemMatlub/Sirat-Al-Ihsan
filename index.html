@@ -322,7 +322,7 @@ html[data-theme=dark] .unit-t{color:color-mix(in srgb,var(--uc) 45%,#fff)}
 .dots i.on{width:20px;border-radius:4px;background:var(--ink)}
 .swipe-foot{display:flex;gap:10px}.swipe-foot #prev{flex:0 0 56px;padding:0;display:grid;place-items:center}.swipe-foot #next{flex:1}
 @media (prefers-reduced-motion:reduce){.dots i{transition:none}}
-.topic{padding:14px 16px;margin-bottom:12px}
+.topic{display:block;width:100%;text-align:left;color:var(--ink);font:inherit;padding:14px 16px;margin-bottom:12px;cursor:pointer}.topic:active{transform:scale(.99)}.topic-r,.topic-b,.topic-p{display:flex}.topic-b{display:block}
 .topic-r{display:flex;align-items:center;gap:10px}.topic-t{font-weight:700;font-size:1.05rem}
 .chip-btn{border:1px solid var(--line);background:var(--bg);color:var(--muted);border-radius:999px;padding:4px 11px;font-size:.78rem;font-weight:700}
 .topic-p{display:flex;align-items:center;gap:10px;margin-top:10px}.topic-p .bar{flex:1;height:6px}
@@ -1034,15 +1034,15 @@ function bindReadLinks(root){ root.querySelectorAll("[data-read]").forEach(b => 
 let LEARN = null, LS = null;
 const LEARN_DECK = { aqeedah:["fard_aqeedah"], fiqh:["fard_tahara","fard_salah","fard_sawm","fard_zakat"] };
 const OLD_TOPIC = { belief:"aqeedah", purity:"fiqh", prayer:"fiqh", fasting:"fiqh", zakat:"fiqh", heart:"tazkiyah" };
-async function loadLearn(){ if (LEARN) return LEARN; try { LEARN = await fetch("data/learn.json?v=85d0881e").then(r => r.json()); } catch(e){ LEARN = []; } return LEARN; }
+async function loadLearn(){ if (LEARN) return LEARN; try { LEARN = await fetch("data/learn.json?v=612437e4").then(r => r.json()); } catch(e){ LEARN = []; } return LEARN; }
 const learnDone = id => !!(S.learn||{})[id];
 function nextLearn(){ for (const u of LEARN||[]) for (let k = 0; k < u.lessons.length; k++) if (!learnDone(u.lessons[k].id)) return { u, k }; return null; }
 function learnHome(){
   if (!LEARN) { loadLearn().then(() => { if (view.name === "home") render(); }); return `<p class="muted">Loading…</p>`; }
   const nx = nextLearn(), u = LEARN.find(x => x.id === (OLD_TOPIC[S.topic] || S.topic)) || (nx && nx.u) || LEARN[0];
   const d = u.lessons.filter(l => learnDone(l.id)).length, n = u.lessons.length, pct = Math.round(d / n * 100);
-  const head = `<section class="card topic"><div class="topic-r"><span class="topic-t">${esc(u.title)}</span><button class="chip-btn" id="topic-change" aria-haspopup="dialog">Change</button></div>
-    <p class="small muted topic-b">Based on ${esc(u.book || "")}</p><div class="topic-p"><span class="bar"><i style="width:${Math.max(2, pct)}%;background:${u.color}"></i></span><span class="small muted">${pct}%</span></div></section>`;
+  const head = `<button class="card topic" id="topic-change" aria-haspopup="dialog" aria-label="${esc(u.title)}, ${pct}% done. Change course"><span class="topic-r"><span class="topic-t">${esc(u.title)}</span><span class="chip-btn" aria-hidden="true">Change</span></span>
+    <span class="small muted topic-b">Based on ${esc(u.book || "")}</span><span class="topic-p"><span class="bar"><i style="width:${Math.max(2, pct)}%;background:${u.color}"></i></span><span class="small muted">${pct}%</span></span></button>`;
   const card = (l, k) => { const ok = learnDone(l.id);
     return `<article class="lcard" style="--uc:${u.color}"><div class="lc-art" aria-hidden="true"><span class="ar">${esc(u.ar || "")}</span><span class="lc-n">${k+1} of ${n}</span></div>
       <div class="lc-body"><p class="lc-k">${esc(u.title)}</p><h3>${esc(l.title)}</h3><p class="lc-a">${esc(l.about || "")}</p></div>
@@ -2009,5 +2009,5 @@ applyTheme(); try { matchMedia("(prefers-color-scheme: dark)").addEventListener(
 })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=c52df8d444");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=ab54f369dd");</script></body>
 </html>

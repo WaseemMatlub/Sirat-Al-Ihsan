@@ -561,8 +561,8 @@ function learnHome(){
   if (!LEARN) { loadLearn().then(() => { if (view.name === "home") render(); }); return `<p class="muted">Loading…</p>`; }
   const nx = nextLearn(), u = LEARN.find(x => x.id === (OLD_TOPIC[S.topic] || S.topic)) || (nx && nx.u) || LEARN[0];
   const d = u.lessons.filter(l => learnDone(l.id)).length, n = u.lessons.length, pct = Math.round(d / n * 100);
-  const head = `<section class="card topic"><div class="topic-r"><span class="topic-t">${esc(u.title)}</span><button class="chip-btn" id="topic-change" aria-haspopup="dialog">Change</button></div>
-    <p class="small muted topic-b">Based on ${esc(u.book || "")}</p><div class="topic-p"><span class="bar"><i style="width:${Math.max(2, pct)}%;background:${u.color}"></i></span><span class="small muted">${pct}%</span></div></section>`;
+  const head = `<button class="card topic" id="topic-change" aria-haspopup="dialog" aria-label="${esc(u.title)}, ${pct}% done. Change course"><span class="topic-r"><span class="topic-t">${esc(u.title)}</span><span class="chip-btn" aria-hidden="true">Change</span></span>
+    <span class="small muted topic-b">Based on ${esc(u.book || "")}</span><span class="topic-p"><span class="bar"><i style="width:${Math.max(2, pct)}%;background:${u.color}"></i></span><span class="small muted">${pct}%</span></span></button>`;
   const card = (l, k) => { const ok = learnDone(l.id);
     return `<article class="lcard" style="--uc:${u.color}"><div class="lc-art" aria-hidden="true"><span class="ar">${esc(u.ar || "")}</span><span class="lc-n">${k+1} of ${n}</span></div>
       <div class="lc-body"><p class="lc-k">${esc(u.title)}</p><h3>${esc(l.title)}</h3><p class="lc-a">${esc(l.about || "")}</p></div>
