@@ -64,6 +64,9 @@ for b in ONLY or ["majalla", "kanz", "jalalayn", "qatr", "alfiyya", "mughni", "i
         k = next(i for i, x in enumerate(secs) if x["h"] == "مقدمة المؤلف"); secs = secs[k:]
     if b == "tajrid":                                # hadith added by the modern editor, marked as not from al-Zabidi's original
         secs = [x for x in secs if not x["h"].startswith("هذا الحديث من زوائد")]
+    if b == "qisas":                                 # the 1968 editor's introduction, and his footnote numbers
+        secs = [x for x in secs if x["h"] != "مقدمة"]
+        for x in secs: x["p"] = [re.sub(r"\s*\(\d+\)", "", q) for q in x["p"]]
     if b == "nuzha":
         for x in secs: x["p"] = [re.sub(r"\s*\(\d+\)", "", q) for q in x["p"]]
     if b == "ayyuha":

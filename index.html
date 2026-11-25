@@ -429,7 +429,7 @@ nav.tabs .in{grid-template-columns:repeat(4,1fr)}
 <script>
 "use strict";
 /* ============================ SYLLABUS ============================ */
-const META = {"decks": {"hidaya1": 6454, "burda": 336, "proofs": 228, "nuqaya": 2519, "qatr": 1875, "poetry": 4971, "ajr": 150, "hidaya3": 6490, "roots": 1000, "themed": 6012, "iqtisad": 1413, "mufradat": 1630, "msa2": 3372, "ghawth": 232, "mercy": 770, "quran": 500, "fard_aqeedah": 57, "jalalayn_amma": 527, "fard_zakat": 92, "hidaya2": 5901, "qushayri": 578, "msa1": 3400, "fard_halal": 50, "verbs1": 700, "tajwid": 80, "fard_salah": 432, "mughni": 751, "quduri": 2441, "seerah1": 74, "qasaid": 4090, "jalalayn": 6121, "philosophy": 3699, "izzi": 471, "alfiyya": 1257, "bina": 241, "naqsh": 1391, "fard_tahara": 206, "kanz": 1433, "verbs2": 700, "nur": 1083, "hidaya4": 6376, "fuqaha": 3548, "shamail_qa": 49, "ithaf": 311, "sharhizzi": 2488, "nasafiyyah": 1401, "sirr": 536, "fard_sawm": 74}, "lines": {"irab": 78, "tahawiyya": 108, "jazariyya": 108, "signs2": 179, "arbain": 137, "signs": 83, "jawhara": 142, "juz_amma": 527, "majalla": 99, "bayquniyya": 34, "umm": 57}, "texts": {"tahawiyya_full": 11, "ayyuha": 5, "burda": 17, "bidaya": 48, "nuzha": 72, "shamail": 58, "fusul": 95, "ghunya": 400, "qatr": 92, "ibnmajah": 1424, "ihya": 997, "abudawud": 1882, "mabsut": 2650, "milal": 259, "kafiya": 103, "riyad": 373, "adhkar": 365, "fiqh_akbar": 27, "maraqi": 92, "muwatta": 703, "nawawi_seerah": 17, "iqtisad": 63, "usul_sarakhsi": 242, "azhari": 33, "jazariyya": 19, "miatamil": 61, "tuhfa": 217, "nuryaqin": 246, "nasafi": 561, "risala": 105, "maqamat": 60, "tirmidhi": 2265, "arbain": 45, "tawdih": 117, "ajurrumiyya": 25, "shifa": 185, "mughni": 138, "quduri": 119, "manar": 4, "jalalayn": 252, "muslim": 758, "alfiyya": 82, "jawhara": 12, "tamhid": 49, "hikam": 19, "qut": 492, "hidayatnahw": 325, "tabyin": 885, "kanz": 200, "mukhtasar_maani": 73, "baydawi": 3458, "mizan_usul": 148, "hidaya": 456, "nihaya_fitan": 431, "nahwmir": 144, "sharh_maani": 597, "nasai": 2514, "taarruf": 60, "nur_idah": 263, "usul_shashi": 103, "badai": 1738, "majalla": 74, "ikhtiyar": 1049, "bayquniyya": 1, "tadhkira": 356, "shatibiyya": 77, "tajrid": 243, "tibyan": 25, "umm": 6, "bukhari": 780, "munqidh": 16, "ibnhisham": 2164}, "textsAudio": {"tahawiyya_full": true, "ayyuha": false, "burda": true, "bidaya": false, "nuzha": false, "shamail": false, "fusul": false, "ghunya": false, "qatr": false, "ibnmajah": false, "ihya": false, "abudawud": false, "mabsut": false, "milal": false, "kafiya": false, "riyad": false, "adhkar": false, "fiqh_akbar": true, "maraqi": false, "muwatta": false, "nawawi_seerah": false, "iqtisad": false, "usul_sarakhsi": false, "azhari": false, "jazariyya": true, "miatamil": false, "tuhfa": false, "nuryaqin": false, "nasafi": false, "risala": false, "maqamat": false, "tirmidhi": false, "arbain": true, "tawdih": false, "ajurrumiyya": true, "shifa": false, "mughni": false, "quduri": false, "manar": false, "jalalayn": false, "muslim": false, "alfiyya": false, "jawhara": false, "tamhid": false, "hikam": false, "qut": false, "hidayatnahw": false, "tabyin": false, "kanz": false, "mukhtasar_maani": false, "baydawi": false, "mizan_usul": false, "hidaya": false, "nihaya_fitan": false, "nahwmir": false, "sharh_maani": false, "nasai": false, "taarruf": false, "nur_idah": false, "usul_shashi": false, "badai": false, "majalla": false, "ikhtiyar": false, "bayquniyya": false, "tadhkira": false, "shatibiyya": false, "tajrid": false, "tibyan": false, "umm": true, "bukhari": false, "munqidh": false, "ibnhisham": false}, "textsAi": {"tahawiyya_full": false, "ayyuha": false, "burda": false, "bidaya": false, "nuzha": false, "shamail": false, "fusul": false, "ghunya": false, "qatr": false, "ibnmajah": false, "ihya": false, "abudawud": false, "mabsut": false, "milal": false, "kafiya": false, "riyad": false, "adhkar": false, "fiqh_akbar": true, "maraqi": false, "muwatta": false, "nawawi_seerah": false, "iqtisad": false, "usul_sarakhsi": false, "azhari": false, "jazariyya": true, "miatamil": false, "tuhfa": false, "nuryaqin": false, "nasafi": false, "risala": false, "maqamat": false, "tirmidhi": false, "arbain": true, "tawdih": false, "ajurrumiyya": true, "shifa": false, "mughni": false, "quduri": false, "manar": false, "jalalayn": false, "muslim": false, "alfiyya": false, "jawhara": false, "tamhid": false, "hikam": false, "qut": false, "hidayatnahw": false, "tabyin": false, "kanz": false, "mukhtasar_maani": false, "baydawi": false, "mizan_usul": false, "hidaya": false, "nihaya_fitan": false, "nahwmir": false, "sharh_maani": false, "nasai": false, "taarruf": false, "nur_idah": true, "usul_shashi": false, "badai": false, "majalla": false, "ikhtiyar": false, "bayquniyya": false, "tadhkira": false, "shatibiyya": false, "tajrid": false, "tibyan": false, "umm": false, "bukhari": false, "munqidh": false, "ibnhisham": false}, "textsEn": {"tahawiyya_full": true, "ayyuha": false, "burda": true, "bidaya": false, "nuzha": false, "shamail": false, "fusul": false, "ghunya": false, "qatr": false, "ibnmajah": false, "ihya": false, "abudawud": false, "mabsut": false, "milal": false, "kafiya": false, "riyad": false, "adhkar": false, "fiqh_akbar": true, "maraqi": false, "muwatta": false, "nawawi_seerah": false, "iqtisad": false, "usul_sarakhsi": false, "azhari": false, "jazariyya": true, "miatamil": false, "tuhfa": false, "nuryaqin": false, "nasafi": false, "risala": false, "maqamat": false, "tirmidhi": false, "arbain": true, "tawdih": false, "ajurrumiyya": true, "shifa": false, "mughni": false, "quduri": false, "manar": false, "jalalayn": false, "muslim": true, "alfiyya": false, "jawhara": true, "tamhid": false, "hikam": false, "qut": false, "hidayatnahw": false, "tabyin": false, "kanz": false, "mukhtasar_maani": false, "baydawi": false, "mizan_usul": false, "hidaya": false, "nihaya_fitan": false, "nahwmir": false, "sharh_maani": false, "nasai": false, "taarruf": false, "nur_idah": true, "usul_shashi": false, "badai": false, "majalla": false, "ikhtiyar": false, "bayquniyya": true, "tadhkira": false, "shatibiyya": false, "tajrid": false, "tibyan": false, "umm": true, "bukhari": true, "munqidh": false, "ibnhisham": false}};
+const META = {"decks": {"hidaya1": 6454, "burda": 336, "proofs": 228, "nuqaya": 2519, "qatr": 1875, "poetry": 4971, "ajr": 150, "hidaya3": 6490, "roots": 1000, "themed": 6012, "iqtisad": 1413, "mufradat": 1630, "msa2": 3372, "ghawth": 232, "mercy": 770, "quran": 500, "fard_aqeedah": 57, "jalalayn_amma": 527, "fard_zakat": 92, "hidaya2": 5901, "qushayri": 578, "msa1": 3400, "fard_halal": 50, "verbs1": 700, "tajwid": 80, "fard_salah": 432, "mughni": 751, "quduri": 2441, "seerah1": 74, "qasaid": 4090, "jalalayn": 6121, "philosophy": 3699, "izzi": 471, "alfiyya": 1257, "bina": 241, "naqsh": 1391, "fard_tahara": 206, "kanz": 1433, "verbs2": 700, "nur": 1083, "history": 52, "hidaya4": 6376, "fuqaha": 3548, "shamail_qa": 49, "ithaf": 311, "sharhizzi": 2488, "nasafiyyah": 1401, "sirr": 536, "fard_sawm": 74}, "lines": {"irab": 78, "tahawiyya": 108, "jazariyya": 108, "signs2": 179, "arbain": 137, "signs": 83, "jawhara": 142, "juz_amma": 527, "majalla": 99, "bayquniyya": 34, "umm": 57}, "texts": {"tahawiyya_full": 11, "ayyuha": 5, "burda": 17, "bidaya": 48, "nuzha": 72, "shamail": 58, "fusul": 95, "ghunya": 400, "qatr": 92, "ibnmajah": 1424, "ihya": 997, "abudawud": 1882, "mabsut": 2650, "milal": 259, "kafiya": 103, "riyad": 373, "adhkar": 365, "fiqh_akbar": 27, "maraqi": 92, "muwatta": 703, "nawawi_seerah": 17, "iqtisad": 63, "usul_sarakhsi": 242, "azhari": 33, "jazariyya": 19, "miatamil": 61, "tuhfa": 217, "nuryaqin": 246, "nasafi": 561, "risala": 105, "maqamat": 60, "tirmidhi": 2265, "arbain": 45, "tawdih": 117, "ajurrumiyya": 25, "shifa": 185, "mughni": 138, "quduri": 119, "manar": 4, "jalalayn": 252, "muslim": 758, "alfiyya": 82, "jawhara": 12, "tamhid": 49, "hikam": 19, "qut": 492, "qisas": 173, "hidayatnahw": 325, "tabyin": 885, "kanz": 200, "mukhtasar_maani": 73, "baydawi": 3458, "mizan_usul": 148, "hidaya": 456, "tarikh_khulafa": 190, "nihaya_fitan": 431, "nahwmir": 144, "sharh_maani": 597, "nasai": 2514, "taarruf": 60, "nur_idah": 263, "usul_shashi": 103, "badai": 1738, "majalla": 74, "ikhtiyar": 1049, "bayquniyya": 1, "tadhkira": 356, "shatibiyya": 77, "tajrid": 243, "tibyan": 25, "umm": 6, "bukhari": 780, "munqidh": 16, "ibnhisham": 2164}, "textsAudio": {"tahawiyya_full": true, "ayyuha": false, "burda": true, "bidaya": false, "nuzha": false, "shamail": false, "fusul": false, "ghunya": false, "qatr": false, "ibnmajah": false, "ihya": false, "abudawud": false, "mabsut": false, "milal": false, "kafiya": false, "riyad": false, "adhkar": false, "fiqh_akbar": true, "maraqi": false, "muwatta": false, "nawawi_seerah": false, "iqtisad": false, "usul_sarakhsi": false, "azhari": false, "jazariyya": true, "miatamil": false, "tuhfa": false, "nuryaqin": false, "nasafi": false, "risala": false, "maqamat": false, "tirmidhi": false, "arbain": true, "tawdih": false, "ajurrumiyya": true, "shifa": false, "mughni": false, "quduri": false, "manar": false, "jalalayn": false, "muslim": false, "alfiyya": false, "jawhara": false, "tamhid": false, "hikam": false, "qut": false, "qisas": false, "hidayatnahw": false, "tabyin": false, "kanz": false, "mukhtasar_maani": false, "baydawi": false, "mizan_usul": false, "hidaya": false, "tarikh_khulafa": false, "nihaya_fitan": false, "nahwmir": false, "sharh_maani": false, "nasai": false, "taarruf": false, "nur_idah": false, "usul_shashi": false, "badai": false, "majalla": false, "ikhtiyar": false, "bayquniyya": false, "tadhkira": false, "shatibiyya": false, "tajrid": false, "tibyan": false, "umm": true, "bukhari": false, "munqidh": false, "ibnhisham": false}, "textsAi": {"tahawiyya_full": false, "ayyuha": false, "burda": false, "bidaya": false, "nuzha": false, "shamail": false, "fusul": false, "ghunya": false, "qatr": false, "ibnmajah": false, "ihya": false, "abudawud": false, "mabsut": false, "milal": false, "kafiya": false, "riyad": false, "adhkar": false, "fiqh_akbar": true, "maraqi": false, "muwatta": false, "nawawi_seerah": false, "iqtisad": false, "usul_sarakhsi": false, "azhari": false, "jazariyya": true, "miatamil": false, "tuhfa": false, "nuryaqin": false, "nasafi": false, "risala": false, "maqamat": false, "tirmidhi": false, "arbain": true, "tawdih": false, "ajurrumiyya": true, "shifa": false, "mughni": false, "quduri": false, "manar": false, "jalalayn": false, "muslim": false, "alfiyya": false, "jawhara": false, "tamhid": false, "hikam": false, "qut": false, "qisas": false, "hidayatnahw": false, "tabyin": false, "kanz": false, "mukhtasar_maani": false, "baydawi": false, "mizan_usul": false, "hidaya": false, "tarikh_khulafa": false, "nihaya_fitan": false, "nahwmir": false, "sharh_maani": false, "nasai": false, "taarruf": false, "nur_idah": true, "usul_shashi": false, "badai": false, "majalla": false, "ikhtiyar": false, "bayquniyya": false, "tadhkira": false, "shatibiyya": false, "tajrid": false, "tibyan": false, "umm": false, "bukhari": false, "munqidh": false, "ibnhisham": false}, "textsEn": {"tahawiyya_full": true, "ayyuha": false, "burda": true, "bidaya": false, "nuzha": false, "shamail": false, "fusul": false, "ghunya": false, "qatr": false, "ibnmajah": false, "ihya": false, "abudawud": false, "mabsut": false, "milal": false, "kafiya": false, "riyad": false, "adhkar": false, "fiqh_akbar": true, "maraqi": false, "muwatta": false, "nawawi_seerah": false, "iqtisad": false, "usul_sarakhsi": false, "azhari": false, "jazariyya": true, "miatamil": false, "tuhfa": false, "nuryaqin": false, "nasafi": false, "risala": false, "maqamat": false, "tirmidhi": false, "arbain": true, "tawdih": false, "ajurrumiyya": true, "shifa": false, "mughni": false, "quduri": false, "manar": false, "jalalayn": false, "muslim": true, "alfiyya": false, "jawhara": true, "tamhid": false, "hikam": false, "qut": false, "qisas": false, "hidayatnahw": false, "tabyin": false, "kanz": false, "mukhtasar_maani": false, "baydawi": false, "mizan_usul": false, "hidaya": false, "tarikh_khulafa": false, "nihaya_fitan": false, "nahwmir": false, "sharh_maani": false, "nasai": false, "taarruf": false, "nur_idah": true, "usul_shashi": false, "badai": false, "majalla": false, "ikhtiyar": false, "bayquniyya": true, "tadhkira": false, "shatibiyya": false, "tajrid": false, "tibyan": false, "umm": true, "bukhari": true, "munqidh": false, "ibnhisham": false}};
 const YEARS = [   // THE COURSE PLAN. To move or add something, edit this list only: decks are in data/decks/<id>.json, lesson books in data/lines/<id>.json, full texts are LIBRARY ids (read:[...]).
  { n:1, title:"Foundations", desc:"The most common words of the Qur'an, the first books of sarf and nahw, the life of the Prophet ﷺ, and Nur al-Idah.",
    books:[
@@ -533,6 +533,8 @@ const LIBRARY = [
   [4,"t_nuzha","nuzha","Hadith","Nuzhat al-Nazar (Sharh Nukhbat al-Fikar)","نزهة النظر في توضيح نخبة الفكر","Imam Ibn Hajar al-'Asqalani","الإمام ابن حجر العسقلاني","d. 852 AH","The sciences of hadith, explained by their author"],
   [4,"t_bayquniyya","bayquniyya","Hadith","al-Manzumah al-Bayquniyyah","المنظومة البيقونية","Imam 'Umar al-Bayquni","الإمام عمر البيقوني","d. 1080 AH","The 34-line poem on the terms of hadith"],
   [5,"t_tajrid","tajrid","Hadith","Mukhtasar Sahih al-Bukhari (al-Tajrid al-Sarih)","التجريد الصريح لأحاديث الجامع الصحيح","Imam Zayn al-Din al-Zabidi","الإمام زين الدين الزبيدي","d. 893 AH","Sahih al-Bukhari without the repeats and chains"],
+  [2,"t_qisas","qisas","History","Qisas al-Anbiya'","قصص الأنبياء","Imam Ibn Kathir","الإمام ابن كثير","d. 774 AH","The stories of the prophets عليهم السلام, from Adam to 'Isa"],
+  [3,"t_tarikh_khulafa","tarikh_khulafa","History","Tarikh al-Khulafa'","تاريخ الخلفاء","Imam Jalal al-Din al-Suyuti","الإمام جلال الدين السيوطي","d. 911 AH","The caliphs from Abu Bakr رضي الله عنه to the author's own time"],
   [1,"t_bidaya","bidaya","Tasawwuf","Bidayat al-Hidayah","بداية الهداية","Imam Abu Hamid al-Ghazali","الإمام أبو حامد الغزالي","d. 505 AH","The beginning of guidance: a day of worship, and keeping away from sin"],
   [3,"t_taarruf","taarruf","Tasawwuf","al-Ta'arruf li-Madhhab Ahl al-Tasawwuf","التعرف لمذهب أهل التصوف","Imam Abu Bakr al-Kalabadhi","الإمام أبو بكر الكلاباذي","d. 380 AH","What the early Sufis believed and taught"],
   [4,"t_qut","qut","Tasawwuf","Qut al-Qulub","قوت القلوب","Imam Abu Talib al-Makki","الإمام أبو طالب المكي","d. 386 AH","Nourishment of the hearts: the inner life of worship"],
@@ -687,8 +689,52 @@ async function fillLeaderboard(){
   $("#lb-leave").onclick = async () => { if (!confirmInline("lb-leave", "Tap again to remove your name")) return; await sbRpc("leave_leaderboard", { p_id:S.lb.id, p_secret:S.lb.secret }); S.lb = { ...S.lb, on:false }; save(); fillLeaderboard(); };
 }
 function confirmInline(id, msg){ const b = document.getElementById(id); if (b.dataset.sure) return true; b.dataset.sure = "1"; b.textContent = msg; return false; }
+/* ---- Streak reminder: a phone notification in the evening if today's study isn't done yet. Needs the "remind" Supabase function. ---- */
+const pushOK = () => "serviceWorker" in navigator && "PushManager" in window && "Notification" in window;
+const b64u = s => { const p = "=".repeat((4 - s.length % 4) % 4), b = atob((s + p).replace(/-/g, "+").replace(/_/g, "/")); return Uint8Array.from(b, c => c.charCodeAt(0)); };
+async function remindOn(){
+  const c = await sbConf(); if (!c) return "Reminders aren't available yet.";
+  if (!pushOK()) return /iPhone|iPad/.test(navigator.userAgent) ? "On iPhone, add Ihsan to your Home Screen first (Share, then Add to Home Screen), then turn this on from there." : "This browser can't show reminders.";
+  if (await Notification.requestPermission() !== "granted") return "Notifications are blocked. Allow them for Ihsan in your phone's settings.";
+  try {
+    const { key } = await fetch(`${c.url}/functions/v1/remind?key=1`, { headers:{ Authorization:`Bearer ${c.anon}` } }).then(r => r.json());
+    const reg = await navigator.serviceWorker.ready;
+    const sub = (await reg.pushManager.getSubscription()) || await reg.pushManager.subscribe({ userVisibleOnly:true, applicationServerKey:b64u(key) });
+    const j = sub.toJSON(), I = lbIdentity();
+    const ok = await sbRpc("save_push", { p_id:I.id, p_secret:I.secret, p_endpoint:j.endpoint, p_p256dh:j.keys.p256dh, p_auth:j.keys.auth, p_tz:new Date().getTimezoneOffset(), p_hour:S.remindHour||20, p_streak:S.streak, p_day:S.lastDay||0 });
+    if (!ok) return "Couldn't turn reminders on. Check your connection and try again.";
+    S.remind = true; save(); return null;
+  } catch(e){ return "Couldn't turn reminders on on this device."; }
+}
+async function remindOff(){ try { const reg = await navigator.serviceWorker.ready, sub = await reg.pushManager.getSubscription(); if (sub) await sub.unsubscribe(); } catch(e){}
+  const I = lbIdentity(); await sbRpc("remove_push", { p_id:I.id, p_secret:I.secret }); S.remind = false; save(); }
+function remindProgress(){ if (!S.remind) return; const I = lbIdentity(); sbRpc("push_progress", { p_id:I.id, p_secret:I.secret, p_streak:S.streak, p_day:S.lastDay }); }
+/* Save a whole year for offline study: its flashcards, lessons, books to read and word audio go into the lasting "ihsan-data" store */
+async function saveOffline(n, btn){
+  if (!("caches" in window)) return toast("This browser can't save for offline use");
+  const st = document.getElementById(`offst-${n}`), y = yearOf(n), urls = new Set(["data/meta.json", "data/fixes.json", "data/wordaudio.json", `data/daily/${new Date().getMonth()}.json`]);
+  btn.disabled = true; st.textContent = "Getting ready…";
+  try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch(e){}
+  await loadYear(n).catch(() => {});
+  const decks = [...y.decks.filter(d => !d.opt || (S.optOn||{})[d.id]), ...(n === 1 ? FARD_DECKS : [])];
+  decks.forEach(d => urls.add(`data/decks/${d.id}.json`));
+  y.books.filter(b => b.type === "lines" || b.type === "hadith").forEach(b => urls.add(`data/lines/${b.id}.json`));
+  const have = await wordAudio();
+  y.books.filter(b => b.type === "words").forEach(b => (b.lines||[]).forEach(l => { if (have.has(l.id)) urls.add(`audio/words/${l.id}.mp3`); }));
+  for (const id of [...(y.read||[]), ...(n === 1 ? ["t_ayyuha"] : [])]) { const b = bookById(id); if (!b) continue;
+    urls.add(`data/texts/${b.file}.json`);
+    try { const T = await loadText(b.file); if (T.split) for (let k = 0; k * T.split < T.sections.length; k++) urls.add(`data/texts/${b.file}/${k}.json`); } catch(e){} }
+  const c = await caches.open("ihsan-data"), list = [...urls]; let done = 0, failed = 0;
+  const one = async u => { const key = new URL(u, location.href); key.search = "";
+    try { if (!(await c.match(key.href))) { const r = await fetch(u); if (r.ok) await c.put(key.href, r); else failed++; } } catch(e){ failed++; }
+    done++; if (done % 5 === 0 || done === list.length) st.textContent = `Saving… ${Math.round(done / list.length * 100)}%`; };
+  for (let i = 0; i < list.length; i += 6) await Promise.all(list.slice(i, i + 6).map(one));
+  btn.disabled = false;
+  if (failed) { st.textContent = `Saved most of it. ${failed} file${failed>1?"s":""} couldn't be fetched; try again on Wi-Fi.`; return; }
+  S.offline = { ...(S.offline||{}), [n]: Date.now() }; save(); st.textContent = "Saved. Year " + n + " now works without internet."; btn.textContent = "Update";
+}
 function touchDay(xp){ if (S.lb && S.lb.on) S.lb.pending = (S.lb.pending||0) + xp; setTimeout(() => lbSubmit(), 1500);
- const t = today(), adv = S.lastDay !== t; if (adv) S.streak = (S.lastDay === t-1) ? S.streak + 1 : 1; S.lastDay = t; S.xp += xp; S.days[t] = (S.days[t]||0) + xp; save(); return adv; }
+ const t = today(), adv = S.lastDay !== t; if (adv) S.streak = (S.lastDay === t-1) ? S.streak + 1 : 1; S.lastDay = t; S.xp += xp; S.days[t] = (S.days[t]||0) + xp; save(); if (adv) remindProgress(); return adv; }
 if (S.lastDay !== null && today() - S.lastDay > 1) { S.streak = 0; save(); }
 
 /* ======================= SPACED REPETITION ======================= */
@@ -779,6 +825,7 @@ function narrator(en){
 }
 function distinct(pool, answer, n){ const seen = new Set([answer]), out = []; for (const x of shuffle(pool)){ if (!seen.has(x)){ seen.add(x); out.push(x); if (out.length === n) break; } } return out; }
 const ICON = {
+  gear:`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg>`,
   globe:'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 3.8 5.7 3.8 9s-1.3 6.3-3.8 9c-2.5-2.7-3.8-5.7-3.8-9S9.5 5.7 12 3z"/></svg>',
   play:'<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.9l12-7.5a1 1 0 0 0 0-1.7l-12-7.5A1 1 0 0 0 7 4.5z"/></svg>',
   pause:'<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4.5" height="16" rx="1"/><rect x="13.5" y="4" width="4.5" height="16" rx="1"/></svg>',
@@ -856,7 +903,7 @@ function applyTheme(){ const t = S.theme || "auto", r = document.documentElement
 function go(v){ if (typeof stopAudio === "function" && AUD.on) stopAudio(); view = v; render(); window.scrollTo(0,0); }
 function shell(inner){
   return `<header class="topbar"><div class="brandmark">${ICON.logo}<span>Ihsan</span></div>
-    <div class="stats"><button class="chip iconbtn" data-go="search" aria-label="Search">${ICON.search}</button><span class="chip" aria-label="${S.streak} day streak">${ICON.flame}${S.streak}</span></div></header>
+    <div class="stats"><button class="chip iconbtn" data-go="search" aria-label="Search">${ICON.search}</button><button class="chip iconbtn" data-go="settings" aria-label="Settings">${ICON.gear}</button><span class="chip" aria-label="${S.streak} day streak">${ICON.flame}${S.streak}</span></div></header>
     <main>${inner}</main>
     <nav class="tabs"><div class="in"><button data-go="home" ${view.name==="home"?'aria-current="page"':""}>${ICON.home}Home</button><button data-go="syllabus" ${["syllabus","year","spec"].includes(view.name)||(view.name==="book"&&!isLibBook())?'aria-current="page"':""}>${ICON.learn}Course</button><button data-go="library" ${view.name==="library"||isLibBook()?'aria-current="page"':""}>${ICON.shelf}Library</button><button data-go="profile" ${view.name==="profile"?'aria-current="page"':""}>${ICON.user}Progress</button></div></nav>`;
 }
@@ -955,10 +1002,19 @@ const FARD_DECKS = [
   ["fard_sawm","Fasting","Ramadan, what breaks the fast and making it up, from Nur al-Idah","Fiqh","#2F6E8F",""],
   ["fard_zakat","Zakat","Who pays zakat, on what, and how much, from Mukhtasar al-Quduri","Fiqh","#1F6F78",""],
   ["tajwid","Tajweed and the letters","Points of articulation, qualities, nun and mim, madd and stopping","Tajweed","#1E4D3B",""],
+  ["history","Islamic history","From the Rightly Guided Caliphs to the Ottomans, question by question","History","#6B4E2E",""],
   ["fard_halal","Halal food and drink","Slaughter, hunting and what may be eaten and drunk, from Mukhtasar al-Quduri","Fiqh","#1F6F78",""],
 ].map(([id,title,sub,subject,color,read]) => ({ id, title, sub, subject, color, read, opt:true, fard:true, simple:true, glyph:"", year:1, get size(){ return (META.decks||{})[id]||0; } }));
 const allDecks = () => [...YEARS.flatMap(y=>y.decks), ...FARD_DECKS];
 const studyDecks = () => [...activeYears().flatMap(y=>y.decks), ...FARD_DECKS].filter(d => d.cards);
+function historyCard(){                    // extra study, alongside any year: doesn't count towards passing
+  const d = FARD_DECKS.find(x => x.id === "history"), books = ["t_qisas", "t_ibnhisham", "t_tarikh_khulafa"].map(bookById).filter(Boolean);
+  return `<details class="module fard" ${S.openHist?"open":""} id="hist"><summary><span class="yr-badge" style="width:44px;height:44px;background:#6B4E2E;color:#fff">${ICON.shelf}</span>
+      <span class="m-txt"><span class="t">Islamic history</span>
+      <span class="s">Extra study for anyone who wants it, alongside any year.</span></span></summary>
+    <div class="stack"><p class="sublabel">Questions and answers</p>${itemDeck(d, true)}
+      <p class="sublabel">Books to read</p>${books.map(b => `<button class="item" data-read="${b.id}|0"><span class="libthumb">${cover(b, 34)}</span><span style="flex:1;min-width:0"><span class="t">${esc(b.title)}</span><br><span class="s">${esc(b.author)}</span></span><span class="pill">Read</span></button>`).join("")}</div></details>`;
+}
 function fardAynCard(){                     // Fard al-'Ayn: optional, for anyone who wants the essentials first
   const D = id => FARD_DECKS.find(d => d.id === id), signs = YEARS[0].books.find(b => b.id === "signs"), ayy = bookById("t_ayyuha");
   return `<details class="module fard" ${S.openFard?"open":""}><summary><span class="yr-badge" style="width:44px;height:44px">${ICON.check}</span>
@@ -974,8 +1030,8 @@ function syllabusView(){
   const N = Math.max(...S.unlocked), place = N <= YEARS.length && !(S.tests[N] && S.tests[N].passed);
   return shell(`<h1>Course</h1><p class="muted" style="margin:0 0 14px">Pass each year to open the next.</p>
     <div class="stack">${fardAynCard()}${YEARS.map(yearCard).join("")}${specCard()}</div>
-    <p class="label">Other ways in</p>
-    ${place ? `<button class="card simple-row" data-place="${N}"><span style="flex:1"><b>Studied before?</b><span class="small muted" style="display:block">Take the Year ${N} test now. Pass it to skip ahead.</span></span><span class="pill">Test</span></button>` : ""}`);
+    <p class="label">Extra study</p>${historyCard()}
+    ${place ? `<p class="label">Skip ahead</p><button class="card simple-row" data-place="${N}"><span style="flex:1"><b>Studied before?</b><span class="small muted" style="display:block">Take the Year ${N} test now. Pass it to skip ahead.</span></span><span class="pill">Test</span></button>` : ""}`);
 }
 function step3(n, title, sub, status, frac, done){ return `<div class="step3 ${done?"done":""}"><span class="s3n">${done?ICON.check.replace("<svg",'<svg width="13" height="13"'):n}</span><div class="s3b"><div class="spread"><b>${title}</b><span class="small muted">${status}</span></div>${sub?`<span class="s3s">${sub}</span>`:""}<div class="bar"><i style="width:${Math.min(100,frac*100)}%;${done?"background:var(--ok)":""}"></i></div></div></div>`; }
 function gate(label, frac, done){ return `<div class="gate ${done?"done":""}"><span>${label}</span><div class="bar"><i style="width:${Math.min(100,frac*100)}%;${done?"background:var(--ok)":""}"></i></div></div>`; }
@@ -1059,16 +1115,27 @@ function profileView(){
     <div class="tile"><b>${seen.toLocaleString()}</b><span>Cards started</span></div><div class="tile"><b>${ret===null?"–":pct(ret)}</b><span>Recall rate</span></div></div>
     ${weekStrip()}
     <section class="card lb" id="lb" hidden></section>
+    <button class="card simple-row" data-go="settings"><span class="sr-ico">${ICON.gear}</span><span style="flex:1"><b>Settings</b><span class="small muted" style="display:block">Appearance, reminders, offline, listening</span></span></button>`);
+}
+function settingsView(){
+  const ret = retention(), seen = Object.keys(S.cards).length, cy = Math.max(...S.unlocked), th = S.theme || "auto";
+  const row = (id, label, hint, control) => `<div class="setrow"><label for="${id}"><b>${label}</b>${hint?`<span>${hint}</span>`:""}</label>${control}</div>`;
+  const toggle = (id, on) => `<input type="checkbox" class="switch" id="${id}" ${on?"checked":""}>`;
+  return shell(`<button class="back" data-go="profile">${ICON.back} Progress</button><h1>Settings</h1>
     <p class="label">Appearance</p>
     <div class="seg" role="radiogroup" aria-label="Appearance">${[["auto","Automatic"],["light","Light"],["dark","Dark"]].map(([k,l]) => `<button role="radio" aria-checked="${th===k}" class="${th===k?"on":""}" data-theme="${k}">${l}</button>`).join("")}</div>
-    <p class="label">Settings</p>
+    <p class="label">Study</p>
     <div class="setlist">
+      ${row("remind","Streak reminder","A notification at 8pm if you haven't studied yet that day", toggle("remind", !!S.remind))}
       ${row("hk","Show harakat","Qur'anic text always keeps its harakat", toggle("hk", S.harakat!==false))}
       ${row("clang","Question and answer language","Applies to every Q&A deck. More languages are planned", `<select id="clang"><option value="" ${!S.cardLang?"selected":""}>As written</option><option value="en" ${S.cardLang==="en"?"selected":""}>English</option><option value="ar" ${S.cardLang==="ar"?"selected":""}>العربية</option></select>`)}
       ${row("npd","New flashcards a day","Across all subjects", `<select id="npd">${[5,10,15,20,30,50].map(n=>`<option ${n===S.newPerDay?"selected":""}>${n}</option>`).join("")}</select>`)}
       ${row("tl","Pronunciation guide","English letters under new Arabic words, e.g. kitāb", `<select id="tl">${[["y1","Year 1 only"],["on","Always"],["off","Off"]].map(([v,t]) => `<option value="${v}" ${(S.translit||"y1")===v?"selected":""}>${t}</option>`).join("")}</select>`)}
       ${row("madhab","Madhab","Other madhabs are coming", `<select id="madhab"><option selected>Hanafi</option><option disabled>Maliki</option><option disabled>Shafi'i</option><option disabled>Hanbali</option></select>`)}
     </div>
+    <p class="label">Use without internet</p>
+    <div class="setlist"><p class="small muted" style="margin:4px 2px 10px">Anything you open is kept on this phone. Save a whole year to study with no connection.</p>
+      ${S.unlocked.filter(n => n <= YEARS.length).map(n => row(`off-${n}`, `Year ${n}: ${esc(yearOf(n).title)}`, `<span id="offst-${n}">${(S.offline||{})[n] ? `Saved ${new Date(S.offline[n]).toLocaleDateString()}` : "Not saved yet"}</span>`, `<button class="btn ghost small-btn" id="off-${n}" data-off="${n}" style="width:auto">${(S.offline||{})[n] ? "Update" : "Save"}</button>`)).join("")}</div>
     <details class="setgroup"><summary>Listening</summary><div class="setlist">
       ${row("arvoice","Read Arabic with the device voice","Recorded narration is always used when a book has it", toggle("arvoice", S.arVoice!==false))}
       ${["en","ar"].map(l => row(`v-${l}`, l==="en"?"English voice":"Arabic voice", "", `<span style="display:flex;gap:6px;min-width:0;flex:1;justify-content:flex-end"><select id="v-${l}" style="max-width:150px">${voicesFor(l).length ? voicesFor(l).map(v => `<option ${voiceFor(l)&&voiceFor(l).name===v.name?"selected":""}>${esc(v.name)}</option>`).join("") : `<option>None found</option>`}</select><button class="tool" data-vtest="${l}" aria-label="Test voice">${ICON.play}</button></span>`)).join("")}
@@ -1147,7 +1214,7 @@ function searchView(){
 const LIB = () => YEARS.flatMap(y => y.books.filter(b => b.type === "text"));
 const hasAr = t => /[\u0621-\u064A]/.test(t||"");
 /* Book covers: original designs drawn in SVG (cloth colour by subject, gold frame, arch panel, Arabic title, author) */
-const CLOTH = { Aqeedah:"#14463A", Fiqh:"#1D3557", Hadith:"#5E1F2B", Arabic:"#5B3418", Tafsir:"#0F4A52", Seerah:"#4A2444", "Usul al-Fiqh":"#2E3B4E", Tasawwuf:"#3B4520", "Signs of the Hour":"#4B2323", "Comparative Aqeedah":"#3A2F55", Mantiq:"#3D3D55", Tajweed:"#1E4D3B" };
+const CLOTH = { History:"#4A3423", Aqeedah:"#14463A", Fiqh:"#1D3557", Hadith:"#5E1F2B", Arabic:"#5B3418", Tafsir:"#0F4A52", Seerah:"#4A2444", "Usul al-Fiqh":"#2E3B4E", Tasawwuf:"#3B4520", "Signs of the Hour":"#4B2323", "Comparative Aqeedah":"#3A2F55", Mantiq:"#3D3D55", Tajweed:"#1E4D3B" };
 let COVER_N = 0;
 function wrapAr(t, max){ const w = t.split(" "), out = [""]; for (const x of w){ const l = out[out.length-1]; if (l && (l+" "+x).length > max) out.push(x); else out[out.length-1] = l ? l+" "+x : x; } return out; }
 function cover(b, w=120){
@@ -1335,7 +1402,7 @@ async function speakFrom(b, i, j0){
 }
 if (hasTTS()) { speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices(); }
 async function openRead(id, i){
-  const b = bookById(id); if (!TEXTS[b.file] || !TEXTS[b.file].sections[i].p) { $("#app").innerHTML = `<div class="done-screen" style="min-height:60vh"><p class="muted">Loading ${esc(b.title)}…</p></div>`; try { await loadSection(b.file, i); } catch(e){ toast("Could not load the text. Check your connection."); return go({name:"library"}); } }
+  const b = bookById(id); if (!TEXTS[b.file] || !TEXTS[b.file].sections[i].p) { $("#app").innerHTML = `<div class="done-screen" style="min-height:60vh"><p class="muted">Loading ${esc(b.title)}…</p></div>`; try { await loadSection(b.file, i); } catch(e){ toast(navigator.onLine ? "Couldn't open this book. Please try again." : "This book isn't saved on this phone yet. Open it once with internet, or save its year in Settings."); return go({name:"library"}); } }
   view = { name:"read", id, i }; S.lastRead = { id, i }; save(); $("#app").innerHTML = readView(b, i); bindRead(b, i); window.scrollTo(0,0); const pb = document.querySelector(".pbody"); if (pb) pb.scrollTop = 0;
 }
 
@@ -1683,6 +1750,7 @@ function render(){ appBadge();
   else if (view.name === "spec") app.innerHTML = specView();
   else if (view.name === "library") app.innerHTML = libraryView();
   else if (view.name === "syllabus") app.innerHTML = syllabusView();
+  else if (view.name === "settings") app.innerHTML = settingsView();
   else app.innerHTML = profileView();
   app.querySelectorAll("[data-go]").forEach(b => b.onclick = () => go({ name:b.dataset.go }));
   if (view.name === "home") { fillHome();
@@ -1712,12 +1780,16 @@ function render(){ appBadge();
   ["en","ar"].forEach(l => { const sel = $(`#v-${l}`); if (sel) sel.onchange = () => { S.voices = S.voices||{}; S.voices[l] = sel.value; save(); }; });
   app.querySelectorAll("[data-vtest]").forEach(b => b.onclick = () => { if (!hasTTS()) return toast("This device can't read aloud"); const l = b.dataset.vtest; speechSynthesis.cancel(); AUD.token++;
     sayOne(l === "en" ? "Whoever takes a path seeking knowledge, Allah makes easy for him a path to Paradise." : "مَنْ سَلَكَ طَرِيقًا يَلْتَمِسُ فِيهِ عِلْمًا، سَهَّلَ اللهُ لَهُ بِهِ طَرِيقًا إِلَى الْجَنَّةِ", l, l === "en" ? 0.95 : 0.9, AUD.token); });
-  if (hasTTS() && view.name === "profile" && !voicesFor("en").length) speechSynthesis.onvoiceschanged = () => { if (view.name === "profile") render(); };
+  if (hasTTS() && view.name === "settings" && !voicesFor("en").length) speechSynthesis.onvoiceschanged = () => { if (view.name === "settings") render(); };
   const av = $("#arvoice"); if (av) av.onchange = () => { S.arVoice = av.checked; save(); };
   const cl = $("#clang"); if (cl) cl.onchange = () => { S.cardLang = cl.value || null; save(); };
   const hk = $("#hk"); if (hk) hk.onchange = () => { S.harakat = hk.checked; save(); };
   app.querySelectorAll("[data-theme]").forEach(b => b.onclick = () => { S.theme = b.dataset.theme; save(); applyTheme(); render(); });
   fillLeaderboard();
+  app.querySelectorAll("[data-off]").forEach(b => b.onclick = () => saveOffline(+b.dataset.off, b));
+  const rm = $("#remind"); if (rm) rm.onchange = async () => { rm.disabled = true;
+    if (rm.checked) { const err = await remindOn(); if (err) { rm.checked = false; toast(err); } else toast("Reminder on: 8pm, if you haven't studied yet"); }
+    else { await remindOff(); toast("Reminder off"); } rm.disabled = false; };
   const tl = $("#tl"); if (tl) tl.onchange = () => { S.translit = tl.value; save(); toast("Saved"); };
   const ag = $("#advgrades"); if (ag) ag.onchange = () => { S.advancedGrades = ag.checked; save(); };
   const npd = $("#npd"); if (npd) npd.onchange = () => { S.newPerDay = +npd.value; save(); };
@@ -1741,5 +1813,5 @@ applyTheme(); try { matchMedia("(prefers-color-scheme: dark)").addEventListener(
 })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=e061b242ce");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=b7aab47d92");</script></body>
 </html>

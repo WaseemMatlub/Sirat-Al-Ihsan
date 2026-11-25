@@ -36,7 +36,7 @@ async def main():
     await pg.evaluate("go({name:'year',n:1})"); await pg.evaluate("document.querySelectorAll('details').forEach(d=>d.open=true)"); await pg.locator('[data-deck=nur]').click(); await pg.click('#show'); await pg.screenshot(path='/tmp/s5.png'); await pg.click('#quit')
     # fast track all years and pass tests
     for y in (1,2,3,4,5):
-      await pg.evaluate("go({name:'profile'})"); await pg.evaluate("document.querySelectorAll('details').forEach(d=>d.open=true)"); await pg.click('#fasttrack'); await pg.click('#myes')
+      await pg.evaluate("go({name:'settings'})"); await pg.evaluate("document.querySelectorAll('details').forEach(d=>d.open=true)"); await pg.click('#fasttrack'); await pg.click('#myes')
       await pg.locator(f'[data-test="{y}"]').click()
       for i in range(40):
         idx=await pg.evaluate("T.qs[T.i].options.indexOf(T.qs[T.i].answer)")
