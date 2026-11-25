@@ -103,6 +103,19 @@ const LIBRARY = [
   [1,"t_miatamil","miatamil","Arabic","Sharh Mi'at 'Amil","شرح مائة عامل","Imam 'Abd al-Rahman al-Jami","الإمام عبد الرحمن الجامي","d. 898 AH","The hundred words that govern endings, explained"],
   [2,"t_hidayatnahw","hidayatnahw","Arabic","Hidayat al-Nahw","هداية النحو","Shaykh Siraj al-Din 'Uthman al-Awadhi","الشيخ سراج الدين عثمان الأودهي","d. 758 AH","The whole of nahw in clear, vowelled Arabic"],
   [4,"t_hikam","hikam","Tasawwuf","al-Hikam al-'Ata'iyyah","الحكم العطائية","Imam Ibn 'Ata' Allah al-Iskandari","الإمام ابن عطاء الله السكندري","d. 709 AH","The 264 aphorisms, the letters and the intimate prayers, fully vowelled"],
+  [1,"t_adhkar","adhkar","Tasawwuf","al-Adhkar","الأذكار","Imam al-Nawawi","الإمام النووي","d. 676 AH","The remembrances of the day and night, from the Sunnah"],
+  [1,"t_tibyan","tibyan","Tajweed","al-Tibyan fi Adab Hamalat al-Qur'an","التبيان في آداب حملة القرآن","Imam al-Nawawi","الإمام النووي","d. 676 AH","The manners of those who carry the Qur'an"],
+  [2,"t_qushayriyya","qushayriyya","Tasawwuf","al-Risalah al-Qushayriyyah","الرسالة القشيرية","Imam Abu al-Qasim al-Qushayri","الإمام أبو القاسم القشيري","d. 465 AH","The masters of the path and its stations, the foundational Sufi manual"],
+  [2,"t_munqidh","munqidh","Tasawwuf","al-Munqidh min al-Dalal","المنقذ من الضلال","Imam Abu Hamid al-Ghazali","الإمام أبو حامد الغزالي","d. 505 AH","Al-Ghazali's own account of his search for certainty"],
+  [3,"t_ikhtiyar","ikhtiyar","Fiqh","al-Ikhtiyar li-Ta'lil al-Mukhtar","الاختيار لتعليل المختار","Imam 'Abd Allah ibn Mahmud al-Mawsili","الإمام عبد الله بن محمود الموصلي","d. 683 AH","Hanafi fiqh with the reasons behind each ruling"],
+  [3,"t_tuhfa","tuhfa","Fiqh","Tuhfat al-Fuqaha'","تحفة الفقهاء","Imam 'Ala' al-Din al-Samarqandi","الإمام علاء الدين السمرقندي","d. 539 AH","The Hanafi text that Bada'i' al-Sana'i' explains"],
+  [3,"t_shatibiyya","shatibiyya","Tajweed","al-Shatibiyyah (Hirz al-Amani)","حرز الأماني ووجه التهاني","Imam al-Qasim ibn Firruh al-Shatibi","الإمام القاسم بن فيره الشاطبي","d. 590 AH","The poem of the seven readings"],
+  [4,"t_usul_sarakhsi","usul_sarakhsi","Usul al-Fiqh","Usul al-Sarakhsi","أصول السرخسي","Imam Shams al-A'immah al-Sarakhsi","الإمام شمس الأئمة السرخسي","d. 483 AH","The Hanafi principles of fiqh, dictated by the author"],
+  [4,"t_mizan_usul","mizan_usul","Usul al-Fiqh","Mizan al-Usul","ميزان الأصول في نتائج العقول","Imam 'Ala' al-Din al-Samarqandi","الإمام علاء الدين السمرقندي","d. 539 AH","Usul al-fiqh on the method of the Hanafi mutakallimun"],
+  [4,"t_nasafi","nasafi","Tafsir","Tafsir al-Nasafi (Madarik al-Tanzil)","مدارك التنزيل وحقائق التأويل","Imam Hafiz al-Din al-Nasafi","الإمام حافظ الدين النسفي","d. 710 AH","A Hanafi, Maturidi tafsir of the whole Qur'an"],
+  [5,"t_tabyin","tabyin","Fiqh","Tabyin al-Haqa'iq","تبيين الحقائق شرح كنز الدقائق","Imam Fakhr al-Din al-Zayla'i","الإمام فخر الدين الزيلعي","d. 743 AH","The great commentary on Kanz al-Daqa'iq, with al-Shalabi's notes"],
+  [5,"t_badai","badai","Fiqh","Bada'i' al-Sana'i'","بدائع الصنائع في ترتيب الشرائع","Imam 'Ala' al-Din al-Kasani","الإمام علاء الدين الكاساني","d. 587 AH","Hanafi fiqh arranged by its principles"],
+  [5,"t_mabsut","mabsut","Fiqh","al-Mabsut","المبسوط","Imam Shams al-A'immah al-Sarakhsi","الإمام شمس الأئمة السرخسي","d. 483 AH","The vast Hanafi encyclopaedia, dictated from prison"],
   [1,"t_bidaya","bidaya","Tasawwuf","Bidayat al-Hidayah","بداية الهداية","Imam Abu Hamid al-Ghazali","الإمام أبو حامد الغزالي","d. 505 AH","The beginning of guidance: a day of worship, and keeping away from sin"],
   [3,"t_taarruf","taarruf","Tasawwuf","al-Ta'arruf li-Madhhab Ahl al-Tasawwuf","التعرف لمذهب أهل التصوف","Imam Abu Bakr al-Kalabadhi","الإمام أبو بكر الكلاباذي","d. 380 AH","What the early Sufis believed and taught"],
   [4,"t_qut","qut","Tasawwuf","Qut al-Qulub","قوت القلوب","Imam Abu Talib al-Makki","الإمام أبو طالب المكي","d. 386 AH","Nourishment of the hearts: the inner life of worship"],
@@ -257,8 +270,9 @@ window.escH = s => esc(s);
 /* Harakat on/off, one setting for the whole app. Qur'anic text (﴿…﴾, {…}, Qur'an-word cards) always keeps its harakat. */
 const HARAKAT = /[\u064B-\u0652\u0670\u0653-\u0655]/g;
 const stripH = s => s.replace(/(﴿[^﴾]*﴾|\{[^}]*\})|([^﴿{]+)/g, (m, q, t) => q ? q : t.replace(HARAKAT, ""));
-const escQ = s => { s = String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-  return /[A-Za-z]/.test(s) ? s.replace(AR_RUN, m => "\u2068" + m + "\u2069") : s; };
+const escQ = s => { s = String(s ?? ""); const mixed = /[A-Za-z]/.test(s);       // test before escaping: "&quot;" is not English
+  s = s.replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+  return mixed ? s.replace(AR_RUN, m => "\u2068" + m + "\u2069") : s; };
 const esc = s => { s = String(s ?? ""); if (typeof S !== "undefined" && S && S.harakat === false && /[\u064B-\u0652]/.test(s)) s = stripH(s); return escQ(s); };
 const shuffle = a => { a = a.slice(); for (let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; };
 const pct = x => Math.round(x*100) + "%";

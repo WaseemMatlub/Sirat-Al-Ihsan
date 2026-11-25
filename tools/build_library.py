@@ -43,20 +43,42 @@ def write(book, secs, extra=None):
 
 # 1. OpenITI
 META_P = re.compile(r"^(المؤلف|الناشر|الطبعة|عدد الأجزاء|المحقق|حققه|راجعه|«المحققون»|\[ترقيم|\[الكتاب مرقم)")
-for b in ["majalla", "kanz", "jalalayn", "qatr", "alfiyya", "mughni", "iqtisad", "hidaya",
+ONLY = sys.argv[1:]
+for b in ONLY or ["majalla", "kanz", "jalalayn", "qatr", "alfiyya", "mughni", "iqtisad", "hidaya",
           "risala", "kafiya", "maqamat", "manar", "shifa", "tadhkira", "baydawi", "mukhtasar_maani", "milal", "ihya", "tawdih",
-          "muwatta", "abudawud", "tirmidhi", "nasai", "ibnmajah", "sharh_maani", "tamhid", "ibnhisham", "nuryaqin", "fusul"]:
+          "muwatta", "abudawud", "tirmidhi", "nasai", "ibnmajah", "sharh_maani", "tamhid", "ibnhisham", "nuryaqin", "fusul", "bidaya", "taarruf", "qut", "ghunya"]:
     raw = open(f"{RAW}/{b}.txt", encoding="utf-8").read()
+    if b == "taarruf":                               # skip the modern editor's introduction
+        head, body = raw.split("#META#Header#End#", 1); raw = head + "#META#Header#End#\n" + body[body.index("### | التعرف لمذهب أهل التصوف"):]
+    raw = re.sub(r"<[a-z/][^>]*>", "", raw); raw = re.sub(r"\s*\(¬\d+\)", "", raw); raw = raw.replace("$", "")   # web markup, edition footnote marks
     raw = re.sub(r"### \| \[حكم الألباني\] :\n# [^\n]*\n(~~[^\n]*\n)*", "", raw)     # modern gradings added by an editor
     secs = parse(raw)
     for x in secs:                                   # edition footnote markers and Shamela catalogue lines
         x["p"] = [re.sub(r"\s*«\d+»", "", q) for q in x["p"] if not META_P.match(q) and "الناشر:" not in q]
         x["h"] = re.sub(r"^CHECK\s*", "", x["h"]); x["h"] = re.sub(r"^\d+\s*-\s*", "", x["h"])
     for x in secs: x["p"] = [q for q in x["p"] if not re.fullmatch(r"&\s*فصل\s*&", q.strip())]
-    secs = [x for x in secs if x["p"] and not x["h"].startswith("مقدمة الطبعة")]      # publishers' prefaces
+    secs = [x for x in secs if x["p"] and not x["h"].startswith("مقدمة الطبعة") and not x["h"].startswith("EDITOR") and x["h"] not in ("كلمة الناشر", "هذا الكتاب")]      # publishers' prefaces
+    for x in secs: x["p"] = [q for q in x["p"] if not re.match(r"^(الكتاب|الكتب|المؤلف)\s*:", q)]
+    for x in secs: x["h"] = re.sub(r"\(\s*\(\s*\(\s*بسم\s*\)\s*\)\s*\)", "", x["h"]).strip()
+    if b == "adhkar":                                # the editor's study of the book comes before the author's own introduction
+        k = next(i for i, x in enumerate(secs) if x["h"] == "مقدمة المؤلف"); secs = secs[k:]
+    if b == "nasafi":                                # first section is the digitiser's notes; page counters run through the text
+        secs = secs[1:]
+        for x in secs: x["p"] = [q for q in x["p"] if not re.fullmatch(r"(جزء\s*:\s*\d+\s*رقم الصفحة\s*:\s*\d+|\d+)", q.strip())]
+    if b == "tuhfa":                                 # publisher's title page before the basmala
+        p0 = secs[0]["p"]; k = next(i for i, q in enumerate(p0) if q.startswith("بسم الله")); secs[0]["p"] = p0[k:]
+    if b == "ikhtiyar":
+        for x in secs:
+            if "[حديث شريف]" in x["p"]: k = x["p"].index("[حديث شريف]"); x["p"] = x["p"][k+1:]
     merged = []                                      # page-number headings ("[ص: 12]") are not chapters
     for x in secs:
         if merged and re.fullmatch(r"\[?\s*ص\s*:\s*\d+\s*\]?\s*:?", x["h"]): merged[-1]["p"] += x["p"]
+        else: merged.append(x)
+    secs = merged
+    merged = []                                      # a heading with almost no text under it was cut from a running sentence: fold it back in
+    for x in secs:
+        if merged and sum(len(q) for q in x["p"]) < 60:
+            merged[-1]["p"][-1] = re.sub(r"\s+([،.:؛])", r"\1", merged[-1]["p"][-1] + " " + x["h"] + " " + " ".join(x["p"]))
         else: merged.append(x)
     secs = merged
     last = None                                      # babs inherit the kitab above them
@@ -68,6 +90,7 @@ for b in ["majalla", "kanz", "jalalayn", "qatr", "alfiyya", "mughni", "iqtisad",
             if k in x: x[k] = re.sub(r"^\[\s*(\d+\s*-\s*)?|\s*\]$", "", x[k]).strip()
     write(b, paginate(secs))
 
+if ONLY: sys.exit(0)
 # 2. Books we have line by line, with English
 Y = {n: json.load(open(f"app/data/year{n}.json")) for n in (1, 2)}
 def from_lines(book, rows, per, head, skip=0):
