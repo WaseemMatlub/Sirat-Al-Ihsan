@@ -273,14 +273,17 @@ UNITS = [
 
 if __name__ == "__main__":
     import json
+    from learn_extra import ABOUT, WHY
+    AR = {"belief":"العقيدة","purity":"الطهارة","prayer":"الصلاة","fasting":"الصوم","zakat":"الزكاة","heart":"تزكية القلب"}
     out = []
     for uid, title, sub, color, lessons in UNITS:
         L = []
         for k, (lt, cards, checks) in enumerate(lessons):
-            L.append({"id": f"{uid}{k+1}", "title": lt,
+            lid = f"{uid}{k+1}"; why = WHY[lid]; assert len(why) == len(checks), lid
+            L.append({"id": lid, "title": lt, "about": ABOUT[lid],
                       "cards": [{"t": t, "x": x, "src": s} for t, x, s in cards],
-                      "checks": [{"q": q, "a": a, "w": w} for q, a, w in checks]})
+                      "checks": [{"q": q, "a": a, "w": w, "why": y} for (q, a, w), y in zip(checks, why)]})
             for q, a, w in checks: assert len(w) == 3 and a not in w, (lt, q)
-        out.append({"id": uid, "title": title, "sub": sub, "color": color, "lessons": L})
+        out.append({"id": uid, "title": title, "ar": AR[uid], "sub": sub, "color": color, "lessons": L})
     json.dump(out, open("app/data/learn.json", "w"), ensure_ascii=False, separators=(",", ":"))
     print("units", len(out), "lessons", sum(len(u["lessons"]) for u in out), "checks", sum(len(l["checks"]) for u in out for l in u["lessons"]))
