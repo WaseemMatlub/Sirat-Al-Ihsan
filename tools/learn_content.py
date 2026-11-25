@@ -87,7 +87,7 @@ UNITS = [
    ], [
     ("In the Hanafi school, rinsing the mouth in wudu is…", "A sunnah", ["One of the four obligations", "Disliked", "Only for ghusl"]),
     ("How many times is each part washed according to the sunnah?", "Three times", ["Once only", "Five times", "Seven times"]),
-    ("Which is a sunnah of wudu?", "Starting with the right side", ["Starting with the feet", "Talking during wudu", "Wiping the neck with the back of the hand only"]),
+    ("Which is a sunnah of wudu?", "Starting with the right side", ["Starting with the feet", "Talking during wudu", "Washing each part four times"]),
    ]),
   ("What breaks wudu", [
     ("From the body", "Anything that comes out of the front or back passage, flowing blood or pus, and vomit that fills the mouth all break wudu.", "Nur al-Idah"),
@@ -131,7 +131,7 @@ UNITS = [
    ]),
   ("The pillars of prayer", [
     ("Four pillars", "Inside the prayer, four things are pillars: standing, reciting, bowing (ruku') and prostrating (sujud).", "Nur al-Idah"),
-    ("The final sitting", "Sitting at the end of the prayer for as long as it takes to recite the tashahhud is also counted as a pillar by many.", "Nur al-Idah"),
+    ("The final sitting", "Nur al-Idah names these four, then adds that the final sitting, for as long as it takes to recite the tashahhud, is also said to be a pillar. Either way it is fard: the prayer is not valid without it.", "Nur al-Idah"),
     ("Without a pillar", "If a pillar is missed, the prayer is not valid and must be prayed again. The prostration of forgetfulness cannot fix it.", "Nur al-Idah"),
    ], [
     ("Which is a pillar of prayer?", "Bowing (ruku')", ["Raising the hands at takbir", "Saying 'amin'", "Placing the right hand over the left"]),
@@ -217,7 +217,7 @@ UNITS = [
    ]),
   ("Who may receive zakat", [
     ("The recipients", "The poor, the needy, those who collect it, those in debt, those striving in the path of Allah, the stranded traveller, and (in its time) freeing captives.", "Mukhtasar al-Quduri"),
-    ("Family", "You may not give your zakat to your parents, grandparents, children or grandchildren, nor (in Imam Abu Hanifah's view) to your spouse.", "Mukhtasar al-Quduri"),
+    ("Family", "You may not give your zakat to your parents, grandparents, children or grandchildren, nor to your spouse (a wife giving to her husband is also not allowed, in Imam Abu Hanifah's view).", "Mukhtasar al-Quduri"),
     ("Banu Hashim", "Zakat may not be given to Banu Hashim, the family of the Prophet ﷺ, even if they are poor. Help them with gifts instead.", "Mukhtasar al-Quduri"),
    ], [
     ("Can you give your zakat to your own mother?", "No", ["Yes, she has priority", "Only half of it", "Only if she asks"]),
@@ -236,7 +236,7 @@ UNITS = [
   ("Repentance", [
     ("What it is", "Repentance (tawbah) means turning back from what the Shari'ah blames to what it praises.", "al-Risalah al-Qushayriyyah"),
     ("Its three conditions", "Regret for what you did, stopping the sin straight away, and resolving never to return to it.", "al-Risalah al-Qushayriyyah"),
-    ("Rights of people", "If the sin wronged someone, part of repentance is giving their right back or asking their forgiveness.", "al-Risalah al-Qushayriyyah"),
+    ("Rights of people", "If the sin wronged another person, there is a fourth condition: freeing yourself of their right, by returning what you took or asking their forgiveness.", "Riyad al-Salihin, chapter on repentance"),
    ], [
     ("Which is a condition of repentance?", "Regretting the sin", ["Telling people about it", "Waiting until old age", "Doing it less often"]),
     ("How many conditions does al-Qushayri give for repentance?", "Three", ["One", "Five", "Seven"]),

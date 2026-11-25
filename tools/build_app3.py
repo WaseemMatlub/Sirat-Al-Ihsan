@@ -140,7 +140,7 @@ meta['textsAi']={_o.path.basename(f)[:-5]:bool(json.load(open(f)).get('ai')) for
 meta['textsEn']={_o.path.basename(f)[:-5]:(lambda d: bool(d.get('bilingual') or d.get('ai') or any(x.get('en') for x in d['sections'])))(json.load(open(f))) for f in _g.glob('data/texts/*.json')}
 import hashlib
 LV=hashlib.md5(open('data/learn.json','rb').read()).hexdigest()[:8]
-js=open('app3.js').read().replace('/*META*/',json.dumps(meta)).replace('__LEARNV__',LV)
+js=(open('app3.js').read()+'\n'+open('tools3.js').read()).replace('/*META*/',json.dumps(meta)).replace('__LEARNV__',LV)
 open('index.html','w').write(head+'<script>\n'+js+'\n</script>\n</body>\n</html>\n')
 print('ok',len(head)+len(js))
 
@@ -155,7 +155,7 @@ open('sw.js','w').write((lambda t: t.replace('__LEARNV__',LV))("""const V="ihsan
 const CORE=["./","index.html","manifest.json","icon-192.png","icon-512.png","data/meta.json"];
 self.addEventListener("push",e=>{let d={};try{d=e.data.json()}catch(x){d={title:"Dār aṣ-Ṣiddīq",body:e.data?e.data.text():""}} e.waitUntil(self.registration.showNotification(d.title||"Dār aṣ-Ṣiddīq",{body:d.body||"",icon:"icon-192.png",badge:"icon-192.png",tag:"streak"}))});
 self.addEventListener("notificationclick",e=>{e.notification.close(); e.waitUntil(clients.matchAll({type:"window"}).then(ws=>{for(const w of ws){if("focus" in w) return w.focus()} return clients.openWindow("./")}))});
-self.addEventListener("install",e=>{e.waitUntil(caches.open(V).then(c=>c.addAll(CORE)).then(()=>caches.open(D)).then(c=>c.addAll(["data/learn.json?v=__LEARNV__","data/quotes.json","data/decks/fard_aqeedah.json","data/decks/fard_tahara.json","data/decks/fard_salah.json","data/decks/fard_sawm.json","data/decks/fard_zakat.json"]).catch(()=>{})).then(()=>self.skipWaiting()))});
+self.addEventListener("install",e=>{e.waitUntil(caches.open(V).then(c=>c.addAll(CORE)).then(()=>caches.open(D)).then(c=>c.addAll(["data/learn.json?v=__LEARNV__","data/guides.json","data/salawat.json","data/quotes.json","data/decks/fard_aqeedah.json","data/decks/fard_tahara.json","data/decks/fard_salah.json","data/decks/fard_sawm.json","data/decks/fard_zakat.json"]).catch(()=>{})).then(()=>self.skipWaiting()))});
 self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k.startsWith("ihsan-")&&![V,D,F].includes(k)).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
 /* Three stores: V = the app itself (replaced on each update), D = lessons, books and audio (kept across updates, refreshed in the background),
    F = fonts. So anything learnt or saved for offline stays available without internet. */

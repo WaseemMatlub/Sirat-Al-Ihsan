@@ -25,7 +25,7 @@ CHAPTER = {
  "fasting1": {NI: "what does not break the fast"}, "fasting2": {NI: "what breaks the fast and requires expiation"},
  "fasting3": {NI: "excuses for not fasting; the fidyah"},
  "zakat1": {QD: "Book of Zakat"}, "zakat2": {QD: "zakat on silver, gold and trade goods"}, "zakat3": {QD: "who may receive zakat"},
- "heart1": {BH: "introduction"}, "heart2": {RQ: "chapter on repentance"}, "heart3": {BH: "the faults of the tongue"},
+ "heart1": {BH: "introduction"}, "heart2": {RQ: "chapter on repentance", "Riyad al-Salihin": "chapter on repentance"}, "heart3": {BH: "the faults of the tongue"},
  "heart4": {BH: "the faults of the heart"}, "heart5": {AW: "the letter", BH: "on guarding your time"},
 }
 
@@ -310,7 +310,7 @@ NEW = {
   ("Every Ramadan", "Jibril عليه السلام met the Prophet ﷺ every night of Ramadan and studied the Qur'an with him.", "Hadith, Sahih al-Bukhari, Book of Revelation (6)"),
   ("Twice in the last year", "Jibril reviewed the Qur'an with him ﷺ once every year, and twice in the year he passed away.", "Hadith, Sahih al-Bukhari, Book of the Virtues of the Qur'an"),
  ], [
-  ("How was the Qur'an sent down?", "In parts over the years", ["All at once in one night only", "In one year", "After his passing"], "'A Qur'an We have divided, so that you may recite it slowly.' (al-Isra' 106)", "Qur'an"),
+  ("How was the Qur'an sent down?", "In parts over the years", ["All of it to him ﷺ in a single day", "In one year", "After his passing"], "'A Qur'an We have divided, so that you may recite it slowly.' (al-Isra' 106)", "Qur'an"),
   ("When did Jibril study the Qur'an with him ﷺ?", "Every night of Ramadan", ["Every Friday", "Only on Laylat al-Qadr", "Every Hajj"], "Ibn 'Abbas: Jibril met him every night of Ramadan and studied the Qur'an with him.", "Sahih al-Bukhari"),
   ("How many times was it reviewed in his final year?", "Twice", ["Once", "Three times", "Not at all"], "Once every year, and twice in the year he passed away.", "Sahih al-Bukhari"),
  ]),
@@ -346,7 +346,7 @@ NEW = {
 COURSES = [
  ("aqeedah", "Aqeedah", "العقيدة", "Learn about Allah, His Messengers ﷺ and the Last Day", "Umm al-Barahin and al-'Aqidah al-Tahawiyyah", "#0E5A43",
   ["belief1", "aq_proof", "belief2", "belief3", "belief4", "aq_speech", "aq_jaiz", "belief5", "aq_shahada", "belief6", "aq_akhira", "aq_qadr", "aq_awliya"]),
- ("fiqh", "Fiqh", "الفقه", "Purification, prayer, fasting and zakat, in the Hanafi school", "Nur al-Idah and Mukhtasar al-Quduri", "#1F5F8B",
+ ("fiqh", "Fiqh", "الفقه", "Purification, prayer, fasting, zakat and Hajj, in the Hanafi school", "Nur al-Idah and Mukhtasar al-Quduri", "#1F5F8B",
   ["fiqh0", "purity1", "purity2", "purity3", "purity4", "purity5", "purity6", "fiqh_khuff", "fiqh_hayd",
    "prayer1", "prayer2", "prayer3", "prayer4", "prayer5", "fasting1", "fasting2", "fasting3", "zakat1", "zakat2", "zakat3"]),
  ("halal", "Halal & Haram", "الحلال والحرام", "Food, dress, the gaze and earning, and the levels of carefulness", "Ihya' 'Ulum al-Din and Mukhtasar al-Quduri", "#8A5A1F",

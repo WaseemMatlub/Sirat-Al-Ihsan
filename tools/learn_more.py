@@ -32,9 +32,9 @@ MORE = {
   ("'Asr, Maghrib, 'Isha'", "'Asr is from the end of Zuhr until sunset. Maghrib is from sunset until the red twilight disappears. 'Isha' and witr are from then until dawn; witr is not prayed before 'Isha'.", "Nur al-Idah, the prayer times"),
   ("Three forbidden times", "No fard or wajib prayer owed from before is valid at sunrise until the sun rises, when it is at its height, and when it turns yellow until it sets. Voluntary prayer is prohibitively disliked then.", "Nur al-Idah, the times when prayer is not valid"),
  ], [
-  ("When does the time of Fajr end?", "Just before sunrise", ["At sunrise plus an hour", "At Zuhr", "When the sky is fully light"], "Fajr lasts from true dawn until just before the sun rises.", "Nur al-Idah, the prayer times"),
+  ("When does the time of Fajr end?", "Just before sunrise", ["An hour after sunrise", "At Zuhr", "At the first light of dawn"], "Fajr lasts from true dawn until just before the sun rises.", "Nur al-Idah, the prayer times"),
   ("When does Maghrib end in the Hanafi fatwa?", "When the red twilight disappears", ["When the white twilight disappears", "At midnight", "Twenty minutes after sunset"], "Nur al-Idah: until the red twilight is gone, on the view the fatwa follows.", "Nur al-Idah, the prayer times"),
-  ("Which is a time when prayer is not valid?", "While the sun is rising", ["Straight after Fajr", "Before Zuhr", "After 'Isha'"], "Sunrise, the sun's height and its setting are the three forbidden times.", "Nur al-Idah, the times when prayer is not valid"),
+  ("Which is a time when prayer is not valid?", "While the sun is rising", ["In the middle of the night", "Before Zuhr", "After 'Isha'"], "Sunrise, the sun's height and its setting are the three forbidden times.", "Nur al-Idah, the times when prayer is not valid"),
  ]),
 "f_adhan": L("f_adhan", "The adhan and iqamah", "Their ruling and their words.", [
   ("A stressed sunnah", "The adhan and iqamah are a stressed sunnah for every fard prayer, for men, whether praying alone or in a group, at home or travelling, on time or making up.", "Nur al-Idah, the ruling of the adhan and iqamah"),
@@ -273,3 +273,94 @@ ORDER = {
  "quran": ["qr0", "qr1", "qr2", "qr3", "qr4", "qr5"],
  "tazkiyah": ["heart1", "heart2", "heart3", "heart4", "heart5", "tz_dhikr", "tz_tawakkul", "tz_sabr"],
 }
+
+# ======================= HAJJ (Mukhtasar al-Quduri, Book of Hajj) =======================
+HJ = "Mukhtasar al-Quduri, Book of Hajj"
+MORE.update({
+"hj1": L("hj1", "Who must perform Hajj", "The conditions, and the months of Hajj.", [
+  ("Once in a lifetime", "Hajj is fard on free, adult, sane and healthy Muslims who can afford the provision and transport, beyond their home, their needs and their family's maintenance until they return, when the road is safe.", HJ),
+  ("A woman's companion", "A woman must have a mahram or her husband with her if Makkah is three days' journey or more away. She may not go for Hajj without one of them.", HJ),
+  ("The months", "The months of Hajj are Shawwal, Dhu al-Qa'dah and the first ten days of Dhu al-Hijjah.", "Mukhtasar al-Quduri, chapter on Tamattu'"),
+ ], [
+  ("Hajj is fard on someone who…", "Can afford provision and transport beyond their needs and family's maintenance", ["Has any savings at all", "Lives near Makkah only", "Has completed 'umrah"], "Al-Quduri ties it to affording provision and transport beyond needs and family maintenance, with a safe road.", HJ),
+  ("Can a woman go for Hajj without a mahram or husband, from far away?", "No", ["Yes, with a group", "Yes, if she is over 40", "Only for 'umrah"], "Al-Quduri: she may not perform Hajj without a mahram or husband if the journey is three days or more.", HJ),
+  ("Which are the months of Hajj?", "Shawwal, Dhu al-Qa'dah and ten days of Dhu al-Hijjah", ["Ramadan and Shawwal", "Only Dhu al-Hijjah", "Muharram to Rajab"], "Al-Quduri defines them in the chapter on tamattu'.", "Mukhtasar al-Quduri"),
+ ]),
+"hj2": L("hj2", "The miqat and entering ihram", "Where to enter ihram, and how.", [
+  ("The miqats", "Do not pass these without ihram: Dhu al-Hulayfah for the people of Madinah, Dhat 'Irq for Iraq, al-Juhfah for Syria, Qarn al-Manazil for Najd, and Yalamlam for Yemen. Entering ihram before them is allowed.", "Mukhtasar al-Quduri, chapter on the miqats"),
+  ("Preparing", "Make ghusl (or wudu, but ghusl is better), put on two clean sheets, a lower and an upper one, apply perfume if you have it, and pray two rak'ahs.", HJ),
+  ("Intention and talbiyah", "Say: 'O Allah, I intend Hajj, make it easy for me and accept it from me.' Then say the talbiyah: 'Labbayk Allahumma labbayk, labbayk la sharika laka labbayk, inna al-hamda wa al-ni'mata laka wa al-mulk, la sharika lak.' With the talbiyah you are in ihram.", HJ),
+ ], [
+  ("What is the miqat for people coming from Madinah?", "Dhu al-Hulayfah", ["Yalamlam", "Qarn al-Manazil", "Al-Juhfah"], "Al-Quduri: Dhu al-Hulayfah for the people of Madinah.", "Mukhtasar al-Quduri"),
+  ("When do you actually enter ihram?", "When you say the talbiyah with the intention", ["When you put on the sheets", "When you reach Makkah", "When you see the Ka'bah"], "'When he says the talbiyah, he has entered ihram.'", HJ),
+  ("Before ihram, which is better?", "Ghusl", ["Wudu", "Tayammum", "Neither"], "Ghusl or wudu, and ghusl is better.", HJ),
+ ]),
+"hj3": L("hj3", "What ihram forbids", "What the muhrim must avoid.", [
+  ("Behaviour", "Avoid intimacy and its talk, sinning and arguing. Do not hunt, or point out or direct anyone to game.", HJ),
+  ("Clothing", "A man does not wear a shirt, trousers, turban, cap, cloak or khuffs (unless he has no sandals, then he cuts them below the ankles), and does not cover his head or face.", HJ),
+  ("Body", "Do not use perfume, shave the head or body hair, trim the beard or cut the nails. Bathing, shade and wearing a money belt are allowed.", HJ),
+  ("Women", "A woman is like a man in all this, except that she covers her head and uncovers her face, does not raise her voice in the talbiyah, does not jog in tawaf or run between the green markers, and trims her hair instead of shaving.", HJ),
+ ], [
+  ("May a man in ihram cover his head?", "No", ["Yes, with a cap", "Only at night", "Only in the sun"], "Al-Quduri: he does not cover his head or face.", HJ),
+  ("Which is allowed in ihram?", "Taking a bath", ["Using perfume", "Cutting the nails", "Trimming the beard"], "Bathing, shade and a money belt are allowed.", HJ),
+  ("In ihram, a woman…", "Covers her head and uncovers her face", ["Uncovers her head", "Shaves her head at the end", "Jogs in tawaf"], "She keeps her head covered and her face uncovered.", HJ),
+ ]),
+"hj4": L("hj4", "The three ways of Hajj", "Ifrad, tamattu' and qiran.", [
+  ("Ifrad", "Entering ihram for Hajj alone.", HJ),
+  ("Tamattu'", "Entering ihram for 'umrah in the months of Hajj, completing it and leaving ihram, then entering ihram for Hajj from Makkah on the 8th (Yawm al-Tarwiyah). A sacrifice is due; if you cannot, fast three days during Hajj and seven when you return.", "Mukhtasar al-Quduri, chapter on Tamattu'"),
+  ("Qiran", "Entering ihram for 'umrah and Hajj together from the miqat. In the Hanafi school qiran is the best, then tamattu', then ifrad. It too requires a sacrifice.", "Mukhtasar al-Quduri, chapter on Qiran"),
+  ("People of Makkah", "The people of Makkah do not do tamattu' or qiran; only ifrad.", "Mukhtasar al-Quduri, chapter on Tamattu'"),
+ ], [
+  ("Which way of Hajj is best in the Hanafi school?", "Qiran", ["Ifrad", "Tamattu'", "All are equal"], "Al-Quduri: qiran is better than tamattu' and ifrad.", "Mukhtasar al-Quduri"),
+  ("In tamattu', when do you enter ihram for Hajj?", "On the 8th of Dhu al-Hijjah, from Makkah", ["At the miqat with the 'umrah", "On the day of 'Arafah at 'Arafah", "After the Eid prayer"], "After completing the 'umrah you stay in Makkah and enter ihram for Hajj on Yawm al-Tarwiyah.", "Mukhtasar al-Quduri"),
+  ("A mutamatti' who cannot afford the sacrifice…", "Fasts three days in Hajj and seven at home", ["Pays nothing", "Fasts one month", "Must do Hajj again"], "Three days during Hajj and seven when he returns.", "Mukhtasar al-Quduri"),
+ ]),
+"hj5": L("hj5", "Tawaf and sa'y", "Arriving in Makkah.", [
+  ("The Black Stone", "Enter al-Masjid al-Haram. On seeing the House say takbir and tahlil. Begin at the Black Stone: face it, say takbir, raise your hands and touch and kiss it if you can without harming anyone.", HJ),
+  ("Seven circuits", "Go round the House seven times, with the Ka'bah on your left, outside the Hatim. Men uncover the right shoulder (idtiba') and jog (raml) in the first three circuits, then walk. Touch the Stone each time you pass it if you can, and end with it.", HJ),
+  ("Two rak'ahs", "Pray two rak'ahs at the Station of Ibrahim, or wherever is easy in the masjid.", HJ),
+  ("Sa'y", "Go to al-Safa, face the House, say takbir and tahlil, send blessings on the Prophet ﷺ and make du'a. Walk to al-Marwah, men running between the two green markers. That is one circuit; complete seven, starting at al-Safa and ending at al-Marwah.", HJ),
+ ], [
+  ("Where does each circuit of tawaf begin?", "At the Black Stone", ["At the door of the Ka'bah", "At the Station of Ibrahim", "At al-Safa"], "Al-Quduri: begin at the Black Stone.", HJ),
+  ("In which circuits do men jog (raml)?", "The first three", ["All seven", "The last three", "Only the first"], "Raml is in the first three circuits.", HJ),
+  ("Sa'y starts at… and ends at…", "Al-Safa, al-Marwah", ["Al-Marwah, al-Safa", "The Black Stone, al-Safa", "Zamzam, al-Marwah"], "Seven circuits, starting at al-Safa and ending at al-Marwah.", HJ),
+ ]),
+"hj6": L("hj6", "Mina, 'Arafah and Muzdalifah", "The 8th and 9th of Dhu al-Hijjah.", [
+  ("To Mina", "On the 8th (Yawm al-Tarwiyah), after Fajr in Makkah, go to Mina and stay until you pray Fajr on the day of 'Arafah.", HJ),
+  ("'Arafah", "The standing at 'Arafah is the heart of Hajj. Whoever is at 'Arafah at any time from midday on the 9th until dawn on the 10th has caught the Hajj. All of 'Arafah is a place of standing except Batn 'Uranah. Strive in du'a.", HJ),
+  ("Muzdalifah", "After sunset, leave calmly for Muzdalifah. Pray Maghrib and 'Isha' there together. After Fajr, stand and make du'a, then leave for Mina before sunrise.", HJ),
+ ], [
+  ("When is the time for standing at 'Arafah?", "From midday on the 9th until dawn on the 10th", ["Only after 'Asr", "The whole of the 8th", "Only at sunset"], "Al-Quduri: from the sun's decline on the day of 'Arafah to dawn on the day of sacrifice.", HJ),
+  ("Where are Maghrib and 'Isha' prayed on the night of the 9th?", "Together at Muzdalifah", ["At 'Arafah", "On the road", "In Makkah"], "Praying Maghrib on the road is not valid in the view of Abu Hanifah and Muhammad.", HJ),
+  ("Which part of 'Arafah is not a place of standing?", "Batn 'Uranah", ["Jabal al-Rahmah", "The edges", "All of it is valid"], "All of 'Arafah is valid except Batn 'Uranah.", HJ),
+ ]),
+"hj7": L("hj7", "The Day of Sacrifice and after", "Stoning, sacrifice, shaving and tawaf al-ziyarah.", [
+  ("Jamrat al-'Aqabah", "On the 10th, stone Jamrat al-'Aqabah with seven pebbles, saying takbir with each. Stop the talbiyah with the first pebble.", HJ),
+  ("Sacrifice and shaving", "Then sacrifice, then shave or trim; shaving is better. Now everything is lawful except intimacy.", HJ),
+  ("Tawaf al-Ziyarah", "Go to Makkah on the 10th, 11th or 12th and perform tawaf al-ziyarah, seven circuits. This is the fard tawaf of Hajj. After it, intimacy becomes lawful. Delaying it past these days requires a sacrifice, according to Abu Hanifah.", HJ),
+  ("The days of Mina", "Return to Mina. On the 11th and 12th, after midday, stone the three jamarat, starting with the one nearest the Masjid al-Khayf, seven pebbles each, stopping to make du'a after the first two. You may leave on the 12th or stay for the 13th.", HJ),
+ ], [
+  ("Which jamrah is stoned on the 10th?", "Jamrat al-'Aqabah only", ["All three", "The small one", "None"], "On the day of sacrifice only Jamrat al-'Aqabah is stoned.", HJ),
+  ("What is the fard tawaf of Hajj?", "Tawaf al-Ziyarah", ["Tawaf al-Qudum", "Tawaf al-Wada'", "Any voluntary tawaf"], "Al-Quduri: 'This tawaf is the one that is fard in Hajj.'", HJ),
+  ("After stoning, sacrificing and shaving, what remains forbidden until tawaf al-ziyarah?", "Intimacy with one's spouse", ["Perfume", "Normal clothes", "Cutting nails"], "Everything becomes lawful except intimacy, which becomes lawful after tawaf al-ziyarah.", HJ),
+ ]),
+"hj8": L("hj8", "Farewell, and the wajibs of Hajj", "Tawaf al-Wada', and what a sacrifice repairs.", [
+  ("Farewell tawaf", "Before leaving Makkah, perform tawaf al-sadr (the farewell tawaf), seven circuits without jogging. It is wajib, except for the people of Makkah. A woman who gets her period after tawaf al-ziyarah may leave without it.", HJ),
+  ("Missed wajibs", "Leaving sa'y, the standing at Muzdalifah, the stoning, or the farewell tawaf requires a sheep, and the Hajj is still complete.", "Mukhtasar al-Quduri, chapter on the violations of the muhrim"),
+  ("The pillars", "Missing the standing at 'Arafah means the Hajj is missed. Tawaf al-ziyarah must be done; a sacrifice cannot replace it.", "Mukhtasar al-Quduri, chapter on the violations of the muhrim"),
+ ], [
+  ("Someone left out sa'y. What follows?", "A sheep is due and the Hajj is complete", ["The Hajj is invalid", "Nothing", "He fasts three days"], "Al-Quduri: 'Whoever leaves the sa'y owes a sheep, and his Hajj is complete.'", "Mukhtasar al-Quduri"),
+  ("Is the farewell tawaf wajib on the people of Makkah?", "No", ["Yes", "Only for women", "Only after qiran"], "It is wajib except on the people of Makkah.", HJ),
+  ("A woman's period starts after tawaf al-ziyarah. Before leaving she…", "May leave without the farewell tawaf", ["Must wait until she is pure", "Owes a sheep", "Must repeat Hajj"], "Al-Quduri: she leaves, and owes nothing for missing tawaf al-sadr.", "Mukhtasar al-Quduri"),
+ ]),
+"hj9": L("hj9", "'Umrah", "Its ruling and its acts.", [
+  ("Its ruling", "'Umrah is a sunnah. It can be done at any time of year, but is disliked on five days: the day of 'Arafah, the day of sacrifice and the three days of tashriq.", "Mukhtasar al-Quduri, chapter on missing Hajj"),
+  ("Its acts", "'Umrah is: ihram, tawaf, sa'y, and shaving or trimming.", "Mukhtasar al-Quduri, chapter on missing Hajj"),
+  ("The talbiyah", "The one in 'umrah stops the talbiyah when he starts the tawaf.", "Mukhtasar al-Quduri, chapter on Tamattu'"),
+ ], [
+  ("What is the ruling of 'umrah in the Hanafi school?", "Sunnah", ["Fard", "Wajib", "Disliked"], "Al-Quduri: 'umrah is sunnah.", "Mukhtasar al-Quduri"),
+  ("On which day is 'umrah disliked?", "The day of 'Arafah", ["Any Friday", "In Ramadan", "In Rajab"], "It is disliked on 'Arafah, the day of sacrifice and the days of tashriq.", "Mukhtasar al-Quduri"),
+  ("What are the acts of 'umrah?", "Ihram, tawaf, sa'y, then shaving or trimming", ["Tawaf only", "Standing at 'Arafah", "Stoning and sacrifice"], "Al-Quduri lists exactly these.", "Mukhtasar al-Quduri"),
+ ]),
+})
+ORDER["fiqh"] = ORDER["fiqh"] + ["hj1", "hj2", "hj3", "hj4", "hj9", "hj5", "hj6", "hj7", "hj8"]
