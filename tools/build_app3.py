@@ -1,7 +1,7 @@
 import os
 import json,re
 head=open(os.path.join(os.path.dirname(os.path.abspath(__file__)),'head.html')).read()
-head=head.replace('<title>Deen Path</title>','<title>Ihsan</title>').replace('<span>Deen Path</span>','<span>Ihsan</span>')
+head=head
 css='''
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--line);padding:4px;border-radius:14px}
 .seg button{border:0;background:transparent;border-radius:10px;padding:10px 6px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
@@ -151,9 +151,9 @@ h=h.replace('</body>','<script>if("serviceWorker" in navigator && /github\\.io$/
 open('index.html','w').write(h)
 open('sw.js','w').write("""const V="ihsan-%s", D="ihsan-data", F="ihsan-fonts";
 const CORE=["./","index.html","manifest.json","icon-192.png","icon-512.png","data/meta.json"];
-self.addEventListener("push",e=>{let d={};try{d=e.data.json()}catch(x){d={title:"Ihsan",body:e.data?e.data.text():""}} e.waitUntil(self.registration.showNotification(d.title||"Ihsan",{body:d.body||"",icon:"icon-192.png",badge:"icon-192.png",tag:"streak"}))});
+self.addEventListener("push",e=>{let d={};try{d=e.data.json()}catch(x){d={title:"Dār aṣ-Ṣiddīq",body:e.data?e.data.text():""}} e.waitUntil(self.registration.showNotification(d.title||"Dār aṣ-Ṣiddīq",{body:d.body||"",icon:"icon-192.png",badge:"icon-192.png",tag:"streak"}))});
 self.addEventListener("notificationclick",e=>{e.notification.close(); e.waitUntil(clients.matchAll({type:"window"}).then(ws=>{for(const w of ws){if("focus" in w) return w.focus()} return clients.openWindow("./")}))});
-self.addEventListener("install",e=>{e.waitUntil(caches.open(V).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting()))});
+self.addEventListener("install",e=>{e.waitUntil(caches.open(V).then(c=>c.addAll(CORE)).then(()=>caches.open(D)).then(c=>c.addAll(["data/learn.json","data/quotes.json","data/decks/fard_aqeedah.json","data/decks/fard_tahara.json","data/decks/fard_salah.json","data/decks/fard_sawm.json","data/decks/fard_zakat.json"]).catch(()=>{})).then(()=>self.skipWaiting()))});
 self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k.startsWith("ihsan-")&&![V,D,F].includes(k)).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
 /* Three stores: V = the app itself (replaced on each update), D = lessons, books and audio (kept across updates, refreshed in the background),
    F = fonts. So anything learnt or saved for offline stays available without internet. */

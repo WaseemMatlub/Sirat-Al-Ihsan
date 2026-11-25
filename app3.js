@@ -265,8 +265,8 @@ const pushOK = () => "serviceWorker" in navigator && "PushManager" in window && 
 const b64u = s => { const p = "=".repeat((4 - s.length % 4) % 4), b = atob((s + p).replace(/-/g, "+").replace(/_/g, "/")); return Uint8Array.from(b, c => c.charCodeAt(0)); };
 async function remindOn(){
   const c = await sbConf(); if (!c) return "Reminders aren't available yet.";
-  if (!pushOK()) return /iPhone|iPad/.test(navigator.userAgent) ? "On iPhone, add Ihsan to your Home Screen first (Share, then Add to Home Screen), then turn this on from there." : "This browser can't show reminders.";
-  if (await Notification.requestPermission() !== "granted") return "Notifications are blocked. Allow them for Ihsan in your phone's settings.";
+  if (!pushOK()) return /iPhone|iPad/.test(navigator.userAgent) ? "On iPhone, add the app to your Home Screen first (Share, then Add to Home Screen), then turn this on from there." : "This browser can't show reminders.";
+  if (await Notification.requestPermission() !== "granted") return "Notifications are blocked. Allow them for this app in your phone's settings.";
   try {
     const { key } = await fetch(`${c.url}/functions/v1/remind?key=1`, { headers:{ Authorization:`Bearer ${c.anon}` } }).then(r => r.json());
     const reg = await navigator.serviceWorker.ready;
@@ -339,8 +339,9 @@ function yearStatus(y){
   const gb = lessonBooks(y), lt = gb.reduce((a,b)=>a+lessonsOf(b),0), ld = gb.reduce((a,b)=>a+bookDone(b),0);
   const ct = core(y.decks).reduce((a,d)=>a+deckSize(d),0), cm = core(y.decks).reduce((a,d)=>a+deckStats(d).mastered,0);
   const ret = retention(), booksOk = ld >= lt, cardsOk = ct === 0 || (cm >= ct && ret !== null && ret >= RETAIN);
-  const t = S.tests[y.n];
-  return { books:lt?ld/lt:0, booksOk, ld, lt, flash:ct?cm/ct:0, cardsOk, cm, ct, ret, ready:y.prepared && booksOk && cardsOk, passed:!!(t && t.passed), best:t ? t.best : null };
+  const reads = (y.read||[]).map(bookById).filter(Boolean), rt = reads.reduce((a,b)=>a+lessonsOf(b),0), rd = reads.reduce((a,b)=>a+bookDone(b),0);
+  const t = S.tests[y.n], readOk = rd >= rt;
+  return { reads:rt?rd/rt:1, readOk, rd, rt, open:y.prepared && booksOk && readOk, books:lt?ld/lt:0, booksOk, ld, lt, flash:ct?cm/ct:0, cardsOk, cm, ct, ret, ready:y.prepared && booksOk && cardsOk, passed:!!(t && t.passed), best:t ? t.best : null };
 }
 
 /* ============================ HELPERS ============================ */
@@ -473,32 +474,32 @@ function applyTheme(){ const t = S.theme || "auto", r = document.documentElement
   const dark = t === "dark" || (t === "auto" && matchMedia("(prefers-color-scheme: dark)").matches), m = document.querySelector('meta[name="theme-color"]'); if (m) m.content = dark ? "#141412" : "#FAF7F0"; }
 function go(v){ if (typeof stopAudio === "function" && AUD.on) stopAudio(); view = v; render(); window.scrollTo(0,0); }
 function shell(inner){
-  return `<header class="topbar"><div class="brandmark">${ICON.logo}<span>Ihsan</span></div>
+  return `<header class="topbar"><div class="brandmark">${ICON.logo}<span>Dār aṣ-Ṣiddīq</span></div>
     <div class="stats"><button class="chip iconbtn" data-go="search" aria-label="Search">${ICON.search}</button><button class="chip iconbtn" data-go="settings" aria-label="Settings">${ICON.gear}</button><span class="chip" aria-label="${S.streak} day streak">${ICON.flame}${S.streak}</span></div></header>
     <main>${inner}</main>
-    <nav class="tabs"><div class="in"><button data-go="home" ${view.name==="home"?'aria-current="page"':""}>${ICON.home}Home</button><button data-go="syllabus" ${["syllabus","year","spec"].includes(view.name)||(view.name==="book"&&!isLibBook())?'aria-current="page"':""}>${ICON.learn}Course</button><button data-go="library" ${view.name==="library"||isLibBook()?'aria-current="page"':""}>${ICON.shelf}Library</button><button data-go="profile" ${view.name==="profile"?'aria-current="page"':""}>${ICON.user}Progress</button></div></nav>`;
+    <nav class="tabs"><div class="in"><button data-go="home" ${["home","unit"].includes(view.name)?'aria-current="page"':""}>${ICON.home}Learn</button><button data-go="syllabus" ${["syllabus","year","spec"].includes(view.name)||(view.name==="book"&&!isLibBook())?'aria-current="page"':""}>${ICON.learn}Course</button><button data-go="library" ${view.name==="library"||isLibBook()?'aria-current="page"':""}>${ICON.shelf}Library</button><button data-go="profile" ${view.name==="profile"?'aria-current="page"':""}>${ICON.user}Progress</button></div></nav>`;
 }
 /* First visit: three short steps, then straight into learning */
 const ARCH = (w=170) => `<svg class="arch" viewBox="0 0 200 240" width="${w}" aria-hidden="true"><defs><pattern id="ob-p" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M10 1l2.6 6.4L19 10l-6.4 2.6L10 19l-2.6-6.4L1 10l6.4-2.6z" fill="none" stroke="#E2C27A" stroke-width=".7" opacity=".45"/></pattern></defs>
   <path d="M20 236V96Q20 24 100 8Q180 24 180 96V236Z" fill="#0E5A43"/><path d="M20 236V96Q20 24 100 8Q180 24 180 96V236Z" fill="url(#ob-p)" opacity=".5"/>
   <path d="M38 236V102Q38 46 100 30Q162 46 162 102V236" fill="none" stroke="#E2C27A" stroke-width="2"/>
   <path class="ob-star" d="M100.0 72.0 L105.0 88.0 L119.8 80.2 L112.0 95.0 L128.0 100.0 L112.0 105.0 L119.8 119.8 L105.0 112.0 L100.0 128.0 L95.0 112.0 L80.2 119.8 L88.0 105.0 L72.0 100.0 L88.0 95.0 L80.2 80.2 L95.0 88.0Z" fill="#E2C27A"/>
-  <text x="100" y="186" text-anchor="middle" font-family="Amiri, serif" font-weight="700" font-size="34" fill="#E2C27A" direction="rtl">إحسان</text></svg>`;
+  <text x="100" y="186" text-anchor="middle" font-family="Amiri, serif" font-weight="700" font-size="25" fill="#E2C27A" direction="rtl">دار الصديق</text><text x="100" y="214" text-anchor="middle" font-family="Amiri, serif" font-weight="700" font-size="19" fill="#E2C27A" direction="rtl">الأكبر</text></svg>`;
 let OB = { step:1 };
 function welcomeView(){
   const dots = `<div class="ob-dots" aria-hidden="true">${[1,2,3].map(k => `<i class="${k===OB.step?"on":""}"></i>`).join("")}</div>`;
   if (OB.step === 1) return `<div class="welcome"><div class="welcome-in">${ARCH()}
-    <h1>Ihsan</h1><p class="w-tag">Study the classical books of the deen, year by year, the way the scholars have always taught them.</p>
-    <ul class="ob-points"><li><b>A plan for every day.</b> A short lesson, your flashcards and a page of a book.</li>
-      <li><b>Forty complete books.</b> From the Tahawiyyah to Sahih al-Bukhari, free to read.</li>
-      <li><b>Earn each year.</b> Pass the final test to open the next one.</li></ul>
+    <h1>Dār aṣ-Ṣiddīq al-Akbar</h1><p class="w-tag">Learn your deen from the classical books, made simple, a few minutes a day.</p>
+    <ul class="ob-points"><li><b>The essentials, for everyone.</b> Belief, purification, prayer, fasting, zakat and the heart, in short lessons.</li>
+      <li><b>The Course, for students of knowledge.</b> The classical books year by year, with lessons and flashcards.</li>
+      <li><b>A library of complete books.</b> From the Tahawiyyah to Sahih al-Bukhari, free to read.</li></ul>
     <p class="w-hadith">The Prophet ﷺ said: “Whoever takes a path seeking knowledge, Allah makes easy for him a path to Paradise.” <span>Sahih Muslim</span></p>
     <button class="btn gold" id="ob-next">Continue</button>${dots}</div></div>`;
   if (OB.step === 2) return `<div class="welcome"><div class="welcome-in left"><button class="back" id="ob-back">${ICON.back} Back</button>
     <h1>Where would you like to start?</h1><p class="muted">You can change this later.</p>
     <div class="choices">
-      <button class="choice" data-start="fard"><b>The essentials first</b><span>Fard 'Ayn: what every Muslim must know about belief, purification, prayer and fasting. Year 1 is open alongside it.</span></button>
-      <button class="choice" data-start="y1"><b>Year 1</b><span>Begin the course from the start: the Tahawiyyah, Nur al-Idah and the first steps in Arabic.</span></button>
+      <button class="choice" data-start="fard"><b>The essentials</b><span>Fard al-'Ayn: what every Muslim must know, in short lessons. The best place for most people.</span></button>
+      <button class="choice" data-start="y1"><b>The Course</b><span>For students of knowledge: the classical books, starting from Year 1.</span></button>
       <button class="choice" data-start="place"><b>I've studied before</b><span>Take a placement test and start in a later year.</span></button></div>${dots}</div></div>`;
   return `<div class="welcome"><div class="welcome-in left"><button class="back" id="ob-back">${ICON.back} Back</button>
     <h1>How much time each day?</h1><p class="muted">This sets how many new flashcards you get. Lessons stay short either way.</p>
@@ -513,15 +514,15 @@ function bindWelcome(){
   app.querySelectorAll("[data-start]").forEach(b => b.onclick = () => { OB.start = b.dataset.start; OB.step = 3; redraw(); });
   app.querySelectorAll("[data-pace]").forEach(b => b.onclick = () => { S.newPerDay = +b.dataset.pace; app.querySelectorAll("[data-pace]").forEach(x => x.classList.toggle("on", x === b)); });
   const bg = $("#begin"); if (bg) bg.onclick = () => { const n = $("#ob-name").value.trim(); if (n) S.name = n; S.welcomed = true; S.start = OB.start || "y1"; save();
-    if (S.start === "fard") { S.openFard = true; save(); go({ name:"syllabus" }); }
-    else if (S.start === "place") go({ name:"syllabus" }); else go({ name:"home" }); };
+    if (S.start === "fard") { go({ name:"home" }); }
+    else go({ name:"syllabus" }); };
 }
 let INSTALL = null; window.addEventListener("beforeinstallprompt", e => { e.preventDefault(); INSTALL = e; if (view.name === "home") render(); });
 const standalone = () => matchMedia("(display-mode: standalone)").matches || navigator.standalone;
 function installCard(){
   if (S.noInstall || standalone()) return ""; const ios = /iphone|ipad|ipod/i.test(navigator.userAgent);
   if (!INSTALL && !ios) return "";
-  return `<section class="card install"><b>Put Ihsan on your home screen</b><p class="small muted" style="margin:4px 0 10px">${INSTALL ? "It opens like an app and works offline for the pages you've visited." : "Tap the Share button in Safari, then “Add to Home Screen”."}</p>
+  return `<section class="card install"><b>Put the app on your home screen</b><p class="small muted" style="margin:4px 0 10px">${INSTALL ? "It opens like an app and works offline for the pages you've visited." : "Tap the Share button in Safari, then “Add to Home Screen”."}</p>
     <div class="btnrow">${INSTALL?`<button class="btn small-btn" id="inst">Add to home screen</button>`:""}<button class="btn ghost small-btn" id="noinst">Not now</button></div></section>`;
 }
 /* ---- Home: hadith of the day ---- */
@@ -530,37 +531,114 @@ async function hadithOfDay(){
   const d = new Date(), m = d.getMonth(); if (!DAILY[m]) { try { const r = await fetch(`data/daily/${m}.json`); DAILY[m] = await r.json(); } catch(e){ return null; } }
   return DAILY[m][(d.getDate()-1) % DAILY[m].length];
 }
-async function fillHome(){
-  const h = await hadithOfDay(), box = $("#hotd");
-  if (box && h) box.innerHTML = `<p class="label" style="margin-top:0">Hadith of the day</p><p class="hotd-en">${esc(h.e)}</p>
+let QUOTES = null;
+async function fillHome(){                    // the daily card: a hadith one day, a saying of the Awliya' the next
+  const box = $("#hotd"); if (!box) return;
+  const day = Math.floor((Date.now() - new Date().getTimezoneOffset()*60000) / 864e5);
+  if (day % 2) {
+    if (!QUOTES) { try { QUOTES = await fetch("data/quotes.json").then(r => r.json()); } catch(e){ QUOTES = []; } }
+    const q = QUOTES.length && QUOTES[Math.floor(day/2) % QUOTES.length];
+    if (q) { box.innerHTML = `<p class="label" style="margin-top:0">Wisdom of the day</p><p class="ar hotd-ar">${esc(q.ar)}</p><p class="hotd-en">${esc(q.en)}</p>
+      <div class="small muted">${esc(q.by)}, ${esc(q.src)}</div>`; box.hidden = false; return; }
+  }
+  const h = await hadithOfDay();
+  if (h) box.innerHTML = `<p class="label" style="margin-top:0">Hadith of the day</p><p class="hotd-en">${esc(h.e)}</p>
     <div class="spread small muted"><span>${esc(h.r)}, ${esc(h.c)}</span><button class="linkbtn" data-read="t_bukhari|${h.i}">Read in context</button></div>`, box.hidden = false, bindReadLinks(box);
 }
 function leftToday(){ const d = new Date(), m = (24*60) - (d.getHours()*60 + d.getMinutes()); return m >= 60 ? `${Math.floor(m/60)}h ${m%60}m` : `${m} min`; }
 setInterval(() => { const el = document.getElementById("sk-left"); if (el) el.textContent = leftToday(); }, 30000);
 function appBadge(){ try { if (!navigator.setAppBadge) return; const due = S.welcomed && S.lastDay !== today(); due ? navigator.setAppBadge(1) : navigator.clearAppBadge(); } catch(e){} }   // installed app icon shows a dot until today's study is done
 function bindReadLinks(root){ root.querySelectorAll("[data-read]").forEach(b => b.onclick = () => { const [id, i] = b.dataset.read.split("|"); openRead(id, +i); }); }
+/* ============================ LEARN: the Fard al-'Ayn for everyone ============================
+   Short lessons in simple English, written from our books; everything is open. Data: data/learn.json */
+let LEARN = null, LS = null;
+const LEARN_DECK = { belief:"fard_aqeedah", purity:"fard_tahara", prayer:"fard_salah", fasting:"fard_sawm", zakat:"fard_zakat" };
+async function loadLearn(){ if (LEARN) return LEARN; try { LEARN = await fetch("data/learn.json").then(r => r.json()); } catch(e){ LEARN = []; } return LEARN; }
+const learnDone = id => !!(S.learn||{})[id];
+function nextLearn(){ for (const u of LEARN||[]) for (let k = 0; k < u.lessons.length; k++) if (!learnDone(u.lessons[k].id)) return { u, k }; return null; }
+function learnHome(){
+  if (!LEARN) { loadLearn().then(() => { if (view.name === "home") render(); }); return `<p class="muted">Loading…</p>`; }
+  const nx = nextLearn(), total = LEARN.reduce((a,u) => a + u.lessons.length, 0), done = LEARN.reduce((a,u) => a + u.lessons.filter(l => learnDone(l.id)).length, 0);
+  const cont = nx ? `<section class="today-card next-card"><p class="small muted" style="margin:0">${done ? `${done} of ${total} lessons done` : "Start here"}</p>
+      <p class="kicker" style="margin:14px 0 2px">${esc(nx.u.title)}</p><h2 style="margin:0">${esc(nx.u.lessons[nx.k].title)}</h2>
+      <p class="small muted" style="margin:4px 0 16px">${nx.u.lessons[nx.k].cards.length} short cards, then ${nx.u.lessons[nx.k].checks.length} questions. About 3 minutes.</p>
+      <button class="btn gold" data-learn="${nx.u.id}|${nx.k}">${done ? "Continue" : "Start the first lesson"}</button></section>`
+    : `<section class="today-card next-card"><h2 style="margin:0">You've finished every lesson, alhamdulillah</h2><p class="small muted" style="margin:6px 0 0">Go over any of them again below, or go deeper in the Course.</p></section>`;
+  const units = `<div class="units">${LEARN.map(u => { const d = u.lessons.filter(l => learnDone(l.id)).length, n = u.lessons.length;
+      return `<button class="unit" data-unit="${u.id}" style="--uc:${u.color}"><span class="unit-t">${esc(u.title)}</span><span class="unit-s">${esc(u.sub)}</span>
+        <span class="unit-p"><span class="bar"><i style="width:${d/n*100}%"></i></span><span class="small">${d === n ? "Done" : `${d} of ${n}`}</span></span></button>`; }).join("")}</div>`;
+  return `${cont}<p class="label">Fard al-'Ayn</p><p class="small muted" style="margin:-4px 2px 10px">What every Muslim needs to know, in short lessons. Open any of them, in any order.</p>${units}`;
+}
+function unitView(id){
+  const u = (LEARN||[]).find(x => x.id === id); if (!u) { loadLearn().then(render); return shell(`<p class="muted">Loading…</p>`); }
+  const deck = LEARN_DECK[id] && FARD_DECKS.find(d => d.id === LEARN_DECK[id]);
+  return shell(`<button class="back" data-go="home">${ICON.back} Home</button>
+    <h1 style="margin-bottom:2px">${esc(u.title)}</h1><p class="muted" style="margin:0 0 16px">${esc(u.sub)}</p>
+    <div class="stack">${u.lessons.map((l, k) => `<button class="item" data-learn="${u.id}|${k}"><span class="lnum" style="background:${u.color}">${learnDone(l.id) ? ICON.check.replace("<svg",'<svg width="14" height="14"') : k+1}</span>
+      <span style="flex:1;min-width:0"><span class="t">${esc(l.title)}</span><br><span class="s">${l.cards.length} cards, ${l.checks.length} questions</span></span>${learnDone(l.id) ? `<span class="pill ok">Done</span>` : ""}</button>`).join("")}</div>
+    ${deck ? `<p class="label">Keep it fresh</p>${itemDeck(deck, true)}` : ""}`);
+}
+function startLearn(uid, k){
+  const u = LEARN.find(x => x.id === uid), l = u.lessons[k];
+  const checks = shuffle(l.checks.map(c => ({ kind:"mcq", q:c.q, answer:c.a, options:shuffle([c.a, ...c.w]) })));
+  LS = { u, k, l, steps:[...l.cards.map((c, j) => ({ kind:"card", c, j })), ...checks], i:0, sel:null, answered:false, right:0 };
+  renderLearn();
+}
+function renderLearn(){
+  const st = LS.steps[LS.i]; if (!st) return finishLearn();
+  let body, foot;
+  if (st.kind === "card") {
+    body = `<div class="kicker">${esc(LS.l.title)}</div><div class="card learncard"><h2>${esc(st.c.t)}</h2><p>${esc(st.c.x)}</p><p class="src">From ${esc(st.c.src)}</p></div>`;
+    foot = `<div class="pfoot"><button class="btn" id="next">${st.j === LS.l.cards.length - 1 ? "Check what you learnt" : "Next"}</button></div>`;
+  } else {
+    body = `<div class="kicker">Check your understanding</div><p class="q" style="font-size:1.1rem">${esc(st.q)}</p>
+      <div class="opts">${st.options.map((o, i) => { let cls = ""; if (LS.answered) { if (o === st.answer) cls = "right"; else if (i === LS.sel) cls = "wrong"; } else if (i === LS.sel) cls = "sel";
+        return `<button class="opt ${cls}" data-o="${i}" ${LS.answered ? "disabled" : ""}>${esc(o)}</button>`; }).join("")}</div>`;
+    if (!LS.answered) foot = `<div class="pfoot"><button class="btn" id="check" ${LS.sel === null ? "disabled" : ""}>Check</button></div>`;
+    else { const ok = st.options[LS.sel] === st.answer; foot = `<div class="pfoot ${ok ? "ok" : "bad"}" role="status"><div class="fb"><strong>${ok ? "Correct, masha'Allah" : "Not quite"}</strong>${ok ? "" : `<span class="small">The right answer is highlighted.</span>`}</div><button class="btn" id="next">Continue</button></div>`; }
+  }
+  $("#app").innerHTML = `<div class="player"><div class="player-in"><div class="phead"><button class="x" id="quit" aria-label="Leave lesson">${ICON.x}</button><div class="bar"><i style="width:${LS.i/LS.steps.length*100}%;background:${LS.u.color}"></i></div></div><div class="pbody">${body}</div>${foot}</div></div>`;
+  document.querySelectorAll("[data-o]").forEach(x => x.onclick = () => { LS.sel = +x.dataset.o; renderLearn(); });
+  const ck = $("#check"); if (ck) ck.onclick = () => { LS.answered = true; if (st.options[LS.sel] === st.answer) LS.right++; renderLearn(); };
+  const nx = $("#next"); if (nx) nx.onclick = () => { LS.i++; LS.sel = null; LS.answered = false; renderLearn(); window.scrollTo(0,0); };
+  $("#quit").onclick = () => confirmBox("Leave this lesson? It won't be marked as done.", () => { const id = LS.u.id; LS = null; go({ name:"unit", id }); });
+}
+function finishLearn(){
+  const { u, k, l, right } = LS, first = !learnDone(l.id);
+  S.learn = { ...(S.learn||{}), [l.id]: Date.now() }; const adv = touchDay(first ? 10 : 2); save();
+  const next = u.lessons[k+1];
+  $("#app").innerHTML = `<div class="player"><div class="player-in"><div class="done-screen"><h2>Lesson complete</h2><p class="muted">${esc(l.title)}</p>
+    <div class="tiles"><div class="tile"><b>${right} of ${l.checks.length}</b><span>Questions right</span></div><div class="tile"><b>${S.streak}</b><span>Day streak</span></div></div></div>
+    <div class="pfoot">${next ? `<button class="btn" id="nextl">Next: ${esc(next.title)}</button>` : ""}<button class="btn ${next ? "ghost" : ""}" id="cont">${next ? "Back to " + esc(u.title) : "Done"}</button></div></div></div>`;
+  if (adv) toast(`${S.streak} day streak! Keep going`);
+  const nl = $("#nextl"); if (nl) nl.onclick = () => startLearn(u.id, k+1);
+  $("#cont").onclick = () => { LS = null; go({ name:"unit", id:u.id }); };
+}
 function homeView(){
   const y = yearOf(Math.max(...S.unlocked.filter(n => loaded(yearOf(n))))), st = yearStatus(y);
-  const pctDone = Math.round(((st.lt ? st.ld/st.lt : 0) + (st.ct ? st.cm/st.ct : 0)) / 2 * 100);
   const nl = nextLesson(), decks = studyDecks(), due = decks.reduce((s,d) => s + deckStats(d).due, 0), cards = due + newAvail(decks);
-  const lessonToday = S.lessonDay && S.lessonDay.d === today();
-  const main = nl ? `<section class="today-card next-card"><p class="small muted" style="margin:0">Year ${y.n}, ${pctDone}% done</p>
-      <p class="kicker" style="margin:14px 0 2px">${lessonToday ? "Next lesson" : "Today's lesson"}</p>
-      <h2 style="margin:0">${esc(nameOf(nl.b))}</h2><p class="small muted" style="margin:4px 0 16px">Lesson ${nl.i+1} of ${nl.L}. About 3 minutes.</p>
-      <button class="btn gold" data-startlesson="${nl.b.id}|${nl.i}">Start lesson</button></section>`
-    : `<section class="today-card next-card"><h2 style="margin:0">Every lesson in Year ${y.n} is done</h2><p class="small muted" style="margin:6px 0 16px">Keep up your flashcards, then take the final test.</p><button class="btn gold" data-year="${y.n}">Go to Year ${y.n}</button></section>`;
-  const cardsRow = `<button class="card simple-row" data-study="all" ${cards?"":"disabled"}><span class="sr-ico">${ICON.cards||ICON.learn}</span>
-      <span style="flex:1"><b>Flashcards</b><span class="small muted" style="display:block">${cards ? `${cards} to review, about ${Math.max(2, Math.round(cards*0.15))} min` : "All done for today"}</span></span>${cards?`<span class="pill brand">Review</span>`:`<span class="pill ok">${ICON.check.replace("<svg",'<svg width="13" height="13"')}</span>`}</button>`;
+  const inCourse = S.start === "y1" || S.start === "place" || Object.keys(S.books||{}).some(id => !bookById(id) || bookById(id).type !== "text");
+  const course = inCourse && nl ? `<button class="card simple-row" data-startlesson="${nl.b.id}|${nl.i}"><span class="sr-ico">${ICON.learn}</span>
+      <span style="flex:1;min-width:0"><b>Your Course: Year ${y.n}</b><span class="small muted" style="display:block">Next: ${esc(nameOf(nl.b))}, lesson ${nl.i+1}</span></span><span class="pill brand">Continue</span></button>`
+    : `<button class="card simple-row" data-go="syllabus"><span class="sr-ico">${ICON.learn}</span><span style="flex:1"><b>Go deeper with the Course</b><span class="small muted" style="display:block">For students of knowledge: the classical books, year by year</span></span></button>`;
+  const cardsRow = cards ? `<button class="card simple-row" data-study="all"><span class="sr-ico">${ICON.flame}</span>
+      <span style="flex:1"><b>Flashcards</b><span class="small muted" style="display:block">${cards} to review, about ${Math.max(2, Math.round(cards*0.15))} min</span></span><span class="pill brand">Review</span></button>` : "";
   const last = S.lastRead && bookById(S.lastRead.id);
   const readRow = last ? `<button class="card simple-row" data-read="${last.id}|${S.lastRead.i}"><span class="libthumb">${cover(last, 30)}</span>
       <span style="flex:1;min-width:0"><b>Keep reading</b><span class="small muted" style="display:block">${esc(last.title)}</span></span><span class="pill">Read</span></button>` : "";
   const atRisk = S.streak > 0 && S.lastDay === today() - 1;            // studied yesterday, not yet today
   const streakCard = atRisk ? `<section class="streak-card" role="status"><span class="sk-ico">${ICON.flame.replace("<svg",'<svg width="26" height="26"')}</span>
       <span style="flex:1"><b id="sk-left">${leftToday()}</b><span class="small" style="display:block;opacity:.85">left today to keep your ${S.streak}-day streak</span></span></section>` : "";
+  const signs = YEARS[0].books.find(b => b.id === "signs"), tj = FARD_DECKS.find(d => d.id === "tajwid"), ayy = bookById("t_ayyuha");
+  const more = `<p class="label">More to explore</p><div class="stack">${tj ? itemDeck(tj, true) : ""}${signs ? itemBook(signs, true) : ""}
+      ${ayy ? `<button class="item" data-read="t_ayyuha|0"><span class="libthumb">${cover(ayy, 34)}</span><span style="flex:1;min-width:0"><span class="t">Ayyuha al-Walad</span><br><span class="s">Imam al-Ghazali's رحمه الله letter of advice to a student</span></span><span class="pill">Read</span></button>` : ""}</div>`;
   return shell(`
     <section class="illum"><p class="ar illum-ar">السَّلَامُ عَلَيْكُمْ</p><p class="illum-en">Assalamu 'alaykum${S.name?`, ${esc(S.name)}`:""}</p></section>
-    ${streakCard}${main}${cardsRow}${readRow}
+    ${streakCard}
+    ${learnHome()}
     <section class="card hotd" id="hotd" hidden></section>
+    ${cardsRow}${course}${readRow}
+    ${more}
     ${installCard()}`);
 }
 /* Optional course before Year 1: what every Muslim must know. Never required, never locks anything. */
@@ -599,20 +677,21 @@ function fardAynCard(){                     // Fard al-'Ayn: optional, for anyon
 }
 function syllabusView(){
   const N = Math.max(...S.unlocked), place = N <= YEARS.length && !(S.tests[N] && S.tests[N].passed);
-  return shell(`<h1>Course</h1><p class="muted" style="margin:0 0 14px">Pass each year to open the next.</p>
-    <div class="stack">${fardAynCard()}${YEARS.map(yearCard).join("")}${specCard()}</div>
+  return shell(`<h1>Course</h1><p class="muted" style="margin:0 0 14px">For students of knowledge: the classical books, year by year. Each year opens when you have read the one before.</p>
+    <div class="stack">${YEARS.map(yearCard).join("")}${specCard()}</div>
     <p class="label">Extra study</p>${historyCard()}
     ${place ? `<p class="label">Skip ahead</p><button class="card simple-row" data-place="${N}"><span style="flex:1"><b>Studied before?</b><span class="small muted" style="display:block">Take the Year ${N} test now. Pass it to skip ahead.</span></span><span class="pill">Test</span></button>` : ""}`);
 }
 function step3(n, title, sub, status, frac, done){ return `<div class="step3 ${done?"done":""}"><span class="s3n">${done?ICON.check.replace("<svg",'<svg width="13" height="13"'):n}</span><div class="s3b"><div class="spread"><b>${title}</b><span class="small muted">${status}</span></div>${sub?`<span class="s3s">${sub}</span>`:""}<div class="bar"><i style="width:${Math.min(100,frac*100)}%;${done?"background:var(--ok)":""}"></i></div></div></div>`; }
 function gate(label, frac, done){ return `<div class="gate ${done?"done":""}"><span>${label}</span><div class="bar"><i style="width:${Math.min(100,frac*100)}%;${done?"background:var(--ok)":""}"></i></div></div>`; }
 function yearCard(y){
-  const open = S.unlocked.includes(y.n), st = yearStatus(y), cur = open && !st.passed && y.prepared;
+  const open = S.unlocked.includes(y.n), st = yearStatus(y), cur = open && y.n === Math.max(...S.unlocked) && y.prepared;
   if (!cur) return `<button class="year row ${open?"":"locked"}" data-year="${y.n}"><span class="yr-badge">${y.n}</span><span style="flex:1;text-align:left"><b>Year ${y.n}</b><span class="small muted" style="display:block">${esc(y.title)}</span></span>
-      ${st.passed ? `<span class="pill ok">Passed</span>` : open ? `<span class="pill">Soon</span>` : `<span class="lockic">${ICON.lock}</span>`}</button>`;
+      ${open && y.prepared ? `<span class="pill ok">Done</span>` : open ? `<span class="pill">Soon</span>` : `<span class="lockic">${ICON.lock}</span>`}</button>`;
   return `<button class="year current" data-year="${y.n}">
     <div class="head"><span class="yr-badge">${y.n}</span><div style="flex:1"><h2>Year ${y.n}</h2><div class="small muted">${esc(y.title)}</div></div></div>
-    <div class="steps3">${step3(1, "Lessons", "", `${st.ld} of ${st.lt}`, st.books, st.booksOk)}${step3(2, "Flashcards", "", `${st.cm.toLocaleString()} of ${st.ct.toLocaleString()}`, st.flash, st.cardsOk)}${step3(3, "Final test", "", st.passed ? "Passed" : st.ready ? "Ready" : "After 1 and 2", st.passed?1:0, st.passed)}</div>
+    <div class="steps3">${step3(1, "Lessons", "", `${st.ld} of ${st.lt}`, st.books, st.booksOk)}${step3(2, "Read the books", "", st.rt ? `${Math.round(st.reads*100)}% read` : "None this year", st.reads, st.readOk)}</div>
+    <p class="small muted" style="margin:10px 0 0">${y.n < YEARS.length ? `Finish both to open Year ${y.n+1}.` : "Finish both to complete the course."} Flashcards and a practice test are there to help.</p>
     <span class="btn" style="margin-top:14px">Open Year ${y.n}</span></button>`;
 }
 function itemBook(b, open){
@@ -649,17 +728,21 @@ function yearView(n){
     ${open ? "" : `<div class="notice">${ICON.lock}<span>Pass the Year ${n-1} final test to open this year.</span></div>`}
     ${open && !y.prepared ? `<div class="notice"><span>The books for Year ${n} are still being prepared.</span></div>` : ""}
     <section class="stepsec">${head(1, "Lessons", "Short lessons from this year's books.", `<span class="small muted">${st.ld} of ${st.lt}</span>`)}
-      <div class="stack">${lessons.length ? lessons.map(lessonRow).join("") : `<p class="small muted" style="margin:0">No short lessons this year: read the books below and learn with the flashcards.</p>`}</div>
-      ${reads.length ? `<p class="sublabel">Books to read</p><div class="stack">${reads.map(b => `<button class="item" data-read="${b.id}|${S.lastRead && S.lastRead.id === b.id ? S.lastRead.i : 0}"><span class="libthumb">${cover(b, 34)}</span>
-        <span style="flex:1;min-width:0"><span class="kicker" style="margin:0">${esc(b.subject)}</span><span class="t" style="display:block">${esc(b.title)}</span></span><span class="pill">Read</span></button>`).join("")}</div>` : ""}
+      <div class="stack">${lessons.length ? lessons.map(lessonRow).join("") : `<p class="small muted" style="margin:0">No short lessons this year.</p>`}</div></section>
+    <section class="stepsec">${head(2, "Read the books", "Read each one to the end, or mark it finished from its page.", `<span class="small muted">${st.rt ? Math.round(st.reads*100) + "%" : ""}</span>`)}
+      ${reads.length ? `<div class="stack">${reads.map(b => { const L = lessonsOf(b), d = bookDone(b), nxt = Math.min(d, L-1);
+        return `<button class="item" ${open?`data-read="${b.id}|${S.lastRead && S.lastRead.id === b.id ? S.lastRead.i : nxt}"`:"disabled"}><span class="libthumb">${cover(b, 34)}</span>
+        <span style="flex:1;min-width:0"><span class="kicker" style="margin:0">${esc(b.subject)}</span><span class="t" style="display:block">${esc(b.title)}</span></span>${!open?ICON.lock:d>=L?`<span class="pill ok">Read</span>`:`<span class="pill">${Math.round(d/L*100)}%</span>`}</button>`; }).join("")}</div>` : `<p class="small muted" style="margin:0">No books to read this year.</p>`}
       ${(y.coming||[]).length ? `<p class="sublabel">Coming soon</p><div class="stack">${y.coming.map(([t,s]) => `<div class="item soon"><span style="flex:1;min-width:0"><span class="kicker" style="margin:0">${esc(s)}</span><span class="t" style="display:block">${esc(t)}</span></span></div>`).join("")}</div>` : ""}</section>
-    <section class="stepsec">${head(2, "Flashcards", "Each lesson adds cards. Review a few each day.", `<span class="small muted">${st.cm.toLocaleString()} of ${st.ct.toLocaleString()}</span>`)}
+    <p class="small muted" style="margin:14px 2px 0">${n < YEARS.length ? `When steps 1 and 2 are done, Year ${n+1} opens.` : "When steps 1 and 2 are done, the course is complete."}</p>
+    <p class="label" style="margin-top:26px">Practice (optional)</p>
+    <section class="stepsec" style="margin-top:6px"><div class="stephead"><div style="flex:1"><h2>Flashcards</h2><p class="small muted">Questions from this year's books. Review a few each day.</p></div><span class="small muted">${st.cm.toLocaleString()} of ${st.ct.toLocaleString()}</span></div>
       ${open ? `<button class="btn" data-study="all" ${ready?"":"disabled"}>${ready ? `Review flashcards (${ready})` : "All done for today"}</button>` : ""}
       <details class="more"><summary>See all flashcard sets</summary><div class="stack" style="margin-top:8px">${decks.map(d => itemDeck(d, open)).join("")}
         ${extra.length ? `<p class="sublabel">Extra (optional)</p>${extra.map(d => itemDeck(d, open)).join("")}` : ""}</div></details></section>
-    <section class="stepsec">${head(3, "Final test", `${TEST_LEN} questions. Pass with ${PASS*100}% to open ${n<YEARS.length?`Year ${n+1}`:"your specialisation"}.`)}
+    <section class="stepsec"><div class="stephead"><div style="flex:1"><h2>Practice test</h2><p class="small muted">${TEST_LEN} questions from this year, to see how much has stayed with you.</p></div></div>
       ${st.best!==null?`<p class="small muted" style="margin:0 0 10px">Best so far: <b>${pct(st.best)}</b></p>`:""}
-      <button class="btn ${st.ready&&open?"gold":"ghost"}" data-test="${n}" ${st.ready&&open?"":"disabled"}>${st.passed?"Retake the test":st.ready&&open?"Start the test":"Opens when steps 1 and 2 are done"}</button></section>
+      <button class="btn ghost" data-test="${n}" ${open?"":"disabled"}>${st.best!==null?"Try it again":"Take the practice test"}</button></section>
 `);
 }
 function bookView(id){
@@ -713,7 +796,7 @@ function settingsView(){
       <p class="small muted" style="margin:8px 2px 0">Better voices on iPhone: Settings → Accessibility → Spoken Content → Voices, and download one marked “Enhanced” or “Premium”.</p></div></details>
     <details class="setgroup"><summary>Your reports${(S.reports||[]).some(r=>!r.sent)?` <span class="pill gold">${S.reports.filter(r=>!r.sent).length} unsent</span>`:""}</summary><div class="card small" style="margin-top:8px">${(S.reports||[]).length ? `${S.reports.slice(-5).reverse().map(r=>{ const it=itemByKey(r.k); return `<div class="spread" style="padding:4px 0;border-bottom:1px solid var(--line)"><span>${esc(it?it.src.title:r.k)}: ${esc(r.why)}</span><span class="pill ${r.sent?"ok":"gold"}">${r.sent?"Sent":"Not sent"}</span></div>`; }).join("")}
       ${S.reports.some(r=>!r.sent)?`<button class="btn ghost" id="sendall" style="margin-top:10px">Send unsent reports</button>`:""}` : `<p style="margin:0" class="muted">Spotted a mistake? Tap ${ICON.flag.replace("<svg",'<svg width="14" height="14" style="vertical-align:-2px"')} Report on any card, line or hadith.</p>`}</div></details>
-    <details class="setgroup"><summary>About Ihsan</summary><div class="card small" style="margin-top:8px"><p style="margin-top:0">Ihsan trains students year by year through the classical texts: Hanafi fiqh, Ash'ari and Maturidi creed, tasawwuf open to all the turuq, and the Arabic of the Qur'an.</p>
+    <details class="setgroup"><summary>About the app</summary><div class="card small" style="margin-top:8px"><p style="margin-top:0">Dār aṣ-Ṣiddīq al-Akbar teaches the Fard al-'Ayn to everyone in simple lessons, and trains students year by year through the classical texts: Hanafi fiqh, Ash'ari and Maturidi creed, tasawwuf open to all the turuq, and the Arabic of the Qur'an.</p>
       <p style="margin-bottom:0">Flashcards are adapted from shared Anki decks; Qur'an word frequencies come from the Quranic Arabic Corpus; full Arabic texts come from the OpenITI corpus. Anything marked <span class="pill gold">AI · needs review</span> awaits a teacher's check.</p></div></details>
     <details class="setgroup"><summary>Advanced</summary><div class="setlist">
       ${row("advgrades","Advanced grading","Four buttons (Again, Hard, Good, Easy) instead of Got it / Redo", toggle("advgrades", !!S.advancedGrades))}</div>
@@ -848,7 +931,8 @@ function textView(b){
     <p style="margin:12px 0 8px">${esc(b.sub)}.</p>
     <div class="tags" style="margin-bottom:12px"><span class="pill">${esc(b.subject)}</span><span class="pill">Year ${b.year}</span><span class="pill">${n} sections</span>${hasEn(b)?`<span class="pill gold">Arabic + English</span>`:`<span class="pill">Arabic</span>`}${(META.textsAudio||{})[b.file]?`<span class="pill ok">${ICON.ear} Narrated</span>`:""}</div>
     ${done.length?`<div class="spread small muted"><span>${done.length} of ${n} read</span><span>${Math.round(done.length/n*100)}%</span></div><span class="bar" style="display:block;margin:4px 0 10px"><i style="width:${done.length/n*100}%;background:var(--brand)"></i></span>`:""}
-    ${next>=0?`<button class="btn" data-read="${b.id}|${next}" style="margin:4px 0 6px">${done.length?`Continue from section ${next+1}`:"Start reading"}</button>`:`<div class="notice">${ICON.check}<span>You've read the whole book, alhamdulillah.</span></div>`}
+    ${next>=0?`<button class="btn" data-read="${b.id}|${next}" style="margin:4px 0 6px">${done.length?`Continue from section ${next+1}`:"Start reading"}</button>
+      <button class="linkbtn small" id="markread" data-mark="${b.id}" style="display:block;margin:2px 0 8px">I've already read this book</button>`:`<div class="notice">${ICON.check}<span>You've read the whole book, alhamdulillah.</span></div>`}
     <p class="label">Contents</p>${toc}
     <p class="small muted" style="margin-top:14px">${T.ai?"The harakat and English are awaiting a teacher's check. ":""}${hasEn(b)?"":"Arabic text from the OpenITI corpus; English will be added."}</p>`);
 }
@@ -1020,12 +1104,12 @@ function itemByKey(k){
 }
 const keyCard = c => `c|${c.id}`, keyLine = (b, l) => `l|${b.id}|${b.lines.indexOf(l)}`;
 function reportText(r){ const it = itemByKey(r.k); const what = !it ? r.k : it.kind === "sec" ? `${it.src.title}, section ${it.i+1}${it.s?`: ${it.s.h}\n${(it.s.p||[]).slice(0,2).join("\n")}`:""}` : it.kind === "card" ? `${it.src.title}\nQ: ${it.c.f}\nA: ${it.c.b}` : `${it.src.title}, ${it.src.type==="hadith"?"hadith":"line"} ${it.i+1}\n${it.l.ar||""}\n${it.l.en||""}`;
-  return `Ihsan report [${r.k}]\nProblem: ${r.why}${r.note?`\nNote: ${r.note}`:""}\n\n${what}`; }
+  return `Dar as-Siddiq report [${r.k}]\nProblem: ${r.why}${r.note?`\nNote: ${r.note}`:""}\n\n${what}`; }
 async function sendReports(list){
-  const body = list.map(reportText).join("\n\n----------\n\n"), subject = `Ihsan: ${list.length} card report${list.length>1?"s":""}`;
+  const body = list.map(reportText).join("\n\n----------\n\n"), subject = `Dar as-Siddiq: ${list.length} card report${list.length>1?"s":""}`;
   if (REPORT_TO) { location.href = `mailto:${REPORT_TO}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`; }
   else if (navigator.share) { try { await navigator.share({ title:subject, text:body }); } catch(e){ return false; } }
-  else { try { await navigator.clipboard.writeText(body); toast("Report copied. Paste it to the Ihsan team"); } catch(e){ return false; } }
+  else { try { await navigator.clipboard.writeText(body); toast("Report copied. Paste it to the team"); } catch(e){ return false; } }
   list.forEach(r => r.sent = true); save(); return true;
 }
 function openReport(k){
@@ -1267,7 +1351,7 @@ function makeTest(y){
   for (const { l, b } of shuffle(lines)) { if (qs.length >= TEST_LEN) break; const q = bookQuiz(b, l); if (q) qs.push({ src:b.title, promptAr:q.prompt, q:q.q, answer:q.answer, ansAr:q.ansAr, options:q.options }); }
   return shuffle(qs);
 }
-function startTest(n){ T = { n, qs:makeTest(yearOf(n)), i:0, sel:null, wrong:[], right:0 }; renderTest(); }
+function startTest(n, place){ T = { n, place:!!place, qs:makeTest(yearOf(n)), i:0, sel:null, wrong:[], right:0 }; renderTest(); }
 function renderTest(){
   const q = T.qs[T.i]; if (!q) return finishTest();
   $("#app").innerHTML = `<div class="player"><div class="player-in"><div class="phead"><button class="x" id="quit" aria-label="Leave test">${ICON.x}</button><div class="bar"><i style="width:${T.i/T.qs.length*100}%;background:var(--gold)"></i></div><span class="count">${T.i+1}/${T.qs.length}</span></div>
@@ -1284,7 +1368,7 @@ async function finishTest(){
   const score = T.right / T.qs.length, passed = score >= PASS, n = T.n;
   const rec = S.tests[n] = S.tests[n] || { attempts:0, best:0, passed:false }; rec.attempts++; rec.best = Math.max(rec.best, score);
   const firstPass = passed && !rec.passed;
-  if (passed){ rec.passed = true; if (n < YEARS.length && !S.unlocked.includes(n+1)) S.unlocked.push(n+1); }
+  if (passed){ rec.passed = true; if (T.place && n < YEARS.length && !S.unlocked.includes(n+1)) S.unlocked.push(n+1); }   // the year test is practice; only the placement test skips ahead
   touchDay(firstPass ? 100 : 5);
   const wrong = T.wrong; T = null;
   if (passed && n < YEARS.length) { try { await loadYear(n+1); } catch(e){} }
@@ -1310,7 +1394,11 @@ if (/[?&]dev=1/.test(location.search)) { S.dev = true; save(); } else if (/[?&]d
       n.parentNode.replaceChild(f, n); } };
   new MutationObserver(ms => ms.forEach(m => m.addedNodes.forEach(n => n.nodeType === 1 ? wrap(n) : n.nodeType === 3 && n.parentNode && wrap(n.parentNode)))).observe(document.getElementById("app"), { childList:true, subtree:true });
 })();
-function render(){ appBadge();
+function checkUnlock(){                     // the next year opens when this year's lessons and books are read
+  const n = Math.max(...S.unlocked); if (n >= YEARS.length) return;
+  const y = yearOf(n); if (y.prepared && yearStatus(y).open) { S.unlocked.push(n+1); save(); setTimeout(() => toast(`Year ${n+1} is now open, alhamdulillah`), 400); }
+}
+function render(){ appBadge(); checkUnlock();
   const app = $("#app");
   if (!S.welcomed){ app.innerHTML = welcomeView(); bindWelcome(); return; }
   if (view.name === "home") app.innerHTML = homeView();
@@ -1322,8 +1410,11 @@ function render(){ appBadge();
   else if (view.name === "library") app.innerHTML = libraryView();
   else if (view.name === "syllabus") app.innerHTML = syllabusView();
   else if (view.name === "settings") app.innerHTML = settingsView();
+  else if (view.name === "unit") app.innerHTML = unitView(view.id);
   else app.innerHTML = profileView();
   app.querySelectorAll("[data-go]").forEach(b => b.onclick = () => go({ name:b.dataset.go }));
+  app.querySelectorAll("[data-unit]").forEach(b => b.onclick = () => go({ name:"unit", id:b.dataset.unit }));
+  app.querySelectorAll("[data-learn]").forEach(b => b.onclick = async () => { const [u, k] = b.dataset.learn.split("|"); await loadLearn(); startLearn(u, +k); });
   if (view.name === "home") { fillHome();
     const ins = $("#inst"); if (ins) ins.onclick = async () => { INSTALL.prompt(); await INSTALL.userChoice; INSTALL = null; render(); };
     const ni = $("#noinst"); if (ni) ni.onclick = () => { S.noInstall = true; save(); render(); }; }
@@ -1343,7 +1434,7 @@ function render(){ appBadge();
     confirmBox(`Choose ${m} as your specialisation?`, () => { S.spec = m; save(); render(); }); });
   const cs = $("#changespec"); if (cs) cs.onclick = () => confirmBox("Change your specialisation? Your progress in the five years is kept.", () => { S.spec = null; save(); render(); });
   const cn = $("#continue"); if (cn) cn.onclick = () => { const nl = nextLesson(); if (nl) startLesson(nl.b.id, nl.i); };
-  app.querySelectorAll("[data-place]").forEach(b => b.onclick = () => { const n = +b.dataset.place; b.disabled = true; b.textContent = "Preparing the test…"; loadYear(n).then(() => startTest(n), () => { toast("Could not load the test. Check your connection."); b.disabled = false; }); });
+  app.querySelectorAll("[data-place]").forEach(b => b.onclick = () => { const n = +b.dataset.place; b.disabled = true; b.textContent = "Preparing the test…"; loadYear(n).then(() => startTest(n, true), () => { toast("Could not load the test. Check your connection."); b.disabled = false; }); });
   app.querySelectorAll("[data-libyear]").forEach(c => c.onclick = () => { S.libYear = +c.dataset.libyear; save(); render(); });
   const la = $("#loadall"); if (la) la.onclick = async () => { la.disabled = true; la.textContent = "Loading the books…"; try { await Promise.all(LIB().map(b => loadText(b.file))); } catch(e){ toast("Some books could not load"); } INDEX = null; render(); };
   const sq = $("#sq"); if (sq){ sq.oninput = () => { view.q = sq.value; $("#sres").innerHTML = searchResults(sq.value); bindResults(); }; bindResults(); if (view.q !== undefined) { sq.focus(); sq.setSelectionRange(sq.value.length, sq.value.length); } }
@@ -1357,6 +1448,7 @@ function render(){ appBadge();
   const hk = $("#hk"); if (hk) hk.onchange = () => { S.harakat = hk.checked; save(); };
   app.querySelectorAll("[data-theme]").forEach(b => b.onclick = () => { S.theme = b.dataset.theme; save(); applyTheme(); render(); });
   fillLeaderboard();
+  const mk = $("#markread"); if (mk) mk.onclick = () => confirmBox("Mark the whole book as read? This counts towards opening the next year.", () => { const b = bookById(mk.dataset.mark), n = lessonsOf(b); S.books[b.id] = [...Array(n).keys()]; save(); toast("Marked as read"); render(); });
   app.querySelectorAll("[data-off]").forEach(b => b.onclick = () => saveOffline(+b.dataset.off, b));
   const rm = $("#remind"); if (rm) rm.onchange = async () => { rm.disabled = true;
     if (rm.checked) { const err = await remindOn(); if (err) { rm.checked = false; toast(err); } else toast("Reminder on: 8pm, if you haven't studied yet"); }

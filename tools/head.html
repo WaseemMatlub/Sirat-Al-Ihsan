@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ihsan</title>
+<title>Dār aṣ-Ṣiddīq al-Akbar</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Amiri+Quran&family=Libre+Baskerville:wght@400;700&family=Inter:wght@400;500;600;700;800&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
@@ -297,6 +297,18 @@ html[data-theme=dark] .g2{color:#06210F}
 .linkbtn{background:none;border:0;color:var(--muted);text-decoration:underline;cursor:pointer;padding:4px 0;font:inherit}
 
 .review-note{margin:10px 0 0;font-size:.78rem;color:var(--muted)}
+
+.units{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.unit{display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:4px;padding:16px 14px 14px;border-radius:18px;border:1px solid var(--line);background:var(--surface);font:inherit;color:inherit;cursor:pointer;position:relative;overflow:hidden;min-height:132px}
+.unit::before{content:"";position:absolute;inset:0 0 auto 0;height:5px;background:var(--uc)}
+.unit-t{font-family:var(--display);font-size:1.15rem;font-weight:700;color:var(--uc);margin-top:2px}
+html[data-theme=dark] .unit-t{color:color-mix(in srgb,var(--uc) 45%,#fff)}
+@media (prefers-color-scheme:dark){html:not([data-theme=light]) .unit-t{color:color-mix(in srgb,var(--uc) 45%,#fff)}}
+.unit-s{font-size:.82rem;color:var(--muted);line-height:1.35;flex:1}
+.unit-p{display:flex;align-items:center;gap:8px;width:100%;margin-top:8px}.unit-p .bar{flex:1;height:5px}.unit-p .bar i{background:var(--uc)}
+.lnum{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:800;font-size:.85rem;flex:none}
+.learncard{padding:22px 20px}.learncard h2{margin:0 0 10px;font-size:1.3rem}.learncard p{font-size:1.06rem;line-height:1.65;margin:0}
+.learncard .src{margin-top:16px;font-size:.8rem;color:var(--muted)}
 </style>
 </head>
 <body>
