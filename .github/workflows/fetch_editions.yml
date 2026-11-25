@@ -9,6 +9,7 @@ jobs:
       - name: Download the Ihya us-Sunnah editions (used with permission)
         run: |
           mkdir -p sources/ihya
+          curl -fsSL -A "Mozilla/5.0" "https://www.ihyaussunnah.co.uk/kutub/books.json" -o sources/ihya/books.json
           for n in al-hikam nahw-mir sharh-miat-amil hidayat-al-nahw sharh-khalid-al-azhari-ala-al-ajurrumiyya; do
             curl -fsSL -A "Mozilla/5.0" "https://www.ihyaussunnah.co.uk/kutub/editions/$n.txt" -o "sources/ihya/$n.txt"
             wc -c "sources/ihya/$n.txt"
