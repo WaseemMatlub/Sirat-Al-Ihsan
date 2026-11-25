@@ -921,13 +921,16 @@ function bookCard(b){
     <span class="bt">${esc(b.title)}</span><span class="ba">${esc(b.author.replace(/^Imams? /,""))}</span>
     <span class="bl">${hasEn(b)?"Arabic and English":"Arabic"}${(META.textsAudio||{})[b.file]?"":""}</span></button>`;
 }
+const LIB_SUBJECTS = ["Aqeedah","Fiqh","Usul al-Fiqh","Tasawwuf","Hadith","Tafsir","Tajweed","Seerah","History","Signs of the Hour","Arabic"];
+const libSubject = b => b.subject === "Comparative Aqeedah" ? "Aqeedah" : b.subject;
 function libraryView(){
-  const books = LIB(), last = S.lastRead && bookById(S.lastRead.id), f = S.libYear || 0;
+  const books = LIB(), last = S.lastRead && bookById(S.lastRead.id), f = LIB_SUBJECTS.includes(S.libSub) ? S.libSub : "";
   const cont = last ? `<section class="continue lib-cont"><span class="cv">${cover(last, 74)}</span><span style="flex:1;min-width:0"><span class="kicker" style="margin:0">Continue reading</span><b style="display:block">${esc(last.title)}</b>
       <span class="small muted">Section ${S.lastRead.i+1} of ${lessonsOf(last)}</span></span><button class="btn small-btn" data-read="${last.id}|${S.lastRead.i}">Read</button></section>` : "";
-  const chips = `<div class="ychips">${[0,1,2,3,4,5].map(n => `<button class="ychip ${f===n?"on":""}" data-libyear="${n}">${n?`Year ${n}`:"All"}</button>`).join("")}</div>`;
-  const shelves = YEARS.filter(y => !f || y.n === f).map(y => { const bs = books.filter(b => b.year === y.n);
-    return bs.length ? `<p class="label">Year ${y.n}: ${esc(y.title)}</p><div class="shelf">${bs.map(bookCard).join("")}</div>` : ""; }).join("");
+  const chips = `<div class="ychips" role="group" aria-label="Subject">${["", ...LIB_SUBJECTS].map(x => `<button class="ychip ${f===x?"on":""}" data-libsub="${x}" aria-pressed="${f===x}">${x||"All"}</button>`).join("")}</div>`;
+  const shelves = LIB_SUBJECTS.filter(x => !f || x === f).map(x => { const bs = books.filter(b => libSubject(b) === x).sort((a, c) => a.year - c.year);
+    return !bs.length ? "" : f ? `<p class="label">${esc(x)} <span class="muted small">${bs.length} books</span></p><div class="shelf">${bs.map(bookCard).join("")}</div>`
+      : `<div class="shelf-h"><p class="label">${esc(x)}</p><button class="linkbtn" data-libsub="${esc(x)}">See all ${bs.length}</button></div><div class="shelf row">${bs.map(bookCard).join("")}</div>`; }).join("");
   return shell(`<h1>Library</h1><p class="muted" style="margin:0 0 12px">${books.length} complete books, from the first texts to Sahih al-Bukhari. Free to read, bab by bab.</p>
     ${cont}${chips}${shelves}
     <p class="small muted" style="margin-top:18px">Arabic texts from the OpenITI corpus. Harakat and English marked “Awaiting a teacher's check” are waiting for a teacher's check.</p>`);
@@ -950,7 +953,7 @@ function textView(b){
       <h1>${esc(b.title)}</h1><p class="ar booktitle-ar">${esc(b.ar||"")}</p>
       <p class="byline">${byline(b)}</p><p class="small muted" style="margin:0">${esc(b.when||"")}</p></div></section>
     <p style="margin:12px 0 8px">${esc(b.sub)}.</p>
-    <div class="tags" style="margin-bottom:12px"><span class="pill">${esc(b.subject)}</span><span class="pill">Year ${b.year}</span><span class="pill">${n} sections</span>${hasEn(b)?`<span class="pill gold">Arabic + English</span>`:`<span class="pill">Arabic</span>`}${(META.textsAudio||{})[b.file]?`<span class="pill ok">${ICON.ear} Narrated</span>`:""}</div>
+    <div class="tags" style="margin-bottom:12px"><span class="pill">${esc(b.subject)}</span><span class="pill">${n} sections</span>${hasEn(b)?`<span class="pill gold">Arabic + English</span>`:`<span class="pill">Arabic</span>`}${(META.textsAudio||{})[b.file]?`<span class="pill ok">${ICON.ear} Narrated</span>`:""}</div>
     ${done.length?`<div class="spread small muted"><span>${done.length} of ${n} read</span><span>${Math.round(done.length/n*100)}%</span></div><span class="bar" style="display:block;margin:4px 0 10px"><i style="width:${done.length/n*100}%;background:var(--brand)"></i></span>`:""}
     ${next>=0?`<button class="btn" data-read="${b.id}|${next}" style="margin:4px 0 6px">${done.length?`Continue from section ${next+1}`:"Start reading"}</button>
       <button class="linkbtn small" id="markread" data-mark="${b.id}" style="display:block;margin:2px 0 8px">I've already read this book</button>`:`<div class="notice">${ICON.check}<span>You've read the whole book, alhamdulillah.</span></div>`}
@@ -1456,7 +1459,7 @@ function render(){ appBadge(); checkUnlock();
   const cs = $("#changespec"); if (cs) cs.onclick = () => confirmBox("Change your specialisation? Your progress in the five years is kept.", () => { S.spec = null; save(); render(); });
   const cn = $("#continue"); if (cn) cn.onclick = () => { const nl = nextLesson(); if (nl) startLesson(nl.b.id, nl.i); };
   app.querySelectorAll("[data-place]").forEach(b => b.onclick = () => { const n = +b.dataset.place; b.disabled = true; b.textContent = "Preparing the test…"; loadYear(n).then(() => startTest(n, true), () => { toast("Could not load the test. Check your connection."); b.disabled = false; }); });
-  app.querySelectorAll("[data-libyear]").forEach(c => c.onclick = () => { S.libYear = +c.dataset.libyear; save(); render(); });
+  app.querySelectorAll("[data-libsub]").forEach(c => c.onclick = () => { S.libSub = c.dataset.libsub; save(); render(); });
   const la = $("#loadall"); if (la) la.onclick = async () => { la.disabled = true; la.textContent = "Loading the books…"; try { await Promise.all(LIB().map(b => loadText(b.file))); } catch(e){ toast("Some books could not load"); } INDEX = null; render(); };
   const sq = $("#sq"); if (sq){ sq.oninput = () => { view.q = sq.value; $("#sres").innerHTML = searchResults(sq.value); bindResults(); }; bindResults(); if (view.q !== undefined) { sq.focus(); sq.setSelectionRange(sq.value.length, sq.value.length); } }
   const sd = $("#sendall"); if (sd) sd.onclick = async () => { const ok = await sendReports(S.reports.filter(r=>!r.sent)); if (ok) { toast("Thank you, jazak Allahu khayran"); render(); } };
