@@ -23,8 +23,7 @@ function toolsView(){
     <p class="label">Pilgrimage</p><div class="stack">
       ${row('data-guide="umrah"', "kaaba", "How to perform 'Umrah", "Step by step, tick off as you go")}
       ${row('data-guide="hajj"', "kaaba", "How to perform Hajj", "Tamattu', from the 'umrah to the farewell tawaf")}</div>
-    <p class="label">Remembrance</p><div class="stack">
-      ${row('data-go="salawat"', "salawat", "Salawat on the Prophet ﷺ", "Durood Ibrahimi, Taj, Tunjina, Khizri and more, with sources")}</div>`);
+`);
 }
 
 /* ---------------- Guides ---------------- */
@@ -261,15 +260,16 @@ function salawatCard(){
   if (!SALAWAT) { loadSalawat().then(() => { if (view.name === "home" && SALAWAT) render(); }); return ""; }
   const short = SALAWAT.items.filter(x => x.id !== "taj"), x = short[today() % short.length], n = (S.salCount||{})[x.id] || 0;
   const tot = Object.values(S.salCount||{}).reduce((a, b) => a + b, 0);
-  return `<section class="card salcard" aria-label="Salawat on the Prophet ﷺ"><div class="spread"><b>Salawat on the Prophet ﷺ</b><button class="linkbtn" data-go="salawat">All salawat</button></div>
+  return `<section class="card salcard" aria-labelledby="salh"><h2 id="salh" class="salh">Salawat & Du'a</h2>
     <p class="ar sal-ar" lang="ar" dir="rtl">${esc(x.ar)}</p><p class="small muted" style="margin:0 0 10px">${esc(x.name)} · ${esc(x.src.split(/[.;(]/)[0])}</p>
     <div class="sal-c"><button class="btn small-btn" data-sal="${x.id}">Count one</button><span class="small muted" data-salc="${x.id}">${n.toLocaleString()} recited</span>
-    ${tot ? `<span class="small muted" style="margin-left:auto">${tot.toLocaleString()} in all</span>` : ""}</div></section>`;
+    ${tot ? `<span class="small muted" style="margin-left:auto">${tot.toLocaleString()} in all</span>` : ""}</div>
+    <div class="duachips"><button class="dchip" data-go="salawat">All salawat</button><button class="dchip" data-dua="daily">Daily du'as</button><button class="dchip" data-dua="rabbana">40 Rabbana</button><button class="dchip" data-dua="ghazali">Imam al-Ghazali</button></div></section>`;
 }
 function salawatView(){
   if (!SALAWAT) { loadSalawat().then(render); return shell(`<p class="muted">Loading…</p>`); }
   const cnt = S.salCount || {};
-  return shell(`<button class="back" data-go="tools">${ICON.back} Tools</button><h1>Salawat on the Prophet ﷺ</h1>
+  return shell(`<button class="back" data-go="home">${ICON.back} Home</button><h1>Salawat on the Prophet ﷺ</h1>
     <p class="muted" style="margin:0 0 6px">${esc(SALAWAT.intro)}</p><p class="small muted" style="margin:0 0 14px">${esc(SALAWAT.introSrc)}</p>
     ${SALAWAT.items.map(x => `<section class="card pad sal" id="sal-${x.id}"><h2 style="margin:0 0 2px">${esc(x.name)}</h2><p class="small muted" style="margin:0 0 10px">${esc(x.by)}</p>
       <p class="ar sal-ar" lang="ar" dir="rtl">${esc(x.ar)}</p>${x.en ? `<p class="sal-en">${esc(x.en)}</p>` : ""}
@@ -282,7 +282,19 @@ function bindSalawat(){ document.querySelectorAll("[data-sal]").forEach(b => b.o
 function bindSalCard(){ document.querySelectorAll(".salcard [data-sal]").forEach(b => b.onclick = () => { S.salCount = S.salCount || {}; const k = b.dataset.sal; S.salCount[k] = (S.salCount[k]||0) + 1; save();
   const c = document.querySelector(`[data-salc="${k}"]`); if (c) c.textContent = S.salCount[k].toLocaleString() + " recited"; if (navigator.vibrate) navigator.vibrate(8); }); }
 
+let DUAS = null;
+const loadDuas = async () => DUAS || (DUAS = await fetch("data/duas.json").then(r => r.json()).catch(() => null));
+function duasView(sec){
+  if (!DUAS) { loadDuas().then(render); return shell(`<p class="muted">Loading…</p>`); }
+  const cur = DUAS.sections.find(x => x.id === sec) || DUAS.sections[0];
+  return shell(`<button class="back" data-go="home">${ICON.back} Home</button><h1 style="margin-bottom:8px">Du'as</h1>
+    <div class="dseg" role="tablist" aria-label="Du'a collections">${DUAS.sections.map(x => `<button role="tab" aria-selected="${x.id === cur.id}" class="${x.id === cur.id ? "on" : ""}" data-dua="${x.id}">${esc(x.title)}</button>`).join("")}</div>
+    <p class="muted" style="margin:10px 0 4px">${esc(cur.sub)}.</p>${cur.credit ? `<p class="small muted" style="margin:0 0 12px">${esc(cur.credit)}</p>` : ""}
+    ${cur.items.map(x => `<section class="card pad dua"><h2>${esc(x.t)}</h2><p class="ar dua-ar" lang="ar" dir="rtl">${esc(x.ar).replace(/ ۞ /g, "<br>")}</p>
+      <p class="dua-en">${esc(x.en)}</p>${x.note ? `<p class="small notebox">${esc(x.note)}</p>` : ""}<p class="small muted dua-src">${esc(x.src)}</p></section>`).join("")}`);
+}
 function toolsRender(app){
+  if (view.name === "duas") { app.innerHTML = duasView(view.sec); return true; }
   if (view.name === "tools") app.innerHTML = toolsView();
   else if (view.name === "guide") app.innerHTML = guideView(view.id);
   else if (view.name === "qibla") app.innerHTML = qiblaView();
@@ -294,6 +306,7 @@ function toolsRender(app){
   return true;
 }
 function toolsBind(app){
+  app.querySelectorAll("[data-dua]").forEach(b => b.onclick = () => { go({ name:"duas", sec:b.dataset.dua }); });
   app.querySelectorAll("[data-guide]").forEach(b => b.onclick = () => go({ name:"guide", id:b.dataset.guide }));
   app.querySelectorAll("[data-gstep]").forEach(b => b.onclick = () => { S.guides = S.guides || {}; const d = S.guides[view.id] = S.guides[view.id] || [], i = +b.dataset.gstep;
     const k = d.indexOf(i); if (k >= 0) d.splice(k, 1); else d.push(i); save(); const y = window.scrollY; render(); window.scrollTo(0, y); });
