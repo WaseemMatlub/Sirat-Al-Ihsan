@@ -554,7 +554,7 @@ const LIBRARY = [
 ].map(([y,id,file,subject,title,ar,author,authorAr,when,sub]) => ({ y, id, file, subject, title, ar, author, authorAr, when, sub, type:"text", per:1, glyph:"",
   honor: author.startsWith("The Ottoman") ? "" : author.startsWith("Imams") ? "رحمهما الله" : "رحمه الله" }));
 YEARS.forEach(y => (y.read||[]).forEach(id => { const b = LIBRARY.find(x => x.id === id); if (b) b.y = y.n; }));
-LIBRARY.forEach(b => { if (b.y >= 1) YEARS[b.y-1].books.push(b); });   // Year 0 (Fard 'Ayn) books live in the Library only
+LIBRARY.forEach(b => { if (b.y >= 1) YEARS[b.y-1].books.push(b); });   // Fard al-'Ayn books live in the Library only
 /* After Year 5: one year of further study in a module the student chooses */
 const SPEC_YEAR = 6;
 /* Each year's syllabus is made of these modules */
@@ -959,10 +959,10 @@ const FARD_DECKS = [
 ].map(([id,title,sub,subject,color,read]) => ({ id, title, sub, subject, color, read, opt:true, fard:true, simple:true, glyph:"", year:1, get size(){ return (META.decks||{})[id]||0; } }));
 const allDecks = () => [...YEARS.flatMap(y=>y.decks), ...FARD_DECKS];
 const studyDecks = () => [...activeYears().flatMap(y=>y.decks), ...FARD_DECKS].filter(d => d.cards);
-function fardAynCard(){                     // Year 0: optional, for anyone who wants the essentials first
+function fardAynCard(){                     // Fard al-'Ayn: optional, for anyone who wants the essentials first
   const D = id => FARD_DECKS.find(d => d.id === id), signs = YEARS[0].books.find(b => b.id === "signs"), ayy = bookById("t_ayyuha");
-  return `<details class="module fard" ${S.openFard?"open":""}><summary><span class="yr-badge" style="width:44px;height:44px;font-size:1.05rem">0</span>
-      <span class="m-txt"><span class="t">Year 0: Fard 'Ayn</span>
+  return `<details class="module fard" ${S.openFard?"open":""}><summary><span class="yr-badge" style="width:44px;height:44px">${ICON.check}</span>
+      <span class="m-txt"><span class="t">Fard al-'Ayn</span>
       <span class="s">What every Muslim must know. Optional: start here, or go straight to Year 1.</span></span></summary>
     <div class="stack"><p class="sublabel">Tajweed and the letters</p>${itemDeck(D("tajwid"), true)}
       <p class="sublabel">Fiqh and Aqeedah</p>${FARD_DECKS.filter(d => d.id.startsWith("fard_")).map(d => itemDeck(d, true)).join("")}
@@ -1740,5 +1740,5 @@ applyTheme(); try { matchMedia("(prefers-color-scheme: dark)").addEventListener(
 })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=f0fbf3d524");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=7e6187f54e");</script></body>
 </html>
