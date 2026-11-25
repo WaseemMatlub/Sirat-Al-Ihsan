@@ -640,30 +640,26 @@ const today = () => Math.floor((Date.now() - new Date().getTimezoneOffset()*6000
 /* ---- Global leaderboard (opt-in). Needs data/config.json {url, key} for a Supabase project; hidden until then. ---- */
 let SBC = null;
 async function sbConf(){ if (SBC !== null) return SBC; try { const r = await fetch("data/config.json", { cache:"no-store" }); const c = r.ok ? await r.json() : null; SBC = c && c.url && c.key ? c : false; } catch(e){ SBC = false; } return SBC; }
-async function sbToken(){                      // an anonymous account: no email, no password
-  const c = await sbConf(); if (!c) return null; S.lb = S.lb || {}; const a = S.lb.auth, now = Date.now()/1000;
-  if (a && a.exp > now + 60) return a.token;
-  const h = { apikey:c.key, "Content-Type":"application/json" }; let r = null;
-  try {
-    if (a && a.refresh) r = await fetch(`${c.url}/auth/v1/token?grant_type=refresh_token`, { method:"POST", headers:h, body:JSON.stringify({ refresh_token:a.refresh }) });
-    if (!r || !r.ok) r = await fetch(`${c.url}/auth/v1/signup`, { method:"POST", headers:h, body:JSON.stringify({ data:{} }) });
-    if (!r.ok) return null; const j = await r.json();
-    S.lb.auth = { token:j.access_token, refresh:j.refresh_token, exp:now + (j.expires_in||3600), uid:(j.user||{}).id }; save(); return j.access_token;
-  } catch(e){ return null; }
+function lbIdentity(){                         // no account: a random id and a secret code kept on this device
+  S.lb = S.lb || {};
+  if (!S.lb.id) { const h = n => [...crypto.getRandomValues(new Uint8Array(n))].map(b => b.toString(16).padStart(2, "0")).join("");
+    S.lb.id = crypto.randomUUID ? crypto.randomUUID() : h(4)+"-"+h(2)+"-4"+h(2).slice(1)+"-a"+h(2).slice(1)+"-"+h(6); S.lb.secret = h(24); save(); }
+  return S.lb;
 }
-async function sbRpc(fn, body){ const c = await sbConf(), t = await sbToken(); if (!c || !t) return false;
-  try { const r = await fetch(`${c.url}/rest/v1/rpc/${fn}`, { method:"POST", headers:{ apikey:c.key, Authorization:`Bearer ${t}`, "Content-Type":"application/json" }, body:JSON.stringify(body||{}) }); return r.ok; } catch(e){ return false; } }
+async function sbRpc(fn, body){ const c = await sbConf(); if (!c) return false;
+  try { const r = await fetch(`${c.url}/rest/v1/rpc/${fn}`, { method:"POST", headers:{ apikey:c.key, "Content-Type":"application/json" }, body:JSON.stringify(body||{}) }); return r.ok; } catch(e){ return false; } }
 async function lbSubmit(force){
   const L = S.lb; if (!L || !L.on || !L.name || !navigator.onLine) return;
   if (!force && (!L.pending || Date.now() - (L.sent||0) < 60000)) return;
   const gain = Math.min(L.pending||0, 400);
-  if (await sbRpc("submit_score", { p_name:L.name, p_total:S.xp, p_gain:gain, p_streak:S.streak })) { L.pending = Math.max(0, (L.pending||0) - gain); L.sent = Date.now(); save(); }
+  const I = lbIdentity();
+  if (await sbRpc("submit_score", { p_id:I.id, p_secret:I.secret, p_name:L.name, p_total:S.xp, p_gain:gain, p_streak:S.streak })) { L.pending = Math.max(0, (L.pending||0) - gain); L.sent = Date.now(); save(); }
 }
 const weekStartUTC = () => { const d = new Date(), k = (d.getUTCDay() + 6) % 7; d.setUTCDate(d.getUTCDate() - k); return d.toISOString().slice(0,10); };
 async function lbFetch(mode){
   const c = await sbConf(); if (!c) return null;
   const q = mode === "all" ? "order=xp.desc" : `order=week_xp.desc&week_start=eq.${weekStartUTC()}&week_xp=gt.0`;
-  try { const r = await fetch(`${c.url}/rest/v1/leaderboard?select=user_id,name,xp,week_xp,streak&${q}&limit=50`, { headers:{ apikey:c.key } }); return r.ok ? await r.json() : null; } catch(e){ return null; }
+  try { const r = await fetch(`${c.url}/rest/v1/leaderboard?select=id,name,xp,week_xp,streak&${q}&limit=50`, { headers:{ apikey:c.key } }); return r.ok ? await r.json() : null; } catch(e){ return null; }
 }
 async function fillLeaderboard(){
   const box = document.getElementById("lb"); if (!box || !(await sbConf())) return;
@@ -680,11 +676,11 @@ async function fillLeaderboard(){
   box.innerHTML = `<div class="spread"><p class="label" style="margin:0">Leaderboard</p><div class="seg mini">${[["week","This week"],["all","All time"]].map(([k,t]) => `<button data-lbm="${k}" class="${mode===k?"on":""}">${t}</button>`).join("")}</div></div><p class="small muted" style="margin:8px 0">Loading…</p>`;
   box.querySelectorAll("[data-lbm]").forEach(b => b.onclick = () => { S.lb.mode = b.dataset.lbm; save(); fillLeaderboard(); });
   await lbSubmit();
-  const rows = await lbFetch(mode), me = (L.auth||{}).uid;
+  const rows = await lbFetch(mode), me = L.id;
   const list = rows === null ? `<p class="small muted">The leaderboard couldn't load. Check your connection.</p>` : !rows.length ? `<p class="small muted">No one yet this week. Finish a lesson to be first.</p>` :
-    `<ol class="lb-list">${rows.map((r,i) => `<li class="${r.user_id===me?"me":""}"><span class="lb-rank">${i+1}</span><span class="lb-name">${esc(r.name)}${r.user_id===me?" (you)":""}</span><span class="lb-pts">${(mode==="all"?r.xp:r.week_xp).toLocaleString()} XP</span></li>`).join("")}</ol>`;
+    `<ol class="lb-list">${rows.map((r,i) => `<li class="${r.id===me?"me":""}"><span class="lb-rank">${i+1}</span><span class="lb-name">${esc(r.name)}${r.id===me?" (you)":""}</span><span class="lb-pts">${(mode==="all"?r.xp:r.week_xp).toLocaleString()} XP</span></li>`).join("")}</ol>`;
   box.querySelector("p.small.muted").outerHTML = list + `<button class="linkbtn small" id="lb-leave">Leave the leaderboard</button>`;
-  $("#lb-leave").onclick = async () => { if (!confirmInline("lb-leave", "Tap again to remove your name")) return; await sbRpc("leave_leaderboard"); S.lb = { ...S.lb, on:false }; save(); fillLeaderboard(); };
+  $("#lb-leave").onclick = async () => { if (!confirmInline("lb-leave", "Tap again to remove your name")) return; await sbRpc("leave_leaderboard", { p_id:S.lb.id, p_secret:S.lb.secret }); S.lb = { ...S.lb, on:false }; save(); fillLeaderboard(); };
 }
 function confirmInline(id, msg){ const b = document.getElementById(id); if (b.dataset.sure) return true; b.dataset.sure = "1"; b.textContent = msg; return false; }
 function touchDay(xp){ if (S.lb && S.lb.on) S.lb.pending = (S.lb.pending||0) + xp; setTimeout(() => lbSubmit(), 1500);
@@ -1740,5 +1736,5 @@ applyTheme(); try { matchMedia("(prefers-color-scheme: dark)").addEventListener(
 })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=7e6187f54e");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=c525b025c5");</script></body>
 </html>
