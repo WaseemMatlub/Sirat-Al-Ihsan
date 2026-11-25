@@ -686,6 +686,7 @@ function homeView(){
   return shell(`
     <section class="illum"><p class="ar illum-ar">السَّلَامُ عَلَيْكُمْ</p><p class="illum-en">Assalamu 'alaykum${S.name?`, ${esc(S.name)}`:""}</p></section>
     ${streakCard}
+    ${salawatCard()}
     ${learnHome()}
     <section class="card hotd" id="hotd" hidden></section>
     ${cardsRow}${course}${readRow}

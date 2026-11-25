@@ -256,6 +256,16 @@ function bindInherit(){ S.inherit = S.inherit || { h:{}, est:{} }; const I = S.i
 }
 
 /* ---------------- Salawat ---------------- */
+// First-page card: one salawat to recite (changes daily), with a counter
+function salawatCard(){
+  if (!SALAWAT) { loadSalawat().then(() => { if (view.name === "home" && SALAWAT) render(); }); return ""; }
+  const short = SALAWAT.items.filter(x => x.id !== "taj"), x = short[today() % short.length], n = (S.salCount||{})[x.id] || 0;
+  const tot = Object.values(S.salCount||{}).reduce((a, b) => a + b, 0);
+  return `<section class="card salcard" aria-label="Salawat on the Prophet ﷺ"><div class="spread"><b>Salawat on the Prophet ﷺ</b><button class="linkbtn" data-go="salawat">All salawat</button></div>
+    <p class="ar sal-ar" lang="ar" dir="rtl">${esc(x.ar)}</p><p class="small muted" style="margin:0 0 10px">${esc(x.name)} · ${esc(x.src.split(/[.;(]/)[0])}</p>
+    <div class="sal-c"><button class="btn small-btn" data-sal="${x.id}">Count one</button><span class="small muted" data-salc="${x.id}">${n.toLocaleString()} recited</span>
+    ${tot ? `<span class="small muted" style="margin-left:auto">${tot.toLocaleString()} in all</span>` : ""}</div></section>`;
+}
 function salawatView(){
   if (!SALAWAT) { loadSalawat().then(render); return shell(`<p class="muted">Loading…</p>`); }
   const cnt = S.salCount || {};
@@ -269,6 +279,8 @@ function salawatView(){
 }
 function bindSalawat(){ document.querySelectorAll("[data-sal]").forEach(b => b.onclick = () => { S.salCount = S.salCount || {}; S.salCount[b.dataset.sal] = (S.salCount[b.dataset.sal]||0) + 1; save();
   const s = b.nextElementSibling; if (s) s.textContent = S.salCount[b.dataset.sal].toLocaleString() + " recited"; if (navigator.vibrate) navigator.vibrate(8); }); }
+function bindSalCard(){ document.querySelectorAll(".salcard [data-sal]").forEach(b => b.onclick = () => { S.salCount = S.salCount || {}; const k = b.dataset.sal; S.salCount[k] = (S.salCount[k]||0) + 1; save();
+  const c = document.querySelector(`[data-salc="${k}"]`); if (c) c.textContent = S.salCount[k].toLocaleString() + " recited"; if (navigator.vibrate) navigator.vibrate(8); }); }
 
 function toolsRender(app){
   if (view.name === "tools") app.innerHTML = toolsView();
@@ -287,5 +299,5 @@ function toolsBind(app){
     const k = d.indexOf(i); if (k >= 0) d.splice(k, 1); else d.push(i); save(); const y = window.scrollY; render(); window.scrollTo(0, y); });
   const gr = $("#greset"); if (gr) gr.onclick = () => confirmBox("Clear all ticks for this guide?", () => { S.guides[view.id] = []; save(); render(); });
   if (view.name === "qibla") bindQibla(); if (view.name === "qada") bindQada(); if (view.name === "zakat") bindZakat();
-  if (view.name === "inherit") bindInherit(); if (view.name === "salawat") bindSalawat();
+  if (view.name === "inherit") bindInherit(); if (view.name === "salawat") bindSalawat(); if (view.name === "home") bindSalCard();
 }
