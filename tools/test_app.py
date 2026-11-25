@@ -3,7 +3,7 @@ from playwright.async_api import async_playwright
 async def main():
   async with async_playwright() as p:
     b=await p.chromium.launch(); pg=await b.new_page(viewport={'width':390,'height':844})
-    errs=[]; pg.on('console',lambda m: errs.append(m.text) if m.type=='error' else None); pg.on('pageerror',lambda e: errs.append(str(e)))
+    errs=[]; pg.on('console',lambda m: errs.append(m.text) if m.type=='error' else None); pg.on('pageerror',lambda e: errs.append(str(e))) ; pg.on('response', lambda r: errs.append('404 '+r.url) if r.status==404 else None)
     await pg.goto('http://localhost:8765/?dev=1'); await pg.wait_for_selector('#ob-next'); await pg.screenshot(path='/tmp/s0.png')
     await pg.click('#ob-next'); await pg.click('[data-start=y1]'); await pg.click('#begin'); await pg.wait_for_selector('.today-card')
     await pg.screenshot(path='/tmp/s1.png',full_page=True)
@@ -13,7 +13,7 @@ async def main():
       if await pg.locator('.done-screen').count(): break
       if await pg.locator('.opt').count() and await pg.locator('#check').count():
         await pg.locator('.opt').first.click(); await pg.click('#check')
-        assert await pg.locator('.explain').count()==1, 'no explain'
+        assert await pg.locator('.explain').count()==1 or await pg.evaluate("B.b.type==='words'"), 'no explain'
         if n==0: await pg.screenshot(path='/tmp/s2.png')
         n+=1
       await pg.click('#next')

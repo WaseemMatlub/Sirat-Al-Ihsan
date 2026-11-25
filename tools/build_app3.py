@@ -131,6 +131,9 @@ nav.tabs .in{grid-template-columns:repeat(4,1fr)}
 head=head.replace('</style>',css+'</style>',1)
 meta=json.load(open('data/meta.json'))
 import glob as _g, os as _o
+meta['decks']={_o.path.basename(f)[:-5]:len(json.load(open(f))) for f in _g.glob('data/decks/*.json')}
+meta['lines']={_o.path.basename(f)[:-5]:len(json.load(open(f))) for f in _g.glob('data/lines/*.json')}
+for _k in ['1','2','3','4','5','fard']: meta.pop(_k, None)
 meta['texts']={_o.path.basename(f)[:-5]:len(json.load(open(f))['sections']) for f in _g.glob('data/texts/*.json')}
 meta['textsAudio']={_o.path.basename(f)[:-5]:any(x.get('aud_en') or x.get('audio') for x in json.load(open(f))['sections']) for f in _g.glob('data/texts/*.json')}
 meta['textsAi']={_o.path.basename(f)[:-5]:bool(json.load(open(f)).get('ai')) for f in _g.glob('data/texts/*.json')}
@@ -147,7 +150,7 @@ h=h.replace('</head>','<link rel="manifest" href="manifest.json"><meta name="the
 h=h.replace('</body>','<script>if("serviceWorker" in navigator && /github\\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=%s");</script></body>'%ver,1)
 open('index.html','w').write(h)
 open('sw.js','w').write("""const V="ihsan-%s";
-const CORE=["./","index.html","manifest.json","icon-192.png","icon-512.png","data/meta.json","data/year1.json"];
+const CORE=["./","index.html","manifest.json","icon-192.png","icon-512.png","data/meta.json"];
 self.addEventListener("install",e=>{e.waitUntil(caches.open(V).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting()))});
 self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==V).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
 self.addEventListener("fetch",e=>{const r=e.request; if(r.method!=="GET"||new URL(r.url).origin!==location.origin) return;

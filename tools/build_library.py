@@ -62,6 +62,12 @@ for b in ONLY or ["majalla", "kanz", "jalalayn", "qatr", "alfiyya", "mughni", "i
     for x in secs: x["h"] = re.sub(r"\(\s*\(\s*\(\s*بسم\s*\)\s*\)\s*\)", "", x["h"]).strip()
     if b == "adhkar":                                # the editor's study of the book comes before the author's own introduction
         k = next(i for i, x in enumerate(secs) if x["h"] == "مقدمة المؤلف"); secs = secs[k:]
+    if b == "tajrid":                                # hadith added by the modern editor, marked as not from al-Zabidi's original
+        secs = [x for x in secs if not x["h"].startswith("هذا الحديث من زوائد")]
+    if b == "nuzha":
+        for x in secs: x["p"] = [re.sub(r"\s*\(\d+\)", "", q) for q in x["p"]]
+    if b == "ayyuha":
+        for x in secs: x["h"] = "أيها الولد"
     if b == "nasafi":                                # first section is the digitiser's notes; page counters run through the text
         secs = secs[1:]
         for x in secs: x["p"] = [q for q in x["p"] if not re.fullmatch(r"(جزء\s*:\s*\d+\s*رقم الصفحة\s*:\s*\d+|\d+)", q.strip())]
