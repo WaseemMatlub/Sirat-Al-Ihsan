@@ -309,6 +309,17 @@ html[data-theme=dark] .unit-t{color:color-mix(in srgb,var(--uc) 45%,#fff)}
 .lnum{width:30px;height:30px;border-radius:50%;display:grid;place-items:center;color:#fff;font-weight:800;font-size:.85rem;flex:none}
 .learncard{padding:22px 20px}.learncard h2{margin:0 0 10px;font-size:1.3rem}.learncard p{font-size:1.06rem;line-height:1.65;margin:0}
 .learncard .src{margin-top:16px;font-size:.8rem;color:var(--muted)}
+.swipe-k{padding:0 20px;margin:4px 0 8px}
+.swipe{position:relative;flex:1;min-height:0;display:flex;gap:12px;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;padding:4px 9% 8px;scrollbar-width:none;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch}
+.swipe::-webkit-scrollbar{display:none}
+.swipe:focus-visible{outline:none}.swipe:focus-visible .sw-card{box-shadow:0 0 0 3px var(--brand)}
+.sw-card{flex:0 0 100%;scroll-snap-align:center;scroll-snap-stop:always;overflow-y:auto;margin:0;display:flex;flex-direction:column;justify-content:center;min-height:min(62vh,440px);max-height:100%}
+.sw-card{border-top:5px solid var(--uc)}.sw-card .src{margin-top:auto;padding-top:16px}
+.dots{display:flex;justify-content:center;gap:6px;padding:10px 0 4px}
+.dots i{width:7px;height:7px;border-radius:50%;background:var(--line);transition:width .2s,background .2s}
+.dots i.on{width:20px;border-radius:4px;background:var(--ink)}
+.swipe-foot{display:flex;gap:10px}.swipe-foot #prev{flex:0 0 56px;padding:0;display:grid;place-items:center}.swipe-foot #next{flex:1}
+@media (prefers-reduced-motion:reduce){.dots i{transition:none}}
 </style>
 </head>
 <body>

@@ -587,10 +587,8 @@ function startLearn(uid, k){
 function renderLearn(){
   const st = LS.steps[LS.i]; if (!st) return finishLearn();
   let body, foot;
-  if (st.kind === "card") {
-    body = `<div class="kicker">${esc(LS.l.title)}</div><div class="card learncard"><h2>${esc(st.c.t)}</h2><p>${esc(st.c.x)}</p><p class="src">From ${esc(st.c.src)}</p></div>`;
-    foot = `<div class="pfoot"><button class="btn" id="next">${st.j === LS.l.cards.length - 1 ? "Check what you learnt" : "Next"}</button></div>`;
-  } else {
+  if (st.kind === "card") return renderSwipe(st.j);
+  {
     body = `<div class="kicker">Check your understanding</div><p class="q" style="font-size:1.1rem">${esc(st.q)}</p>
       <div class="opts">${st.options.map((o, i) => { let cls = ""; if (LS.answered) { if (o === st.answer) cls = "right"; else if (i === LS.sel) cls = "wrong"; } else if (i === LS.sel) cls = "sel";
         return `<button class="opt ${cls}" data-o="${i}" ${LS.answered ? "disabled" : ""}>${esc(o)}</button>`; }).join("")}</div>`;
@@ -602,6 +600,29 @@ function renderLearn(){
   const ck = $("#check"); if (ck) ck.onclick = () => { LS.answered = true; if (st.options[LS.sel] === st.answer) LS.right++; renderLearn(); };
   const nx = $("#next"); if (nx) nx.onclick = () => { LS.i++; LS.sel = null; LS.answered = false; renderLearn(); window.scrollTo(0,0); };
   $("#quit").onclick = () => confirmBox("Leave this lesson? It won't be marked as done.", () => { const id = LS.u.id; LS = null; go({ name:"unit", id }); });
+}
+// Lesson cards as a swipeable deck: swipe (or arrows / buttons) between cards; questions follow the last card
+function renderSwipe(start){
+  const cards = LS.l.cards, n = cards.length, steps = LS.steps.length;
+  $("#app").innerHTML = `<div class="player"><div class="player-in"><div class="phead"><button class="x" id="quit" aria-label="Leave lesson">${ICON.x}</button><div class="bar"><i id="pbar" style="background:${LS.u.color}"></i></div></div>
+    <div class="kicker swipe-k">${esc(LS.l.title)}</div>
+    <div class="swipe" id="swipe" style="--uc:${LS.u.color}" tabindex="0" aria-roledescription="carousel" aria-label="Lesson cards, swipe to move between them">${cards.map((c, j) => `<article class="card learncard sw-card" aria-roledescription="slide" aria-label="Card ${j+1} of ${n}"><h2>${esc(c.t)}</h2><p>${esc(c.x)}</p><p class="src">From ${esc(c.src)}</p></article>`).join("")}</div>
+    <div class="dots" aria-hidden="true">${cards.map(() => `<i></i>`).join("")}</div>
+    <div class="pfoot swipe-foot"><button class="btn ghost" id="prev" aria-label="Previous card">${ICON.back}</button><button class="btn" id="next"></button></div></div></div>`;
+  const sw = $("#swipe"), dots = [...document.querySelectorAll(".dots i")], prev = $("#prev"), next = $("#next"), bar = $("#pbar");
+  const smooth = matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+  const at = () => { const c = sw.scrollLeft + sw.clientWidth / 2; let b = 0, bd = 1e9;
+    [...sw.children].forEach((el, k) => { const d = Math.abs(el.offsetLeft + el.offsetWidth / 2 - c); if (d < bd) { bd = d; b = k; } }); return b; };
+  const show = j => { LS.i = j; dots.forEach((d, k) => d.classList.toggle("on", k === j)); prev.disabled = j === 0;
+    next.textContent = j === n - 1 ? "Check what you learnt" : "Next"; bar.style.width = j / steps * 100 + "%"; };
+  const goTo = j => sw.children[j].scrollIntoView({ behavior:smooth, inline:"center", block:"nearest" });
+  let t; sw.onscroll = () => { clearTimeout(t); t = setTimeout(() => show(Math.min(n - 1, Math.max(0, at()))), 60); };
+  prev.onclick = () => goTo(Math.max(0, LS.i - 1));
+  next.onclick = () => { if (LS.i < n - 1) goTo(LS.i + 1); else { LS.i = n; LS.sel = null; LS.answered = false; renderLearn(); } };
+  sw.onkeydown = e => { if (e.key === "ArrowRight") { e.preventDefault(); next.onclick(); } if (e.key === "ArrowLeft") { e.preventDefault(); prev.onclick(); } };
+  $("#quit").onclick = () => confirmBox("Leave this lesson? It won't be marked as done.", () => { const id = LS.u.id; LS = null; go({ name:"unit", id }); });
+  show(start); if (start) sw.scrollLeft = sw.children[start].offsetLeft - (sw.clientWidth - sw.children[start].offsetWidth) / 2;
+  sw.focus({ preventScroll:true });
 }
 function finishLearn(){
   const { u, k, l, right } = LS, first = !learnDone(l.id);
