@@ -210,7 +210,58 @@ function load(){ try{ const s = JSON.parse(localStorage.getItem(KEY)); return s 
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
 let S = load();
 const today = () => Math.floor((Date.now() - new Date().getTimezoneOffset()*60000) / 864e5) + S.offset;
-function touchDay(xp){ const t = today(), adv = S.lastDay !== t; if (adv) S.streak = (S.lastDay === t-1) ? S.streak + 1 : 1; S.lastDay = t; S.xp += xp; S.days[t] = (S.days[t]||0) + xp; save(); return adv; }
+/* ---- Global leaderboard (opt-in). Needs data/config.json {url, key} for a Supabase project; hidden until then. ---- */
+let SBC = null;
+async function sbConf(){ if (SBC !== null) return SBC; try { const r = await fetch("data/config.json", { cache:"no-store" }); const c = r.ok ? await r.json() : null; SBC = c && c.url && c.key ? c : false; } catch(e){ SBC = false; } return SBC; }
+async function sbToken(){                      // an anonymous account: no email, no password
+  const c = await sbConf(); if (!c) return null; S.lb = S.lb || {}; const a = S.lb.auth, now = Date.now()/1000;
+  if (a && a.exp > now + 60) return a.token;
+  const h = { apikey:c.key, "Content-Type":"application/json" }; let r = null;
+  try {
+    if (a && a.refresh) r = await fetch(`${c.url}/auth/v1/token?grant_type=refresh_token`, { method:"POST", headers:h, body:JSON.stringify({ refresh_token:a.refresh }) });
+    if (!r || !r.ok) r = await fetch(`${c.url}/auth/v1/signup`, { method:"POST", headers:h, body:JSON.stringify({ data:{} }) });
+    if (!r.ok) return null; const j = await r.json();
+    S.lb.auth = { token:j.access_token, refresh:j.refresh_token, exp:now + (j.expires_in||3600), uid:(j.user||{}).id }; save(); return j.access_token;
+  } catch(e){ return null; }
+}
+async function sbRpc(fn, body){ const c = await sbConf(), t = await sbToken(); if (!c || !t) return false;
+  try { const r = await fetch(`${c.url}/rest/v1/rpc/${fn}`, { method:"POST", headers:{ apikey:c.key, Authorization:`Bearer ${t}`, "Content-Type":"application/json" }, body:JSON.stringify(body||{}) }); return r.ok; } catch(e){ return false; } }
+async function lbSubmit(force){
+  const L = S.lb; if (!L || !L.on || !L.name || !navigator.onLine) return;
+  if (!force && (!L.pending || Date.now() - (L.sent||0) < 60000)) return;
+  const gain = Math.min(L.pending||0, 400);
+  if (await sbRpc("submit_score", { p_name:L.name, p_total:S.xp, p_gain:gain, p_streak:S.streak })) { L.pending = Math.max(0, (L.pending||0) - gain); L.sent = Date.now(); save(); }
+}
+const weekStartUTC = () => { const d = new Date(), k = (d.getUTCDay() + 6) % 7; d.setUTCDate(d.getUTCDate() - k); return d.toISOString().slice(0,10); };
+async function lbFetch(mode){
+  const c = await sbConf(); if (!c) return null;
+  const q = mode === "all" ? "order=xp.desc" : `order=week_xp.desc&week_start=eq.${weekStartUTC()}&week_xp=gt.0`;
+  try { const r = await fetch(`${c.url}/rest/v1/leaderboard?select=user_id,name,xp,week_xp,streak&${q}&limit=50`, { headers:{ apikey:c.key } }); return r.ok ? await r.json() : null; } catch(e){ return null; }
+}
+async function fillLeaderboard(){
+  const box = document.getElementById("lb"); if (!box || !(await sbConf())) return;
+  const L = S.lb || {}, mode = L.mode || "week";
+  box.hidden = false;
+  if (!L.on) { box.innerHTML = `<p class="label" style="margin-top:0">Leaderboard</p>
+      <p class="small muted" style="margin:0 0 10px">See how you compare with other students around the world. Only a nickname you choose is shown.</p>
+      <div style="display:flex;gap:8px"><input id="lb-name" maxlength="20" placeholder="Nickname (not your full name)" value="${esc(S.name||"")}" style="flex:1;min-width:0">
+      <button class="btn small-btn" id="lb-join" style="width:auto">Join</button></div>`;
+    $("#lb-join").onclick = async () => { const n = $("#lb-name").value.trim().replace(/[<>]/g, ""); if (n.length < 2) return toast("Choose a nickname of at least 2 letters");
+      S.lb = { ...(S.lb||{}), on:true, name:n, pending:0, mode:"week" }; save(); box.innerHTML = `<p class="small muted" style="margin:0">Joining…</p>`;
+      await lbSubmit(true); fillLeaderboard(); };
+    return; }
+  box.innerHTML = `<div class="spread"><p class="label" style="margin:0">Leaderboard</p><div class="seg mini">${[["week","This week"],["all","All time"]].map(([k,t]) => `<button data-lbm="${k}" class="${mode===k?"on":""}">${t}</button>`).join("")}</div></div><p class="small muted" style="margin:8px 0">Loading…</p>`;
+  box.querySelectorAll("[data-lbm]").forEach(b => b.onclick = () => { S.lb.mode = b.dataset.lbm; save(); fillLeaderboard(); });
+  await lbSubmit();
+  const rows = await lbFetch(mode), me = (L.auth||{}).uid;
+  const list = rows === null ? `<p class="small muted">The leaderboard couldn't load. Check your connection.</p>` : !rows.length ? `<p class="small muted">No one yet this week. Finish a lesson to be first.</p>` :
+    `<ol class="lb-list">${rows.map((r,i) => `<li class="${r.user_id===me?"me":""}"><span class="lb-rank">${i+1}</span><span class="lb-name">${esc(r.name)}${r.user_id===me?" (you)":""}</span><span class="lb-pts">${(mode==="all"?r.xp:r.week_xp).toLocaleString()} XP</span></li>`).join("")}</ol>`;
+  box.querySelector("p.small.muted").outerHTML = list + `<button class="linkbtn small" id="lb-leave">Leave the leaderboard</button>`;
+  $("#lb-leave").onclick = async () => { if (!confirmInline("lb-leave", "Tap again to remove your name")) return; await sbRpc("leave_leaderboard"); S.lb = { ...S.lb, on:false }; save(); fillLeaderboard(); };
+}
+function confirmInline(id, msg){ const b = document.getElementById(id); if (b.dataset.sure) return true; b.dataset.sure = "1"; b.textContent = msg; return false; }
+function touchDay(xp){ if (S.lb && S.lb.on) S.lb.pending = (S.lb.pending||0) + xp; setTimeout(() => lbSubmit(), 1500);
+ const t = today(), adv = S.lastDay !== t; if (adv) S.streak = (S.lastDay === t-1) ? S.streak + 1 : 1; S.lastDay = t; S.xp += xp; S.days[t] = (S.days[t]||0) + xp; save(); return adv; }
 if (S.lastDay !== null && today() - S.lastDay > 1) { S.streak = 0; save(); }
 
 /* ======================= SPACED REPETITION ======================= */
@@ -580,6 +631,7 @@ function profileView(){
     <div class="tiles" style="max-width:none;margin-top:12px"><div class="tile"><b>${S.streak}</b><span>Day streak</span></div><div class="tile"><b>${S.xp}</b><span>Total XP</span></div>
     <div class="tile"><b>${seen.toLocaleString()}</b><span>Cards started</span></div><div class="tile"><b>${ret===null?"–":pct(ret)}</b><span>Recall rate</span></div></div>
     ${weekStrip()}
+    <section class="card lb" id="lb" hidden></section>
     <p class="label">Appearance</p>
     <div class="seg" role="radiogroup" aria-label="Appearance">${[["auto","Automatic"],["light","Light"],["dark","Dark"]].map(([k,l]) => `<button role="radio" aria-checked="${th===k}" class="${th===k?"on":""}" data-theme="${k}">${l}</button>`).join("")}</div>
     <p class="label">Settings</p>
@@ -1237,6 +1289,7 @@ function render(){ appBadge();
   const cl = $("#clang"); if (cl) cl.onchange = () => { S.cardLang = cl.value || null; save(); };
   const hk = $("#hk"); if (hk) hk.onchange = () => { S.harakat = hk.checked; save(); };
   app.querySelectorAll("[data-theme]").forEach(b => b.onclick = () => { S.theme = b.dataset.theme; save(); applyTheme(); render(); });
+  fillLeaderboard();
   const tl = $("#tl"); if (tl) tl.onchange = () => { S.translit = tl.value; save(); toast("Saved"); };
   const ag = $("#advgrades"); if (ag) ag.onchange = () => { S.advancedGrades = ag.checked; save(); };
   const npd = $("#npd"); if (npd) npd.onchange = () => { S.newPerDay = +npd.value; save(); };
