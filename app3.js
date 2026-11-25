@@ -105,7 +105,6 @@ const LIBRARY = [
   [4,"t_hikam","hikam","Tasawwuf","al-Hikam al-'Ata'iyyah","الحكم العطائية","Imam Ibn 'Ata' Allah al-Iskandari","الإمام ابن عطاء الله السكندري","d. 709 AH","The 264 aphorisms, the letters and the intimate prayers, fully vowelled"],
   [1,"t_adhkar","adhkar","Tasawwuf","al-Adhkar","الأذكار","Imam al-Nawawi","الإمام النووي","d. 676 AH","The remembrances of the day and night, from the Sunnah"],
   [1,"t_tibyan","tibyan","Tajweed","al-Tibyan fi Adab Hamalat al-Qur'an","التبيان في آداب حملة القرآن","Imam al-Nawawi","الإمام النووي","d. 676 AH","The manners of those who carry the Qur'an"],
-  [2,"t_qushayriyya","qushayriyya","Tasawwuf","al-Risalah al-Qushayriyyah","الرسالة القشيرية","Imam Abu al-Qasim al-Qushayri","الإمام أبو القاسم القشيري","d. 465 AH","The masters of the path and its stations, the foundational Sufi manual"],
   [2,"t_munqidh","munqidh","Tasawwuf","al-Munqidh min al-Dalal","المنقذ من الضلال","Imam Abu Hamid al-Ghazali","الإمام أبو حامد الغزالي","d. 505 AH","Al-Ghazali's own account of his search for certainty"],
   [3,"t_ikhtiyar","ikhtiyar","Fiqh","al-Ikhtiyar li-Ta'lil al-Mukhtar","الاختيار لتعليل المختار","Imam 'Abd Allah ibn Mahmud al-Mawsili","الإمام عبد الله بن محمود الموصلي","d. 683 AH","Hanafi fiqh with the reasons behind each ruling"],
   [3,"t_tuhfa","tuhfa","Fiqh","Tuhfat al-Fuqaha'","تحفة الفقهاء","Imam 'Ala' al-Din al-Samarqandi","الإمام علاء الدين السمرقندي","d. 539 AH","The Hanafi text that Bada'i' al-Sana'i' explains"],
