@@ -1,0 +1,15 @@
+name: fetch-dalail
+on: workflow_dispatch
+permissions: { contents: write }
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download the Dala'il al-Khayrat PDF (kept on a separate branch, not published)
+        run: |
+          mkdir -p /tmp/d && curl -fsSL -A "Mozilla/5.0" "https://sufipathoflove.com/wp-content/uploads/2013/12/dalail-khayrat-arabic.pdf" -o /tmp/d/dalail.pdf
+          ls -la /tmp/d; file /tmp/d/dalail.pdf
+          git config user.name "github-actions"; git config user.email "actions@github.com"
+          git checkout --orphan dalail-src && git rm -rf . -q
+          cp /tmp/d/dalail.pdf . && git add dalail.pdf && git commit -m "Dala'il al-Khayrat source PDF" && git push -f origin dalail-src
