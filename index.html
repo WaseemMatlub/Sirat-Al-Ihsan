@@ -337,7 +337,7 @@ html[data-theme=dark] .unit-t{color:color-mix(in srgb,var(--uc) 45%,#fff)}
 .lc-btn{border:0;background:var(--brand);color:var(--brand-ink);font-weight:800;padding:15px;font-size:.95rem}
 .lc-btn.done{background:var(--ok-soft);color:var(--ink);display:flex;align-items:center;justify-content:center;gap:6px;font-weight:700}
 .lc-btn.done svg{color:var(--ok)}.lc-btn.done .small{color:var(--ink);font-weight:500}
-.topic-i{border-left:4px solid var(--uc)}.topic-i.on{outline:2px solid var(--ink);outline-offset:-1px}
+.topic-i{border-left:4px solid var(--uc);grid-template-columns:1fr auto}.topic-i.on{outline:2px solid var(--ink);outline-offset:-1px}
 .ti-dot{width:38px;height:38px;border-radius:10px;background:var(--uc);color:#F3E6C4;display:grid;place-items:center;font-family:Amiri,serif;font-size:1.1rem;flex:none}
 .explain-box{margin-top:16px;border-radius:14px;padding:12px 14px;border:1px solid var(--line)}
 .explain-box.ok{background:var(--ok-soft)}.explain-box.bad{background:var(--bad-soft)}
@@ -346,6 +346,8 @@ html[data-theme=dark] .unit-t{color:color-mix(in srgb,var(--uc) 45%,#fff)}
 .recap{list-style:none;counter-reset:r;padding:0;margin:0;display:grid;gap:8px}
 .recap li{counter-increment:r;display:flex;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
 .recap li::before{content:counter(r);font-weight:800;color:var(--brand)}
+.topic-b{margin:4px 0 0}.src-l{font-style:italic}
+.eb-src{font-size:.8rem;color:var(--ink);margin-top:8px!important;border-top:1px solid var(--line);padding-top:8px}
 
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--line);padding:4px;border-radius:14px}
 .seg button{border:0;background:transparent;border-radius:10px;padding:10px 6px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
@@ -1030,28 +1032,29 @@ function bindReadLinks(root){ root.querySelectorAll("[data-read]").forEach(b => 
 /* ============================ LEARN: the Fard al-'Ayn for everyone ============================
    Short lessons in simple English, written from our books; everything is open. Data: data/learn.json */
 let LEARN = null, LS = null;
-const LEARN_DECK = { belief:"fard_aqeedah", purity:"fard_tahara", prayer:"fard_salah", fasting:"fard_sawm", zakat:"fard_zakat" };
-async function loadLearn(){ if (LEARN) return LEARN; try { LEARN = await fetch("data/learn.json").then(r => r.json()); } catch(e){ LEARN = []; } return LEARN; }
+const LEARN_DECK = { aqeedah:["fard_aqeedah"], fiqh:["fard_tahara","fard_salah","fard_sawm","fard_zakat"] };
+const OLD_TOPIC = { belief:"aqeedah", purity:"fiqh", prayer:"fiqh", fasting:"fiqh", zakat:"fiqh", heart:"tazkiyah" };
+async function loadLearn(){ if (LEARN) return LEARN; try { LEARN = await fetch("data/learn.json?v=85d0881e").then(r => r.json()); } catch(e){ LEARN = []; } return LEARN; }
 const learnDone = id => !!(S.learn||{})[id];
 function nextLearn(){ for (const u of LEARN||[]) for (let k = 0; k < u.lessons.length; k++) if (!learnDone(u.lessons[k].id)) return { u, k }; return null; }
 function learnHome(){
   if (!LEARN) { loadLearn().then(() => { if (view.name === "home") render(); }); return `<p class="muted">Loading…</p>`; }
-  const nx = nextLearn(), u = LEARN.find(x => x.id === S.topic) || (nx && nx.u) || LEARN[0];
+  const nx = nextLearn(), u = LEARN.find(x => x.id === (OLD_TOPIC[S.topic] || S.topic)) || (nx && nx.u) || LEARN[0];
   const d = u.lessons.filter(l => learnDone(l.id)).length, n = u.lessons.length, pct = Math.round(d / n * 100);
   const head = `<section class="card topic"><div class="topic-r"><span class="topic-t">${esc(u.title)}</span><button class="chip-btn" id="topic-change" aria-haspopup="dialog">Change</button></div>
-    <div class="topic-p"><span class="bar"><i style="width:${Math.max(2, pct)}%;background:${u.color}"></i></span><span class="small muted">${pct}%</span></div></section>`;
+    <p class="small muted topic-b">Based on ${esc(u.book || "")}</p><div class="topic-p"><span class="bar"><i style="width:${Math.max(2, pct)}%;background:${u.color}"></i></span><span class="small muted">${pct}%</span></div></section>`;
   const card = (l, k) => { const ok = learnDone(l.id);
     return `<article class="lcard" style="--uc:${u.color}"><div class="lc-art" aria-hidden="true"><span class="ar">${esc(u.ar || "")}</span><span class="lc-n">${k+1} of ${n}</span></div>
       <div class="lc-body"><p class="lc-k">${esc(u.title)}</p><h3>${esc(l.title)}</h3><p class="lc-a">${esc(l.about || "")}</p></div>
       ${ok ? `<button class="lc-btn done" data-learn="${u.id}|${k}">${ICON.check.replace("<svg",'<svg width="16" height="16"')} Lesson complete<span class="small"> · go over it again</span></button>`
            : `<button class="lc-btn" data-learn="${u.id}|${k}">Start lesson</button>`}</article>`; };
-  const deck = LEARN_DECK[u.id] && FARD_DECKS.find(x => x.id === LEARN_DECK[u.id]);
-  return `${head}<div class="lcards" id="lcards" data-topic="${u.id}" aria-label="${esc(u.title)} lessons, swipe to see more">${u.lessons.map(card).join("")}</div>${deck ? `<div class="stack" style="margin-top:4px">${itemDeck(deck, true)}</div>` : ""}`;
+  const decks = (LEARN_DECK[u.id] || []).map(id => FARD_DECKS.find(x => x.id === id)).filter(Boolean);
+  return `${head}<div class="lcards" id="lcards" data-topic="${u.id}" aria-label="${esc(u.title)} lessons, swipe to see more">${u.lessons.map(card).join("")}</div>${decks.length ? `<p class="label">Review with flashcards</p><div class="stack">${decks.map(d => itemDeck(d, true)).join("")}</div>` : ""}`;
 }
 function topicSheet(){
-  const d = modal(`<h2 style="margin:4px 0 4px;text-align:center">Choose a topic</h2><p class="small muted" style="text-align:center;margin:0 0 14px">Every lesson is open. Switch whenever you like.</p>
-    <div class="stack">${LEARN.map(u => { const dn = u.lessons.filter(l => learnDone(l.id)).length, on = (S.topic || (nextLearn()||{u:LEARN[0]}).u.id) === u.id;
-      return `<button class="item topic-i ${on ? "on" : ""}" data-topic="${u.id}" style="--uc:${u.color}"><span style="flex:1;min-width:0"><span class="t">${esc(u.title)}</span><br><span class="s">${esc(u.sub)}</span></span><span class="small muted">${dn}/${u.lessons.length}</span></button>`; }).join("")}</div>
+  const d = modal(`<h2 style="margin:4px 0 4px;text-align:center">Switch course</h2><p class="small muted" style="text-align:center;margin:0 0 14px">Every lesson is open. Each course follows a classical book.</p>
+    <div class="stack">${LEARN.map(u => { const dn = u.lessons.filter(l => learnDone(l.id)).length, on = (OLD_TOPIC[S.topic] || S.topic || (nextLearn()||{u:LEARN[0]}).u.id) === u.id;
+      return `<button class="item topic-i ${on ? "on" : ""}" data-topic="${u.id}" style="--uc:${u.color}"><span style="flex:1;min-width:0"><span class="t">${esc(u.title)}</span><br><span class="s">${esc(u.sub)}</span><br><span class="s src-l">Based on ${esc(u.book || "")}</span></span><span class="small muted">${dn}/${u.lessons.length}</span></button>`; }).join("")}</div>
     <button class="btn ghost" id="topic-x" style="margin-top:14px">Close</button>`, (el, close) => {
       el.querySelectorAll("[data-topic]").forEach(b => b.onclick = () => { S.topic = b.dataset.topic; save(); close(); render(); });
       el.querySelector("#topic-x").onclick = close; el.onclick = e => { if (e.target === el) close(); }; });
@@ -1064,7 +1067,7 @@ function fitLearnCards(){
 }
 function unitView(id){
   const u = (LEARN||[]).find(x => x.id === id); if (!u) { loadLearn().then(render); return shell(`<p class="muted">Loading…</p>`); }
-  const deck = LEARN_DECK[id] && FARD_DECKS.find(d => d.id === LEARN_DECK[id]);
+  const deck = (LEARN_DECK[id] || []).map(x => FARD_DECKS.find(d => d.id === x)).filter(Boolean)[0];
   return shell(`<button class="back" data-go="home">${ICON.back} Home</button>
     <h1 style="margin-bottom:2px">${esc(u.title)}</h1><p class="muted" style="margin:0 0 16px">${esc(u.sub)}</p>
     <div class="stack">${u.lessons.map((l, k) => `<button class="item" data-learn="${u.id}|${k}"><span class="lnum" style="background:${u.color}">${learnDone(l.id) ? ICON.check.replace("<svg",'<svg width="14" height="14"') : k+1}</span>
@@ -1073,7 +1076,7 @@ function unitView(id){
 }
 function startLearn(uid, k){
   const u = LEARN.find(x => x.id === uid), l = u.lessons[k];
-  const checks = shuffle(l.checks.map(c => ({ kind:"mcq", q:c.q, answer:c.a, why:c.why, options:shuffle([c.a, ...c.w]) })));
+  const checks = shuffle(l.checks.map(c => ({ kind:"mcq", q:c.q, answer:c.a, why:c.why, src:c.src, options:shuffle([c.a, ...c.w]) })));
   LS = { u, k, l, steps:[...l.cards.map((c, j) => ({ kind:"card", c, j })), ...checks, { kind:"recap" }], i:0, sel:null, answered:false, right:0 };
   renderLearn();
 }
@@ -1085,7 +1088,7 @@ function renderLearn(){
     if (st.kind === "recap") {
       const nxt = LS.u.lessons[LS.k + 1];
       body = `<div class="kicker">To recap</div><h2 style="margin:4px 0 12px">${esc(LS.l.title)}</h2>
-        <ol class="recap">${LS.l.cards.map(c => `<li><b>${esc(c.t)}</b></li>`).join("")}</ol>
+        <ol class="recap">${LS.l.cards.map(c => `<li><span><b>${esc(c.t)}</b><span class="small muted" style="display:block">${esc(c.src)}</span></span></li>`).join("")}</ol>
         ${nxt ? `<p class="muted" style="margin-top:16px">Next time: ${esc(nxt.title)}.</p>` : ""}`;
       foot = `<div class="pfoot"><button class="btn" id="next">Finish lesson</button></div>`;
     } else {
@@ -1096,7 +1099,7 @@ function renderLearn(){
     if (!LS.answered) foot = `<div class="pfoot"><button class="btn" id="check" ${LS.sel === null ? "disabled" : ""}>Check answer</button></div>`;
     else { const ok = st.options[LS.sel] === st.answer;
       body += `<section class="explain-box ${ok ? "ok" : "bad"}" role="status"><p class="eb-h"><span>Explanation</span><span class="eb-tag">${ok ? ICON.check.replace("<svg",'<svg width="13" height="13"') + " Correct" : "✕ Incorrect"}</span></p>
-        ${ok ? "" : `<p class="eb-a">The answer is: <b>${esc(st.answer)}</b></p>`}<p>${esc(st.why || "")}</p></section>`;
+        ${ok ? "" : `<p class="eb-a">The answer is: <b>${esc(st.answer)}</b></p>`}<p>${esc(st.why || "")}</p>${st.src ? `<p class="eb-src">Source: ${esc(st.src)}</p>` : ""}</section>`;
       foot = `<div class="pfoot"><button class="btn" id="next">Next</button></div>`; }
     }
   }
@@ -2006,5 +2009,5 @@ applyTheme(); try { matchMedia("(prefers-color-scheme: dark)").addEventListener(
 })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=c699185df3");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=c52df8d444");</script></body>
 </html>

@@ -337,7 +337,7 @@ html[data-theme=dark] .unit-t{color:color-mix(in srgb,var(--uc) 45%,#fff)}
 .lc-btn{border:0;background:var(--brand);color:var(--brand-ink);font-weight:800;padding:15px;font-size:.95rem}
 .lc-btn.done{background:var(--ok-soft);color:var(--ink);display:flex;align-items:center;justify-content:center;gap:6px;font-weight:700}
 .lc-btn.done svg{color:var(--ok)}.lc-btn.done .small{color:var(--ink);font-weight:500}
-.topic-i{border-left:4px solid var(--uc)}.topic-i.on{outline:2px solid var(--ink);outline-offset:-1px}
+.topic-i{border-left:4px solid var(--uc);grid-template-columns:1fr auto}.topic-i.on{outline:2px solid var(--ink);outline-offset:-1px}
 .ti-dot{width:38px;height:38px;border-radius:10px;background:var(--uc);color:#F3E6C4;display:grid;place-items:center;font-family:Amiri,serif;font-size:1.1rem;flex:none}
 .explain-box{margin-top:16px;border-radius:14px;padding:12px 14px;border:1px solid var(--line)}
 .explain-box.ok{background:var(--ok-soft)}.explain-box.bad{background:var(--bad-soft)}
@@ -346,6 +346,8 @@ html[data-theme=dark] .unit-t{color:color-mix(in srgb,var(--uc) 45%,#fff)}
 .recap{list-style:none;counter-reset:r;padding:0;margin:0;display:grid;gap:8px}
 .recap li{counter-increment:r;display:flex;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
 .recap li::before{content:counter(r);font-weight:800;color:var(--brand)}
+.topic-b{margin:4px 0 0}.src-l{font-style:italic}
+.eb-src{font-size:.8rem;color:var(--ink);margin-top:8px!important;border-top:1px solid var(--line);padding-top:8px}
 </style>
 </head>
 <body>

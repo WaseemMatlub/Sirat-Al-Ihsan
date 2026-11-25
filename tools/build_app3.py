@@ -138,7 +138,9 @@ meta['texts']={_o.path.basename(f)[:-5]:len(json.load(open(f))['sections']) for 
 meta['textsAudio']={_o.path.basename(f)[:-5]:any(x.get('aud_en') or x.get('audio') for x in json.load(open(f))['sections']) for f in _g.glob('data/texts/*.json')}
 meta['textsAi']={_o.path.basename(f)[:-5]:bool(json.load(open(f)).get('ai')) for f in _g.glob('data/texts/*.json')}
 meta['textsEn']={_o.path.basename(f)[:-5]:(lambda d: bool(d.get('bilingual') or d.get('ai') or any(x.get('en') for x in d['sections'])))(json.load(open(f))) for f in _g.glob('data/texts/*.json')}
-js=open('app3.js').read().replace('/*META*/',json.dumps(meta))
+import hashlib
+LV=hashlib.md5(open('data/learn.json','rb').read()).hexdigest()[:8]
+js=open('app3.js').read().replace('/*META*/',json.dumps(meta)).replace('__LEARNV__',LV)
 open('index.html','w').write(head+'<script>\n'+js+'\n</script>\n</body>\n</html>\n')
 print('ok',len(head)+len(js))
 
@@ -149,11 +151,11 @@ ver=hashlib.sha1((h+''.join(open(f,'rb').read().hex()[:2000] for f in sorted(glo
 h=h.replace('</head>','<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#0E5A43"><link rel="apple-touch-icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"></head>',1)
 h=h.replace('</body>','<script>if("serviceWorker" in navigator && /github\\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=%s");</script></body>'%ver,1)
 open('index.html','w').write(h)
-open('sw.js','w').write("""const V="ihsan-%s", D="ihsan-data", F="ihsan-fonts";
+open('sw.js','w').write((lambda t: t.replace('__LEARNV__',LV))("""const V="ihsan-%s", D="ihsan-data", F="ihsan-fonts";
 const CORE=["./","index.html","manifest.json","icon-192.png","icon-512.png","data/meta.json"];
 self.addEventListener("push",e=>{let d={};try{d=e.data.json()}catch(x){d={title:"Dār aṣ-Ṣiddīq",body:e.data?e.data.text():""}} e.waitUntil(self.registration.showNotification(d.title||"Dār aṣ-Ṣiddīq",{body:d.body||"",icon:"icon-192.png",badge:"icon-192.png",tag:"streak"}))});
 self.addEventListener("notificationclick",e=>{e.notification.close(); e.waitUntil(clients.matchAll({type:"window"}).then(ws=>{for(const w of ws){if("focus" in w) return w.focus()} return clients.openWindow("./")}))});
-self.addEventListener("install",e=>{e.waitUntil(caches.open(V).then(c=>c.addAll(CORE)).then(()=>caches.open(D)).then(c=>c.addAll(["data/learn.json","data/quotes.json","data/decks/fard_aqeedah.json","data/decks/fard_tahara.json","data/decks/fard_salah.json","data/decks/fard_sawm.json","data/decks/fard_zakat.json"]).catch(()=>{})).then(()=>self.skipWaiting()))});
+self.addEventListener("install",e=>{e.waitUntil(caches.open(V).then(c=>c.addAll(CORE)).then(()=>caches.open(D)).then(c=>c.addAll(["data/learn.json?v=__LEARNV__","data/quotes.json","data/decks/fard_aqeedah.json","data/decks/fard_tahara.json","data/decks/fard_salah.json","data/decks/fard_sawm.json","data/decks/fard_zakat.json"]).catch(()=>{})).then(()=>self.skipWaiting()))});
 self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k.startsWith("ihsan-")&&![V,D,F].includes(k)).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
 /* Three stores: V = the app itself (replaced on each update), D = lessons, books and audio (kept across updates, refreshed in the background),
    F = fonts. So anything learnt or saved for offline stays available without internet. */
@@ -165,5 +167,5 @@ self.addEventListener("fetch",e=>{const r=e.request; if(r.method!=="GET") return
   if(u.pathname.endsWith("fixes.json")){ e.respondWith(fetch(r).then(res=>{caches.open(D).then(c=>c.put(u.pathname,res.clone()));return res}).catch(()=>caches.match(u.pathname))); return; }
   if(/\\/(data|audio)\\//.test(u.pathname)){ const key=u.origin+u.pathname; e.respondWith(caches.open(D).then(c=>c.match(key).then(hit=>{const net=fetch(r).then(res=>{if(res.ok)c.put(key,res.clone());return res}).catch(()=>hit);return hit||net}))); return; }
   e.respondWith(caches.match(r,{ignoreSearch:true}).then(hit=>hit||fetch(r).then(res=>{if(res.ok)caches.open(V).then(c=>c.put(r,res.clone()));return res})))});
-"""%ver)
+"""%ver))
 print("pwa",ver)
