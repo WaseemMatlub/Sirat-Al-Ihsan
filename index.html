@@ -1340,8 +1340,18 @@ function renderSwipe(start){
   show(start); if (start) sw.scrollLeft = sw.children[start].offsetLeft - (sw.clientWidth - sw.children[start].offsetWidth) / 2;
   sw.focus({ preventScroll:true });
 }
+const LEARN_PASS = 0.7;   // share of questions to get right first time for a lesson to count as done
 function finishLearn(){
-  const { u, k, l, right } = LS, first = !learnDone(l.id);
+  const { u, k, l, right } = LS, first = !learnDone(l.id), pct = right / l.checks.length;
+  if (pct < LEARN_PASS) {   // not passed: nothing is marked done, no points; go over the cards and try again
+    $("#app").innerHTML = `<div class="player"><div class="player-in"><div class="done-screen"><h2>Not passed yet</h2><p class="muted">${esc(l.title)}</p>
+      <div class="tiles"><div class="tile"><b>${Math.round(pct * 100)}%</b><span>Right first time</span></div><div class="tile"><b>${Math.ceil(LEARN_PASS * l.checks.length)} of ${l.checks.length}</b><span>Needed to pass</span></div></div>
+      <p class="small muted" style="margin-top:14px">Read the cards once more, then answer the questions again. The lesson is marked done when you pass.</p></div>
+      <div class="pfoot"><button class="btn" id="retryl">Go over the lesson again</button><button class="btn ghost" id="cont">Continue later</button></div></div></div>`;
+    $("#retryl").onclick = () => startLearn(u.id, k);
+    $("#cont").onclick = () => { S.topic = u.id; save(); LS = null; go({ name:"home" }); };
+    return;
+  }
   S.learn = { ...(S.learn||{}), [l.id]: Date.now() }; const adv = touchDay(first ? 10 : 2); save();
   const next = u.lessons[k+1];
   $("#app").innerHTML = `<div class="player"><div class="player-in"><div class="done-screen"><h2>Lesson complete</h2><p class="muted">${esc(l.title)}</p>
@@ -3164,5 +3174,5 @@ function tlDecorate(root){
   new MutationObserver(() => { if (q) return; q = requestAnimationFrame(() => { q = 0; tlDecorate(app); }); }).observe(app, { childList:true, subtree:true }); })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=025925adc7");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=15d488d42e");</script></body>
 </html>
