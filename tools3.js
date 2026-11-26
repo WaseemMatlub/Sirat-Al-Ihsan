@@ -264,18 +264,19 @@ function salawatCard(){
     <p class="ar sal-ar" lang="ar" dir="rtl">${esc(x.ar)}</p><p class="small muted" style="margin:0 0 10px">${esc(x.name)} · ${esc(x.src.split(/[.;(]/)[0])}</p>
     <div class="sal-c"><button class="btn small-btn" data-sal="${x.id}">Count one</button><span class="small muted" data-salc="${x.id}">${n.toLocaleString()} recited</span>
     ${tot ? `<span class="small muted" style="margin-left:auto">${tot.toLocaleString()} in all</span>` : ""}</div>
-    <div class="duachips"><button class="dchip" data-go="salawat">All salawat</button><button class="dchip" data-dua="daily">Daily du'as</button><button class="dchip" data-dua="rabbana">40 Rabbana</button><button class="dchip" data-dua="ghazali">Imam al-Ghazali</button></div></section>`;
+    <div class="duachips"><button class="dchip" data-go="salawat">All salawat</button><button class="dchip" data-go="dalail">Dala'il al-Khayrat</button><button class="dchip" data-dua="daily">Daily du'as</button><button class="dchip" data-dua="rabbana">40 Rabbana</button><button class="dchip" data-dua="ghazali">Imam al-Ghazali</button></div></section>`;
 }
 function salawatView(){
   if (!SALAWAT) { loadSalawat().then(render); return shell(`<p class="muted">Loading…</p>`); }
   const cnt = S.salCount || {};
   return shell(`<button class="back" data-go="home">${ICON.back} Home</button><h1>Salawat on the Prophet ﷺ</h1>
     <p class="muted" style="margin:0 0 6px">${esc(SALAWAT.intro)}</p><p class="small muted" style="margin:0 0 14px">${esc(SALAWAT.introSrc)}</p>
+    <button class="item dl-entry" data-go="dalail"><span class="dl-ico ar" aria-hidden="true">د</span><span style="flex:1;min-width:0"><span class="t">Dala'il al-Khayrat</span><br><span class="s">Imam al-Jazuli's salawat, one hizb a day</span></span><span aria-hidden="true">›</span></button>
     ${SALAWAT.items.map(x => `<section class="card pad sal" id="sal-${x.id}"><h2 style="margin:0 0 2px">${esc(x.name)}</h2><p class="small muted" style="margin:0 0 10px">${esc(x.by)}</p>
       <p class="ar sal-ar" lang="ar" dir="rtl">${esc(x.ar)}</p>${x.en ? `<p class="sal-en">${esc(x.en)}</p>` : ""}
       <div class="sal-src"><p><b>Source:</b> ${esc(x.src)}</p>${x.virtue ? `<p><b>Virtue:</b> ${esc(x.virtue)}</p>` : ""}${x.grade ? `<p class="small muted">${esc(x.grade)}</p>` : ""}</div>
       <div class="sal-c"><button class="btn small-btn" data-sal="${x.id}">Count one</button><span class="small muted">${(cnt[x.id]||0).toLocaleString()} recited</span></div></section>`).join("")}
-    ${SALAWAT.pending ? `<p class="small muted">${esc(SALAWAT.pending)}</p>` : ""}`);
+    ${SALAWAT.pending ? `<p class="small muted">${esc(SALAWAT.pending.replace(/ and Dala'il al-Khayrat of Imam al-Jazuli رحمه الله/, ""))}</p>` : ""}`);
 }
 function bindSalawat(){ document.querySelectorAll("[data-sal]").forEach(b => b.onclick = () => { S.salCount = S.salCount || {}; S.salCount[b.dataset.sal] = (S.salCount[b.dataset.sal]||0) + 1; save();
   const s = b.nextElementSibling; if (s) s.textContent = S.salCount[b.dataset.sal].toLocaleString() + " recited"; if (navigator.vibrate) navigator.vibrate(8); }); }
@@ -293,7 +294,24 @@ function duasView(sec){
     ${cur.items.map(x => `<section class="card pad dua"><h2>${esc(x.t)}</h2><p class="ar dua-ar" lang="ar" dir="rtl">${esc(x.ar).replace(/ ۞ /g, "<br>")}</p>
       <p class="dua-en">${esc(x.en)}</p>${x.note ? `<p class="small notebox">${esc(x.note)}</p>` : ""}<p class="small muted dua-src">${esc(x.src)}</p></section>`).join("")}`);
 }
+let DALAIL = null;
+const loadDalail = async () => DALAIL || (DALAIL = await fetch("data/dalail.json").then(r => r.json()).catch(() => null));
+const dalailToday = () => [7, 1, 2, 3, 4, 5, 6][new Date().getDay()];   // Sunday = 7th hizb, Monday = 1st
+function dalailView(n){
+  if (!DALAIL) { loadDalail().then(render); return shell(`<p class="muted">Loading…</p>`); }
+  const t = dalailToday(), cur = DALAIL.ahzab.find(h => h.n === (n || t)) || DALAIL.ahzab[0], read = (S.dalail || {})[new Date().toDateString()] === cur.n;
+  return shell(`<button class="back" data-go="salawat">${ICON.back} Salawat</button>
+    <h1 style="margin-bottom:2px">Dala'il al-Khayrat</h1><p class="ar" lang="ar" style="font-size:1.3rem;margin:0">دلائل الخيرات</p>
+    <p class="muted" style="margin:4px 0 12px">${esc(DALAIL.by)}. One hizb a day, starting on Monday.</p>
+    <div class="dseg" role="tablist" aria-label="Day">${DALAIL.ahzab.map(h => `<button role="tab" aria-selected="${h.n === cur.n}" class="${h.n === cur.n ? "on" : ""}" data-hizb="${h.n}">${esc(h.day.replace(" (second)", " ²"))}${h.n === t ? " · today" : ""}</button>`).join("")}</div>
+    <section class="card pad dl-card"><div class="spread"><h2 style="margin:0">Hizb ${cur.n} · ${esc(cur.day)}</h2><span class="ar small muted" lang="ar">${esc(cur.ar)}</span></div>
+      ${cur.paras ? `<div class="dl-text" lang="ar" dir="rtl">${cur.paras.map(p => /^فَصْلٌ/.test(p) ? `<p class="dl-h">${esc(p)}</p>` : `<p>${esc(p)} <span class="dl-stop" aria-hidden="true"></span></p>`).join("")}</div>
+        <button class="btn ${read ? "ghost" : ""}" id="dlread" style="margin-top:12px" ${read ? "disabled" : ""}>${read ? "Read today, alhamdulillah" : "I've read this hizb today"}</button>`
+      : `<p class="muted">This hizb is being typed in, letter by letter, from the printed edition. Hizb ${DALAIL.ahzab.filter(h => h.paras).map(h => h.n).join(", ")} ${DALAIL.ahzab.filter(h => h.paras).length > 1 ? "are" : "is"} ready.</p>`}</section>
+    <p class="small muted">${esc(DALAIL.note)}</p>`);
+}
 function toolsRender(app){
+  if (view.name === "dalail") { app.innerHTML = dalailView(view.n); return true; }
   if (view.name === "duas") { app.innerHTML = duasView(view.sec); return true; }
   if (view.name === "tools") app.innerHTML = toolsView();
   else if (view.name === "guide") app.innerHTML = guideView(view.id);
@@ -307,6 +325,8 @@ function toolsRender(app){
 }
 function toolsBind(app){
   app.querySelectorAll("[data-dua]").forEach(b => b.onclick = () => { go({ name:"duas", sec:b.dataset.dua }); });
+  app.querySelectorAll("[data-hizb]").forEach(b => b.onclick = () => go({ name:"dalail", n:+b.dataset.hizb }));
+  const dr = app.querySelector("#dlread"); if (dr) dr.onclick = () => { S.dalail = S.dalail || {}; S.dalail[new Date().toDateString()] = view.n || dalailToday(); save(); toast("May Allah accept it"); render(); };
   app.querySelectorAll("[data-guide]").forEach(b => b.onclick = () => go({ name:"guide", id:b.dataset.guide }));
   app.querySelectorAll("[data-gstep]").forEach(b => b.onclick = () => { S.guides = S.guides || {}; const d = S.guides[view.id] = S.guides[view.id] || [], i = +b.dataset.gstep;
     const k = d.indexOf(i); if (k >= 0) d.splice(k, 1); else d.push(i); save(); const y = window.scrollY; render(); window.scrollTo(0, y); });
