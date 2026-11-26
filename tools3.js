@@ -379,21 +379,38 @@ function duasView(sec){
 let DALAIL = null;
 const loadDalail = async () => DALAIL || (DALAIL = await fetch("data/dalail.json").then(r => r.json()).catch(() => null));
 const dalailToday = () => [7, 1, 2, 3, 4, 5, 6][new Date().getDay()];   // Sunday = 7th hizb, Monday = 1st
-function dalailView(n){
-  if (!DALAIL) { loadDalail().then(render); return shell(`<p class="muted">Loading…</p>`); }
-  const t = dalailToday(), cur = DALAIL.ahzab.find(h => h.n === (n || t)) || DALAIL.ahzab[0], read = (S.dalail || {})[new Date().toDateString()] === cur.n;
+const DL_TILES = [["opening","Opening Du'a",""],["asma","Names of Allah","ﷻ"],["nabi","Names of the Prophet","ﷺ"],["niyyah","Du'a of Intention",""]];
+function dalailMenu(){
+  const t = dalailToday(), readToday = (S.dalail || {})[new Date().toDateString()], ex = DALAIL.extra || {};
+  const tile = (attr, label, sub, cls, ok) => `<button class="dl-tile ${cls || ""}" ${attr} ${ok ? "" : 'aria-disabled="true"'}><span class="dl-tl">${label}</span>${sub ? `<span class="dl-ts">${sub}</span>` : ""}</button>`;
+  const pre = DL_TILES.map(([k, l, h]) => tile(`data-dlx="${k}"`, `${esc(l)}${h ? ` <span class="ar">${h}</span>` : ""}`, ex[k] ? "" : "Coming soon", (k === "opening" || k === "niyyah" ? "wide" : "") + (ex[k] ? "" : " off"), !!ex[k]));
+  const parts = DALAIL.ahzab.map(h => tile(`data-hizb="${h.n}"`, `Part ${h.n}`, `${esc(h.day.replace(" (second)", ", second"))}${h.n === t ? " · today" : ""}${readToday === h.n ? " · read ✓" : ""}${h.paras ? "" : " · coming soon"}`,
+    (h.n === t ? "today" : "") + (h.paras ? "" : " off"), !!h.paras));
   return shell(`<button class="back" data-go="salawat">${ICON.back} Salawat</button>
-    <h1 style="margin-bottom:2px">Dala'il al-Khayrat</h1><p class="ar" lang="ar" style="font-size:1.3rem;margin:0">دلائل الخيرات</p>
-    <p class="muted" style="margin:4px 0 12px">${esc(DALAIL.by)}. One hizb a day, starting on Monday.</p>
-    <div class="dseg" role="tablist" aria-label="Day">${DALAIL.ahzab.map(h => `<button role="tab" aria-selected="${h.n === cur.n}" class="${h.n === cur.n ? "on" : ""}" data-hizb="${h.n}">${esc(h.day.replace(" (second)", " ²"))}${h.n === t ? " · today" : ""}</button>`).join("")}</div>
-    <section class="card pad dl-card"><div class="spread"><h2 style="margin:0">Hizb ${cur.n} · ${esc(cur.day)}</h2><span class="ar small muted" lang="ar">${esc(cur.ar)}</span></div>
+    <h1 style="margin-bottom:2px">Dala'il al-Khayrat</h1><p class="ar" lang="ar" style="font-size:1.3rem;margin:0">دَلَائِلُ الْخَيْرَاتِ</p>
+    <p class="muted" style="margin:6px 0 14px">${esc(DALAIL.by)}. Read one part a day, starting on Monday, and finish the whole book each week. Today is Part ${t}.</p>
+    <div class="dl-grid">${pre.join("")}${parts.join("")}${tile(`data-dlx="khatm"`, "Du'a of Completion", ex.khatm ? "" : "Coming soon", "wide" + (ex.khatm ? "" : " off"), !!ex.khatm)}</div>
+    <p class="small muted" style="margin-top:14px">${esc(DALAIL.note)}</p>`);
+}
+function dalailView(n, x){
+  if (!DALAIL) { loadDalail().then(render); return shell(`<p class="muted">Loading…</p>`); }
+  if (x) { const e = (DALAIL.extra || {})[x]; const title = x === "khatm" ? "Du'a of Completion" : (DL_TILES.find(d => d[0] === x) || [0, ""])[1];
+    return shell(`<button class="back" data-dlmenu>${ICON.back} Dala'il al-Khayrat</button><h1>${esc(title)}</h1>
+      ${e ? `<section class="card pad dl-card"><div class="dl-text" lang="ar" dir="rtl">${e.paras.map(p => `<p>${esc(p)} <span class="dl-stop" aria-hidden="true"></span></p>`).join("")}</div></section>` : `<p class="muted">This section is being typed in from the printed edition.</p>`}`); }
+  if (!n) return dalailMenu();
+  const t = dalailToday(), cur = DALAIL.ahzab.find(h => h.n === n) || DALAIL.ahzab[0], read = (S.dalail || {})[new Date().toDateString()] === cur.n;
+  const prev = DALAIL.ahzab.find(h => h.n === cur.n - 1), next = DALAIL.ahzab.find(h => h.n === cur.n + 1);
+  return shell(`<button class="back" data-dlmenu>${ICON.back} Dala'il al-Khayrat</button>
+    <div class="spread" style="align-items:baseline"><h1 style="margin-bottom:2px">Part ${cur.n}</h1><span class="ar muted" lang="ar" style="font-size:1.1rem">${esc(cur.ar)}</span></div>
+    <p class="muted" style="margin:0 0 12px">${esc(cur.day)}${cur.n === t ? " · today's part" : ""}. Book pages ${esc(cur.pages)}.</p>
+    <section class="card pad dl-card">
       ${cur.paras ? `<div class="dl-text" lang="ar" dir="rtl">${cur.paras.map(p => /^فَصْلٌ/.test(p) ? `<p class="dl-h">${esc(p)}</p>` : `<p>${esc(p)} <span class="dl-stop" aria-hidden="true"></span></p>`).join("")}</div>
-        <button class="btn ${read ? "ghost" : ""}" id="dlread" style="margin-top:12px" ${read ? "disabled" : ""}>${read ? "Read today, alhamdulillah" : "I've read this hizb today"}</button>`
-      : `<p class="muted">This hizb is being typed in, letter by letter, from the printed edition. Hizb ${DALAIL.ahzab.filter(h => h.paras).map(h => h.n).join(", ")} ${DALAIL.ahzab.filter(h => h.paras).length > 1 ? "are" : "is"} ready.</p>`}</section>
-    <p class="small muted">${esc(DALAIL.note)}</p>`);
+        <button class="btn ${read ? "ghost" : ""}" id="dlread" style="margin-top:12px" ${read ? "disabled" : ""}>${read ? "Read today, alhamdulillah" : "I've read this part today"}</button>`
+      : `<p class="muted">This part is being typed in, letter by letter, from the printed edition.</p>`}</section>
+    <div class="btnrow">${prev ? `<button class="btn ghost" data-hizb="${prev.n}">‹ Part ${prev.n}</button>` : "<span></span>"}${next ? `<button class="btn ghost" data-hizb="${next.n}">Part ${next.n} ›</button>` : `<button class="btn ghost" data-dlx="khatm">Du'a of Completion ›</button>`}</div>`);
 }
 function toolsRender(app){
-  if (view.name === "dalail") { app.innerHTML = dalailView(view.n); return true; }
+  if (view.name === "dalail") { app.innerHTML = dalailView(view.n, view.x); return true; }
   if (view.name === "duas") { app.innerHTML = duasView(view.sec); return true; }
   if (view.name === "tools") app.innerHTML = toolsView();
   else if (view.name === "guide") app.innerHTML = guideView(view.id);
@@ -407,8 +424,10 @@ function toolsRender(app){
 }
 function toolsBind(app){
   app.querySelectorAll("[data-dua]").forEach(b => b.onclick = () => { go({ name:"duas", sec:b.dataset.dua }); });
-  app.querySelectorAll("[data-hizb]").forEach(b => b.onclick = () => go({ name:"dalail", n:+b.dataset.hizb }));
-  const dr = app.querySelector("#dlread"); if (dr) dr.onclick = () => { S.dalail = S.dalail || {}; S.dalail[new Date().toDateString()] = view.n || dalailToday(); save(); toast("May Allah accept it"); render(); };
+  app.querySelectorAll("[data-hizb]").forEach(b => b.onclick = () => { if (b.getAttribute("aria-disabled")) return toast("This part is being typed in. Coming soon."); go({ name:"dalail", n:+b.dataset.hizb }); window.scrollTo(0,0); });
+  app.querySelectorAll("[data-dlx]").forEach(b => b.onclick = () => { if (b.getAttribute("aria-disabled")) return toast("This section is being typed in from a printed edition. Coming soon."); go({ name:"dalail", x:b.dataset.dlx }); });
+  app.querySelectorAll("[data-dlmenu]").forEach(b => b.onclick = () => go({ name:"dalail" }));
+  const dr = app.querySelector("#dlread"); if (dr) dr.onclick = () => { S.dalail = S.dalail || {}; S.dalail[new Date().toDateString()] = view.n; save(); toast("May Allah accept it"); render(); };
   app.querySelectorAll("[data-guide]").forEach(b => b.onclick = () => go({ name:"guide", id:b.dataset.guide }));
   app.querySelectorAll("[data-gstep]").forEach(b => b.onclick = () => { S.guides = S.guides || {}; const d = S.guides[view.id] = S.guides[view.id] || [], i = +b.dataset.gstep;
     const k = d.indexOf(i); if (k >= 0) d.splice(k, 1); else d.push(i); save(); const y = window.scrollY; render(); window.scrollTo(0, y); });
