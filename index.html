@@ -517,6 +517,8 @@ mark.hl.has-note{border-bottom:2px solid #8A6D00}
 .tl{font-style:italic;color:var(--muted);margin:4px 0 6px;line-height:1.6;font-size:.95rem}.dl-text+.tl,.tl-read{font-size:.92rem}
 .tl-sw{margin-bottom:6px}
 .recap .rc-x{display:block;font-size:.92rem;line-height:1.5;margin-top:3px;color:var(--ink)}
+.item.noico{display:flex;align-items:center;gap:12px}
+.item.noico>span:first-child{flex:1;min-width:0}
 
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--line);padding:4px;border-radius:14px}
 .seg button{border:0;background:transparent;border-radius:10px;padding:10px 6px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
@@ -1254,7 +1256,7 @@ function tutorSheet(what){
 function topicSheet(){
   const d = modal(`<h2 style="margin:4px 0 4px;text-align:center">Switch course</h2><p class="small muted" style="text-align:center;margin:0 0 14px">Every lesson is open. Each course follows a classical book, and every card has been checked against its source text.</p>
     <div class="stack">${LEARN.map(u => { const dn = u.lessons.filter(l => learnDone(l.id)).length, on = (OLD_TOPIC[S.topic] || S.topic || (nextLearn()||{u:LEARN[0]}).u.id) === u.id;
-      return `<button class="item topic-i ${on ? "on" : ""}" data-topic="${u.id}" style="--uc:${u.color}"><span style="flex:1;min-width:0"><span class="t">${esc(u.title)}</span><br><span class="s">${esc(u.sub)}</span><br><span class="s src-l">Based on ${esc(u.book || "")}</span></span><span class="small muted">${dn}/${u.lessons.length}</span></button>`; }).join("")}</div>
+      return `<button class="item noico topic-i ${on ? "on" : ""}" data-topic="${u.id}" style="--uc:${u.color}"><span style="flex:1;min-width:0"><span class="t">${esc(u.title)}</span><br><span class="s">${esc(u.sub)}</span><br><span class="s src-l">Based on ${esc(u.book || "")}</span></span><span class="small muted">${dn}/${u.lessons.length}</span></button>`; }).join("")}</div>
     <button class="btn ghost" id="topic-x" style="margin-top:14px">Close</button>`, (el, close) => {
       el.querySelectorAll("[data-topic]").forEach(b => b.onclick = () => { S.topic = b.dataset.topic; save(); close(); render(); });
       el.querySelector("#topic-x").onclick = close; el.onclick = e => { if (e.target === el) close(); }; });
@@ -1446,7 +1448,7 @@ function fardAynCard(){                     // Fard al-'Ayn: optional, for anyon
       <span class="s">What every Muslim must know. Optional: start here, or go straight to Year 1.</span></span></summary>
     <div class="stack"><p class="sublabel">Tajweed and the letters</p>${itemDeck(D("tajwid"), true)}
       <p class="sublabel">Fiqh and Aqeedah</p>${FARD_DECKS.filter(d => d.id.startsWith("fard_")).map(d => itemDeck(d, true)).join("")}
-      <div class="item soon"><span style="flex:1"><span class="kicker" style="margin:0">Coming soon</span><span class="t" style="display:block">Is'af al-Muridin</span></span></div>
+      <div class="item noico soon"><span style="flex:1"><span class="kicker" style="margin:0">Coming soon</span><span class="t" style="display:block">Is'af al-Muridin</span></span></div>
       <p class="sublabel">Tasawwuf</p>${ayy ? `<button class="item" data-read="t_ayyuha|0"><span class="libthumb">${cover(ayy, 34)}</span><span style="flex:1"><span class="t">Ayyuha al-Walad</span><br><span class="s">Imam al-Ghazali's رحمه الله letter of advice to a student</span></span><span class="pill gold">Read</span></button>` : ""}
       <p class="sublabel">The End Times</p>${signs ? itemBook(signs, true) : ""}</div></details>`;
 }
@@ -1538,7 +1540,7 @@ function yearView(n){
       ${reads.length ? `<div class="stack">${reads.map(b => { const L = lessonsOf(b), d = bookDone(b), nxt = Math.min(d, L-1);
         return `<button class="item" ${open?`data-read="${b.id}|${S.lastRead && S.lastRead.id === b.id ? S.lastRead.i : nxt}"`:"disabled"}><span class="libthumb">${cover(b, 34)}</span>
         <span style="flex:1;min-width:0"><span class="kicker" style="margin:0">${esc(b.subject)}</span><span class="t" style="display:block">${esc(b.title)}</span></span>${!open?ICON.lock:d>=L?`<span class="pill ok">Read</span>`:`<span class="pill">${Math.round(d/L*100)}%</span>`}</button>`; }).join("")}</div>` : `<p class="small muted" style="margin:0">No books to read this year.</p>`}
-      ${(y.coming||[]).length ? `<p class="sublabel">Coming soon</p><div class="stack">${y.coming.map(([t,s]) => `<div class="item soon"><span style="flex:1;min-width:0"><span class="kicker" style="margin:0">${esc(s)}</span><span class="t" style="display:block">${esc(t)}</span></span></div>`).join("")}</div>` : ""}</section>
+      ${(y.coming||[]).length ? `<p class="sublabel">Coming soon</p><div class="stack">${y.coming.map(([t,s]) => `<div class="item noico soon"><span style="flex:1;min-width:0"><span class="kicker" style="margin:0">${esc(s)}</span><span class="t" style="display:block">${esc(t)}</span></span></div>`).join("")}</div>` : ""}</section>
     <p class="small muted" style="margin:14px 2px 0">${n < YEARS.length ? `When steps 1 and 2 are done, Year ${n+1} is recommended next.` : "When steps 1 and 2 are done, the course is complete."}</p>
     <p class="label" style="margin-top:26px">Practice (optional)</p>
     <section class="stepsec" style="margin-top:6px"><div class="stephead"><div style="flex:1"><h2>Flashcards</h2><p class="small muted">Questions from this year's books. Review a few each day.</p></div><span class="small muted">${st.cm.toLocaleString()} of ${st.ct.toLocaleString()}</span></div>
@@ -2490,7 +2492,7 @@ function qadaView(){
   const days = c.from && c.to ? qadaCount(c.from, c.to, c.female, c.hayd, c.nifas) : null;
   return shell(`<button class="back" data-go="tools">${ICON.back} Tools</button><h1>Qada' prayers</h1>
     <p class="muted" style="margin:0 0 12px">Every missed fard prayer, and witr (wajib in the Hanafi school), stays owed until it is made up. <span class="small">Nur al-Idah, making up missed prayers.</span></p>
-    <button class="item" data-guide="qada" style="margin-bottom:12px"><span style="flex:1;min-width:0"><span class="t">How to make them up quickly</span><br><span class="s">The easy intention and the short way to pray each one</span></span><span aria-hidden="true">›</span></button>
+    <button class="item noico" data-guide="qada" style="margin-bottom:12px"><span style="flex:1;min-width:0"><span class="t">How to make them up quickly</span><br><span class="s">The easy intention and the short way to pray each one</span></span><span aria-hidden="true">›</span></button>
     ${exBox(QADA_EX, "qad")}
     <section class="card pad"><h2 style="margin-top:0">Work it out</h2>
       <div class="frow"><label>From (when you reached puberty)<input type="date" id="qf" value="${esc(c.from||"")}"></label><label>To (when you began praying regularly)<input type="date" id="qt" value="${esc(c.to||"")}"></label></div>
@@ -2644,7 +2646,7 @@ const INH_EX = [
 // Worked examples a user can load with one tap
 function exBox(list, key){
   return `<details class="exbox"><summary><b>Try an example</b><span class="small muted"> · see how it works before entering your own</span></summary>
-    <div class="stack" style="margin-top:10px">${list.map((x, i) => `<button class="item exbtn" data-ex="${key}|${i}"><span style="flex:1;min-width:0"><span class="t" style="font-weight:600">${esc(x.t)}</span><br><span class="s">${esc(x.r)}</span></span><span class="pill">Load</span></button>`).join("")}</div>
+    <div class="stack" style="margin-top:10px">${list.map((x, i) => `<button class="item noico exbtn" data-ex="${key}|${i}"><span style="flex:1;min-width:0"><span class="t" style="font-weight:600">${esc(x.t)}</span><br><span class="s">${esc(x.r)}</span></span><span class="pill">Load</span></button>`).join("")}</div>
     <button class="linkbtn" data-exclear="${key}" style="margin-top:10px">Clear everything and start again</button></details>`;
 }
 function bindExamples(){
@@ -3176,5 +3178,5 @@ function tlDecorate(root){
   new MutationObserver(() => { if (q) return; q = requestAnimationFrame(() => { q = 0; tlDecorate(app); }); }).observe(app, { childList:true, subtree:true }); })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=07e651a89d");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=92f813f9e4");</script></body>
 </html>
