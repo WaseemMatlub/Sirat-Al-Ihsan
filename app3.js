@@ -562,7 +562,7 @@ function learnHome(){
   if (!LEARN) { loadLearn().then(() => { if (view.name === "home") render(); }); return `<p class="muted">Loading…</p>`; }
   const nx = nextLearn(), u = LEARN.find(x => x.id === (OLD_TOPIC[S.topic] || S.topic)) || (nx && nx.u) || LEARN[0];
   const d = u.lessons.filter(l => learnDone(l.id)).length, n = u.lessons.length, pct = Math.round(d / n * 100);
-  const head = `<button class="topic" id="topic-change" aria-haspopup="dialog" aria-label="Course: ${esc(u.title)}, ${pct}% done. Change course" style="--uc:${u.color}">
+  const head = `<button class="topic" id="topic-change" aria-haspopup="dialog" style="--uc:${u.color}">
     <span class="tp-ico ar" aria-hidden="true">${({aqeedah:"ع",fiqh:"ف",halal:"ح",doubts:"ي",seerah:"س",quran:"ق",tazkiyah:"ت"})[u.id] || ""}</span>
     <span class="tp-mid"><span class="tp-k">Course</span><span class="tp-t">${esc(u.title)}</span>
       <span class="tp-p"><span class="bar"><i style="width:${Math.max(2, pct)}%;background:${u.color}"></i></span><span class="tp-n">${d}/${n}</span></span></span>
@@ -574,8 +574,14 @@ function learnHome(){
       ${ok ? `<button class="lc-btn done" data-learn="${u.id}|${k}">${ICON.check.replace("<svg",'<svg width="16" height="16"')} Lesson complete<span class="small"> · go over it again</span></button>`
            : `<button class="lc-btn" data-learn="${u.id}|${k}">Start lesson</button>`}</article>`; };
   const decks = (LEARN_DECK[u.id] || []).map(id => FARD_DECKS.find(x => x.id === id)).filter(Boolean);
-  return `${head}<div class="lcards" id="lcards" data-topic="${u.id}" aria-label="${esc(u.title)} lessons, swipe to see more">${u.lessons.map(card).join("")}</div>${salawatCard()}${decks.length ? `<p class="label">Review with flashcards</p><div class="stack">${decks.map(d => itemDeck(d, true)).join("")}</div>` : ""}`;
+  return `${head}<div class="lcards" id="lcards" data-topic="${u.id}" aria-label="${esc(u.title)} lessons, swipe to see more">${u.lessons.map(card).join("")}</div>`;
 }
+function learnDecks(){
+  if (!LEARN || !LEARN.length) return "";
+  const u = LEARN.find(x => x.id === (OLD_TOPIC[S.topic] || S.topic)) || (nextLearn() || {u:LEARN[0]}).u;
+  return (LEARN_DECK[u.id] || []).map(id => FARD_DECKS.find(x => x.id === id)).filter(Boolean).map(d => itemDeck(d, true)).join("");
+}
+const secH = (t, sub) => `<h2 class="sec-h">${t}</h2><p class="sec-s">${sub}</p>`;
 function topicSheet(){
   const d = modal(`<h2 style="margin:4px 0 4px;text-align:center">Switch course</h2><p class="small muted" style="text-align:center;margin:0 0 14px">Every lesson is open. Each course follows a classical book, and every card has been checked against its source text.</p>
     <div class="stack">${LEARN.map(u => { const dn = u.lessons.filter(l => learnDone(l.id)).length, on = (OLD_TOPIC[S.topic] || S.topic || (nextLearn()||{u:LEARN[0]}).u.id) === u.id;
@@ -685,14 +691,21 @@ function homeView(){
   const streakCard = atRisk ? `<section class="streak-card" role="status"><span class="sk-ico">${ICON.flame.replace("<svg",'<svg width="26" height="26"')}</span>
       <span style="flex:1"><b id="sk-left">${leftToday()}</b><span class="small" style="display:block;opacity:.85">left today to keep your ${S.streak}-day streak</span></span></section>` : "";
   const signs = YEARS[0].books.find(b => b.id === "signs"), tj = FARD_DECKS.find(d => d.id === "tajwid"), ayy = bookById("t_ayyuha");
-  const more = `<p class="label">More to explore</p><div class="stack">${tj ? itemDeck(tj, true) : ""}${signs ? itemBook(signs, true) : ""}
+  const more = `${secH("More to explore", "Extra courses and short books to read.")}<div class="stack">${tj ? itemDeck(tj, true) : ""}${signs ? itemBook(signs, true) : ""}
       ${ayy ? `<button class="item" data-read="t_ayyuha|0"><span class="libthumb">${cover(ayy, 34)}</span><span style="flex:1;min-width:0"><span class="t">Ayyuha al-Walad</span><br><span class="s">Imam al-Ghazali's رحمه الله letter of advice to a student</span></span><span class="pill">Read</span></button>` : ""}</div>`;
+  const decksHtml = learnDecks();
   return shell(`
-    <section class="illum"><p class="ar illum-ar">السَّلَامُ عَلَيْكُمْ</p><p class="illum-en">Assalamu 'alaykum${S.name?`, ${esc(S.name)}`:""}</p></section>
+    <h1 class="sr-only">Home</h1><section class="illum"><p class="ar illum-ar">السَّلَامُ عَلَيْكُمْ</p><p class="illum-en">Assalamu 'alaykum${S.name?`, ${esc(S.name)}`:""}</p></section>
     ${streakCard}
+    ${secH("Learn the basics", "Short lessons on what every Muslim must know. Each ends with a few questions. Tap the course box to switch subject, and swipe to see more lessons.")}
     ${learnHome()}
+    ${cardsRow || decksHtml ? `${secH("Remember what you've learnt", "Flashcards show a question; you recall the answer, then turn the card to check. The app brings each card back just before you would forget it.")}<div class="stack">${cardsRow.replace('class="card simple-row"', 'class="item"')}${decksHtml}</div>` : ""}
+    ${secH("Salawat on the Prophet ﷺ", "Send blessings on the Prophet ﷺ. One salawat each day, with a counter.")}
+    ${salawatCard()}
+    ${secH("Du'as", "Du'as for each part of the day, with harakat, meaning and source.")}
+    ${duaRows()}
     <section class="card hotd" id="hotd" hidden></section>
-    ${cardsRow}${course}${readRow}
+    ${course}${readRow}
     ${more}
     ${installCard()}`);
 }

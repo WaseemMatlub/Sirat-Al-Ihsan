@@ -259,12 +259,26 @@ function bindInherit(){ S.inherit = S.inherit || { h:{}, est:{} }; const I = S.i
 function salawatCard(){
   if (!SALAWAT) { loadSalawat().then(() => { if (view.name === "home" && SALAWAT) render(); }); return ""; }
   const short = SALAWAT.items.filter(x => x.id !== "taj"), x = short[today() % short.length], n = (S.salCount||{})[x.id] || 0;
-  const tot = Object.values(S.salCount||{}).reduce((a, b) => a + b, 0);
-  return `<section class="card salcard" aria-labelledby="salh"><h2 id="salh" class="salh">Salawat & Du'a</h2>
-    <p class="ar sal-ar" lang="ar" dir="rtl">${esc(x.ar)}</p><p class="small muted" style="margin:0 0 10px">${esc(x.name)} · ${esc(x.src.split(/[.;(]/)[0])}</p>
-    <div class="sal-c"><button class="btn small-btn" data-sal="${x.id}">Count one</button><span class="small muted" data-salc="${x.id}">${n.toLocaleString()} recited</span>
-    ${tot ? `<span class="small muted" style="margin-left:auto">${tot.toLocaleString()} in all</span>` : ""}</div>
-    <div class="duachips"><button class="dchip" data-go="salawat">All salawat</button><button class="dchip" data-go="dalail">Dala'il al-Khayrat</button><button class="dchip" data-dua="daily">Daily du'as</button><button class="dchip" data-dua="rabbana">40 Rabbana</button><button class="dchip" data-dua="ghazali">Imam al-Ghazali</button></div></section>`;
+  return `<section class="card salcard" aria-labelledby="salh"><p class="sal-k" id="salh">Today's salawat · ${esc(x.name)}</p>
+    <p class="ar sal-ar" lang="ar" dir="rtl">${esc(x.ar)}</p>
+    <button class="salbtn" data-sal="${x.id}"><span class="sb-plus" aria-hidden="true">+1</span><span class="sb-t">Tap each time you recite it</span><span class="sb-n" data-salc="${x.id}">${n.toLocaleString()}</span></button></section>
+    <div class="glist">${grow("salawat", "", "ص", "All salawat", "Seven salawat with their sources and virtues")}${grow("dalail", "", "د", "Dala'il al-Khayrat", "Imam al-Jazuli's book of salawat, one part a day")}</div>`;
+}
+const GICO = {
+  daily: `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>`,
+  rabbana: `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M2 4h6a4 4 0 0 1 4 4v12a3 3 0 0 0-3-3H2zM22 4h-6a4 4 0 0 0-4 4v12a3 3 0 0 1 3-3h7z"/></svg>`,
+  ghazali: `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.2 3.8a5.5 5.5 0 0 0-7.8 0L5 11.2V19h7.8l7.4-7.4a5.5 5.5 0 0 0 0-7.8zM16 8 2 22M17.5 15H9"/></svg>`,
+};
+const CHEV = `<svg class="g-ch" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>`;
+// One tappable row in a grouped list: icon, title, one line saying what is inside, chevron
+function grow(goName, dua, icoAr, t, sub, svg){
+  return `<button class="grow" ${dua ? `data-dua="${dua}"` : `data-go="${goName}"`}><span class="g-ico ${svg ? "" : "ar"}" aria-hidden="true">${svg || icoAr}</span>
+    <span class="g-m"><span class="g-t">${esc(t)}</span><span class="g-s">${esc(sub)}</span></span>${CHEV}</button>`;
+}
+function duaRows(){
+  return `<div class="glist">${grow("", "daily", "", "Daily du'as", "Waking, sleeping, eating, the toilet, leaving home", GICO.daily)}
+    ${grow("", "rabbana", "", "The 40 Rabbana", "Du'as from the Qur'an that begin 'Our Lord'", GICO.rabbana)}
+    ${grow("", "ghazali", "", "Imam al-Ghazali's du'as", "A day of worship from his Beginning of Guidance, with wudu step by step", GICO.ghazali)}</div>`;
 }
 function salawatView(){
   if (!SALAWAT) { loadSalawat().then(render); return shell(`<p class="muted">Loading…</p>`); }
@@ -281,18 +295,25 @@ function salawatView(){
 function bindSalawat(){ document.querySelectorAll("[data-sal]").forEach(b => b.onclick = () => { S.salCount = S.salCount || {}; S.salCount[b.dataset.sal] = (S.salCount[b.dataset.sal]||0) + 1; save();
   const s = b.nextElementSibling; if (s) s.textContent = S.salCount[b.dataset.sal].toLocaleString() + " recited"; if (navigator.vibrate) navigator.vibrate(8); }); }
 function bindSalCard(){ document.querySelectorAll(".salcard [data-sal]").forEach(b => b.onclick = () => { S.salCount = S.salCount || {}; const k = b.dataset.sal; S.salCount[k] = (S.salCount[k]||0) + 1; save();
-  const c = document.querySelector(`[data-salc="${k}"]`); if (c) c.textContent = S.salCount[k].toLocaleString() + " recited"; if (navigator.vibrate) navigator.vibrate(8); }); }
+  const c = document.querySelector(`[data-salc="${k}"]`); if (c) c.textContent = S.salCount[k].toLocaleString(); if (navigator.vibrate) navigator.vibrate(8); }); }
 
 let DUAS = null;
 const loadDuas = async () => DUAS || (DUAS = await fetch("data/duas.json").then(r => r.json()).catch(() => null));
+function duaBody(x){
+  if (x.parts) return `<ol class="dsteps">${x.parts.map(p => `<li><p class="ds-h">${esc(p.step)}</p><p class="ds-do">${esc(p.do)}</p>
+      <p class="ar dua-ar" lang="ar" dir="rtl">${esc(p.ar)}</p><p class="dua-en">${esc(p.en)}</p></li>`).join("")}</ol>`;
+  return `<p class="ar dua-ar" lang="ar" dir="rtl">${esc(x.ar)}</p><p class="dua-en">${esc(x.en)}</p>`;
+}
 function duasView(sec){
   if (!DUAS) { loadDuas().then(render); return shell(`<p class="muted">Loading…</p>`); }
   const cur = DUAS.sections.find(x => x.id === sec) || DUAS.sections[0];
-  return shell(`<button class="back" data-go="home">${ICON.back} Home</button><h1 style="margin-bottom:8px">Du'as</h1>
+  return shell(`<button class="back" data-go="home">${ICON.back} Home</button><h1 style="margin-bottom:10px">Du'as</h1>
     <div class="dseg" role="tablist" aria-label="Du'a collections">${DUAS.sections.map(x => `<button role="tab" aria-selected="${x.id === cur.id}" class="${x.id === cur.id ? "on" : ""}" data-dua="${x.id}">${esc(x.title)}</button>`).join("")}</div>
-    <p class="muted" style="margin:10px 0 4px">${esc(cur.sub)}.</p>${cur.credit ? `<p class="small muted" style="margin:0 0 12px">${esc(cur.credit)}</p>` : ""}
-    ${cur.items.map(x => `<section class="card pad dua"><h2>${esc(x.t)}</h2><p class="ar dua-ar" lang="ar" dir="rtl">${esc(x.ar).replace(/ ۞ /g, "<br>")}</p>
-      <p class="dua-en">${esc(x.en)}</p>${x.note ? `<p class="small notebox">${esc(x.note)}</p>` : ""}<p class="small muted dua-src">${esc(x.src)}</p></section>`).join("")}`);
+    <section class="about-box"><p class="ab-h">About this collection</p><p>${esc(cur.about || cur.sub)}</p><p class="small muted" style="margin:6px 0 0">Tap a du'a to open it. ${cur.items.length} in this collection.</p></section>
+    <div class="dlist">${cur.items.map((x, i) => { const t = x.t.replace(/^\d+\.\s*/, "") || "Rabbana";
+      return `<details class="dua"><summary><span class="dua-n">${i+1}</span><span class="g-m"><span class="g-t">${esc(t)}</span>${x.when || x.parts ? `<span class="g-s">${esc(x.when || x.parts.length + " short steps, in order")}</span>` : ""}</span>${CHEV}</summary>
+        <div class="dua-b">${duaBody(x)}${x.note ? `<p class="small notebox">${esc(x.note)}</p>` : ""}<p class="small muted dua-src">Source: ${esc(x.src)}</p></div></details>`; }).join("")}</div>
+    ${cur.credit ? `<p class="small muted" style="margin-top:14px">${esc(cur.credit)}</p>` : ""}`);
 }
 let DALAIL = null;
 const loadDalail = async () => DALAIL || (DALAIL = await fetch("data/dalail.json").then(r => r.json()).catch(() => null));

@@ -123,14 +123,28 @@ if __name__ == "__main__":
         ar = cut(s, a, b, n, stop, whole); assert re.match(RBX, ar) or (whole and ar.startswith("ر")), (s, a, ar[:20])
         rab.append({"ar": ar, "en": en, "src": ref(s, a, b), "who": who})
     assert len(rab) == 40, len(rab)
+    import duas_v as V
+    assert len(V.DAILY_AR) == len(DAILY)
+    def voweled_note(n):
+        for k, v in V.NOTE_AR.items(): n = n.replace(k, v)
+        return n.replace("صدقت وبررت", "صَدَقْتَ وَبَرَرْتَ").replace("أقامها الله وأدامها", "أَقَامَهَا اللَّهُ وَأَدَامَهَا")
+    def parts(ps): return [{"step": a, "do": b, "ar": c, "en": d} for a, b, c, d in ps]
+    daily = []
+    for (t, ar, en, src, *d), v in zip(DAILY, V.DAILY_AR):
+        x = {"t": t, "src": src}
+        if t in V.DAILY_PARTS: x["parts"] = parts(V.DAILY_PARTS[t])
+        else: x.update(ar=v, en=en)
+        if d: x["note"] = voweled_note(d[0])
+        daily.append(x)
+    ghz = [{**{k: v for k, v in g.items() if k != "parts"}, **({"parts": parts(g["parts"])} if "parts" in g else {})} for g in V.GHAZALI]
     out = {"sections": [
-      {"id": "daily", "title": "Daily life", "sub": "From the Sunnah, as gathered by Imam al-Nawawi in al-Adhkar",
-       "items": [{"t": t, "ar": ar, "en": en, "src": src, **({"note": d[0]} if d else {})} for t, ar, en, src, *d in DAILY]},
-      {"id": "rabbana", "title": "The 40 Rabbana", "sub": "Du'as from the Qur'an that begin 'Our Lord'", "credit": "Qur'an text: Tanzil Project (tanzil.net), CC BY 3.0, copied verbatim.",
+      {"id": "daily", "title": "Daily", "sub": V.ABOUT["daily"]["short"], "about": V.ABOUT["daily"]["about"], "credit": "Sources: Imam al-Nawawi, al-Adhkar, with the hadith collections he cites.",
+       "items": daily},
+      {"id": "rabbana", "title": "40 Rabbana", "sub": V.ABOUT["rabbana"]["short"], "about": V.ABOUT["rabbana"]["about"], "credit": "Qur'an text: Tanzil Project (tanzil.net), CC BY 3.0, copied verbatim.",
        "items": [{"t": f"{i+1}. {r['who']}" if r["who"] else f"{i+1}.", **r} for i, r in enumerate(rab)]},
-      {"id": "ghazali", "title": "From Imam al-Ghazali", "sub": "The du'as of the day in Bidayat al-Hidayah", "credit": FIXED,
-       "items": [{"t": t, "ar": ar, "en": en, "src": src, **({"note": d[0]} if d else {})} for t, ar, en, src, *d in GHAZALI]},
-    ]}
+      {"id": "ghazali", "title": "Imam al-Ghazali", "sub": V.ABOUT["ghazali"]["short"], "about": V.ABOUT["ghazali"]["about"], "credit": FIXED,
+       "items": ghz},
+    ], "tiles": V.ABOUT}
     json.dump(out, open(os.path.join(HERE, "..", "app", "data", "duas.json"), "w"), ensure_ascii=False, separators=(",", ":"))
     print({s["id"]: len(s["items"]) for s in out["sections"]})
     for r in rab[:3] + rab[4:7] + rab[14:16] + rab[34:36]: print(r["src"], "::", r["ar"])

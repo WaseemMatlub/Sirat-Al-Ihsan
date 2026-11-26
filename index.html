@@ -422,6 +422,27 @@ mark.hl.has-note{border-bottom:2px solid #8A6D00}
 .dl-entry{grid-template-columns:44px 1fr auto!important;margin:0 0 14px}.dl-ico{width:40px;height:40px;border-radius:10px;background:var(--brand);color:var(--brand-ink);display:grid;place-items:center;font-size:1.4rem}
 .dl-card{margin-top:12px}.dl-text{font-family:var(--arabic);font-size:1.55rem;line-height:2.25;text-align:right;margin-top:10px}.dl-text p{margin:0 0 .6em}
 .dl-h{text-align:center;font-weight:700;font-size:1.25rem}.dl-stop{display:inline-block;width:.5em;height:.5em;border:2px solid var(--brand);border-radius:50%;vertical-align:middle;margin:0 .15em}
+.sec-h{font-family:var(--display);font-size:1.2rem;font-weight:700;margin:30px 0 2px}.sec-s{color:var(--muted);font-size:.9rem;line-height:1.45;margin:0 0 12px}
+.illum+.sec-h,.streak-card+.sec-h{margin-top:22px}
+.glist{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 1px 2px rgba(16,24,40,.04)}
+.grow{display:flex;align-items:center;gap:12px;width:100%;min-height:68px;padding:12px 14px;border:0;background:none;color:inherit;font:inherit;text-align:left;cursor:pointer}
+.grow+.grow{border-top:1px solid var(--line)}.grow:active,.dua summary:active{background:var(--soft)}
+.g-ico{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;flex:none;background:color-mix(in srgb,var(--brand) 11%,var(--surface));color:var(--brand);font-size:1.25rem}
+.g-m{flex:1;min-width:0}.g-t{display:block;font-weight:650;line-height:1.3}.g-s{display:block;color:var(--muted);font-size:.85rem;line-height:1.35;margin-top:2px}
+.g-ch{color:var(--muted);flex:none}
+.salcard{padding:16px;margin:0 0 10px}.sal-k{margin:0;font-size:.85rem;color:var(--muted);font-weight:600}.salcard .sal-ar{font-size:1.4rem;line-height:2;margin:8px 0 12px}
+.salbtn{display:flex;align-items:center;gap:12px;width:100%;padding:10px 14px 10px 10px;border:0;border-radius:14px;background:var(--brand);color:var(--brand-ink);font:inherit;cursor:pointer;min-height:56px}
+.salbtn:active{transform:scale(.985)}.sb-plus{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.18);font-weight:800}
+.sb-t{flex:1;text-align:left;font-weight:600}.sb-n{font-weight:800;font-size:1.15rem;font-variant-numeric:tabular-nums}
+.about-box{background:var(--soft);border-radius:14px;padding:14px 16px;margin:14px 0}.about-box p{margin:0;line-height:1.55}.ab-h{font-weight:700;margin-bottom:4px!important}
+.dlist{display:grid;gap:10px}.dua{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.dua summary{display:flex;align-items:center;gap:12px;padding:12px 14px;min-height:60px;cursor:pointer;list-style:none}.dua summary::-webkit-details-marker{display:none}
+.dua[open] summary .g-ch{transform:rotate(90deg)}.dua-n{width:30px;height:30px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--soft);font-weight:700;font-size:.85rem}
+.dua summary .g-t{color:var(--ink)}.dua summary .g-s{color:var(--muted);font-weight:400}.dua-b{padding:2px 16px 16px;border-top:1px solid var(--line)}
+.dsteps{list-style:none;counter-reset:ds;margin:8px 0 0;padding:0}.dsteps li{counter-increment:ds;position:relative;padding:12px 0 6px 40px;border-bottom:1px solid var(--line)}.dsteps li:last-child{border-bottom:0}
+.dsteps li::before{content:counter(ds);position:absolute;left:0;top:12px;width:28px;height:28px;border-radius:50%;background:var(--brand);color:var(--brand-ink);display:grid;place-items:center;font-weight:700;font-size:.8rem}
+.ds-h{font-weight:700;margin:2px 0 2px}.ds-do{margin:0 0 4px;color:var(--muted);font-size:.9rem}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--line);padding:4px;border-radius:14px}
 .seg button{border:0;background:transparent;border-radius:10px;padding:10px 6px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
@@ -1116,7 +1137,7 @@ function learnHome(){
   if (!LEARN) { loadLearn().then(() => { if (view.name === "home") render(); }); return `<p class="muted">Loading…</p>`; }
   const nx = nextLearn(), u = LEARN.find(x => x.id === (OLD_TOPIC[S.topic] || S.topic)) || (nx && nx.u) || LEARN[0];
   const d = u.lessons.filter(l => learnDone(l.id)).length, n = u.lessons.length, pct = Math.round(d / n * 100);
-  const head = `<button class="topic" id="topic-change" aria-haspopup="dialog" aria-label="Course: ${esc(u.title)}, ${pct}% done. Change course" style="--uc:${u.color}">
+  const head = `<button class="topic" id="topic-change" aria-haspopup="dialog" style="--uc:${u.color}">
     <span class="tp-ico ar" aria-hidden="true">${({aqeedah:"ع",fiqh:"ف",halal:"ح",doubts:"ي",seerah:"س",quran:"ق",tazkiyah:"ت"})[u.id] || ""}</span>
     <span class="tp-mid"><span class="tp-k">Course</span><span class="tp-t">${esc(u.title)}</span>
       <span class="tp-p"><span class="bar"><i style="width:${Math.max(2, pct)}%;background:${u.color}"></i></span><span class="tp-n">${d}/${n}</span></span></span>
@@ -1128,8 +1149,14 @@ function learnHome(){
       ${ok ? `<button class="lc-btn done" data-learn="${u.id}|${k}">${ICON.check.replace("<svg",'<svg width="16" height="16"')} Lesson complete<span class="small"> · go over it again</span></button>`
            : `<button class="lc-btn" data-learn="${u.id}|${k}">Start lesson</button>`}</article>`; };
   const decks = (LEARN_DECK[u.id] || []).map(id => FARD_DECKS.find(x => x.id === id)).filter(Boolean);
-  return `${head}<div class="lcards" id="lcards" data-topic="${u.id}" aria-label="${esc(u.title)} lessons, swipe to see more">${u.lessons.map(card).join("")}</div>${salawatCard()}${decks.length ? `<p class="label">Review with flashcards</p><div class="stack">${decks.map(d => itemDeck(d, true)).join("")}</div>` : ""}`;
+  return `${head}<div class="lcards" id="lcards" data-topic="${u.id}" aria-label="${esc(u.title)} lessons, swipe to see more">${u.lessons.map(card).join("")}</div>`;
 }
+function learnDecks(){
+  if (!LEARN || !LEARN.length) return "";
+  const u = LEARN.find(x => x.id === (OLD_TOPIC[S.topic] || S.topic)) || (nextLearn() || {u:LEARN[0]}).u;
+  return (LEARN_DECK[u.id] || []).map(id => FARD_DECKS.find(x => x.id === id)).filter(Boolean).map(d => itemDeck(d, true)).join("");
+}
+const secH = (t, sub) => `<h2 class="sec-h">${t}</h2><p class="sec-s">${sub}</p>`;
 function topicSheet(){
   const d = modal(`<h2 style="margin:4px 0 4px;text-align:center">Switch course</h2><p class="small muted" style="text-align:center;margin:0 0 14px">Every lesson is open. Each course follows a classical book, and every card has been checked against its source text.</p>
     <div class="stack">${LEARN.map(u => { const dn = u.lessons.filter(l => learnDone(l.id)).length, on = (OLD_TOPIC[S.topic] || S.topic || (nextLearn()||{u:LEARN[0]}).u.id) === u.id;
@@ -1239,14 +1266,21 @@ function homeView(){
   const streakCard = atRisk ? `<section class="streak-card" role="status"><span class="sk-ico">${ICON.flame.replace("<svg",'<svg width="26" height="26"')}</span>
       <span style="flex:1"><b id="sk-left">${leftToday()}</b><span class="small" style="display:block;opacity:.85">left today to keep your ${S.streak}-day streak</span></span></section>` : "";
   const signs = YEARS[0].books.find(b => b.id === "signs"), tj = FARD_DECKS.find(d => d.id === "tajwid"), ayy = bookById("t_ayyuha");
-  const more = `<p class="label">More to explore</p><div class="stack">${tj ? itemDeck(tj, true) : ""}${signs ? itemBook(signs, true) : ""}
+  const more = `${secH("More to explore", "Extra courses and short books to read.")}<div class="stack">${tj ? itemDeck(tj, true) : ""}${signs ? itemBook(signs, true) : ""}
       ${ayy ? `<button class="item" data-read="t_ayyuha|0"><span class="libthumb">${cover(ayy, 34)}</span><span style="flex:1;min-width:0"><span class="t">Ayyuha al-Walad</span><br><span class="s">Imam al-Ghazali's رحمه الله letter of advice to a student</span></span><span class="pill">Read</span></button>` : ""}</div>`;
+  const decksHtml = learnDecks();
   return shell(`
-    <section class="illum"><p class="ar illum-ar">السَّلَامُ عَلَيْكُمْ</p><p class="illum-en">Assalamu 'alaykum${S.name?`, ${esc(S.name)}`:""}</p></section>
+    <h1 class="sr-only">Home</h1><section class="illum"><p class="ar illum-ar">السَّلَامُ عَلَيْكُمْ</p><p class="illum-en">Assalamu 'alaykum${S.name?`, ${esc(S.name)}`:""}</p></section>
     ${streakCard}
+    ${secH("Learn the basics", "Short lessons on what every Muslim must know. Each ends with a few questions. Tap the course box to switch subject, and swipe to see more lessons.")}
     ${learnHome()}
+    ${cardsRow || decksHtml ? `${secH("Remember what you've learnt", "Flashcards show a question; you recall the answer, then turn the card to check. The app brings each card back just before you would forget it.")}<div class="stack">${cardsRow.replace('class="card simple-row"', 'class="item"')}${decksHtml}</div>` : ""}
+    ${secH("Salawat on the Prophet ﷺ", "Send blessings on the Prophet ﷺ. One salawat each day, with a counter.")}
+    ${salawatCard()}
+    ${secH("Du'as", "Du'as for each part of the day, with harakat, meaning and source.")}
+    ${duaRows()}
     <section class="card hotd" id="hotd" hidden></section>
-    ${cardsRow}${course}${readRow}
+    ${course}${readRow}
     ${more}
     ${installCard()}`);
 }
@@ -2352,12 +2386,26 @@ function bindInherit(){ S.inherit = S.inherit || { h:{}, est:{} }; const I = S.i
 function salawatCard(){
   if (!SALAWAT) { loadSalawat().then(() => { if (view.name === "home" && SALAWAT) render(); }); return ""; }
   const short = SALAWAT.items.filter(x => x.id !== "taj"), x = short[today() % short.length], n = (S.salCount||{})[x.id] || 0;
-  const tot = Object.values(S.salCount||{}).reduce((a, b) => a + b, 0);
-  return `<section class="card salcard" aria-labelledby="salh"><h2 id="salh" class="salh">Salawat & Du'a</h2>
-    <p class="ar sal-ar" lang="ar" dir="rtl">${esc(x.ar)}</p><p class="small muted" style="margin:0 0 10px">${esc(x.name)} · ${esc(x.src.split(/[.;(]/)[0])}</p>
-    <div class="sal-c"><button class="btn small-btn" data-sal="${x.id}">Count one</button><span class="small muted" data-salc="${x.id}">${n.toLocaleString()} recited</span>
-    ${tot ? `<span class="small muted" style="margin-left:auto">${tot.toLocaleString()} in all</span>` : ""}</div>
-    <div class="duachips"><button class="dchip" data-go="salawat">All salawat</button><button class="dchip" data-go="dalail">Dala'il al-Khayrat</button><button class="dchip" data-dua="daily">Daily du'as</button><button class="dchip" data-dua="rabbana">40 Rabbana</button><button class="dchip" data-dua="ghazali">Imam al-Ghazali</button></div></section>`;
+  return `<section class="card salcard" aria-labelledby="salh"><p class="sal-k" id="salh">Today's salawat · ${esc(x.name)}</p>
+    <p class="ar sal-ar" lang="ar" dir="rtl">${esc(x.ar)}</p>
+    <button class="salbtn" data-sal="${x.id}"><span class="sb-plus" aria-hidden="true">+1</span><span class="sb-t">Tap each time you recite it</span><span class="sb-n" data-salc="${x.id}">${n.toLocaleString()}</span></button></section>
+    <div class="glist">${grow("salawat", "", "ص", "All salawat", "Seven salawat with their sources and virtues")}${grow("dalail", "", "د", "Dala'il al-Khayrat", "Imam al-Jazuli's book of salawat, one part a day")}</div>`;
+}
+const GICO = {
+  daily: `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>`,
+  rabbana: `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M2 4h6a4 4 0 0 1 4 4v12a3 3 0 0 0-3-3H2zM22 4h-6a4 4 0 0 0-4 4v12a3 3 0 0 1 3-3h7z"/></svg>`,
+  ghazali: `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.2 3.8a5.5 5.5 0 0 0-7.8 0L5 11.2V19h7.8l7.4-7.4a5.5 5.5 0 0 0 0-7.8zM16 8 2 22M17.5 15H9"/></svg>`,
+};
+const CHEV = `<svg class="g-ch" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 6 6 6-6 6"/></svg>`;
+// One tappable row in a grouped list: icon, title, one line saying what is inside, chevron
+function grow(goName, dua, icoAr, t, sub, svg){
+  return `<button class="grow" ${dua ? `data-dua="${dua}"` : `data-go="${goName}"`}><span class="g-ico ${svg ? "" : "ar"}" aria-hidden="true">${svg || icoAr}</span>
+    <span class="g-m"><span class="g-t">${esc(t)}</span><span class="g-s">${esc(sub)}</span></span>${CHEV}</button>`;
+}
+function duaRows(){
+  return `<div class="glist">${grow("", "daily", "", "Daily du'as", "Waking, sleeping, eating, the toilet, leaving home", GICO.daily)}
+    ${grow("", "rabbana", "", "The 40 Rabbana", "Du'as from the Qur'an that begin 'Our Lord'", GICO.rabbana)}
+    ${grow("", "ghazali", "", "Imam al-Ghazali's du'as", "A day of worship from his Beginning of Guidance, with wudu step by step", GICO.ghazali)}</div>`;
 }
 function salawatView(){
   if (!SALAWAT) { loadSalawat().then(render); return shell(`<p class="muted">Loading…</p>`); }
@@ -2374,18 +2422,25 @@ function salawatView(){
 function bindSalawat(){ document.querySelectorAll("[data-sal]").forEach(b => b.onclick = () => { S.salCount = S.salCount || {}; S.salCount[b.dataset.sal] = (S.salCount[b.dataset.sal]||0) + 1; save();
   const s = b.nextElementSibling; if (s) s.textContent = S.salCount[b.dataset.sal].toLocaleString() + " recited"; if (navigator.vibrate) navigator.vibrate(8); }); }
 function bindSalCard(){ document.querySelectorAll(".salcard [data-sal]").forEach(b => b.onclick = () => { S.salCount = S.salCount || {}; const k = b.dataset.sal; S.salCount[k] = (S.salCount[k]||0) + 1; save();
-  const c = document.querySelector(`[data-salc="${k}"]`); if (c) c.textContent = S.salCount[k].toLocaleString() + " recited"; if (navigator.vibrate) navigator.vibrate(8); }); }
+  const c = document.querySelector(`[data-salc="${k}"]`); if (c) c.textContent = S.salCount[k].toLocaleString(); if (navigator.vibrate) navigator.vibrate(8); }); }
 
 let DUAS = null;
 const loadDuas = async () => DUAS || (DUAS = await fetch("data/duas.json").then(r => r.json()).catch(() => null));
+function duaBody(x){
+  if (x.parts) return `<ol class="dsteps">${x.parts.map(p => `<li><p class="ds-h">${esc(p.step)}</p><p class="ds-do">${esc(p.do)}</p>
+      <p class="ar dua-ar" lang="ar" dir="rtl">${esc(p.ar)}</p><p class="dua-en">${esc(p.en)}</p></li>`).join("")}</ol>`;
+  return `<p class="ar dua-ar" lang="ar" dir="rtl">${esc(x.ar)}</p><p class="dua-en">${esc(x.en)}</p>`;
+}
 function duasView(sec){
   if (!DUAS) { loadDuas().then(render); return shell(`<p class="muted">Loading…</p>`); }
   const cur = DUAS.sections.find(x => x.id === sec) || DUAS.sections[0];
-  return shell(`<button class="back" data-go="home">${ICON.back} Home</button><h1 style="margin-bottom:8px">Du'as</h1>
+  return shell(`<button class="back" data-go="home">${ICON.back} Home</button><h1 style="margin-bottom:10px">Du'as</h1>
     <div class="dseg" role="tablist" aria-label="Du'a collections">${DUAS.sections.map(x => `<button role="tab" aria-selected="${x.id === cur.id}" class="${x.id === cur.id ? "on" : ""}" data-dua="${x.id}">${esc(x.title)}</button>`).join("")}</div>
-    <p class="muted" style="margin:10px 0 4px">${esc(cur.sub)}.</p>${cur.credit ? `<p class="small muted" style="margin:0 0 12px">${esc(cur.credit)}</p>` : ""}
-    ${cur.items.map(x => `<section class="card pad dua"><h2>${esc(x.t)}</h2><p class="ar dua-ar" lang="ar" dir="rtl">${esc(x.ar).replace(/ ۞ /g, "<br>")}</p>
-      <p class="dua-en">${esc(x.en)}</p>${x.note ? `<p class="small notebox">${esc(x.note)}</p>` : ""}<p class="small muted dua-src">${esc(x.src)}</p></section>`).join("")}`);
+    <section class="about-box"><p class="ab-h">About this collection</p><p>${esc(cur.about || cur.sub)}</p><p class="small muted" style="margin:6px 0 0">Tap a du'a to open it. ${cur.items.length} in this collection.</p></section>
+    <div class="dlist">${cur.items.map((x, i) => { const t = x.t.replace(/^\d+\.\s*/, "") || "Rabbana";
+      return `<details class="dua"><summary><span class="dua-n">${i+1}</span><span class="g-m"><span class="g-t">${esc(t)}</span>${x.when || x.parts ? `<span class="g-s">${esc(x.when || x.parts.length + " short steps, in order")}</span>` : ""}</span>${CHEV}</summary>
+        <div class="dua-b">${duaBody(x)}${x.note ? `<p class="small notebox">${esc(x.note)}</p>` : ""}<p class="small muted dua-src">Source: ${esc(x.src)}</p></div></details>`; }).join("")}</div>
+    ${cur.credit ? `<p class="small muted" style="margin-top:14px">${esc(cur.credit)}</p>` : ""}`);
 }
 let DALAIL = null;
 const loadDalail = async () => DALAIL || (DALAIL = await fetch("data/dalail.json").then(r => r.json()).catch(() => null));
@@ -2519,5 +2574,5 @@ function notesView(){ const all = hlEntries(); return shell(`<button class="back
   <p class="muted" style="margin:0 0 14px">${all.length ? `${all.length} highlight${all.length > 1 ? "s" : ""}, ${all.filter(h => h.note).length} with notes. Tap one to open it in the book.` : "Highlights and notes you make in any book appear here."}</p>${hlListHtml(all, true)}`); }
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=014bf0cd97");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=63b269bfdc");</script></body>
 </html>
