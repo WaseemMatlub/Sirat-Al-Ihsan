@@ -451,11 +451,11 @@ mark.hl.has-note{border-bottom:2px solid #8A6D00}
 .gs-rule.fard{background:color-mix(in srgb,var(--brand) 14%,var(--surface));color:var(--brand)}.gs-rule.wajib{background:var(--gold-soft);color:var(--ink)}
 .gs-sl{font-weight:700;font-size:.85rem;margin:0 0 4px}.gs-tr{margin:4px 0}.gs-ss{margin:4px 0 0}.gs-say+.gs-say{margin-top:8px}
 .gs-more{margin:8px 0 0 40px;font-size:.9rem}.gs-more summary{cursor:pointer;font-weight:600;color:var(--brand)}.gs-more p{margin:6px 0 0;line-height:1.55}
-.dl-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.dl-tile{position:relative;min-height:84px;border:0;border-radius:16px;padding:14px 10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;text-align:center;cursor:pointer;color:var(--brand-ink);font:inherit;
+.dl-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.dl-tile{padding:8px!important}
+.dl-tile{position:relative;min-height:58px;border:0;border-radius:16px;padding:14px 10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;text-align:center;cursor:pointer;color:var(--brand-ink);font:inherit;
  background-color:var(--brand);background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.07) 0 14px,transparent 14px 28px),repeating-linear-gradient(-45deg,rgba(255,255,255,.05) 0 14px,transparent 14px 28px)}
-.dl-tile.wide{grid-column:1/-1}.dl-tl{font-size:1.15rem;font-weight:700;line-height:1.25}.dl-tl .ar{font-size:1.2rem}.dl-ts{font-size:.8rem;opacity:.9}
-.dl-tile.today{box-shadow:0 0 0 3px var(--gold)}.dl-tile:active{transform:scale(.98)}
+.dl-tile.wide{grid-column:1/-1}.dl-tl{font-size:1.02rem;font-weight:700;line-height:1.25}.dl-tl .ar{font-size:1.2rem}.dl-ts{font-size:.8rem;opacity:.9}
+.dl-tile.dl-today{box-shadow:0 0 0 3px var(--gold)}.dl-tile:active{transform:scale(.98)}
 .dl-tile.off{background-color:var(--soft);color:var(--muted);background-image:repeating-linear-gradient(45deg,rgba(0,0,0,.03) 0 14px,transparent 14px 28px)}
 .tb-chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:12px;scrollbar-width:none}.tb-chips .dchip{white-space:nowrap}.dchip.on{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
 .tb-pad{position:relative;width:100%;min-height:340px;border:1px solid var(--line);border-radius:24px;background:var(--surface);color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font:inherit;cursor:pointer;touch-action:manipulation;-webkit-user-select:none;user-select:none;padding:20px}
@@ -487,6 +487,14 @@ mark.hl.has-note{border-bottom:2px solid #8A6D00}
 .pathbox{margin:10px 0;padding:12px 14px;border-radius:14px;background:var(--soft)}.pb-h{font-weight:700;margin:0 0 6px}
 .pb-chips{display:flex;flex-wrap:wrap;gap:6px}.pb-chip{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:5px 10px;font:inherit;font-size:.82rem;cursor:pointer}.pb-chip.on{border-color:var(--ok);color:var(--ok)}
 .exbtn .t{font-size:.92rem}
+.stickies{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 10px}
+.sticky{position:relative;max-width:100%;text-align:left;font:inherit;font-size:.88rem;line-height:1.4;padding:10px 12px 10px 14px;border:0;border-radius:4px 12px 12px 12px;color:#2a2416;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.08);transform:rotate(-.6deg)}
+.sticky.st-y{background:#FFF1A8}.sticky.st-g{background:#CDEFC6}.sticky.st-b{background:#CFE4FF}.sticky.st-p{background:#F6D3EA}
+.st-pin{position:absolute;top:-4px;left:10px;width:10px;height:10px;border-radius:50%;background:#c0392b;box-shadow:0 1px 2px rgba(0,0,0,.3)}
+.sticky-add{border:1px dashed var(--line);background:none;color:var(--muted);border-radius:12px;padding:8px 12px;font:inherit;font-size:.85rem;cursor:pointer}
+.micbtn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);color:var(--brand);border-radius:999px;padding:5px 12px;font:inherit;font-size:.82rem;font-weight:600;cursor:pointer;margin-bottom:6px}
+.micbtn.on{background:#c0392b;color:#fff;border-color:#c0392b;animation:micp 1.2s infinite}@keyframes micp{50%{opacity:.7}}
+@media (prefers-reduced-motion:reduce){.micbtn.on{animation:none}}
 </style>
 </head>
 <body>

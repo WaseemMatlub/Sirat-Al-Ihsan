@@ -451,11 +451,11 @@ mark.hl.has-note{border-bottom:2px solid #8A6D00}
 .gs-rule.fard{background:color-mix(in srgb,var(--brand) 14%,var(--surface));color:var(--brand)}.gs-rule.wajib{background:var(--gold-soft);color:var(--ink)}
 .gs-sl{font-weight:700;font-size:.85rem;margin:0 0 4px}.gs-tr{margin:4px 0}.gs-ss{margin:4px 0 0}.gs-say+.gs-say{margin-top:8px}
 .gs-more{margin:8px 0 0 40px;font-size:.9rem}.gs-more summary{cursor:pointer;font-weight:600;color:var(--brand)}.gs-more p{margin:6px 0 0;line-height:1.55}
-.dl-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.dl-tile{position:relative;min-height:84px;border:0;border-radius:16px;padding:14px 10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;text-align:center;cursor:pointer;color:var(--brand-ink);font:inherit;
+.dl-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.dl-tile{padding:8px!important}
+.dl-tile{position:relative;min-height:58px;border:0;border-radius:16px;padding:14px 10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;text-align:center;cursor:pointer;color:var(--brand-ink);font:inherit;
  background-color:var(--brand);background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.07) 0 14px,transparent 14px 28px),repeating-linear-gradient(-45deg,rgba(255,255,255,.05) 0 14px,transparent 14px 28px)}
-.dl-tile.wide{grid-column:1/-1}.dl-tl{font-size:1.15rem;font-weight:700;line-height:1.25}.dl-tl .ar{font-size:1.2rem}.dl-ts{font-size:.8rem;opacity:.9}
-.dl-tile.today{box-shadow:0 0 0 3px var(--gold)}.dl-tile:active{transform:scale(.98)}
+.dl-tile.wide{grid-column:1/-1}.dl-tl{font-size:1.02rem;font-weight:700;line-height:1.25}.dl-tl .ar{font-size:1.2rem}.dl-ts{font-size:.8rem;opacity:.9}
+.dl-tile.dl-today{box-shadow:0 0 0 3px var(--gold)}.dl-tile:active{transform:scale(.98)}
 .dl-tile.off{background-color:var(--soft);color:var(--muted);background-image:repeating-linear-gradient(45deg,rgba(0,0,0,.03) 0 14px,transparent 14px 28px)}
 .tb-chips{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:12px;scrollbar-width:none}.tb-chips .dchip{white-space:nowrap}.dchip.on{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
 .tb-pad{position:relative;width:100%;min-height:340px;border:1px solid var(--line);border-radius:24px;background:var(--surface);color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;font:inherit;cursor:pointer;touch-action:manipulation;-webkit-user-select:none;user-select:none;padding:20px}
@@ -487,6 +487,14 @@ mark.hl.has-note{border-bottom:2px solid #8A6D00}
 .pathbox{margin:10px 0;padding:12px 14px;border-radius:14px;background:var(--soft)}.pb-h{font-weight:700;margin:0 0 6px}
 .pb-chips{display:flex;flex-wrap:wrap;gap:6px}.pb-chip{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:5px 10px;font:inherit;font-size:.82rem;cursor:pointer}.pb-chip.on{border-color:var(--ok);color:var(--ok)}
 .exbtn .t{font-size:.92rem}
+.stickies{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 10px}
+.sticky{position:relative;max-width:100%;text-align:left;font:inherit;font-size:.88rem;line-height:1.4;padding:10px 12px 10px 14px;border:0;border-radius:4px 12px 12px 12px;color:#2a2416;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.08);transform:rotate(-.6deg)}
+.sticky.st-y{background:#FFF1A8}.sticky.st-g{background:#CDEFC6}.sticky.st-b{background:#CFE4FF}.sticky.st-p{background:#F6D3EA}
+.st-pin{position:absolute;top:-4px;left:10px;width:10px;height:10px;border-radius:50%;background:#c0392b;box-shadow:0 1px 2px rgba(0,0,0,.3)}
+.sticky-add{border:1px dashed var(--line);background:none;color:var(--muted);border-radius:12px;padding:8px 12px;font:inherit;font-size:.85rem;cursor:pointer}
+.micbtn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);color:var(--brand);border-radius:999px;padding:5px 12px;font:inherit;font-size:.82rem;font-weight:600;cursor:pointer;margin-bottom:6px}
+.micbtn.on{background:#c0392b;color:#fff;border-color:#c0392b;animation:micp 1.2s infinite}@keyframes micp{50%{opacity:.7}}
+@media (prefers-reduced-motion:reduce){.micbtn.on{animation:none}}
 
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--line);padding:4px;border-radius:14px}
 .seg button{border:0;background:transparent;border-radius:10px;padding:10px 6px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
@@ -1688,7 +1696,7 @@ function readView(b, i){
         ${s.v ? `<button class="tool ${S.harakat!==false?"on":""}" id="tg-h">حَ Harakat ${S.harakat!==false?"on":"off"}</button>` : `<button class="tool" disabled style="opacity:.55" title="Harakat for this book are being added">حَ No harakat yet</button>`}${s.en?`<button class="tool ${P.english?"on":""}" id="tg-e">EN English</button>`:""}
         <button class="tool" id="fsdn" aria-label="Smaller text">A−</button><button class="tool" id="fsup" aria-label="Larger text">A+</button>
         ${AUD.on?`<button class="tool" id="rate">${P.rate}× speed</button>`:""}</div>
-      ${S.dictUsed && hlEntries().length ? "" : `<p class="small muted" style="margin:0 0 8px">Tip: tap a word to look it up. Press and hold, then select words to highlight them or add a note.</p>`}<div class="card fs${P.size}">${paras}</div>${toolRow(key,false)}</div>
+      ${S.dictUsed && hlEntries().length ? "" : `<p class="small muted" style="margin:0 0 8px">Tip: tap a word to look it up. Press and hold, then select words to highlight them or add a note. Pin a sticky note to any page.</p>`}${typeof stickyHtml === "function" ? stickyHtml(b.id, i) : ""}<div class="card fs${P.size}">${paras}</div>${toolRow(key,false)}</div>
     <div class="pfoot"><div class="grades two"><button class="grade" id="rprev" style="background:var(--surface);color:var(--ink);border:1px solid var(--line)" ${i===0?"disabled":""}>← Previous</button><button class="grade g2" id="rnext">${i+1<T.sections.length?"✓ Read · next":"✓ Finish"}</button></div></div></div></div>`;
 }
 /* ---- Dictionary: tap an Arabic word in the reader ----
@@ -1742,7 +1750,7 @@ async function showLookup(word){
 function bindRead(b, i){
   const T = TEXTS[b.file]; bindTools($("#app"), () => { $("#app").innerHTML = readView(b, i); bindRead(b, i); });
   $("#app").querySelectorAll(".ar-read").forEach(p => p.onclick = e => { if (String(getSelection()) || e.target.closest("mark.hl")) return; const w = wordAt(e.clientX, e.clientY); if (normAr(w).length >= 2) showLookup(w); });
-  hlBind(b, i);
+  hlBind(b, i); if (typeof stickyBind === "function") stickyBind(b, i);
   const tg = (k) => () => { S.readPrefs[k] = !S.readPrefs[k]; save(); $("#app").innerHTML = readView(b, i); bindRead(b, i); };
   const th = $("#tg-h"); if (th) th.onclick = () => { S.harakat = S.harakat === false; save(); $("#app").innerHTML = readView(b, i); bindRead(b, i);
     if (S.harakat && !T.sections[i].v) toast("This book doesn't have harakat added yet. They'll appear when they're ready."); }; const te = $("#tg-e"); if (te) te.onclick = tg("english");
@@ -2632,12 +2640,12 @@ function dalailMenu(){
   const tile = (attr, label, sub, cls, ok) => `<button class="dl-tile ${cls || ""}" ${attr} ${ok ? "" : 'aria-disabled="true"'}><span class="dl-tl">${label}</span>${sub ? `<span class="dl-ts">${sub}</span>` : ""}</button>`;
   const pre = DL_TILES.map(([k, l, h]) => tile(`data-dlx="${k}"`, `${esc(l)}${h ? ` <span class="ar">${h}</span>` : ""}`, ex[k] ? "" : "Coming soon", (k === "opening" || k === "niyyah" ? "wide" : "") + (ex[k] ? "" : " off"), !!ex[k]));
   const parts = DALAIL.ahzab.map(h => tile(`data-hizb="${h.n}"`, `Part ${h.n}`, `${esc(h.day.replace(" (second)", ", second"))}${h.n === t ? " · today" : ""}${readToday === h.n ? " · read ✓" : ""}${h.paras ? "" : " · coming soon"}`,
-    (h.n === t ? "today" : "") + (h.paras ? "" : " off"), !!h.paras));
+    (h.n === t ? "dl-today" : "") + (h.paras ? "" : " off"), !!h.paras));
   return shell(`<button class="back" data-go="salawat">${ICON.back} Salawat</button>
-    <h1 style="margin-bottom:2px">Dala'il al-Khayrat</h1><p class="ar" lang="ar" style="font-size:1.3rem;margin:0">دَلَائِلُ الْخَيْرَاتِ</p>
-    <p class="muted" style="margin:6px 0 14px">${esc(DALAIL.by)}. Read one part a day, starting on Monday, and finish the whole book each week. Today is Part ${t}.</p>
+    <div class="spread" style="align-items:baseline"><h1 style="margin:0">Dala'il al-Khayrat</h1><span class="ar" lang="ar" style="font-size:1.2rem">دَلَائِلُ الْخَيْرَاتِ</span></div>
+    <p class="small muted" style="margin:2px 0 12px">One part a day from Monday; the whole book each week.</p>
     <div class="dl-grid">${pre.join("")}${parts.join("")}${tile(`data-dlx="khatm"`, "Du'a of Completion", ex.khatm ? "" : "Coming soon", "wide" + (ex.khatm ? "" : " off"), !!ex.khatm)}</div>
-    <p class="small muted" style="margin-top:14px">${esc(DALAIL.note)}</p>`);
+    <details class="exbox" style="margin-top:12px"><summary><b>About this book</b></summary><p class="small" style="margin:8px 0 0">${esc(DALAIL.by)}. ${esc(DALAIL.note)}</p></details>`);
 }
 function dalailView(n, x){
   if (!DALAIL) { loadDalail().then(render); return shell(`<p class="muted">Loading…</p>`); }
@@ -2787,11 +2795,11 @@ function hlEdit(b, i, id, fresh){
   const list = hlList(`${b.id}|${i}`), h = list.find(x => x.id === id); if (!h) return;
   modal(`<h2 style="margin:0 0 8px">${fresh ? "Add a note" : "Highlight"}</h2>
     <blockquote class="hlq ${h.w === "ar" ? "ar" : ""}" ${h.w === "ar" ? 'dir="rtl" lang="ar"' : ""}>${esc(h.q)}</blockquote>
-    <label class="small" for="hlnote" style="font-weight:700">Your note</label><textarea id="hlnote" rows="4" placeholder="Write a note…">${esc(h.note)}</textarea>
+    <div class="spread"><label class="small" for="hlnote" style="font-weight:700">Your note</label>${micBtn()}</div><textarea id="hlnote" rows="4" placeholder="Write a note, or tap the mic and speak…">${esc(h.note)}</textarea>
     <div class="hlcols" role="group" aria-label="Colour">${HL_COLORS.map(([c, t]) => `<button class="hlc hl-${c} ${h.c === c ? "on" : ""}" data-c="${c}" aria-label="${t}" aria-pressed="${h.c === c}"></button>`).join("")}</div>
     <div class="btnrow"><button class="btn ghost" id="hldel">Delete</button><button class="btn" id="hlok">Save</button></div>`, (el, close) => {
       let c = h.c; el.querySelectorAll("[data-c]").forEach(x => x.onclick = () => { c = x.dataset.c; el.querySelectorAll("[data-c]").forEach(y => { y.classList.toggle("on", y === x); y.setAttribute("aria-pressed", y === x); }); });
-      const ta = el.querySelector("#hlnote"); setTimeout(() => ta.focus(), 50);
+      const ta = el.querySelector("#hlnote"); setTimeout(() => ta.focus(), 50); bindMic(el, ta);
       el.querySelector("#hlok").onclick = () => { h.note = ta.value.trim(); h.c = c; save(); close(); hlRedraw(b, i); if (h.note) toast("Note saved"); };
       el.querySelector("#hldel").onclick = () => { list.splice(list.indexOf(h), 1); save(); close(); hlRedraw(b, i); toast("Highlight removed"); };
       el.onclick = e => { if (e.target === el) close(); }; });
@@ -2803,7 +2811,8 @@ function hlBind(b, i){
     const s = hlFromSelection(b.id, i); if (s) hlShowBar(b, i, s); else hlHideBar(); }, 250); };
 }
 // all highlights and notes for one book, or every book
-function hlEntries(bid){ const out = []; for (const [k, list] of Object.entries(S.hl || {})) { const [id, i] = k.split("|"); if (bid && id !== bid) continue; list.forEach(h => out.push({ ...h, bid:id, i:+i })); }
+function hlEntries(bid){ const out = [];
+  for (const [k, list] of Object.entries(S.sticky || {})) { const [id, i] = k.split("|"); if (bid && id !== bid) continue; list.forEach(n => out.push({ id:n.id, q:"Sticky note", note:n.t, c:n.c, w:"en", at:n.at, bid:id, i:+i, sticky:true })); } for (const [k, list] of Object.entries(S.hl || {})) { const [id, i] = k.split("|"); if (bid && id !== bid) continue; list.forEach(h => out.push({ ...h, bid:id, i:+i })); }
   return out.sort((a, b) => a.bid === b.bid ? (a.i - b.i || a.p - b.p) : 0); }
 function hlListHtml(entries, showBook){
   return entries.length ? `<div class="stack">${entries.map(h => { const bk = bookById(h.bid); return `<button class="item hlitem" data-read="${h.bid}|${h.i}"><span class="hlsw hl-${h.c}" aria-hidden="true"></span>
@@ -2813,6 +2822,40 @@ function hlListHtml(entries, showBook){
 function notesView(){ const all = hlEntries(); return shell(`<button class="back" data-go="library">${ICON.back} Library</button><h1>Your notes</h1>
   <p class="muted" style="margin:0 0 14px">${all.length ? `${all.length} highlight${all.length > 1 ? "s" : ""}, ${all.filter(h => h.note).length} with notes. Tap one to open it in the book.` : "Highlights and notes you make in any book appear here."}</p>${hlListHtml(all, true)}`); }
 
+/* ---- Voice notes: speech-to-text where the phone supports it ---- */
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+const micBtn = () => SR ? `<button type="button" class="micbtn" id="mic" aria-label="Speak your note"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v4"/></svg><span>Speak</span></button>` : "";
+function bindMic(el, ta){
+  const b = el.querySelector("#mic"); if (!b || !SR) return; let rec = null;
+  b.onclick = () => { if (rec) { rec.stop(); return; }
+    rec = new SR(); rec.lang = S.micLang || "en-GB"; rec.interimResults = true; rec.continuous = true; const base = ta.value ? ta.value.trimEnd() + " " : "";
+    rec.onresult = e => { let t = ""; for (const r of e.results) t += r[0].transcript; ta.value = base + t; };
+    rec.onend = () => { rec = null; b.classList.remove("on"); b.querySelector("span").textContent = "Speak"; };
+    rec.onerror = e => { if (e.error === "not-allowed") toast("Allow the microphone for this app to speak notes."); };
+    try { rec.start(); b.classList.add("on"); b.querySelector("span").textContent = "Stop"; } catch(e){ rec = null; } };
+}
+/* ---- Sticky notes: a note pinned to a page of a book, no highlight needed ---- */
+function stickyList(bid, i){ S.sticky = S.sticky || {}; return S.sticky[`${bid}|${i}`] || (S.sticky[`${bid}|${i}`] = []); }
+function stickyHtml(bid, i){ const L = (S.sticky||{})[`${bid}|${i}`] || [];
+  return `<div class="stickies">${L.map(n => `<button class="sticky st-${n.c||"y"}" data-sticky="${n.id}"><span class="st-pin" aria-hidden="true"></span>${esc(snip(n.t, 140))}</button>`).join("")}
+    <button class="sticky-add" id="sticky-add">+ Sticky note</button></div>`; }
+function stickyEdit(b, i, id){
+  const L = stickyList(b.id, i), n = id ? L.find(x => x.id === id) : { id:"s" + Date.now().toString(36), t:"", c:"y", at:Date.now() };
+  modal(`<h2 style="margin:0 0 8px">${id ? "Sticky note" : "New sticky note"}</h2><p class="small muted" style="margin:0 0 8px">Pinned to this page of ${esc(b.title)}.</p>
+    <div class="spread"><label class="small" for="stnote" style="font-weight:700">Note</label>${micBtn()}</div><textarea id="stnote" rows="5" placeholder="Write, or tap the mic and speak…">${esc(n.t)}</textarea>
+    <div class="hlcols" role="group" aria-label="Colour">${HL_COLORS.map(([c, t]) => `<button class="hlc hl-${c} ${n.c === c ? "on" : ""}" data-c="${c}" aria-label="${t}" aria-pressed="${n.c === c}"></button>`).join("")}</div>
+    <div class="btnrow">${id ? `<button class="btn ghost" id="stdel">Delete</button>` : `<button class="btn ghost" id="stx">Cancel</button>`}<button class="btn" id="stok">Save</button></div>`, (el, close) => {
+      let c = n.c; el.querySelectorAll("[data-c]").forEach(x => x.onclick = () => { c = x.dataset.c; el.querySelectorAll("[data-c]").forEach(y => { y.classList.toggle("on", y === x); y.setAttribute("aria-pressed", y === x); }); });
+      const ta = el.querySelector("#stnote"); setTimeout(() => ta.focus(), 50); bindMic(el, ta);
+      el.querySelector("#stok").onclick = () => { n.t = ta.value.trim(); n.c = c; if (!n.t) return close(); if (!id) L.push(n); save(); close(); hlRedraw(b, i); toast("Sticky note saved"); };
+      const d = el.querySelector("#stdel"); if (d) d.onclick = () => { L.splice(L.indexOf(n), 1); save(); close(); hlRedraw(b, i); };
+      const x = el.querySelector("#stx"); if (x) x.onclick = close; el.onclick = e => { if (e.target === el) close(); }; });
+}
+function stickyBind(b, i){
+  const a = $("#sticky-add"); if (a) a.onclick = () => stickyEdit(b, i);
+  document.querySelectorAll("[data-sticky]").forEach(x => x.onclick = () => stickyEdit(b, i, x.dataset.sticky));
+}
+
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=973cc1a5ca");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=63f25cd07b");</script></body>
 </html>

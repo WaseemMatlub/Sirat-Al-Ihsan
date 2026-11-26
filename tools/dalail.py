@@ -28,7 +28,12 @@ def standard(t):
     t = re.sub(r"([\u0650\u0651]{2})\u064a\u0652", "\\1\u064a", t)                         # ِّيْ -> ِّي
     t = re.sub(r"([\u064f\u0651]{2})\u0648\u0652", "\\1\u0648", t)                         # ُّوْ -> ُّو
     t = re.sub(r"([\u064b-\u064d][\u0627\u0649]?) (\S)([\u064e-\u0650]?)\u0651", r"\1 \2\3", t)   # no shadda after tanween + alif
-    t = re.sub(r"(^| )وَ\u0651? (?=\S)", r"\1وَ", t)                                          # rejoin a و split at a page end
+    t = re.sub(r"(^| )وَ\u0651? (?=\S)", r"\1وَ", t)
+    for k, v in (("ذٰلِ","ذَلِ"),("هٰذ","هَذ"),("هٰؤُ","هَؤُ"),("رَحْمٰن","رَحْمَن"),("إِلٰه","إِلَه"),("اِلٰه","إِلَه"),("لٰكِن","لَكِن"),("أُولٰئِ","أُولَئِ"),("اُولٰئِ","أُولَئِ")): t = t.replace(k, v)   # words written without alif in standard print
+    t = re.sub("\u0670(?=[\u0621-\u064A])", "\u064e\u0627", t)          # mid-word dagger alif -> fatha + alif (إِبْرَاهِيمَ, الْعَالَمِينَ)
+    t = t.replace("يَا\u064eأَ", "يَا أَ").replace("ي\u064e\u0627أَ", "يَا أَ")
+    t = re.sub("\u0670$|\u0670(?= )", "\u064e\u0627", t)
+    t = t.replace("\u0656", "\u0650").replace("\u0657", "\u064f")                                          # rejoin a و split at a page end
     return t
 def pages(a, b):
     out = []
@@ -49,5 +54,9 @@ for n, day, a, b in AHZAB:
         parts = [standard(p.strip()) for p in text.split("۝") if p.strip()]
         h["paras"] = parts
     out["ahzab"].append(h)
+ps = pages(217, 223)
+if ps:
+    text = re.sub(r"\s+", " ", " ".join(l for l in "\n".join(ps).split("\n") if not l.startswith("## ")))
+    out["extra"] = {"khatm": {"paras": [standard(p.strip()) for p in text.split("۝") if p.strip()], "pages": "217–223"}}
 json.dump(out, open(os.path.join(HERE, "..", "app", "data", "dalail.json"), "w"), ensure_ascii=False, separators=(",", ":"))
 print([(h["n"], len(h.get("paras", []))) for h in out["ahzab"]])

@@ -404,12 +404,12 @@ function dalailMenu(){
   const tile = (attr, label, sub, cls, ok) => `<button class="dl-tile ${cls || ""}" ${attr} ${ok ? "" : 'aria-disabled="true"'}><span class="dl-tl">${label}</span>${sub ? `<span class="dl-ts">${sub}</span>` : ""}</button>`;
   const pre = DL_TILES.map(([k, l, h]) => tile(`data-dlx="${k}"`, `${esc(l)}${h ? ` <span class="ar">${h}</span>` : ""}`, ex[k] ? "" : "Coming soon", (k === "opening" || k === "niyyah" ? "wide" : "") + (ex[k] ? "" : " off"), !!ex[k]));
   const parts = DALAIL.ahzab.map(h => tile(`data-hizb="${h.n}"`, `Part ${h.n}`, `${esc(h.day.replace(" (second)", ", second"))}${h.n === t ? " · today" : ""}${readToday === h.n ? " · read ✓" : ""}${h.paras ? "" : " · coming soon"}`,
-    (h.n === t ? "today" : "") + (h.paras ? "" : " off"), !!h.paras));
+    (h.n === t ? "dl-today" : "") + (h.paras ? "" : " off"), !!h.paras));
   return shell(`<button class="back" data-go="salawat">${ICON.back} Salawat</button>
-    <h1 style="margin-bottom:2px">Dala'il al-Khayrat</h1><p class="ar" lang="ar" style="font-size:1.3rem;margin:0">دَلَائِلُ الْخَيْرَاتِ</p>
-    <p class="muted" style="margin:6px 0 14px">${esc(DALAIL.by)}. Read one part a day, starting on Monday, and finish the whole book each week. Today is Part ${t}.</p>
+    <div class="spread" style="align-items:baseline"><h1 style="margin:0">Dala'il al-Khayrat</h1><span class="ar" lang="ar" style="font-size:1.2rem">دَلَائِلُ الْخَيْرَاتِ</span></div>
+    <p class="small muted" style="margin:2px 0 12px">One part a day from Monday; the whole book each week.</p>
     <div class="dl-grid">${pre.join("")}${parts.join("")}${tile(`data-dlx="khatm"`, "Du'a of Completion", ex.khatm ? "" : "Coming soon", "wide" + (ex.khatm ? "" : " off"), !!ex.khatm)}</div>
-    <p class="small muted" style="margin-top:14px">${esc(DALAIL.note)}</p>`);
+    <details class="exbox" style="margin-top:12px"><summary><b>About this book</b></summary><p class="small" style="margin:8px 0 0">${esc(DALAIL.by)}. ${esc(DALAIL.note)}</p></details>`);
 }
 function dalailView(n, x){
   if (!DALAIL) { loadDalail().then(render); return shell(`<p class="muted">Loading…</p>`); }
