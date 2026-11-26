@@ -43,7 +43,7 @@ def pages(a, b):
         out.append(open(f).read().strip())
     return out
 out = {"title": "Dala'il al-Khayrat", "ar": "دلائل الخيرات", "by": "Imam Muhammad ibn Sulayman al-Jazuli رحمه الله (d. 870 AH)",
-       "note": "Arabic only, transcribed letter by letter from a printed edition (eight ahzab, beginning on Monday) and checked against the page images.",
+       "note": "The Arabic is typed letter by letter from two printed editions and checked against the page images: the eight parts and the closing du'a from an Indo-Pak Arabic-Urdu edition, and the opening sections from the Arabic-English edition (Lahore, 2010). The English is our own translation from the Arabic, made for this app.",
        "ahzab": []}
 for n, day, a, b in AHZAB:
     ps = pages(a, b); h = {"n": n, "day": day, "ar": "الحزب " + AR_NUM[n-1], "pages": f"{a}–{b}"}
@@ -58,5 +58,15 @@ ps = pages(217, 223)
 if ps:
     text = re.sub(r"\s+", " ", " ".join(l for l in "\n".join(ps).split("\n") if not l.startswith("## ")))
     out["extra"] = {"khatm": {"paras": [standard(p.strip()) for p in text.split("۝") if p.strip()], "pages": "217–223"}}
+from dalail_front import FRONT
+for k, v in FRONT.items():
+    out["extra"][k] = {"title": v["title"], "about": v["about"], "pages": v["pages"], "paras": [x["ar"] for x in v["items"]], "en": [x["en"] for x in v["items"]], "times": [x.get("n", 0) for x in v["items"]]}
+try:
+    from dalail_en import EN
+    for k, v in EN.items():
+        tgt = out["extra"]["khatm"] if k == "khatm" else next(h for h in out["ahzab"] if h["n"] == k)
+        if len(v) == len(tgt["paras"]): tgt["en"] = v
+        else: print("EN count mismatch", k, len(v), len(tgt["paras"]))
+except ImportError: pass
 json.dump(out, open(os.path.join(HERE, "..", "app", "data", "dalail.json"), "w"), ensure_ascii=False, separators=(",", ":"))
 print([(h["n"], len(h.get("paras", []))) for h in out["ahzab"]])

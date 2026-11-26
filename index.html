@@ -497,6 +497,22 @@ mark.hl.has-note{border-bottom:2px solid #8A6D00}
 @media (prefers-reduced-motion:reduce){.micbtn.on{animation:none}}
 .btn.danger-ghost{background:var(--surface);color:#B42318;border:1px solid #F1B5AE;box-shadow:none}.btn.danger-ghost:disabled{opacity:.45}
 [data-theme=dark] .btn.danger-ghost{color:#FF8A80;border-color:#5c2b28}
+.dl-list{display:grid;gap:0}.dl-item{padding:10px 0;border-bottom:1px solid var(--line)}.dl-item:last-child{border-bottom:0}
+.dl-ar{font-family:var(--arabic);font-size:calc(1.5rem * var(--arz,1));line-height:2.1;margin:0;text-align:right}.dl-en{margin:6px 0 0;line-height:1.55;color:var(--ink)}
+.dl-x{display:inline-block;font-family:var(--body);font-size:.8rem;font-weight:700;background:var(--soft);color:var(--brand);border-radius:999px;padding:1px 8px;vertical-align:middle}
+.dsearch{display:flex;gap:8px;margin:0 0 14px}.dsearch input{flex:1;font:inherit;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.rootcard{border:1px solid var(--line);border-radius:16px;background:var(--surface);padding:14px;margin:0 0 12px}
+.rc-head{display:flex;align-items:baseline;justify-content:space-between;border-bottom:1px solid var(--line);padding-bottom:8px;margin-bottom:6px}.rc-root{font-size:1.9rem;font-weight:700;color:var(--brand)}
+.rc-l{font-weight:700;font-size:.82rem;color:var(--muted);margin:10px 0 4px}.rc-row{display:grid;grid-template-columns:auto 1fr;gap:2px 10px;padding:6px 0;border-bottom:1px dashed var(--line)}.rc-row:last-child{border-bottom:0}
+.rc-row .rc-w{grid-column:2;text-align:right;font-size:1.25rem}.rc-row .rc-g{grid-column:1/-1;font-size:.9rem}.rc-v .rc-row:not(:has(.rc-f)) .rc-w{grid-column:1/-1}
+.rc-f{grid-row:1;align-self:center;min-width:34px;text-align:center;font-weight:800;font-size:.75rem;background:color-mix(in srgb,var(--brand) 12%,var(--surface));color:var(--brand);border-radius:8px;padding:3px 6px}
+.rc-i,.rc-pl{font-size:.95rem;color:var(--muted)}.rc-lane{margin-top:8px}
+.tutor{width:100%;font:inherit;color:inherit;cursor:pointer;text-align:left}
+.live-dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#D92D20;margin-right:6px;vertical-align:middle;animation:livep 1.4s infinite}@keyframes livep{50%{opacity:.35}}
+@media (prefers-reduced-motion:reduce){.live-dot{animation:none}}
+.lc-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}.lc-row.on{border-color:#F1B5AE}
+.lc-t{margin:0;font-weight:600}.lc-own{flex-basis:100%;display:flex;gap:14px}
+.cform{display:grid;gap:10px;margin-top:8px}.cform label{display:grid;gap:4px;font-weight:600}.cform input,.cform select{font:inherit;font-weight:400;padding:9px 10px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
 
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--line);padding:4px;border-radius:14px}
 .seg button{border:0;background:transparent;border-radius:10px;padding:10px 6px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
@@ -1119,7 +1135,7 @@ function shell(inner){
   return `<header class="topbar"><button class="brandmark" data-go="home" aria-label="Dār aṣ-Ṣiddīq, go to home">${ICON.logo}<span>Dār aṣ-Ṣiddīq</span></button>
     <div class="stats"><button class="chip iconbtn" data-go="search" aria-label="Search">${ICON.search}</button><button class="chip iconbtn" data-go="settings" aria-label="Settings">${ICON.gear}</button><button class="chip mini" data-go="profile" aria-label="${S.streak} day streak">${ICON.flame.replace("<svg",'<svg width="14" height="14"')}${S.streak}</button><button class="chip mini xp" data-go="profile" aria-label="${S.xp} XP">${ICON.star.replace("<svg",'<svg width="14" height="14"').replace("var(--brand)","var(--gold)")}${S.xp >= 10000 ? (S.xp/1000).toFixed(0)+"k" : S.xp}</button></div></header>
     <main>${inner}</main>
-    <nav class="tabs"><div class="in"><button data-go="home" ${["home","unit","duas","salawat","dalail"].includes(view.name)?'aria-current="page"':""}>${ICON.home}Learn</button><button data-go="syllabus" ${["syllabus","year","spec"].includes(view.name)||(view.name==="book"&&!isLibBook())?'aria-current="page"':""}>${ICON.learn}Course</button><button data-go="library" ${view.name==="library"||isLibBook()?'aria-current="page"':""}>${ICON.shelf}Library</button><button data-go="tools" ${["tools","guide","qibla","qada","zakat","inherit"].includes(view.name)?'aria-current="page"':""}>${ICON.tools}Tools</button><button data-go="profile" ${view.name==="profile"?'aria-current="page"':""}>${ICON.user}Progress</button></div></nav>`;
+    <nav class="tabs"><div class="in"><button data-go="home" ${["home","unit","duas","salawat","dalail"].includes(view.name)?'aria-current="page"':""}>${ICON.home}Learn</button><button data-go="syllabus" ${["syllabus","year","spec","live"].includes(view.name)||(view.name==="book"&&!isLibBook())?'aria-current="page"':""}>${ICON.learn}Course</button><button data-go="library" ${view.name==="library"||isLibBook()?'aria-current="page"':""}>${ICON.shelf}Library</button><button data-go="tools" ${["tools","guide","qibla","qada","zakat","inherit"].includes(view.name)?'aria-current="page"':""}>${ICON.tools}Tools</button><button data-go="profile" ${view.name==="profile"?'aria-current="page"':""}>${ICON.user}Progress</button></div></nav>`;
 }
 /* First visit: three short steps, then straight into learning */
 const ARCH = (w=170) => `<svg class="arch" viewBox="0 0 200 240" width="${w}" aria-hidden="true"><defs><pattern id="ob-p" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M10 1l2.6 6.4L19 10l-6.4 2.6L10 19l-2.6-6.4L1 10l6.4-2.6z" fill="none" stroke="#E2C27A" stroke-width=".7" opacity=".45"/></pattern></defs>
@@ -1409,14 +1425,15 @@ function syllabusView(){
   const spec = node(m ? "done" : "", 'data-spec="1"', ICON.star.replace("<svg",'<svg width="14" height="14"'), "Specialisation", m ? esc(m.name) : "One subject in depth, after Year 5", `<span class="pill">${m ? "Chosen" : "Open"}</span>`);
   return shell(`<h1>Course</h1><p class="muted" style="margin:0 0 14px">For students of knowledge: the classical books, year by year. Follow the path below. Nothing is locked: the path is a recommendation, and you are free to study any year or book if you're determined.</p>
     <ol class="tree">${fard}${years}${spec}</ol>
-    ${tutorBox("the Course")}
+    ${liveBox("", "the classical books")}
     <p class="label">Extra study</p>${historyCard()}
     <p class="label">Book paths in the Library</p><p class="small muted" style="margin:0 0 8px">Each subject has a recommended order of books. Open any book in the Library to see what to read before it and after it.</p>
     <div class="stack">${BOOK_PATHS.map(([sub, ids]) => { const bs = ids.map(bookById).filter(Boolean); return bs.length ? `<details class="kitab"><summary><span style="flex:1">${esc(sub)}</span><span class="small muted">${bs.length} books</span></summary><ol class="bpath">${bs.map((b, i) => `<li><button class="linkbtn" data-book="${b.id}">${esc(b.title)}</button>${i === 0 ? ` <span class="pill">Start here</span>` : ""}</li>`).join("")}</ol></details>` : ""; }).join("")}</div>`);
 }
 // Recommended order of books in each subject. Only a suggestion: every book stays open.
 const BOOK_PATHS = [
-  ["Aqeedah", ["t_umm","t_jawhara","t_tahawiyya","t_fiqhakbar","t_nasafi","t_tamhid","t_iqtisad","t_milal"]],
+  ["Aqeedah (Maturidi)", ["t_tahawiyya","t_fiqhakbar"]],
+  ["Aqeedah (Ash'ari)", ["t_umm","t_jawhara","t_iqtisad","t_milal"]],
   ["Hanafi Fiqh", ["t_nur","t_maraqi","t_quduri","t_kanz","t_ikhtiyar","t_majalla","t_hidaya","t_tabyin","t_badai","t_mabsut"]],
   ["Usul al-Fiqh", ["t_shashi","t_manar","t_mizan_usul","t_tawdih","t_usul_sarakhsi"]],
   ["Hadith", ["t_arbain","t_riyad","t_bayquniyya","t_nuzha","t_shamail","t_muwatta","t_bukhari","t_muslim","t_abudawud","t_tirmidhi","t_nasai","t_ibnmajah","t_sharhmaani"]],
@@ -1477,7 +1494,7 @@ function yearView(n){
   return shell(`<button class="back" data-go="syllabus">${ICON.back} Course</button>
     <h1 style="margin-bottom:4px">Year ${n}: ${esc(y.title)}</h1>
     ${n > recYear() ? `<div class="notice"><span>We recommend finishing Year ${recYear()} first, but every year is open. Go ahead if you're ready.</span></div>` : ""}
-    ${tutorBox(`Year ${n}: ${y.title}`)}
+    ${liveBox("", `the Year ${n} books`)}
     ${open && !y.prepared ? `<div class="notice"><span>The books for Year ${n} are still being prepared.</span></div>` : ""}
     <section class="stepsec">${head(1, "Lessons", "Short lessons from this year's books.", `<span class="small muted">${st.ld} of ${st.lt}</span>`)}
       <div class="stack">${lessons.length ? lessons.map(lessonRow).join("") : `<p class="small muted" style="margin:0">No short lessons this year.</p>`}</div></section>
@@ -1652,6 +1669,9 @@ function bookCard(b){
     <span class="bt">${esc(b.title)}</span><span class="ba">${esc(b.author.replace(/^Imams? /,""))}</span>
     <span class="bl">${hasEn(b)?"Arabic and English":"Arabic"}${(META.textsAudio||{})[b.file]?"":""}</span></button>`;
 }
+// Which school of creed each book follows. Both schools are Ahl al-Sunnah; they differ only in a few secondary questions.
+const SCHOOL = { t_tahawiyya:"Both", t_fiqhakbar:"Maturidi", t_nasafi:"Maturidi", t_umm:"Ash'ari", t_jawhara:"Ash'ari", t_iqtisad:"Ash'ari", t_milal:"Ash'ari", t_munqidh:"Ash'ari", t_ihya:"Ash'ari" };
+const SCHOOL_NOTE = { Maturidi:"Maturidi: the school of Imam Abu Mansur al-Maturidi رحمه الله, followed by most Hanafis.", "Ash'ari":"Ash'ari: the school of Imam Abu al-Hasan al-Ash'ari رحمه الله, followed by most Shafi'is and Malikis.", Both:"Accepted by both schools: the shared creed of Ahl al-Sunnah." };
 const LIB_SUBJECTS = ["Aqeedah","Fiqh","Usul al-Fiqh","Tasawwuf","Hadith","Tafsir","Tajweed","Seerah","History","Signs of the Hour","Arabic"];
 const libSubject = b => b.subject === "Comparative Aqeedah" ? "Aqeedah" : b.subject;
 function libraryView(){
@@ -1659,7 +1679,9 @@ function libraryView(){
   const cont = last ? `<section class="continue lib-cont"><span class="cv">${cover(last, 74)}</span><span style="flex:1;min-width:0"><span class="kicker" style="margin:0">Continue reading</span><b style="display:block">${esc(last.title)}</b>
       <span class="small muted">Section ${S.lastRead.i+1} of ${lessonsOf(last)}</span></span><button class="btn small-btn" data-read="${last.id}|${S.lastRead.i}">Read</button></section>` : "";
   const chips = `<div class="ychips" role="group" aria-label="Subject">${["", ...LIB_SUBJECTS].map(x => `<button class="ychip ${f===x?"on":""}" data-libsub="${x}" aria-pressed="${f===x}">${x||"All"}</button>`).join("")}</div>`;
+  const aqeedah = bs => [["Maturidi", "Maturidi creed"], ["Ash'ari", "Ash'ari creed"], ["Both", "Shared by both schools"]].map(([k, t]) => { const g = bs.filter(b => (SCHOOL[b.id] || "Both") === k); return g.length ? `<div class="shelf-h"><p class="label">${t} <span class="muted small">${g.length}</span></p></div><p class="small muted" style="margin:-4px 0 6px">${esc(SCHOOL_NOTE[k])}</p><div class="shelf row">${g.map(bookCard).join("")}</div>` : ""; }).join("");
   const shelves = LIB_SUBJECTS.filter(x => !f || x === f).map(x => { const bs = books.filter(b => libSubject(b) === x).sort((a, c) => a.year - c.year);
+    if (x === "Aqeedah" && bs.length) return `<p class="label" style="margin-top:18px">Aqeedah</p>${aqeedah(bs)}`;
     return !bs.length ? "" : f ? `<p class="label">${esc(x)} <span class="muted small">${bs.length} books</span></p><div class="shelf">${bs.map(bookCard).join("")}</div>`
       : `<div class="shelf-h"><p class="label">${esc(x)}</p><button class="linkbtn" data-libsub="${esc(x)}">See all ${bs.length}</button></div><div class="shelf row">${bs.map(bookCard).join("")}</div>`; }).join("");
   return shell(`<h1>Library</h1><p class="muted" style="margin:0 0 12px">${books.length} complete books, from the first texts to Sahih al-Bukhari. Free to read, bab by bab.</p>${hlEntries().length ? `<button class="item notesrow" data-go="notes"><span class="hlsw hl-y" aria-hidden="true"></span><span style="flex:1;min-width:0"><span class="t">Your notes</span><br><span class="s">${hlEntries().length} highlights and notes</span></span><span aria-hidden="true">›</span></button>` : ""}
@@ -1684,7 +1706,7 @@ function textView(b){
       <h1>${esc(b.title)}</h1><p class="ar booktitle-ar">${esc(b.ar||"")}</p>
       <p class="byline">${byline(b)}</p><p class="small muted" style="margin:0">${esc(b.when||"")}</p></div></section>
     <p style="margin:12px 0 8px">${esc(b.sub)}.</p>
-    <div class="tags" style="margin-bottom:12px"><span class="pill">${esc(b.subject)}</span><span class="pill">${n} sections</span>${hasEn(b)?`<span class="pill gold">Arabic + English</span>`:`<span class="pill">Arabic</span>`}${(META.textsAudio||{})[b.file]?`<span class="pill ok">${ICON.ear} Narrated</span>`:""}</div>
+    <div class="tags" style="margin-bottom:12px"><span class="pill">${esc(b.subject)}</span>${SCHOOL[b.id] ? `<span class="pill gold" title="${esc(SCHOOL_NOTE[SCHOOL[b.id]])}">${SCHOOL[b.id] === "Both" ? "Ash'ari and Maturidi" : esc(SCHOOL[b.id])}</span>` : ""}<span class="pill">${n} sections</span>${hasEn(b)?`<span class="pill gold">Arabic + English</span>`:`<span class="pill">Arabic</span>`}${(META.textsAudio||{})[b.file]?`<span class="pill ok">${ICON.ear} Narrated</span>`:""}</div>
     ${done.length?`<div class="spread small muted"><span>${done.length} of ${n} read</span><span>${Math.round(done.length/n*100)}%</span></div><span class="bar" style="display:block;margin:4px 0 10px"><i style="width:${done.length/n*100}%;background:var(--brand)"></i></span>`:""}
     ${next>=0?`<button class="btn" data-read="${b.id}|${next}" style="margin:4px 0 6px">${done.length?`Continue from section ${next+1}`:"Start reading"}</button>
       <button class="linkbtn small" id="markread" data-mark="${b.id}" style="display:block;margin:2px 0 8px">I've already read this book</button>`:`<div class="notice">${ICON.check}<span>You've read the whole book, alhamdulillah.</span></div>`}
@@ -1693,10 +1715,10 @@ function textView(b){
         ${P.before.length ? `<p class="small" style="margin:0 0 6px">${unread.length ? "Recommended before this book:" : "You've started the books before this one. Good."}</p><div class="pb-chips">${P.before.map(x => `<button class="pb-chip ${(S.books[x.id]||[]).length ? "on" : ""}" data-book="${x.id}">${esc(x.title)}</button>`).join("")}</div>` : `<p class="small" style="margin:0">A good first book in ${esc(P.sub)}.</p>`}
         ${P.after ? `<p class="small muted" style="margin:8px 0 0">Next after this: <button class="linkbtn" data-book="${P.after.id}">${esc(P.after.title)}</button></p>` : ""}
         <p class="small muted" style="margin:6px 0 0">Only a recommendation: you are free to read it now.</p></section>`; })()}
-    ${tutorBox(b.title)}
+    ${liveBox(b.id, b.title)}
     ${hlEntries(b.id).length ? `<p class="label">Your highlights and notes</p>${hlListHtml(hlEntries(b.id), false)}` : ""}
     <p class="label">Contents</p>${toc}
-    <p class="small muted" style="margin-top:14px">${T.ai?"The harakat and English are awaiting a teacher's check. ":""}${hasEn(b)?"":"Arabic text from the OpenITI corpus; English will be added."}</p>`);
+    <p class="small muted" style="margin-top:14px">${T.ai?"The harakat and English are awaiting a teacher's check. ":T.ai_harakat?"The harakat were added by computer and are awaiting a teacher's check. ":""}${hasEn(b)?"":"Arabic text from the OpenITI corpus; English will be added."}</p>`);
 }
 function readView(b, i){
   const T = TEXTS[b.file]; if (!T) return `<p class="muted">Loading…</p>`;
@@ -1707,7 +1729,7 @@ function readView(b, i){
     <div class="pbody reader"><div class="kicker">${esc(b.title)}${s.parent?` · <span class="${hasAr(s.parent)?"ar":""}">${esc(s.parent)}</span>`:""}</div>
       ${hasAr(s.h)?`<h2 class="ar" style="text-align:right;font-size:1.5rem;margin:4px 0 2px">${esc(s.h)}</h2>`:`<h2 style="font-size:1.25rem;margin:4px 0 2px">${esc(s.h)}</h2>`}${s.he?`<p class="muted" style="margin:0 0 8px">${esc(s.he)}</p>`:""}
       <div class="tools" style="margin:6px 0 10px"><button class="tool listen ${AUD.on?"on":""}" id="listen">${AUD.on?ICON.pause+" Pause":ICON.play+" Listen"}</button>
-        ${s.v ? `<button class="tool ${S.harakat!==false?"on":""}" id="tg-h">حَ Harakat ${S.harakat!==false?"on":"off"}</button>` : `<button class="tool" disabled style="opacity:.55" title="Harakat for this book are being added">حَ No harakat yet</button>`}${s.en?`<button class="tool ${P.english?"on":""}" id="tg-e">EN English</button>`:""}
+        ${s.v || /[\u064B-\u0652]/.test(ar.join(" ").slice(0, 400)) ? `<button class="tool ${S.harakat!==false?"on":""}" id="tg-h" aria-pressed="${S.harakat!==false}">حَ Harakat ${S.harakat!==false?"on":"off"}</button>` : `<button class="tool" disabled style="opacity:.55" title="Harakat for this book are being added">حَ Harakat coming</button>`}${s.en?`<button class="tool ${P.english?"on":""}" id="tg-e">EN English</button>`:""}
         <button class="tool" id="fsdn" aria-label="Smaller text">A−</button><button class="tool" id="fsup" aria-label="Larger text">A+</button>
         ${AUD.on?`<button class="tool" id="rate">${P.rate}× speed</button>`:""}</div>
       ${S.dictUsed && hlEntries().length ? "" : `<p class="small muted" style="margin:0 0 8px">Tip: tap a word to look it up. Press and hold, then select words to highlight them or add a note. Pin a sticky note to any page.</p>`}${typeof stickyHtml === "function" ? stickyHtml(b.id, i) : ""}<div class="card fs${P.size}">${paras}</div>${toolRow(key,false)}</div>
@@ -1752,14 +1774,64 @@ function wordAt(x, y){
   while (s > 0 && L.test(t[s-1])) s--; while (e < t.length && L.test(t[e])) e++;
   return t.slice(s, e);
 }
+/* ---- Root dictionary: each root, its verb forms I–X and its nouns with plurals ---- */
+const ROOTS = {};
+async function rootGet(r){ const f = r[0].charCodeAt(0).toString(16).padStart(4, "0");
+  if (!ROOTS[f]) { try { const x = await fetch(`data/dict/roots/${f}.json`); ROOTS[f] = x.ok ? await x.json() : {}; } catch(e){ ROOTS[f] = {}; } }
+  return ROOTS[f][r]; }
+let ROOT_EN = null;
+async function rootSearch(q){
+  q = q.trim(); if (!q) return [];
+  if (/[\u0621-\u064A]/.test(q)) { const w = normAr(q).replace(/\s/g, ""), out = [];
+    for (const k of [w, ...rootsOf(w), ...stems(w)]) { if (k.length >= 2 && !out.includes(k) && await rootGet(k)) out.push(k); }
+    return out.slice(0, 12); }
+  if (!ROOT_EN) { try { ROOT_EN = await (await fetch("data/dict/roots/en.json")).json(); } catch(e){ ROOT_EN = {}; } }
+  const ws = q.toLowerCase().match(/[a-z]+/g) || []; if (!ws.length) return [];
+  let hits = ROOT_EN[ws[0]] || []; for (const w of ws.slice(1)) hits = hits.filter(r => (ROOT_EN[w] || []).includes(r));
+  return hits.slice(0, 20);
+}
+const FORMS = { I:"فَعَلَ", II:"فَعَّلَ", III:"فَاعَلَ", IV:"أَفْعَلَ", V:"تَفَعَّلَ", VI:"تَفَاعَلَ", VII:"اِنْفَعَلَ", VIII:"اِفْتَعَلَ", IX:"اِفْعَلَّ", X:"اِسْتَفْعَلَ", Q:"" };
+const FORM_SENSE = { I:"the basic meaning", II:"doing it intensively, or making someone do it", III:"doing it with or to someone", IV:"causing it", V:"doing it to oneself, or gradually", VI:"doing it together, or pretending to", VII:"letting it happen to oneself", VIII:"doing it for oneself", IX:"colours and defects", X:"seeking it, or considering something so", Q:"a four-letter root" };
+function rootEntry(e){
+  return `<section class="rootcard"><div class="rc-head"><span class="ar rc-root" lang="ar">${[...e.r].join(" ")}</span><span class="small muted">Root</span></div>
+    ${e.v.length ? `<p class="rc-l">Verbs</p><div class="rc-v">${e.v.map(v => `<div class="rc-row"><span class="rc-f" title="${esc(FORM_SENSE[v.f]||"")}">${v.f}</span><span class="ar rc-w" lang="ar">${esc(v.pf)}${v.ipf ? `<span class="rc-i"> ، ${esc(v.ipf)}</span>` : ""}</span><span class="rc-g">${esc(v.gl)}</span></div>`).join("")}</div>` : ""}
+    ${e.n.length ? `<p class="rc-l">Nouns and adjectives</p><div class="rc-v">${e.n.map(n => `<div class="rc-row"><span class="ar rc-w" lang="ar">${esc(n.w)}${n.pl.length ? `<span class="rc-pl"> pl. ${n.pl.map(esc).join("، ")}</span>` : ""}</span><span class="rc-g">${esc(n.gl)}</span></div>`).join("")}</div>` : ""}
+    <button class="linkbtn small" data-lane="${esc(e.r)}">Classical meanings in Lane's Lexicon</button><div class="rc-lane" hidden></div></section>`;
+}
+async function laneInto(btn){ const box = btn.nextElementSibling, r = btn.dataset.lane, e = await dictGet("lane", r);
+  box.hidden = false; box.innerHTML = e ? e.slice(0, 6).map(t => `<p class="dent">${esc((t.length > 900 ? t.slice(0, 900) + "…" : t).replace(/\s*(===|___)\s*/g, " "))}</p>`).join("") : `<p class="small muted">No entry in Lane for this root.</p>`; btn.remove(); }
+function dictView(){
+  const q = S.dictQ || "";
+  return shell(`<button class="back" data-go="tools">${ICON.back} Tools</button><h1 style="margin-bottom:4px">Arabic dictionary</h1>
+    <p class="small muted" style="margin:0 0 10px">Look up a word in Arabic or English. Words are grouped by their root, with every verb form and the nouns that come from it.</p>
+    <form id="dform" class="dsearch" role="search"><input id="dq" value="${esc(q)}" placeholder="e.g. كتب, مكتبة, or 'knowledge'" aria-label="Search the dictionary" autocomplete="off" dir="auto"><button class="btn small-btn">Search</button></form>
+    <div id="dres">${q ? `<p class="muted small">Searching…</p>` : `<div class="exbox"><p class="small" style="margin:0 0 6px"><b>How to read an entry</b></p><ul class="small" style="margin:0;padding-left:18px;line-height:1.6">
+      <li>Arabic words are built from a <b>root</b> of usually three letters. ك ت ب carries the idea of writing.</li>
+      <li>Verbs come in <b>forms</b> I to X. Each form adds a shade of meaning: كَتَبَ he wrote (I), كَاتَبَ he corresponded (III), اِسْتَكْتَبَ he asked someone to write (X).</li>
+      <li>Each verb shows the past and the present: كَتَبَ ، يَكْتُبُ.</li><li>Nouns show their plural: كِتَاب pl. كُتُب.</li></ul></div>
+      <p class="rc-l" style="margin-top:14px">Try</p><div class="pb-chips">${["علم","كتب","رحم","صلو","قلب","نور","ذكر","حبب"].map(r => `<button class="pb-chip ar" data-dq="${r}">${r}</button>`).join("")}</div>`}</div>
+    <details class="exbox" style="margin-top:14px"><summary><b>About this dictionary</b></summary><p class="small" style="margin:8px 0 0">The short meanings come from the open Arabic lexicon of Tim Buckwalter (GNU GPL), arranged by root in our own layout. For classical and Qur'anic senses, open Lane's Lexicon under each root. Meanings are modern and brief: always check them against the sentence you are reading.</p></details>`);
+}
+async function bindDict(){
+  const f = $("#dform"); if (!f) return;
+  const run = async () => { const q = $("#dq").value.trim(); S.dictQ = q; save(); const box = $("#dres"); if (!q) return render();
+    box.innerHTML = `<p class="muted small">Searching…</p>`; const rs = await rootSearch(q), es = (await Promise.all(rs.map(rootGet))).filter(Boolean);
+    box.innerHTML = es.length ? es.map(rootEntry).join("") : `<p class="muted">Nothing found for “${esc(q)}”. Try the root letters, e.g. علم, or a simpler English word.</p>`;
+    box.querySelectorAll("[data-lane]").forEach(b => b.onclick = () => laneInto(b)); };
+  f.onsubmit = e => { e.preventDefault(); run(); };
+  document.querySelectorAll("[data-dq]").forEach(b => b.onclick = () => { $("#dq").value = b.dataset.dq; run(); });
+  if (S.dictQ) run();
+}
 async function showLookup(word){
   const d = modal(`<div class="dict"><div class="spread"><span class="ar dword">${esc(word)}</span><button class="x" id="dclose" aria-label="Close">${ICON.x}</button></div><p class="muted small">Looking up…</p></div>`, (d, close) => { d.querySelector("#dclose").onclick = close; d.onclick = e => { if (e.target === d) close(); }; });
   d.classList.add("sheet"); S.dictUsed = true; save();
-  const r = await lookup(word), box = d.querySelector(".dict");
+  const r = await lookup(word), box = d.querySelector(".dict"), rr = (await Promise.all(rootsOf(normAr(word)).map(rootGet))).filter(Boolean)[0];
   const lane = r.lane ? `<p class="label">Lane's Lexicon · <span class="ar">${esc(r.lane.k)}</span></p>${[...r.lane.e].sort((x,y) => /^\S+\s*:\s*see /.test(x) - /^\S+\s*:\s*see /.test(y)).slice(0,4).map(t => t.replace(/\s*(===|___)\s*/g, "\n")).map((t,k) => `<p class="dent ${k?"more":""}">${esc(t.length > 700 ? t.slice(0,700) + "…" : t)}</p>`).join("")}` : "";
   const ar = r.ar ? `<p class="label">Arabic dictionary · <span class="ar">${esc(r.ar.k)}</span></p>${r.ar.e.slice(0,2).map(t => `<p class="dent ar" style="text-align:right">${esc(t.length > 900 ? t.slice(0,900) + "…" : t)}</p>`).join("")}` : "";
-  box.querySelector("p.muted").outerHTML = lane || ar ? lane + ar + `<p class="small muted" style="margin:10px 0 0">Matched by guessing the root, so check it fits the sentence.</p>`
+  const rootHtml = rr ? rootEntry(rr) : "";
+  box.querySelector("p.muted").outerHTML = rootHtml || lane || ar ? rootHtml + (rootHtml ? `<details class="exbox"><summary><b>More: Lane and the Arabic dictionary</b></summary>${lane + ar}</details>` : lane + ar) + `<p class="small muted" style="margin:10px 0 0">Matched by guessing the root, so check it fits the sentence.</p>`
     : `<p class="muted">No entry found for this word. Particles and names usually aren't in the dictionary.</p>`;
+  box.querySelectorAll("[data-lane]").forEach(b => b.onclick = () => laneInto(b));
 }
 function bindRead(b, i){
   const T = TEXTS[b.file]; bindTools($("#app"), () => { $("#app").innerHTML = readView(b, i); bindRead(b, i); });
@@ -1767,7 +1839,7 @@ function bindRead(b, i){
   hlBind(b, i); if (typeof stickyBind === "function") stickyBind(b, i);
   const tg = (k) => () => { S.readPrefs[k] = !S.readPrefs[k]; save(); $("#app").innerHTML = readView(b, i); bindRead(b, i); };
   const th = $("#tg-h"); if (th) th.onclick = () => { S.harakat = S.harakat === false; save(); $("#app").innerHTML = readView(b, i); bindRead(b, i);
-    if (S.harakat && !T.sections[i].v) toast("This book doesn't have harakat added yet. They'll appear when they're ready."); }; const te = $("#tg-e"); if (te) te.onclick = tg("english");
+    }; const te = $("#tg-e"); if (te) te.onclick = tg("english");
   const redraw = () => { $("#app").innerHTML = readView(b, i); bindRead(b, i); if (AUD.on) markPara(AUD.j); };
   $("#fsdn").onclick = () => { S.readPrefs.size = Math.max(0, S.readPrefs.size-1); save(); redraw(); };
   $("#fsup").onclick = () => { S.readPrefs.size = Math.min(5, S.readPrefs.size+1); save(); redraw(); };
@@ -2167,6 +2239,7 @@ function render(){ appBadge(); checkUnlock(); if (typeof hlHideBar === "function
   const app = $("#app");
   if (!S.welcomed){ app.innerHTML = welcomeView(); bindWelcome(); return; }
   if (view.name === "home") app.innerHTML = homeView();
+  else if (view.name === "live") { app.innerHTML = liveView(); }
   else if (view.name === "year") { const yy = yearOf(view.n);
     if (!loaded(yy)) { app.innerHTML = shell(`<p class="muted">Loading Year ${view.n}…</p>`); loadYear(view.n).then(() => { if (!S.unlocked.includes(view.n)) { S.unlocked.push(view.n); save(); } render(); }, () => toast("Could not load this year. Check your connection.")); return; }
     if (!S.unlocked.includes(view.n)) { S.unlocked.push(view.n); save(); }
@@ -2201,6 +2274,7 @@ function render(){ appBadge(); checkUnlock(); if (typeof hlHideBar === "function
   bindReadLinks(app); toolsBind(app);
   app.querySelectorAll("[data-spec]").forEach(b => b.onclick = () => go({ name:"spec" }));
   app.querySelectorAll("[data-tutor]").forEach(b => b.onclick = () => tutorSheet(b.dataset.tutor));
+  if (view.name === "live" && typeof bindLive === "function") bindLive();
   app.querySelectorAll("[data-pick]").forEach(b => b.onclick = () => { if (!specOpen()) return; const m = b.dataset.pick;
     confirmBox(`Choose ${m} as your specialisation?`, () => { S.spec = m; save(); render(); }); });
   const cs = $("#changespec"); if (cs) cs.onclick = () => confirmBox("Change your specialisation? Your progress in the five years is kept.", () => { S.spec = null; save(); render(); });
@@ -2238,6 +2312,7 @@ function render(){ appBadge(); checkUnlock(); if (typeof hlHideBar === "function
       S.log = S.log.concat(Array(60).fill(1)); save(); go({ name:"year", n:y.n }); }); };
   const rs = $("#reset"); if (rs) rs.onclick = resetFlow;
 }
+document.addEventListener("click", e => { const b = e.target.closest("[data-golive]"); if (b) go({ name:"live", book:b.dataset.golive || null }); });
 applyTheme(); if (S.arSize) document.documentElement.style.setProperty("--arz", S.arSize);
 try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch(e){}   // ask the browser not to clear saved progress
 try { matchMedia("(prefers-color-scheme: dark)").addEventListener("change", applyTheme); } catch(e){}
@@ -2261,6 +2336,7 @@ const TOOL_ICON = {
   kaaba:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 7l8-3 8 3v11l-8 3-8-3z"/><path d="M4 7l8 3 8-3M12 10v11M4 11l8 3 8-3"/></svg>',
   drop:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/></svg>',
   pray:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18M7 20v-4l5-3 5 3v4M12 13V9M12 9a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></svg>',
+  book:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 4h10a4 4 0 0 1 4 4v12H8a4 4 0 0 1-4-4z"/><path d="M8 20a4 4 0 0 1 0-8h10"/></svg>',
   beads:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="4" r="2"/><circle cx="6.5" cy="7" r="2"/><circle cx="17.5" cy="7" r="2"/><circle cx="5" cy="13" r="2"/><circle cx="19" cy="13" r="2"/><circle cx="8" cy="18.5" r="2"/><circle cx="16" cy="18.5" r="2"/><path d="M12 20.5v1.5"/></svg>',
   salawat:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>',
 };
@@ -2272,6 +2348,8 @@ function toolsView(){
       ${row('data-guide="ghusl"', "drop", "How to make ghusl", "The full bath and its three obligations")}
       ${row('data-guide="salah"', "pray", "How to pray", "Every position and what to say")}
       ${row('data-guide="qada"', "qada", "Making up missed prayers", "The quickest valid way, from the classical books")}</div>
+    <p class="label">Arabic</p><div class="stack">
+      ${row('data-go="dict"', "book", "Arabic dictionary", "Search by root, Arabic word or English, with every verb form")}</div>
     <p class="label">Dhikr</p><div class="stack">
       ${row('data-go="tasbih"', "beads", "Tasbih counter", "Tap to count your dhikr, with a target and a gentle buzz")}</div>
     <p class="label">Prayer</p><div class="stack">
@@ -2635,7 +2713,14 @@ function duasView(sec){
 let DALAIL = null;
 const loadDalail = async () => DALAIL || (DALAIL = await fetch("data/dalail.json").then(r => r.json()).catch(() => null));
 const dalailToday = () => [7, 1, 2, 3, 4, 5, 6][new Date().getDay()];   // Sunday = 7th hizb, Monday = 1st
-const DL_TILES = [["opening","Opening Du'a",""],["asma","Names of Allah","ﷻ"],["nabi","Names of the Prophet","ﷺ"],["niyyah","Du'a of Intention",""]];
+const DL_TILES = [["opening","Opening Du'a","","wide"],["asma","Names of Allah","ﷻ",""],["iftitah","Du'a al-Iftitah","",""],["nabi","Names of the Prophet","ﷺ",""],["niyyah","Du'a of Intention","",""]];
+// Arabic with optional English under each paragraph; repeated lines show "×3"
+function dlBody(paras, en, times){
+  const tr = S.dlTr && en && en.length === paras.length;
+  if (!tr && !(times||[]).some(Boolean)) return `<div class="dl-text" lang="ar" dir="rtl">${dlFlow(paras)}</div>`;
+  return `<div class="dl-list">${paras.map((p, i) => `<div class="dl-item"><p class="dl-ar ar" lang="ar" dir="rtl">${esc(p)}${(times||[])[i] > 1 ? ` <span class="dl-x">×${times[i]}</span>` : ""}</p>${tr ? `<p class="dl-en">${esc(en[i])}</p>` : ""}</div>`).join("")}</div>`;
+}
+const dlTrSwitch = has => has ? `<label class="dl-tr"><span>Show English</span><input type="checkbox" id="dltr" role="switch" ${S.dlTr ? "checked" : ""}></label>` : "";
 // Short phrases flow on one line with a stop mark between them; a new paragraph starts at each "Allahumma"
 // One Arabic size for every reading page (Dala'il, du'as, guides), saved on this device
 function arSizeCtl(){ const v = S.arSize || 1;
@@ -2652,29 +2737,34 @@ function dlFlow(paras){
 function dalailMenu(){
   const t = dalailToday(), readToday = (S.dalail || {})[new Date().toDateString()], ex = DALAIL.extra || {};
   const tile = (attr, label, sub, cls, ok) => `<button class="dl-tile ${cls || ""}" ${attr} ${ok ? "" : 'aria-disabled="true"'}><span class="dl-tl">${label}</span>${sub ? `<span class="dl-ts">${sub}</span>` : ""}</button>`;
-  const pre = DL_TILES.map(([k, l, h]) => tile(`data-dlx="${k}"`, `${esc(l)}${h ? ` <span class="ar">${h}</span>` : ""}`, ex[k] ? "" : "Coming soon", (k === "opening" || k === "niyyah" ? "wide" : "") + (ex[k] ? "" : " off"), !!ex[k]));
+  const pre = DL_TILES.map(([k, l, h, w]) => tile(`data-dlx="${k}"`, `${esc(l)}${h ? ` <span class="ar">${h}</span>` : ""}`, ex[k] ? "" : "Coming soon", (DL_TILES.find(d => d[0] === k)[3]) + (ex[k] ? "" : " off"), !!ex[k]));
   const parts = DALAIL.ahzab.map(h => tile(`data-hizb="${h.n}"`, `Part ${h.n}`, `${esc(h.day.replace(" (second)", ", second"))}${h.n === t ? " · today" : ""}${readToday === h.n ? " · read ✓" : ""}${h.paras ? "" : " · coming soon"}`,
     (h.n === t ? "dl-today" : "") + (h.paras ? "" : " off"), !!h.paras));
   return shell(`<button class="back" data-go="salawat">${ICON.back} Salawat</button>
     <div class="spread" style="align-items:baseline"><h1 style="margin:0">Dala'il al-Khayrat</h1><span class="ar" lang="ar" style="font-size:1.2rem">دَلَائِلُ الْخَيْرَاتِ</span></div>
     <p class="small muted" style="margin:2px 0 12px">One part a day from Monday; the whole book each week.</p>
     <div class="dl-grid">${pre.join("")}${parts.join("")}${tile(`data-dlx="khatm"`, "Du'a of Completion", ex.khatm ? "" : "Coming soon", "wide" + (ex.khatm ? "" : " off"), !!ex.khatm)}</div>
+    <button class="linkbtn" data-dlx="rawdah" style="margin-top:12px;display:block">The Blessed Rawdah: the resting place of the Prophet ﷺ</button>
     <details class="exbox" style="margin-top:12px"><summary><b>About this book</b></summary><p class="small" style="margin:8px 0 0">${esc(DALAIL.by)}. ${esc(DALAIL.note)}</p></details>`);
 }
 function dalailView(n, x){
   if (!DALAIL) { loadDalail().then(render); return shell(`<p class="muted">Loading…</p>`); }
-  if (x) { const e = (DALAIL.extra || {})[x]; const title = x === "khatm" ? "Du'a of Completion" : (DL_TILES.find(d => d[0] === x) || [0, ""])[1];
-    return shell(`<button class="back" data-dlmenu>${ICON.back} Dala'il al-Khayrat</button><h1>${esc(title)}</h1>
-      ${e ? `<section class="card pad dl-card"><div class="dl-text" lang="ar" dir="rtl">${e.paras.map(p => `<p>${esc(p)} <span class="dl-stop" aria-hidden="true"></span></p>`).join("")}</div></section>` : `<p class="muted">This section is being typed in from the printed edition.</p>`}`); }
+  if (x) { const e = (DALAIL.extra || {})[x], title = x === "khatm" ? "Du'a of Completion" : e ? e.title : "";
+    const order = ["opening","asma","iftitah","nabi","niyyah"], k = order.indexOf(x), nx = k >= 0 ? (order[k+1] ? ["x", order[k+1]] : ["n", 1]) : null;
+    return shell(`<button class="back" data-dlmenu>${ICON.back} Dala'il al-Khayrat</button><h1 style="margin-bottom:2px">${esc(title)}</h1>
+      ${e && e.about ? `<p class="small muted" style="margin:0 0 10px">${esc(e.about)}</p>` : ""}${arSizeCtl()}${dlTrSwitch(e && e.en)}
+      ${e ? `<section class="card pad dl-card">${dlBody(e.paras, e.en, e.times)}</section>` : `<p class="muted">This section is being typed in from the printed edition.</p>`}
+      ${nx ? `<div class="btnrow"><span></span><button class="btn" ${nx[0] === "x" ? `data-dlx="${nx[1]}">${esc(DALAIL.extra[nx[1]] ? DALAIL.extra[nx[1]].title : "")}` : `data-hizb="${dalailToday()}">Today's part`} ›</button></div>` : ""}
+      ${x === "nabi" ? `<p class="small muted">The meanings of the names are short glosses to help understanding.</p>` : ""}`); }
   if (!n) return dalailMenu();
   const t = dalailToday(), cur = DALAIL.ahzab.find(h => h.n === n) || DALAIL.ahzab[0], read = (S.dalail || {})[new Date().toDateString()] === cur.n;
   const prev = DALAIL.ahzab.find(h => h.n === cur.n - 1), next = DALAIL.ahzab.find(h => h.n === cur.n + 1);
   return shell(`<button class="back" data-dlmenu>${ICON.back} Dala'il al-Khayrat</button>
     <div class="spread" style="align-items:baseline"><h1 style="margin-bottom:2px">Part ${cur.n}</h1><span class="ar muted" lang="ar" style="font-size:1.1rem">${esc(cur.ar)}</span></div>
     <p class="muted" style="margin:0 0 12px">${esc(cur.day)}${cur.n === t ? " · today's part" : ""}. Book pages ${esc(cur.pages)}.</p>
-    ${arSizeCtl()}${cur.en ? `<label class="dl-tr"><span>English translation</span><input type="checkbox" id="dltr" role="switch" ${S.dlTr ? "checked" : ""}></label>` : ""}
+    ${arSizeCtl()}${dlTrSwitch(cur.en)}
     <section class="card pad dl-card">
-      ${cur.paras ? `<div class="dl-text" lang="ar" dir="rtl">${dlFlow(cur.paras)}</div>
+      ${cur.paras ? `${dlBody(cur.paras, cur.en)}
         <button class="btn ${read ? "ghost" : ""}" id="dlread" style="margin-top:12px" ${read ? "disabled" : ""}>${read ? "Read today, alhamdulillah" : "I've read this part today"}</button>`
       : `<p class="muted">This part is being typed in, letter by letter, from the printed edition.</p>`}</section>
     <div class="btnrow">${prev ? `<button class="btn ghost" data-hizb="${prev.n}">‹ Part ${prev.n}</button>` : "<span></span>"}${next ? `<button class="btn ghost" data-hizb="${next.n}">Part ${next.n} ›</button>` : `<button class="btn ghost" data-dlx="khatm">Du'a of Completion ›</button>`}</div>`);
@@ -2727,6 +2817,7 @@ function toolsRender(app){
   else if (view.name === "inherit") app.innerHTML = inheritView();
   else if (view.name === "salawat") app.innerHTML = salawatView();
   else if (view.name === "tasbih") app.innerHTML = tasbihView();
+  else if (view.name === "dict") app.innerHTML = dictView();
   else return false;
   return true;
 }
@@ -2742,7 +2833,7 @@ function toolsBind(app){
     const k = d.indexOf(i); if (k >= 0) d.splice(k, 1); else d.push(i); save(); const y = window.scrollY; render(); window.scrollTo(0, y); });
   const gr = $("#greset"); if (gr) gr.onclick = () => confirmBox("Clear all ticks for this guide?", () => { S.guides[view.id] = []; save(); render(); });
   if (view.name === "qibla") bindQibla(); if (view.name === "qada") bindQada(); if (view.name === "zakat") bindZakat();
-  if (view.name === "inherit") bindInherit(); if (view.name === "salawat") bindSalawat(); if (view.name === "tasbih") bindTasbih(); if (view.name === "home") bindSalCard();
+  if (view.name === "inherit") bindInherit(); if (view.name === "salawat") bindSalawat(); if (view.name === "tasbih") bindTasbih(); if (view.name === "dict") bindDict(); if (view.name === "home") bindSalCard();
 }
 
 /* ============================ Highlights and notes in the reader (Kindle-style) ============================
@@ -2870,6 +2961,88 @@ function stickyBind(b, i){
   document.querySelectorAll("[data-sticky]").forEach(x => x.onclick = () => stickyEdit(b, i, x.dataset.sticky));
 }
 
+/* ============================ LIVE CLASSES ============================
+   Teachers from the madrasa at Dar as-Siddiq al-Akbar teach a book of their choice live; anyone can join.
+   Timetable in Supabase (supabase/live.sql); the classroom is a free Jitsi Meet room; recordings are refined
+   (noise removed, loudness levelled, silences trimmed, transcript and chapters added) and listed here afterwards. */
+let LIVE = null, LIVE_ERR = false;
+async function sbCall(fn, body){ const c = await sbConf(); if (!c) throw new Error("offline");
+  const r = await fetch(`${c.url}/rest/v1/rpc/${fn}`, { method:"POST", headers:{ apikey:c.key, "Content-Type":"application/json" }, body:JSON.stringify(body||{}) });
+  const t = await r.text(); if (!r.ok) throw new Error(/teacher code/.test(t) ? "That teacher code isn't recognised." : "Something went wrong. Check your connection and try again.");
+  try { return JSON.parse(t); } catch(e){ return t; } }
+async function loadLive(force){
+  if (LIVE && !force) return LIVE; const c = await sbConf(); if (!c) { LIVE_ERR = true; return (LIVE = []); }
+  try { const r = await fetch(`${c.url}/rest/v1/classes?select=*&order=starts_at.desc&limit=80`, { headers:{ apikey:c.key } });
+    if (!r.ok) throw 0; LIVE = await r.json(); LIVE_ERR = false; } catch(e){ LIVE_ERR = true; LIVE = LIVE || []; }
+  return LIVE;
+}
+const roomUrl = c => `https://meet.jit.si/${encodeURIComponent(c.room)}`;
+const when = d => { const t = new Date(d), now = new Date(), day = t.toDateString() === now.toDateString() ? "Today" : t.toLocaleDateString(undefined, { weekday:"short", day:"numeric", month:"short" });
+  return `${day}, ${t.toLocaleTimeString(undefined, { hour:"2-digit", minute:"2-digit" })}`; };
+function liveSplit(list, book){
+  const now = Date.now(), L = (list || []).filter(c => !book || c.book_id === book);
+  return { live: L.filter(c => c.status === "live" && now - new Date(c.starts_at) < 6 * 3600e3),
+           next: L.filter(c => c.status === "scheduled" && new Date(c.starts_at) > now - 3600e3).reverse(),
+           recs: L.filter(c => c.status === "ended" && c.recording) };
+}
+function classRow(c, mine){
+  const isLive = c.status === "live";
+  return `<div class="lc-row ${isLive ? "on" : ""}"><div style="flex:1;min-width:0">
+      <p class="lc-t">${isLive ? `<span class="live-dot" aria-hidden="true"></span><b>Live now</b> · ` : ""}${esc(c.book_title)}</p>
+      <p class="small muted" style="margin:2px 0 0">${esc(c.teacher)}${c.topic ? ` · ${esc(c.topic)}` : ""}${!isLive ? ` · ${when(c.starts_at)}` : ""}</p></div>
+    ${c.status === "ended" ? `<a class="btn small-btn ghost" href="${esc(c.recording)}" target="_blank" rel="noopener">Watch</a>${c.transcript ? `<a class="linkbtn small" href="${esc(c.transcript)}" target="_blank" rel="noopener" style="margin-left:6px">Transcript</a>` : ""}`
+      : `<a class="btn small-btn ${isLive ? "" : "ghost"}" href="${roomUrl(c)}" target="_blank" rel="noopener">${isLive ? "Join" : "Link"}</a>`}
+    ${mine ? `<div class="lc-own">${c.status === "scheduled" ? `<button class="linkbtn small" data-cset="${c.id}|live">Start now</button><button class="linkbtn small" data-cset="${c.id}|deleted">Cancel</button>` : ""}${c.status === "live" ? `<button class="linkbtn small" data-cset="${c.id}|ended">End class</button>` : ""}</div>` : ""}</div>`;
+}
+function liveView(){
+  if (!LIVE) { loadLive().then(() => { if (view.name === "live") render(); }); return shell(`<p class="muted">Loading classes…</p>`); }
+  const book = view.book ? bookById(view.book) : null, { live, next, recs } = liveSplit(LIVE, view.book), T = S.teacher;
+  const mine = c => T && c.teacher === T.name;
+  const books = LIB().map(b => [b.id, b.title]).sort((a, b) => a[1].localeCompare(b[1]));
+  return shell(`<button class="back" data-go="${book ? "library" : "syllabus"}">${ICON.back} ${book ? "Library" : "Course"}</button>
+    <h1 style="margin-bottom:4px">Live classes${book ? `: ${esc(book.title)}` : ""}</h1>
+    <p class="small muted" style="margin:0 0 12px">Teachers from our madrasa at Dār aṣ-Ṣiddīq al-Akbar teach the classical books live. Join any class, ask questions, and catch up on the recordings.</p>
+    ${LIVE_ERR ? `<div class="notice"><span>Live classes are being set up. Check back soon, in shā' Allāh.</span></div>` : ""}
+    ${live.length ? `<p class="label">On now</p><div class="stack">${live.map(c => classRow(c, mine(c))).join("")}</div>` : ""}
+    <p class="label">Coming up</p>${next.length ? `<div class="stack">${next.map(c => classRow(c, mine(c))).join("")}</div>` : `<p class="small muted">No classes scheduled${book ? " for this book" : ""} yet.</p>`}
+    <p class="label">Recordings</p>${recs.length ? `<div class="stack">${recs.map(c => classRow(c, false)).join("")}</div>` : `<p class="small muted">Recordings appear here after each class, cleaned up, with a transcript and chapters.</p>`}
+    <details class="exbox" style="margin-top:12px"><summary><b>How joining works</b></summary><ul class="small" style="margin:8px 0 0;padding-left:18px;line-height:1.6">
+      <li>Tap <b>Join</b>. The class opens in Jitsi Meet, free, with no account needed. On a phone it opens the Jitsi app if you have it.</li>
+      <li>Keep your microphone off unless the teacher asks; use the chat for questions.</li><li>Brothers and sisters: follow the teacher's guidance on cameras.</li></ul></details>
+    <details class="exbox" style="margin-top:10px" ${T ? "open" : ""}><summary><b>For teachers</b></summary>
+      ${T ? `<p class="small" style="margin:8px 0">Signed in as <b>${esc(T.name)}</b>. <button class="linkbtn small" id="tout">Sign out</button></p>
+        <form id="cform" class="cform"><label class="small">Book<select id="cbook">${books.map(([id, t]) => `<option value="${id}" ${view.book === id ? "selected" : ""}>${esc(t)}</option>`).join("")}<option value="">Another book…</option></select></label>
+          <label class="small" id="cotherl" hidden>Book title<input id="cother" maxlength="120"></label>
+          <label class="small">What you'll cover (optional)<input id="ctopic" maxlength="200" placeholder="e.g. Book of Purity, chapter on wudu"></label>
+          <label class="small">When<input type="datetime-local" id="cwhen"></label>
+          <div class="btnrow"><button type="button" class="btn ghost" id="csched">Schedule</button><button type="button" class="btn" id="cnow">Go live now</button></div></form>
+        <p class="small muted" style="margin:8px 0 0">To keep a recording, in Jitsi tap ⋯ then <b>Start live stream</b> (to the madrasa's YouTube) or <b>Start recording</b>. After the class, send the recording to the admin: it is cleaned up (noise removed, volume levelled, silences trimmed), transcribed with chapters, and added here.</p>`
+      : `<p class="small" style="margin:8px 0">Teachers from the madrasa sign in with the teacher code they were given.</p>
+        <form id="tform" class="dsearch"><input id="tcode" type="password" autocomplete="off" placeholder="Teacher code" aria-label="Teacher code"><button class="btn small-btn">Sign in</button></form>`}</details>`);
+}
+function bindLive(){
+  const tf = $("#tform"); if (tf) tf.onsubmit = async e => { e.preventDefault(); const code = $("#tcode").value.trim(); if (!code) return;
+    try { const name = await sbCall("teacher_login", { p_code:code }); S.teacher = { code, name }; save(); toast(`Welcome, ${name}`); render(); } catch(err){ toast(err.message); } };
+  const to = $("#tout"); if (to) to.onclick = () => { delete S.teacher; save(); render(); };
+  const sel = $("#cbook"); if (sel) sel.onchange = () => { $("#cotherl").hidden = !!sel.value; };
+  const make = async live => { const T = S.teacher, id = sel.value, b = id ? bookById(id) : null, title = b ? b.title : $("#cother").value.trim(), w = $("#cwhen").value;
+    if (!title) return toast("Choose a book or type its title.");
+    if (!live && !w) return toast("Choose a date and time, or tap Go live now.");
+    try { await sbCall("class_create", { p_code:T.code, p_book_id:id || null, p_book_title:title, p_topic:$("#ctopic").value.trim() || null, p_starts_at:live ? null : new Date(w).toISOString(), p_live:live });
+      await loadLive(true); render(); toast(live ? "You're live. Tap Join to open the classroom." : "Class scheduled"); } catch(err){ toast(err.message); } };
+  const cn = $("#cnow"); if (cn) cn.onclick = () => make(true); const cs = $("#csched"); if (cs) cs.onclick = () => make(false);
+  document.querySelectorAll("[data-cset]").forEach(b => b.onclick = () => { const [id, st] = b.dataset.cset.split("|");
+    const run = async () => { try { await sbCall("class_set", { p_code:S.teacher.code, p_id:id, p_status:st }); await loadLive(true); render(); } catch(err){ toast(err.message); } };
+    st === "live" ? run() : confirmBox(st === "ended" ? "End this class for everyone?" : "Cancel this class?", run, st === "ended" ? "End class" : "Cancel class", "Keep it"); });
+}
+// Small box on book and course pages
+function liveBox(bookId, label){
+  const s = LIVE ? liveSplit(LIVE, bookId) : null, n = s ? s.live.length + s.next.length : 0;
+  if (!LIVE) loadLive().then(() => { const el = document.querySelector(`[data-livebox="${bookId || ""}"]`); if (el) el.outerHTML = liveBox(bookId, label); });
+  return `<button class="tutor" data-livebox="${bookId || ""}" data-golive="${bookId || ""}"><div style="flex:1;min-width:0;text-align:left"><b>${s && s.live.length ? `<span class="live-dot" aria-hidden="true"></span>Live now: ` : ""}Study with a teacher</b>
+    <span class="small muted" style="display:block">${n ? `${n} live or upcoming class${n > 1 ? "es" : ""}${bookId ? " on this book" : ""}, and recordings.` : `Live classes on ${esc(label)} from our madrasa, and recordings.`}</span></div><span class="pill">Open</span></button>`;
+}
+
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=90dff73a34");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=6afb251e21");</script></body>
 </html>
