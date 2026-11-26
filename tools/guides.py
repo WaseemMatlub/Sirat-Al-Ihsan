@@ -243,10 +243,44 @@ SALAH = [
    note="If you do not know it yet, say 'Rabbana atina fi al-dunya hasanah…' or 'Allahumma ighfir li' three times until you learn it (Nur al-Idah)."),
 ]
 
+# ------------------------------------------------------------------ Making up missed prayers, the short way
+RA = "Ibn 'Abidin, Radd al-Muhtar, chapter on making up missed prayers"
+FR = "Imam Ahmad Rida Khan, al-Fatawa al-Ridawiyyah, on making up many missed prayers"
+QADA = [
+ S("What must be made up", ["Every missed fard prayer, and witr (wajib in the Hanafi school).", "Sunnah prayers are not made up. (The sunnah of Fajr is prayed with the Fajr if both are made up before midday the same day.)",
+   "Fasts of Ramadan that were missed are also owed."], f"{NI}, making up missed prayers; {QD}, chapter on missed prayers", "Fard",
+   note="Use the Qada' tool (Tools › Qada' prayers) to work out how many you owe and to tick them off."),
+ S("When you can pray them", ["At any time of day or night, except the three times when no prayer is valid: while the sun is rising, when it is at its height, and while it is setting.",
+   "Unlike nafl, you may make them up after Fajr and after 'Asr."], f"{NI}, the disliked times", "Know this"),
+ S("Order: when it matters", ["If you owe fewer than six prayers, make them up in order, before the prayer of the time (unless its time is running out).",
+   "Once you owe six or more (not counting witr), the order no longer applies. Pray them in any order, alongside the prayers of the day."],
+   f"{QD}, chapter on missed prayers; {NI}, what drops the order", "Fard (for fewer than six)"),
+ S("The intention made easy", ["When you owe many, you do not need to know the exact date of each one.", "Intend, for example: 'the first Fajr I owe' (or 'the last Fajr I owe'). Each time you pray it, the next one becomes 'the first'."],
+   f"{NI}, making up missed prayers: 'to make it easy, he intends the first Zuhr he owes, or the last'", "Sunnah way",
+   says=[say("Intention (in the heart; saying it is fine)", "نَوَيْتُ أَنْ أُصَلِّيَ أَوَّلَ فَجْرٍ فَاتَنِي", "Nawaytu an usalliya awwala fajrin fatani.", "I intend to pray the first Fajr that I missed.", f"{NI}, making up missed prayers")]),
+ S("The quickest way to pray each one", ["Keep every fard and wajib: the opening takbir, standing, al-Fatihah and a surah in the first two rak'ahs, ruku', both sujuds, sitting, the tashahhud and the salam.",
+   "In ruku' and sujud you may say the tasbih once instead of three times.",
+   "In the third and fourth rak'ahs of a fard prayer, instead of al-Fatihah you may say 'Subhan Allah' three times: al-Fatihah there is sunnah, not wajib.",
+   "In the last sitting, after the tashahhud, you may shorten the salawat to 'Allahumma salli 'ala sayyidina Muhammadin wa alih', then give the salam.",
+   "In witr, instead of the full qunut you may say 'Rabbi ighfir li' once."],
+   f"al-Ikhtiyar li-Ta'lil al-Mukhtar (the last two rak'ahs); {NI}, the qunut; {FR}", "Allowed for qada'",
+   says=[say("In the third and fourth rak'ahs (3 times)", "سُبْحَانَ اللَّهِ", "Subhan Allah.", "Glory be to Allah.", "al-Ikhtiyar: 'and if he wishes he says tasbih, for it [al-Fatihah] is not wajib'"),
+         say("Short salawat in the last sitting", "اللَّهُمَّ صَلِّ عَلَى سَيِّدِنَا مُحَمَّدٍ وَآلِهِ", "Allahumma salli 'ala sayyidina Muhammadin wa alih.", "O Allah, send blessings on our master Muhammad and his family.", FR),
+         say("In witr, in place of the qunut", "رَبِّ اغْفِرْ لِي", "Rabbi ighfir li.", "My Lord, forgive me.", f"{NI}: whoever cannot do the qunut says 'Allahumma ighfir li'; {FR}")],
+   note="This is a concession for clearing a large debt of prayers quickly. It does not apply to the prayers of the day, which you should pray in full with their sunnahs.",
+   more="Some scholars of later times also said the three tasbihs of ruku' and sujud are better kept. If you have time, praying them in full is better; the short way is for when the debt is large."),
+ S("Make a plan you can keep", ["Pray one day's worth (Fajr, Zuhr, 'Asr, Maghrib, 'Isha', witr) with each prayer of the day, or each morning. That is about 10–15 minutes the short way.",
+   "Spend time you would give to extra nafl on qada' instead, while keeping the regular sunnah prayers.", "Keep count in the Qada' tool so you always know what is left."],
+   f"{RA}: busying oneself with missed prayers is more important than nafl, except the known sunnahs", "Advice"),
+ S("If you die before finishing", ["Make a will (wasiyyah) that fidyah be paid from a third of your estate for what remains: for each prayer, including witr, half a sa' of wheat or its value.",
+   "Keep going and ask Allah to accept. Sincere repentance with steady making up is what is asked of you."], f"{NI}, how the fidyah is paid (kayfiyyat al-isqat)", "Know this"),
+]
+
 GUIDES = [
  {"id": "wudu", "group": "purity", "title": "How to make wudu", "sub": "Step by step, with what is fard and what is sunnah", "src": f"{NI} and {QD}", "steps": WUDU},
  {"id": "ghusl", "group": "purity", "title": "How to make ghusl", "sub": "The full bath, and its three obligations", "src": f"{QD} and {NI}", "steps": GHUSL},
  {"id": "salah", "group": "prayer", "title": "How to pray", "sub": "Every position and what to say, the Hanafi way", "src": f"{QD} and {NI}", "steps": SALAH},
+ {"id": "qada", "group": "prayer", "title": "Making up missed prayers, the quickest way", "sub": "The order, the easy intention and the short way to pray each one", "src": f"{NI}, {QD} and later Hanafi fatwas", "steps": QADA},
  {"id": "umrah", "group": "pilgrimage", "title": "How to perform 'Umrah", "sub": "Step by step, with the du'as", "src": HJ, "steps": UMRAH},
  {"id": "hajj", "group": "pilgrimage", "title": "How to perform Hajj", "sub": "Tamattu', from the 'umrah to the farewell tawaf", "src": HJ, "steps": HAJJ},
 ]

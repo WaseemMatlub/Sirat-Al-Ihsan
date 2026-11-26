@@ -20,7 +20,8 @@ function toolsView(){
     <p class="label">Step-by-step guides</p><div class="stack">
       ${row('data-guide="wudu"', "drop", "How to make wudu", "What is fard and what is sunnah, in order")}
       ${row('data-guide="ghusl"', "drop", "How to make ghusl", "The full bath and its three obligations")}
-      ${row('data-guide="salah"', "pray", "How to pray", "Every position and what to say")}</div>
+      ${row('data-guide="salah"', "pray", "How to pray", "Every position and what to say")}
+      ${row('data-guide="qada"', "qada", "Making up missed prayers", "The quickest valid way, from the classical books")}</div>
     <p class="label">Dhikr</p><div class="stack">
       ${row('data-go="tasbih"', "beads", "Tasbih counter", "Tap to count your dhikr, with a target and a gentle buzz")}</div>
     <p class="label">Prayer</p><div class="stack">
@@ -122,6 +123,7 @@ function qadaView(){
   const days = c.from && c.to ? qadaCount(c.from, c.to, c.female, c.hayd, c.nifas) : null;
   return shell(`<button class="back" data-go="tools">${ICON.back} Tools</button><h1>Qada' prayers</h1>
     <p class="muted" style="margin:0 0 12px">Every missed fard prayer, and witr (wajib in the Hanafi school), stays owed until it is made up. <span class="small">Nur al-Idah, making up missed prayers.</span></p>
+    <button class="item" data-guide="qada" style="margin-bottom:12px"><span style="flex:1;min-width:0"><span class="t">How to make them up quickly</span><br><span class="s">The easy intention and the short way to pray each one</span></span><span aria-hidden="true">›</span></button>
     ${exBox(QADA_EX, "qad")}
     <section class="card pad"><h2 style="margin-top:0">Work it out</h2>
       <div class="frow"><label>From (when you reached puberty)<input type="date" id="qf" value="${esc(c.from||"")}"></label><label>To (when you began praying regularly)<input type="date" id="qt" value="${esc(c.to||"")}"></label></div>
