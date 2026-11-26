@@ -443,6 +443,14 @@ mark.hl.has-note{border-bottom:2px solid #8A6D00}
 .dsteps li::before{content:counter(ds);position:absolute;left:0;top:12px;width:28px;height:28px;border-radius:50%;background:var(--brand);color:var(--brand-ink);display:grid;place-items:center;font-weight:700;font-size:.8rem}
 .ds-h{font-weight:700;margin:2px 0 2px}.ds-do{margin:0 0 4px;color:var(--muted);font-size:.9rem}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.stp{display:inline-flex;align-items:center;justify-self:end;border:1px solid var(--line);border-radius:999px;overflow:hidden;background:var(--soft)}
+.stp button{width:38px;height:36px;border:0;background:none;color:var(--ink);font-size:1.2rem;font-weight:700;cursor:pointer}.stp button:disabled{opacity:.35}.stp-n{min-width:26px;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
+.hrow{grid-template-columns:1fr auto!important}
+.exbox{background:var(--soft);border-radius:14px;padding:12px 14px;margin:0 0 14px}.exbox summary{cursor:pointer}.exbtn .s{white-space:normal}
+.gs-rule{display:inline-block;margin:2px 0 6px 40px;padding:2px 10px;border-radius:999px;font-size:.78rem;font-weight:700;background:var(--soft);color:var(--muted)}
+.gs-rule.fard{background:color-mix(in srgb,var(--brand) 14%,var(--surface));color:var(--brand)}.gs-rule.wajib{background:var(--gold-soft);color:var(--ink)}
+.gs-sl{font-weight:700;font-size:.85rem;margin:0 0 4px}.gs-tr{margin:4px 0}.gs-ss{margin:4px 0 0}.gs-say+.gs-say{margin-top:8px}
+.gs-more{margin:8px 0 0 40px;font-size:.9rem}.gs-more summary{cursor:pointer;font-weight:600;color:var(--brand)}.gs-more p{margin:6px 0 0;line-height:1.55}
 
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--line);padding:4px;border-radius:14px}
 .seg button{border:0;background:transparent;border-radius:10px;padding:10px 6px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
@@ -2136,11 +2144,17 @@ const TOOL_ICON = {
   zakat:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><ellipse cx="12" cy="7" rx="7" ry="3"/><path d="M5 7v5c0 1.7 3.1 3 7 3s7-1.3 7-3V7M5 12v5c0 1.7 3.1 3 7 3s7-1.3 7-3v-5"/></svg>',
   inherit:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="5" r="2.5"/><circle cx="5" cy="18" r="2.5"/><circle cx="12" cy="18" r="2.5"/><circle cx="19" cy="18" r="2.5"/><path d="M12 7.5V15.5M12 11H5v4.5M12 11h7v4.5"/></svg>',
   kaaba:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 7l8-3 8 3v11l-8 3-8-3z"/><path d="M4 7l8 3 8-3M12 10v11M4 11l8 3 8-3"/></svg>',
+  drop:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/></svg>',
+  pray:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18M7 20v-4l5-3 5 3v4M12 13V9M12 9a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></svg>',
   salawat:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>',
 };
 function toolsView(){
   const row = (go, ico, t, s) => `<button class="item tool" ${go}><span class="sr-ico">${TOOL_ICON[ico]}</span><span style="min-width:0"><span class="t">${t}</span><br><span class="s">${s}</span></span><span aria-hidden="true">›</span></button>`;
-  return shell(`<h1>Tools</h1><p class="muted" style="margin:0 0 14px">They all work without internet.</p>
+  return shell(`<h1>Tools</h1><p class="muted" style="margin:0 0 14px">Guides and calculators. They all work without internet.</p>
+    <p class="label">Step-by-step guides</p><div class="stack">
+      ${row('data-guide="wudu"', "drop", "How to make wudu", "What is fard and what is sunnah, in order")}
+      ${row('data-guide="ghusl"', "drop", "How to make ghusl", "The full bath and its three obligations")}
+      ${row('data-guide="salah"', "pray", "How to pray", "Every position and what to say")}</div>
     <p class="label">Prayer</p><div class="stack">
       ${row('data-go="qibla"', "qibla", "Qibla finder", "Point your phone to the Ka'bah")}
       ${row('data-go="qada"', "qada", "Qada' prayers", "Work out missed prayers and track making them up")}</div>
@@ -2148,8 +2162,8 @@ function toolsView(){
       ${row('data-go="zakat"', "zakat", "Zakat calculator", "Hanafi nisab, gold, silver, cash and trade goods")}
       ${row('data-go="inherit"', "inherit", "Inheritance calculator", "Shares by the Hanafi school, from al-Quduri")}</div>
     <p class="label">Pilgrimage</p><div class="stack">
-      ${row('data-guide="umrah"', "kaaba", "How to perform 'Umrah", "Step by step, tick off as you go")}
-      ${row('data-guide="hajj"', "kaaba", "How to perform Hajj", "Tamattu', from the 'umrah to the farewell tawaf")}</div>
+      ${row('data-guide="umrah"', "kaaba", "How to perform 'Umrah", "Step by step, with the du'a for each part")}
+      ${row('data-guide="hajj"', "kaaba", "How to perform Hajj", "Tamattu', day by day, with the du'as")}</div>
 `);
 }
 
@@ -2161,11 +2175,18 @@ function guideView(id){
   return shell(`<button class="back" data-go="tools">${ICON.back} Tools</button><h1 style="margin-bottom:2px">${esc(g.title)}</h1>
     <p class="muted" style="margin:0 0 10px">${esc(g.sub)}. From ${esc(g.src)}.</p>
     <div class="topic-p" style="margin-bottom:14px"><span class="bar" style="flex:1;height:6px"><i style="width:${Math.max(2, d/n*100)}%;background:var(--brand)"></i></span><span class="small muted">${d} of ${n}</span></div>
+    ${g.steps.some(x => x.rule) ? `<details class="exbox"><summary><b>What do Fard, Wajib and Sunnah mean?</b></summary><ul class="small" style="margin:8px 0 0;padding-left:18px;line-height:1.55">
+      <li><b>Fard</b> (or pillar, condition): without it the act is not valid and must be done again.</li>
+      <li><b>Wajib</b>: required. Leaving it out is a sin; in the prayer, missing one by mistake is made up with the prostration of forgetfulness (sajdat al-sahw).</li>
+      <li><b>Sunnah</b>: the way of the Prophet ﷺ. Keep to it for its reward and its light; the act is still valid without it.</li>
+      <li><b>Adab</b>: a good manner, recommended.</li></ul><p class="small muted" style="margin:6px 0 0">Nur al-Idah and Mukhtasar al-Quduri.</p></details>` : ""}
     <ol class="gsteps">${g.steps.map((s, i) => { const on = done.includes(i);
       return `<li class="gstep ${on ? "on" : ""}"><div class="gs-h"><span class="gs-n">${on ? ICON.check.replace("<svg",'<svg width="14" height="14"') : i+1}</span><h3>${esc(s.t)}</h3></div>
+        ${s.rule ? `<p class="gs-rule ${/^Fard|Pillar|Condition/.test(s.rule) ? "fard" : /^Wajib/.test(s.rule) ? "wajib" : ""}">${esc(s.rule)}</p>` : ""}
         <ul>${s.do.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
-        ${s.say ? `<div class="gs-say"><p class="ar" lang="ar" dir="rtl">${esc(s.say.ar)}</p><p class="small"><i>${esc(s.say.tr)}</i></p><p class="small">${esc(s.say.en)}</p></div>` : ""}
+        ${(s.says || []).map(x => `<div class="gs-say"><p class="gs-sl">${esc(x.label)}</p><p class="ar" lang="ar" dir="rtl">${esc(x.ar).replace(/\n/g, "<br>")}</p><p class="small gs-tr"><i>${esc(x.tr)}</i></p><p class="small">${esc(x.en)}</p><p class="small muted gs-ss">${esc(x.src)}</p></div>`).join("")}
         ${s.note ? `<p class="gs-note">${esc(s.note)}</p>` : ""}
+        ${s.more ? `<details class="gs-more"><summary>More detail</summary><p>${esc(s.more)}</p></details>` : ""}
         <div class="gs-f"><span class="small muted">${esc(s.src)}</span><button class="btn small-btn ${on ? "ghost" : ""}" data-gstep="${i}" aria-pressed="${on}">${on ? "Done" : "Mark as done"}</button></div></li>`; }).join("")}</ol>
     ${d ? `<button class="linkbtn" id="greset">Start again</button>` : ""}`);
 }
@@ -2177,6 +2198,8 @@ function qiblaBearing(lat, lon){ const r = x => x * Math.PI / 180, [kl, ko] = KA
 function kaabaKm(lat, lon){ const r = x => x * Math.PI / 180, [a, b] = KAABA;
   const h = Math.sin(r(a-lat)/2)**2 + Math.cos(r(lat))*Math.cos(r(a))*Math.sin(r(b-lon)/2)**2; return 6371 * 2 * Math.asin(Math.sqrt(h)); }
 let QB = null;
+const QIBLA_EX = [["London", 51.5074, -0.1278], ["Leeds", 53.8008, -1.5491], ["Birmingham", 52.4862, -1.8904], ["Istanbul", 41.0082, 28.9784], ["Cairo", 30.0444, 31.2357], ["Karachi", 24.8607, 67.0011], ["Kuala Lumpur", 3.139, 101.6869], ["New York", 40.7128, -74.006], ["Cape Town", -33.9249, 18.4241], ["Madinah", 24.4672, 39.6111]];
+const compassWord = b => ["N","NE","E","SE","S","SW","W","NW"][Math.round(b / 45) % 8];
 function qiblaView(){
   const q = S.qibla;
   return shell(`<button class="back" data-go="tools">${ICON.back} Tools</button><h1>Qibla finder</h1>
@@ -2191,6 +2214,10 @@ function qiblaView(){
     <details class="manual" style="margin-top:16px"><summary>Enter a location by hand</summary>
       <div class="frow"><label>Latitude<input id="qlat" inputmode="decimal" value="${q ? q.lat.toFixed(4) : ""}" placeholder="53.8008"></label><label>Longitude<input id="qlon" inputmode="decimal" value="${q ? q.lon.toFixed(4) : ""}" placeholder="-1.5491"></label></div>
       <button class="btn ghost" id="qset">Use these</button></details>
+    <details class="exbox" style="margin-top:14px"><summary><b>Examples</b><span class="small muted"> · the qiblah from some cities</span></summary>
+      <table class="itable" style="margin-top:8px"><thead><tr><th>City</th><th>Qiblah</th><th>Distance</th></tr></thead><tbody>
+      ${QIBLA_EX.map(([n, a, b]) => `<tr><td>${n}</td><td>${Math.round(qiblaBearing(a, b))}° ${compassWord(qiblaBearing(a, b))}</td><td>${Math.round(kaabaKm(a, b)).toLocaleString()} km</td></tr>`).join("")}</tbody></table>
+      <p class="small muted">Degrees are measured clockwise from true north, along the shortest path over the globe. That is why from New York the qiblah is north-east, not south-east.</p></details>
     <p class="small muted" style="margin-top:14px">Phone compasses can be thrown off by metal and magnets. Calibrate by moving the phone in a figure of eight. For the prayer, the direction of the Ka'bah is what counts; a small difference is excused.</p>`);
 }
 function bindQibla(){
@@ -2218,11 +2245,16 @@ function qadaCount(from, to, female, hayd, nifas){
   if (female) { const months = days / 29.53; days = Math.max(0, Math.round(days - months * Math.min(10, Math.max(0, hayd||0)) - (nifas||0))); }
   return days;
 }
+const QADA_EX = [
+  { t:"A man who reached puberty on 1 January 2010 and began praying regularly on 1 January 2012.", r:"730 days: 730 of each of the five prayers and witr, 4,380 prayers in all.", v:{ from:"2010-01-01", to:"2012-01-01" } },
+  { t:"A woman who missed prayers from 1 March 2015 to 1 March 2018, with a usual period of 6 days and 40 days of nifas.", r:"1,096 days, less about 223 days of her periods and 40 days of nifas, leaves 833 days to make up.", v:{ from:"2015-03-01", to:"2018-03-01", female:true, hayd:6, nifas:40 } },
+];
 function qadaView(){
   const Q = S.qada || { left:{}, fasts:0 }, c = S.qadaCalc || {}, total = QP.reduce((a,[k]) => a + (Q.left[k]||0), 0);
   const days = c.from && c.to ? qadaCount(c.from, c.to, c.female, c.hayd, c.nifas) : null;
   return shell(`<button class="back" data-go="tools">${ICON.back} Tools</button><h1>Qada' prayers</h1>
     <p class="muted" style="margin:0 0 12px">Every missed fard prayer, and witr (wajib in the Hanafi school), stays owed until it is made up. <span class="small">Nur al-Idah, making up missed prayers.</span></p>
+    ${exBox(QADA_EX, "qad")}
     <section class="card pad"><h2 style="margin-top:0">Work it out</h2>
       <div class="frow"><label>From (when you reached puberty)<input type="date" id="qf" value="${esc(c.from||"")}"></label><label>To (when you began praying regularly)<input type="date" id="qt" value="${esc(c.to||"")}"></label></div>
       <label class="chk"><input type="checkbox" id="qfem" ${c.female ? "checked" : ""}> I am a woman (days of menstruation and nifas are not made up)</label>
@@ -2249,6 +2281,7 @@ function bindQada(){
   document.querySelectorAll("[data-qset]").forEach(i => i.onchange = () => { const k = i.dataset.qset, v = Math.max(0, parseInt(i.value)||0); if (k === "fasts") Q.fasts = v; else Q.left[k] = v; save(); render(); });
   const qd = $("#qday"); if (qd) qd.onclick = () => { QP.forEach(([k]) => Q.left[k] = Math.max(0, (Q.left[k]||0) - 1)); save(); toast("May Allah accept it"); render(); };
   const qp = $("#qper"); if (qp) qp.onchange = () => { c.perDay = +qp.value; save(); render(); };
+  bindExamples();
 }
 
 /* ---------------- Zakat ---------------- */
@@ -2261,11 +2294,20 @@ function zakatCalc(z){
   const nisab = nisabS && nisabG ? Math.min(nisabS, nisabG) : (nisabS || nisabG);   // al-Quduri: value by what benefits the poor most
   return { goldVal, silverVal, assets, net, nisab, nisabS, nisabG, due: nisab ? net >= nisab : null, zakat: net * 0.025 };
 }
+const ZAK_EX = [
+  { t:"£5,000 in the bank, 20 g of gold jewellery, £500 of bills due. Gold £95/g, silver £0.75/g.", r:"Total £6,900, less £500 debts = £6,400. That is above the silver nisab (612.36 g × £0.75 = £459.27), so zakat is 2.5%: £160.",
+    v:{ cur:"£", goldP:"95", silverP:"0.75", cash:"5000", goldG:"20", debts:"500" } },
+  { t:"A shopkeeper: £2,000 cash, £8,000 of stock to sell, £1,500 owed to him, £3,000 owed to a supplier.", r:"Cash + stock + money owed to him = £11,500, less £3,000 debts = £8,500. Zakat: £212.50.",
+    v:{ cur:"£", goldP:"95", silverP:"0.75", cash:"2000", goods:"8000", owed:"1500", debts:"3000" } },
+  { t:"£300 in savings, nothing else.", r:"£300 is below the nisab (£459.27 at these prices), so no zakat is due.",
+    v:{ cur:"£", goldP:"95", silverP:"0.75", cash:"300" } },
+];
 function zakatView(){
   const z = S.zakat || {}, r = zakatCalc(z), cur = z.cur || "£", m = v => cur + (Math.round(v*100)/100).toLocaleString(undefined, { minimumFractionDigits:2, maximumFractionDigits:2 });
   const f = (k, t, hint) => `<label>${t}${hint ? ` <span class="small muted">${hint}</span>` : ""}<input type="number" inputmode="decimal" min="0" step="any" data-z="${k}" value="${esc(z[k] ?? "")}"></label>`;
   return shell(`<button class="back" data-go="tools">${ICON.back} Tools</button><h1>Zakat calculator</h1>
     <p class="muted" style="margin:0 0 12px">Zakat is 2.5% of what you own above the nisab, once a full lunar year has passed on it. <span class="small">Mukhtasar al-Quduri, Book of Zakat.</span></p>
+    ${exBox(ZAK_EX, "zak")}<p class="small muted" style="margin:0 0 12px">The examples use sample prices. Enter today's prices for your own zakat.</p>
     <section class="card pad"><h2 style="margin-top:0">Today's prices</h2><p class="small muted" style="margin-top:0">Check today's price per gram, then enter it here. It is saved on your phone.</p>
       <div class="frow">${f("goldP", "Gold, per gram")}${f("silverP", "Silver, per gram")}<label>Currency<input data-z="cur" value="${esc(cur)}" maxlength="3"></label></div></section>
     <section class="card pad"><h2 style="margin-top:0">What you own</h2>
@@ -2284,7 +2326,8 @@ function zakatView(){
 }
 function bindZakat(){ S.zakat = S.zakat || {};
   document.querySelectorAll("[data-z]").forEach(i => i.oninput = () => { S.zakat[i.dataset.z] = i.value; save();
-    const pos = i.selectionStart, k = i.dataset.z; render(); const n = document.querySelector(`[data-z="${k}"]`); if (n) { n.focus(); try { n.setSelectionRange(pos, pos); } catch(e){} } }); }
+    const pos = i.selectionStart, k = i.dataset.z; render(); const n = document.querySelector(`[data-z="${k}"]`); if (n) { n.focus(); try { n.setSelectionRange(pos, pos); } catch(e){} } });
+  bindExamples(); }
 
 /* ---------------- Inheritance (Hanafi, al-Quduri) ---------------- */
 const gcd = (a, b) => b ? gcd(b, a % b) : Math.abs(a);
@@ -2301,36 +2344,36 @@ const HEIRS = [
   ["fnephew","Full brothers' sons",20], ["cnephew","Paternal half-brothers' sons",20],
   ["funcle","Full paternal uncles",20], ["cuncle","Father's paternal half-brothers",20], ["fcousin","Full uncles' sons",20], ["ccousin","Half-uncles' sons",20]];
 function inheritCalc(h){
-  const c = k => Math.max(0, h[k]|0), notes = [], fixed = {}, excl = {};
+  const c = k => Math.max(0, h[k]|0), notes = [], fixed = {}, excl = {}, why = {};
   const descM = c("sons") + c("sonsons") > 0, descF = c("daughters") + c("sondaughters") > 0, desc = descM || descF;
   const sib = c("fbro") + c("fsis") + c("cbro") + c("csis") + c("ubro") + c("usis");
   const father = c("father") > 0, gf = !father && c("pgf") > 0, maleAsc = father || gf;
   const spouse = c("husband") ? "husband" : c("wives") ? "wives" : null;
-  if (c("husband")) fixed.husband = desc ? Fr(1,4) : Fr(1,2);
-  if (c("wives")) fixed.wives = desc ? Fr(1,8) : Fr(1,4);
+  if (c("husband")) { fixed.husband = desc ? Fr(1,4) : Fr(1,2); why.husband = desc ? "A quarter, because the deceased left children" : "A half, because the deceased left no children"; }
+  if (c("wives")) { fixed.wives = desc ? Fr(1,8) : Fr(1,4); why.wives = (desc ? "An eighth, because the deceased left children" : "A quarter, because the deceased left no children") + (c("wives") > 1 ? ", shared equally between the wives" : ""); }
   let umariyya = false;
-  if (c("mother")) { if (desc || sib >= 2) fixed.mother = Fr(1,6); else if (spouse && father) umariyya = true; else fixed.mother = Fr(1,3);
+  if (c("mother")) { if (desc || sib >= 2) { fixed.mother = Fr(1,6); why.mother = desc ? "A sixth, because the deceased left children" : "A sixth, because the deceased left two or more brothers or sisters"; } else if (spouse && father) { umariyya = true; why.mother = "A third of what is left after the spouse (the 'Umariyyah case)"; } else { fixed.mother = Fr(1,3); why.mother = "A third, because there are no children and fewer than two siblings"; }
     if (c("mgm")) excl.mgm = "the mother"; if (c("pgm")) excl.pgm = "the mother"; }
-  else { const gms = []; if (c("mgm")) gms.push("mgm"); if (c("pgm")) { if (father) excl.pgm = "the father"; else gms.push("pgm"); } gms.forEach(k => fixed[k] = Fr(1, 6 * gms.length)); }
+  else { const gms = []; if (c("mgm")) gms.push("mgm"); if (c("pgm")) { if (father) excl.pgm = "the father"; else gms.push("pgm"); } gms.forEach(k => { fixed[k] = Fr(1, 6 * gms.length); why[k] = gms.length > 1 ? "The grandmothers share a sixth" : "A sixth, as there is no mother"; }); }
   if (father && c("pgf")) excl.pgf = "the father";
-  const asc = father ? "father" : gf ? "pgf" : null; if (asc && desc) fixed[asc] = Fr(1,6);
-  if (c("daughters") && !c("sons")) fixed.daughters = c("daughters") === 1 ? Fr(1,2) : Fr(2,3);
+  const asc = father ? "father" : gf ? "pgf" : null; if (asc && desc) { fixed[asc] = Fr(1,6); why[asc] = "A sixth, because the deceased left children" + (descM ? "" : ", plus anything left over"); }
+  if (c("daughters") && !c("sons")) { fixed.daughters = c("daughters") === 1 ? Fr(1,2) : Fr(2,3); why.daughters = c("daughters") === 1 ? "A half, for one daughter with no son" : "Two thirds, shared by two or more daughters with no son"; }
   if (c("sons")) { if (c("sonsons")) excl.sonsons = "a son"; if (c("sondaughters")) excl.sondaughters = "a son"; }
-  else if (c("sondaughters") && !c("sonsons")) { if (!c("daughters")) fixed.sondaughters = c("sondaughters") === 1 ? Fr(1,2) : Fr(2,3);
-    else if (c("daughters") === 1) fixed.sondaughters = Fr(1,6); else excl.sondaughters = "two or more daughters"; }
+  else if (c("sondaughters") && !c("sonsons")) { if (!c("daughters")) { fixed.sondaughters = c("sondaughters") === 1 ? Fr(1,2) : Fr(2,3); why.sondaughters = "Like daughters, as there are no children"; }
+    else if (c("daughters") === 1) { fixed.sondaughters = Fr(1,6); why.sondaughters = "A sixth, completing two thirds with the daughter"; } else excl.sondaughters = "two or more daughters"; }
   const u = c("ubro") + c("usis");
   if (u) { if (desc || maleAsc) { const by = desc ? "the deceased's children" : father ? "the father" : "the grandfather"; ["ubro","usis"].forEach(k => { if (c(k)) excl[k] = by; }); }
-    else { const sh = u === 1 ? Fr(1,6) : Fr(1,3); ["ubro","usis"].forEach(k => { if (c(k)) fixed[k] = fmul(sh, Fr(c(k), u)); }); } }
+    else { const sh = u === 1 ? Fr(1,6) : Fr(1,3); ["ubro","usis"].forEach(k => { if (c(k)) { fixed[k] = fmul(sh, Fr(c(k), u)); why[k] = u === 1 ? "A sixth, as there are no children, father or grandfather" : "A third shared equally, male and female, as there are no children, father or grandfather"; } }); } }
   const sibBlock = descM ? "a son or son's son" : father ? "the father" : gf ? "the grandfather (as Abu Hanifah held)" : null;
   let fsisG = false, csisG = false;
-  if (c("fsis")) { if (sibBlock) excl.fsis = sibBlock; else if (!c("fbro")) { if (descF) fsisG = true; else fixed.fsis = c("fsis") === 1 ? Fr(1,2) : Fr(2,3); } }
+  if (c("fsis")) { if (sibBlock) excl.fsis = sibBlock; else if (!c("fbro")) { if (descF) fsisG = true; else { fixed.fsis = c("fsis") === 1 ? Fr(1,2) : Fr(2,3); why.fsis = c("fsis") === 1 ? "A half, as there are no children, father or brothers" : "Two thirds shared, as there are no children, father or brothers"; } } }
   if (c("csis")) { if (sibBlock) excl.csis = sibBlock; else if (c("fbro")) excl.csis = "a full brother"; else if (fsisG) excl.csis = "a full sister inheriting with the daughters";
-    else if (!c("cbro")) { if (c("fsis") >= 2) excl.csis = "two or more full sisters"; else if (c("fsis") === 1) fixed.csis = Fr(1,6); else if (descF) csisG = true; else fixed.csis = c("csis") === 1 ? Fr(1,2) : Fr(2,3); } }
+    else if (!c("cbro")) { if (c("fsis") >= 2) excl.csis = "two or more full sisters"; else if (c("fsis") === 1) { fixed.csis = Fr(1,6); why.csis = "A sixth, completing two thirds with the full sister"; } else if (descF) csisG = true; else { fixed.csis = c("csis") === 1 ? Fr(1,2) : Fr(2,3); why.csis = "Like full sisters, as there are none"; } } }
   // nearest residuaries first (al-Quduri): [male, female] groups share 2:1
   const R = [["sons","daughters"],["sonsons","sondaughters"],["father"],["pgf"],["fbro","fsis"],["fsis*"],["cbro","csis"],["csis*"],["fnephew"],["cnephew"],["funcle"],["cuncle"],["fcousin"],["ccousin"]];
   const has = g => g[0] === "fsis*" ? fsisG : g[0] === "csis*" ? csisG : g[0] === "father" ? father : g[0] === "pgf" ? gf : c(g[0]) > 0 && !excl[g[0]];
   const ri = R.findIndex(has), resid = ri >= 0 ? R[ri] : null;
-  if (ri >= 0) R.slice(ri + 1).forEach(g => g.forEach(k => { if (k.endsWith("*")) return; if (c(k) && !fixed[k] && !excl[k] && !(k === "pgf" && father)) excl[k] = "a nearer residuary heir"; }));
+  if (ri >= 0) R.slice(ri + 1).forEach(g => g.forEach(k => { if (k.endsWith("*")) return; if (c(k) && !fixed[k] && !excl[k] && !(k === "pgf" && father)) excl[k] = sibBlock && ["fbro","cbro","fnephew","cnephew","funcle","cuncle","fcousin","ccousin"].includes(k) ? sibBlock : "a nearer residuary heir"; }));
   let sumF = Object.values(fixed).reduce(fadd, Fr(0));
   if (umariyya) { fixed.mother = fmul(fsub(Fr(1), fixed[spouse]), Fr(1,3)); sumF = fadd(sumF, fixed.mother);
     notes.push("One of the two 'Umariyyah cases: the mother takes a third of what remains after the spouse's share (al-Quduri)."); }
@@ -2339,7 +2382,7 @@ function inheritCalc(h){
     if (fcmp(rem, Fr(0)) < 0) awl();
     const members = resid[0].endsWith("*") ? [resid[0].slice(0, -1)] : resid;
     if (rem[0] > 0) { const w = k => (members.length === 2 && k === members[1] ? 1 : 2) * c(k), units = members.reduce((a, k) => a + w(k), 0);
-      members.forEach(k => { if (c(k)) share[k] = fadd(share[k] || Fr(0), fmul(rem, Fr(w(k), units))); }); }
+      members.forEach(k => { if (c(k)) { share[k] = fadd(share[k] || Fr(0), fmul(rem, Fr(w(k), units))); why[k] = why[k] ? why[k] : members.length === 2 ? "What is left, a male taking twice a female's share" : (fsisG && k === "fsis") || (csisG && k === "csis") ? "What is left: sisters inherit the remainder alongside daughters" : "What is left, as the nearest male relative"; } }); }
     else members.forEach(k => { if (c(k) && !share[k]) excl[k] = "the fixed shares, which used up the whole estate"; }); }
   else if (Object.keys(share).length) {
     if (fcmp(sumF, Fr(1)) > 0) awl();
@@ -2348,8 +2391,30 @@ function inheritCalc(h){
         others.forEach(k => share[k] = fmul(fdiv(share[k], tot), rest)); notes.push("There is no residuary heir, so what is left returns to the heirs in proportion to their shares, but not to the spouse (radd, al-Quduri)."); }
       else notes.push(`What is left after the spouse's share (${fstr(fsub(Fr(1), sumF))}) goes to more distant relatives (dhawu al-arham). Ask a scholar how to divide it.`); } }
   else if (HEIRS.some(([k]) => c(k))) notes.push("No heir with a share is present. Ask a scholar.");
-  const out = {}; HEIRS.forEach(([k, t]) => { if (!c(k)) return; out[k] = { t, n: c(k), share: share[k] || Fr(0), why: excl[k] || "" }; });
+  const out = {}; HEIRS.forEach(([k, t]) => { if (!c(k)) return; out[k] = { t, n: c(k), share: share[k] || Fr(0), why: excl[k] || "", reason: why[k] || "" }; });
   return { out, notes };
+}
+const INH_EX = [
+  { t:"A man leaves his wife, his mother, one son and two daughters. Estate £120,000; funeral £2,000; debts £3,000.", r:"Wife ⅛ and mother ⅙ come first; the son and daughters share what is left, a son taking twice a daughter's share.",
+    v:{ dead:"m", h:{ wives:1, mother:1, sons:1, daughters:2 }, est:{ total:"120000", funeral:"2000", debts:"3000" } } },
+  { t:"A woman leaves her husband, her mother and her father. Estate £60,000.", r:"One of the two 'Umariyyah cases: husband ½, then the mother takes a third of what is left (⅙) and the father the rest (⅓).",
+    v:{ dead:"f", h:{ husband:1, mother:1, father:1 }, est:{ total:"60000" } } },
+  { t:"A woman leaves her husband and two full sisters. Estate £70,000.", r:"The shares add up to more than the whole (½ + ⅔), so they are reduced in proportion ('awl): husband 3/7, sisters 4/7.",
+    v:{ dead:"f", h:{ husband:1, fsis:2 }, est:{ total:"70000" } } },
+  { t:"A man leaves his father's father and a full brother.", r:"As Imam Abu Hanifah held, the grandfather takes the place of the father and excludes the brother.",
+    v:{ dead:"m", h:{ pgf:1, fbro:1 }, est:{} } },
+];
+// Worked examples a user can load with one tap
+function exBox(list, key){
+  return `<details class="exbox"><summary><b>Try an example</b><span class="small muted"> · see how it works before entering your own</span></summary>
+    <div class="stack" style="margin-top:10px">${list.map((x, i) => `<button class="item exbtn" data-ex="${key}|${i}"><span style="flex:1;min-width:0"><span class="t" style="font-weight:600">${esc(x.t)}</span><br><span class="s">${esc(x.r)}</span></span><span class="pill">Load</span></button>`).join("")}</div>
+    <button class="linkbtn" data-exclear="${key}" style="margin-top:10px">Clear everything and start again</button></details>`;
+}
+function bindExamples(){
+  const st = { inh:["inherit", INH_EX], zak:["zakat", ZAK_EX], qad:["qadaCalc", QADA_EX] };
+  document.querySelectorAll("[data-ex]").forEach(b => b.onclick = () => { const [k, i] = b.dataset.ex.split("|"), [key, list] = st[k];
+    S[key] = JSON.parse(JSON.stringify(list[+i].v)); save(); render(); toast("Example loaded. Scroll down to see the result."); });
+  document.querySelectorAll("[data-exclear]").forEach(b => b.onclick = () => { const [key] = st[b.dataset.exclear]; confirmBox("Clear everything you have entered here?", () => { S[key] = key === "inherit" ? { h:{}, est:{} } : {}; save(); render(); }); });
 }
 function inheritView(){
   const h = S.inherit || {}, est = h.est || {}, r = inheritCalc(h.h || {}), cur = est.cur || "£";
@@ -2359,16 +2424,17 @@ function inheritView(){
   const rows = HEIRS.filter(([k]) => !((dead === "m" && k === "husband") || (dead === "f" && k === "wives")));
   return shell(`<button class="back" data-go="tools">${ICON.back} Tools</button><h1>Inheritance calculator</h1>
     <p class="muted" style="margin:0 0 12px">By the Hanafi school, following <i>Mukhtasar al-Quduri, Book of Inheritance</i>. For a real estate, have a scholar confirm the result.</p>
+    ${exBox(INH_EX, "inh")}
     <section class="card pad"><h2 style="margin-top:0">The deceased</h2>
       <div class="seg mini" role="group" aria-label="The deceased was"><button data-dead="m" aria-pressed="${dead==="m"}" class="${dead==="m"?"on":""}">A man</button><button data-dead="f" aria-pressed="${dead==="f"}" class="${dead==="f"?"on":""}">A woman</button></div>
       <div class="frow" style="margin-top:12px">${[["total","Whole estate"],["funeral","Funeral costs"],["debts","Debts"],["will","Bequest (wasiyyah)"]].map(([k,t]) => `<label>${t}<input type="number" inputmode="decimal" min="0" step="any" data-est="${k}" value="${esc(est[k] ?? "")}"></label>`).join("")}</div>
       <p class="small muted">Funeral costs and debts come first, then a bequest of up to a third of what is left, then the shares below.</p></section>
     <section class="card pad"><h2 style="margin-top:0">Living relatives</h2><div class="heirs">${rows.map(([k, t, mx]) => `<label class="hrow"><span>${t}</span>
-      ${mx === 1 ? `<input type="checkbox" data-heir="${k}" ${(h.h||{})[k] ? "checked" : ""}>` : `<input type="number" min="0" max="${mx}" data-heir="${k}" value="${(h.h||{})[k] || 0}">`}</label>`).join("")}</div></section>
+      ${mx === 1 ? `<input type="checkbox" data-heir="${k}" ${(h.h||{})[k] ? "checked" : ""}>` : `<span class="stp"><button type="button" data-hstep="${k}|-1" aria-label="One fewer: ${t}" ${(h.h||{})[k] ? "" : "disabled"}>−</button><span class="stp-n" aria-live="polite">${(h.h||{})[k] || 0}</span><button type="button" data-hstep="${k}|1" aria-label="One more: ${t}" ${((h.h||{})[k]||0) >= mx ? "disabled" : ""}>+</button></span>`}</label>`).join("")}</div></section>
     <section class="card pad" role="status" aria-live="polite"><h2 style="margin-top:0">Shares</h2>
       ${Object.keys(r.out).length ? `<table class="itable"><thead><tr><th>Heir</th><th>Share</th>${gross ? "<th>Amount</th>" : ""}</tr></thead><tbody>
         ${Object.entries(r.out).map(([k, o]) => { const each = o.n > 1 && o.share[0] ? fdiv(o.share, Fr(o.n)) : null;
-          return `<tr class="${o.share[0] ? "" : "ex"}"><td>${esc(o.t)}${o.n > 1 ? ` ×${o.n}` : ""}${o.why && !o.share[0] ? `<br><span class="small muted">Excluded by ${esc(o.why)}</span>` : ""}</td>
+          return `<tr class="${o.share[0] ? "" : "ex"}"><td>${esc(o.t)}${o.n > 1 ? ` ×${o.n}` : ""}${o.why && !o.share[0] ? `<br><span class="small muted">Excluded by ${esc(o.why)}</span>` : o.reason ? `<br><span class="small muted">${esc(o.reason)}</span>` : ""}</td>
             <td>${fstr(o.share)}${each ? `<br><span class="small muted">${fstr(each)} each</span>` : ""}</td>${gross ? `<td>${m(net * o.share[0] / o.share[1])}${each ? `<br><span class="small muted">${m(net * each[0] / each[1])} each</span>` : ""}</td>` : ""}</tr>`; }).join("")}</tbody></table>
         ${gross ? `<p class="small muted">Shared estate: ${m(net)} (after ${m(n("funeral") + n("debts"))} costs and debts${will ? `, and a bequest of ${m(will)}` : ""}).</p>` : ""}`
       : `<p class="muted" style="margin:0">Tick the relatives who are alive.</p>`}
@@ -2379,6 +2445,9 @@ function bindInherit(){ S.inherit = S.inherit || { h:{}, est:{} }; const I = S.i
   document.querySelectorAll("[data-dead]").forEach(b => b.onclick = () => { I.dead = b.dataset.dead; if (I.dead === "m") delete I.h.husband; else delete I.h.wives; save(); render(); });
   document.querySelectorAll("[data-heir]").forEach(i => i.onchange = () => { const k = i.dataset.heir; I.h[k] = i.type === "checkbox" ? (i.checked ? 1 : 0) : Math.min(+i.max, Math.max(0, parseInt(i.value)||0)); save(); render(); });
   document.querySelectorAll("[data-est]").forEach(i => i.onchange = () => { I.est[i.dataset.est] = i.value; save(); render(); });
+  document.querySelectorAll("[data-hstep]").forEach(b => b.onclick = () => { const [k, d] = b.dataset.hstep.split("|"), mx = (HEIRS.find(x => x[0] === k) || [0,0,20])[2];
+    I.h[k] = Math.min(mx, Math.max(0, (I.h[k]||0) + +d)); save(); const y = window.scrollY; render(); window.scrollTo(0, y); });
+  bindExamples();
 }
 
 /* ---------------- Salawat ---------------- */
@@ -2574,5 +2643,5 @@ function notesView(){ const all = hlEntries(); return shell(`<button class="back
   <p class="muted" style="margin:0 0 14px">${all.length ? `${all.length} highlight${all.length > 1 ? "s" : ""}, ${all.filter(h => h.note).length} with notes. Tap one to open it in the book.` : "Highlights and notes you make in any book appear here."}</p>${hlListHtml(all, true)}`); }
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=63b269bfdc");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=01b50aa8d9");</script></body>
 </html>
