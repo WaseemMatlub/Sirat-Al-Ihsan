@@ -145,6 +145,6 @@ if __name__ == "__main__":
       {"id": "ghazali", "title": "Imam al-Ghazali", "sub": V.ABOUT["ghazali"]["short"], "about": V.ABOUT["ghazali"]["about"], "credit": FIXED,
        "items": ghz},
     ], "tiles": V.ABOUT}
-    json.dump(out, open(os.path.join(HERE, "..", "app", "data", "duas.json"), "w"), ensure_ascii=False, separators=(",", ":"))
+    json.dump(__import__("harakat_cache").apply(out), open(os.path.join(HERE, "..", "app", "data", "duas.json"), "w"), ensure_ascii=False, separators=(",", ":"))
     print({s["id"]: len(s["items"]) for s in out["sections"]})
     for r in rab[:3] + rab[4:7] + rab[14:16] + rab[34:36]: print(r["src"], "::", r["ar"])

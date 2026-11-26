@@ -53,5 +53,5 @@ D = {
 }
 if __name__ == "__main__":
     here = os.path.dirname(os.path.abspath(__file__))
-    json.dump(D, open(os.path.join(here, "..", "app", "data", "salawat.json"), "w"), ensure_ascii=False, separators=(",", ":"))
+    json.dump(__import__("harakat_cache").apply(D), open(os.path.join(here, "..", "app", "data", "salawat.json"), "w"), ensure_ascii=False, separators=(",", ":"))
     print("salawat", len(D["items"]))

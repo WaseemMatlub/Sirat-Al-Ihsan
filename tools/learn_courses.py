@@ -395,5 +395,5 @@ if __name__ == "__main__":
         for l in c["lessons"]:
             for x in l["cards"]: assert "," in x["src"] or x["src"].startswith(("Hadith", "Qur'an")) or ";" in x["src"], (l["id"], x["src"])
     here = os.path.dirname(os.path.abspath(__file__))
-    json.dump(out, open(os.path.join(here, "..", "app", "data", "learn.json"), "w"), ensure_ascii=False, separators=(",", ":"))
+    json.dump(__import__("harakat_cache").apply(out), open(os.path.join(here, "..", "app", "data", "learn.json"), "w"), ensure_ascii=False, separators=(",", ":"))
     print("courses", len(out), "lessons", sum(len(c["lessons"]) for c in out), "checks", sum(len(l["checks"]) for c in out for l in c["lessons"]))

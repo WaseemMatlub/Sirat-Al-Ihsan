@@ -68,5 +68,5 @@ try:
         if len(v) == len(tgt["paras"]): tgt["en"] = v
         else: print("EN count mismatch", k, len(v), len(tgt["paras"]))
 except ImportError: pass
-json.dump(out, open(os.path.join(HERE, "..", "app", "data", "dalail.json"), "w"), ensure_ascii=False, separators=(",", ":"))
+json.dump(__import__("harakat_cache").apply(out), open(os.path.join(HERE, "..", "app", "data", "dalail.json"), "w"), ensure_ascii=False, separators=(",", ":"))
 print([(h["n"], len(h.get("paras", []))) for h in out["ahzab"]])

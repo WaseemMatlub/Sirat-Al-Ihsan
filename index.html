@@ -658,14 +658,14 @@ const YEARS = [   // THE COURSE PLAN. To move or add something, edit this list o
    books:[
      { id:"w_quran", type:"words", deck:"quran", per:5, title:"Qur'an words", sub:"The most common words of the Qur'an, five at a time", glyph:"", color:"#B5651D", subject:"Arabic" },
      { id:"w_verbs1", type:"words", deck:"verbs1", per:5, title:"Verb drills", sub:"Sarf drilling: the most used verbs, five at a time, with their forms", glyph:"", color:"#B5651D", subject:"Arabic" },
-     { id:"signs", fard:true, type:"hadith", per:3, title:"Signs of the Hour", sub:"An introduction, from Kitab al-Fitan of Imam al-Bukhari رحمه الله", glyph:"س", color:"#8C3B3B", subject:"Signs of the Hour" } ],
+     { id:"signs", fard:true, type:"hadith", per:3, title:"Signs of the Hour", sub:"An introduction, from Kitab al-Fitan of Imam al-Bukhari رَحِمَهُ اللَّهُ", glyph:"س", color:"#8C3B3B", subject:"Signs of the Hour" } ],
    decks:[
      { id:"quran", title:"Qur'an words: top 500", sub:"Vocabulary: about 86% of the Qur'an's text", glyph:"ق", color:"#8A4FA3", subject:"Arabic" },
      { id:"bina", simple:true, title:"Bina' al-Af'al", sub:"Sarf: how Arabic verbs are built", glyph:"", color:"#B5651D", subject:"Arabic" },
      { id:"verbs1", title:"Arabic verbs: 1–700", sub:"Sarf drilling: past, present and verbal noun", glyph:"ف", color:"#B5651D", subject:"Arabic" },
      { id:"ajr", simple:true, title:"al-Ajurrumiyyah", sub:"Nahw: the first text, question by question", glyph:"", color:"#B5651D", subject:"Arabic" },
      { id:"seerah1", simple:true, title:"Seerah essentials", sub:"The life of the Prophet ﷺ from birth to his passing", glyph:"", color:"#9A6A1F", subject:"Seerah" },
-     { id:"nur", simple:true, title:"Nur al-Idah", sub:"Imam al-Shurunbulali رحمه الله: purification, prayer, fasting", glyph:"ن", color:"#2F6E8F", subject:"Fiqh" },
+     { id:"nur", simple:true, title:"Nur al-Idah", sub:"Imam al-Shurunbulali رَحِمَهُ اللَّهُ: purification, prayer, fasting", glyph:"ن", color:"#2F6E8F", subject:"Fiqh" },
      { id:"themed", opt:true, title:"Vocabulary list", sub:"Everyday Arabic words grouped by topic: the body, home, food, travel and more", glyph:"", color:"#B5651D", subject:"Arabic" } ],
    read:["t_azhari", "t_nawawi_seerah", "t_nur"] },
  { n:2, title:"The Arabic of the Qur'an", desc:"Qur'anic vocabulary, Qatr al-Nada with i'rab practice, and al-Suyuti's works of the day and night.",
@@ -674,114 +674,114 @@ const YEARS = [   // THE COURSE PLAN. To move or add something, edit this list o
      { id:"irab", type:"lines", per:6, title:"I'rab practice", sub:"Al-Fatihah and five short surahs, word by word", glyph:"", color:"#B5651D", subject:"Arabic", ask:"What is the i'rab of this word?", askTitle:"Its i'rab" } ],
    decks:[
      { id:"roots", title:"Qur'an roots: top 1,000", sub:"Qur'an dictionary: the roots, ranked by how often they occur", glyph:"ج", color:"#8A4FA3", subject:"Arabic" },
-     { id:"mufradat", title:"Mufradat al-Qur'an", sub:"Qur'an dictionary: Imam al-Raghib's رحمه الله root meanings, in Arabic and English", glyph:"", color:"#B5651D", subject:"Arabic" },
-     { id:"qatr", simple:true, title:"Sharh Qatr al-Nada", sub:"Nahw: Ibn Hisham's رحمه الله text, question by question", glyph:"", color:"#B5651D", subject:"Arabic" } ],
+     { id:"mufradat", title:"Mufradat al-Qur'an", sub:"Qur'an dictionary: Imam al-Raghib's رَحِمَهُ اللَّهُ root meanings, in Arabic and English", glyph:"", color:"#B5651D", subject:"Arabic" },
+     { id:"qatr", simple:true, title:"Sharh Qatr al-Nada", sub:"Nahw: Ibn Hisham's رَحِمَهُ اللَّهُ text, question by question", glyph:"", color:"#B5651D", subject:"Arabic" } ],
    read:["t_qatr", "t_adhkar"] },
  { n:3, title:"Core texts", desc:"The Tahawiyyah, al-Quduri, the Forty Hadith, the Shama'il, Bidayat al-Hidayah, the End Times and Usul al-Shashi.",
    books:[
-     { id:"tahawiyya", type:"lines", per:8, title:"Al-'Aqidah al-Tahawiyyah", sub:"The creed of Imam al-Tahawi رحمه الله, line by line", glyph:"ط", color:"#0E5A43", subject:"Aqeedah" },
-     { id:"arbain", type:"lines", per:4, title:"The Forty Hadith", sub:"Imam al-Nawawi's رحمه الله forty, in Arabic and English", glyph:"", color:"#7A5230", subject:"Hadith" } ],
+     { id:"tahawiyya", type:"lines", per:8, title:"Al-'Aqidah al-Tahawiyyah", sub:"The creed of Imam al-Tahawi رَحِمَهُ اللَّهُ, line by line", glyph:"ط", color:"#0E5A43", subject:"Aqeedah" },
+     { id:"arbain", type:"lines", per:4, title:"The Forty Hadith", sub:"Imam al-Nawawi's رَحِمَهُ اللَّهُ forty, in Arabic and English", glyph:"", color:"#7A5230", subject:"Hadith" } ],
    decks:[
-     { id:"quduri", simple:true, title:"Mukhtasar al-Quduri", sub:"Imam al-Quduri's رحمه الله Hanafi primer, question by question", glyph:"ق", color:"#2F6E8F", subject:"Fiqh" },
-     { id:"shamail_qa", simple:true, title:"al-Shama'il, question by question", sub:"How the Prophet ﷺ looked, lived, ate, slept and prayed, from Imam al-Tirmidhi's رحمه الله collection", glyph:"", color:"#9A6A1F", subject:"Seerah" } ],
+     { id:"quduri", simple:true, title:"Mukhtasar al-Quduri", sub:"Imam al-Quduri's رَحِمَهُ اللَّهُ Hanafi primer, question by question", glyph:"ق", color:"#2F6E8F", subject:"Fiqh" },
+     { id:"shamail_qa", simple:true, title:"al-Shama'il, question by question", sub:"How the Prophet ﷺ looked, lived, ate, slept and prayed, from Imam al-Tirmidhi's رَحِمَهُ اللَّهُ collection", glyph:"", color:"#9A6A1F", subject:"Seerah" } ],
    read:["t_tahawiyya", "t_quduri", "t_shamail", "t_bidaya", "t_nihaya_fitan", "t_shashi"] },
  { n:4, title:"Higher texts", desc:"Al-Hidayah volume 1, Riyad al-Salihin, the sciences of hadith, and Sirr al-Asrar.",
    books:[
      { id:"bayquniyya", type:"lines", per:4, title:"al-Bayquniyyah", sub:"The 34 verses on the terms of hadith, with their meaning", glyph:"", color:"#7A5230", subject:"Hadith" } ],
    decks:[
-     { id:"hidaya1", simple:true, title:"al-Hidayah, part 1", sub:"Volume 1: Imam al-Marghinani's رحمه الله Hanafi fiqh with its proofs", glyph:"", color:"#2F6E8F", subject:"Fiqh" },
+     { id:"hidaya1", simple:true, title:"al-Hidayah, part 1", sub:"Volume 1: Imam al-Marghinani's رَحِمَهُ اللَّهُ Hanafi fiqh with its proofs", glyph:"", color:"#2F6E8F", subject:"Fiqh" },
      { id:"hidaya2", simple:true, title:"al-Hidayah, part 2", sub:"Volume 1, continued", glyph:"", color:"#2F6E8F", subject:"Fiqh" },
-     { id:"sirr", simple:true, title:"Sirr al-Asrar", sub:"Shaykh 'Abd al-Qadir al-Jilani رحمه الله on the secret of secrets", glyph:"", color:"#5C6B2E", subject:"Tasawwuf" } ],
+     { id:"sirr", simple:true, title:"Sirr al-Asrar", sub:"Shaykh 'Abd al-Qadir al-Jilani رَحِمَهُ اللَّهُ on the secret of secrets", glyph:"", color:"#5C6B2E", subject:"Tasawwuf" } ],
    read:["t_hidaya", "t_riyad", "t_nuzha", "t_bayquniyya"],
    coming:[["al-'Aqa'id al-Nasafiyyah","Aqeedah"],["al-Balaghah al-Wadihah","Arabic"]] },
  { n:5, title:"Dawrah", desc:"Tafsir al-Jalalayn on Juz' 'Amma, al-Taftazani on al-'Aqa'id al-Nasafiyyah, al-Hidayah volume 2, and Mukhtasar al-Bukhari.",
    books:[],
    decks:[
      { id:"jalalayn_amma", title:"Tafsir al-Jalalayn: Juz' 'Amma", sub:"Ayah by ayah, from al-Naba' to al-Nas", glyph:"", color:"#1F6F78", subject:"Tafsir" },
-     { id:"nasafiyyah", simple:true, title:"Sharh al-'Aqa'id al-Nasafiyyah", sub:"The commentary of al-Taftazani رحمه الله, question by question", glyph:"ع", color:"#0E5A43", subject:"Aqeedah" },
-     { id:"hidaya3", simple:true, title:"al-Hidayah, part 3", sub:"Volume 2: Imam al-Marghinani's رحمه الله Hanafi fiqh with its proofs", glyph:"", color:"#2F6E8F", subject:"Fiqh" },
+     { id:"nasafiyyah", simple:true, title:"Sharh al-'Aqa'id al-Nasafiyyah", sub:"The commentary of al-Taftazani رَحِمَهُ اللَّهُ, question by question", glyph:"ع", color:"#0E5A43", subject:"Aqeedah" },
+     { id:"hidaya3", simple:true, title:"al-Hidayah, part 3", sub:"Volume 2: Imam al-Marghinani's رَحِمَهُ اللَّهُ Hanafi fiqh with its proofs", glyph:"", color:"#2F6E8F", subject:"Fiqh" },
      { id:"hidaya4", simple:true, title:"al-Hidayah, part 4", sub:"Volume 2, continued", glyph:"", color:"#2F6E8F", subject:"Fiqh" } ],
    read:["t_jalalayn", "t_tajrid"],
    coming:[["Isaghuji (mantiq)","Mantiq"],["al-Fawz al-Kabir fi Usul al-Tafsir","Tafsir"]] },
 ];
 /* The Library: complete books, by year. Covers are drawn from these fields. */
 const LIBRARY = [
-  [1,"t_tahawiyya","tahawiyya_full","Aqeedah","The Creed of Imam al-Tahawi","العقيدة الطحاوية","Imam Abu Ja'far al-Tahawi","الإمام أبو جعفر الطحاوي","d. 321 AH","The creed of Ahl al-Sunnah, point by point"],
-  [1,"t_umm","umm","Aqeedah","Umm al-Barahin","أم البراهين","Imam Muhammad ibn Yusuf al-Sanusi","الإمام محمد بن يوسف السنوسي","d. 895 AH","What is necessary, impossible and possible for Allah and His messengers ﷺ"],
-  [1,"t_nur","nur_idah","Fiqh","Nur al-Idah","نور الإيضاح","Imam Hasan al-Shurunbulali","الإمام حسن الشرنبلالي","d. 1069 AH","Hanafi fiqh of purification, prayer and fasting"],
-  [1,"t_ajurrum","ajurrumiyya","Arabic","al-Ajurrumiyyah","المقدمة الآجرومية","Imam Ibn Ajurrum al-Sanhaji","الإمام ابن آجروم الصنهاجي","d. 723 AH","The first text of Arabic grammar"],
-  [1,"t_arbain","arbain","Hadith","The Forty Hadith","الأربعون النووية","Imam Yahya ibn Sharaf al-Nawawi","الإمام يحيى بن شرف النووي","d. 676 AH","Forty-two hadith on which the religion turns"],
-  [2,"t_jawhara","jawhara","Aqeedah","Jawharat al-Tawhid","جوهرة التوحيد","Imam Ibrahim al-Laqqani","الإمام إبراهيم اللقاني","d. 1041 AH","The Ash'ari creed in verse"],
-  [2,"t_fiqhakbar","fiqh_akbar","Aqeedah","al-Fiqh al-Akbar","الفقه الأكبر","Imam Abu Hanifah al-Nu'man","الإمام أبو حنيفة النعمان","d. 150 AH","The greatest understanding: the Imam's creed"],
-  [2,"t_quduri","quduri","Fiqh","Mukhtasar al-Quduri","مختصر القدوري","Imam Abu'l-Husayn al-Quduri","الإمام أبو الحسين القدوري","d. 428 AH","The classic Hanafi manual, every kitab"],
-  [2,"t_maraqi","maraqi","Fiqh","Maraqi al-Falah","مراقي الفلاح","Imam Hasan al-Shurunbulali","الإمام حسن الشرنبلالي","d. 1069 AH","The commentary on Nur al-Idah"],
-  [2,"t_shashi","usul_shashi","Usul al-Fiqh","Usul al-Shashi","أصول الشاشي","Imam Nizam al-Din al-Shashi","الإمام نظام الدين الشاشي","d. 344 AH","The first text of Hanafi usul"],
-  [2,"t_qatr","qatr","Arabic","Sharh Qatr al-Nada","شرح قطر الندى","Imam Jamal al-Din Ibn Hisham","الإمام جمال الدين ابن هشام","d. 761 AH","Arabic grammar, explained by its author"],
-  [2,"t_riyad","riyad","Hadith","Riyad al-Salihin","رياض الصالحين","Imam Yahya ibn Sharaf al-Nawawi","الإمام يحيى بن شرف النووي","d. 676 AH","The gardens of the righteous, bab by bab"],
-  [2,"t_muslim","muslim","Hadith","Sahih Muslim","صحيح مسلم","Imam Muslim ibn al-Hajjaj","الإمام مسلم بن الحجاج","d. 261 AH","The complete collection, in Arabic and English"],
-  [2,"t_burda","burda","Seerah","Qasidat al-Burdah","قصيدة البردة","Imam Sharaf al-Din al-Busiri","الإمام شرف الدين البوصيري","d. 696 AH","The poem of the Cloak, in praise of the Prophet ﷺ"],
-  [3,"t_majalla","majalla","Fiqh","The Majallah","مجلة الأحكام العدلية","The Ottoman committee of jurists","لجنة من فقهاء الدولة العثمانية","1293 AH","The Hanafi civil code, all sixteen books"],
-  [3,"t_kanz","kanz","Fiqh","Kanz al-Daqa'iq","كنز الدقائق","Imam Hafiz al-Din al-Nasafi","الإمام حافظ الدين النسفي","d. 710 AH","The treasure of fine points: advanced Hanafi fiqh"],
-  [3,"t_jalalayn","jalalayn","Tafsir","Tafsir al-Jalalayn","تفسير الجلالين","Imams al-Mahalli and al-Suyuti","الإمامان المحلي والسيوطي","d. 864 and 911 AH","Tafsir of the whole Qur'an"],
-  [4,"t_hidaya","hidaya","Fiqh","al-Hidayah","الهداية","Imam Burhan al-Din al-Marghinani","الإمام برهان الدين المرغيناني","d. 593 AH","The great Hanafi commentary, with its proofs"],
-  [4,"t_mughni","mughni","Arabic","Mughni al-Labib","مغني اللبيب","Imam Jamal al-Din Ibn Hisham","الإمام جمال الدين ابن هشام","d. 761 AH","Advanced grammar: particles and sentences"],
-  [4,"t_iqtisad","iqtisad","Aqeedah","al-Iqtisad fi'l-I'tiqad","الاقتصاد في الاعتقاد","Imam Abu Hamid al-Ghazali","الإمام أبو حامد الغزالي","d. 505 AH","Moderation in belief, with its proofs"],
-  [5,"t_bukhari","bukhari","Hadith","Sahih al-Bukhari","صحيح البخاري","Imam Muhammad ibn Isma'il al-Bukhari","الإمام محمد بن إسماعيل البخاري","d. 256 AH","The complete collection, in Arabic and English"],
-  [5,"t_shamail","shamail","Seerah","al-Shama'il al-Muhammadiyyah","الشمائل المحمدية","Imam Abu 'Isa al-Tirmidhi","الإمام أبو عيسى الترمذي","d. 279 AH","The description and character of the Prophet ﷺ"],
-  [1,"t_fusul","fusul","Seerah","al-Fusul fi Sirat al-Rasul ﷺ","الفصول في سيرة الرسول","Imam Ibn Kathir","الإمام ابن كثير","d. 774 AH","A short seerah, chapter by chapter"],
-  [2,"t_jazariyya","jazariyya","Tajweed","al-Muqaddimah al-Jazariyyah","المقدمة الجزرية","Imam Ibn al-Jazari","الإمام ابن الجزري","d. 833 AH","The classic poem on tajweed, with harakat and English"],
-  [2,"t_nuryaqin","nuryaqin","Seerah","Nur al-Yaqin","نور اليقين في سيرة سيد المرسلين","Shaykh Muhammad al-Khudari","الشيخ محمد الخضري","d. 1345 AH","The seerah taught in madrasas for a century"],
-  [3,"t_tamhid","tamhid","Tajweed","al-Tamhid fi 'Ilm al-Tajwid","التمهيد في علم التجويد","Imam Ibn al-Jazari","الإمام ابن الجزري","d. 833 AH","Ibn al-Jazari's prose work on tajweed"],
-  [4,"t_ibnhisham","ibnhisham","Seerah","al-Sirah al-Nabawiyyah","السيرة النبوية","Imam Ibn Hisham","الإمام ابن هشام","d. 213 AH","The great early seerah, from Ibn Ishaq"],
-  [1,"t_nahwmir","nahwmir","Arabic","Nahw Mir","نحو مير","Mir Sayyid Sharif al-Jurjani","مير سيد شريف الجرجاني","d. 816 AH","First steps in Arabic grammar, fully vowelled"],
-  [1,"t_azhari","azhari","Arabic","Sharh al-Ajurrumiyyah of Khalid al-Azhari","شرح الشيخ خالد الأزهري على الآجرومية","Shaykh Khalid al-Azhari","الشيخ خالد الأزهري","d. 905 AH","The Ajurrumiyyah explained line by line, fully vowelled"],
-  [1,"t_miatamil","miatamil","Arabic","Sharh Mi'at 'Amil","شرح مائة عامل","Imam 'Abd al-Rahman al-Jami","الإمام عبد الرحمن الجامي","d. 898 AH","The hundred words that govern endings, explained"],
-  [2,"t_hidayatnahw","hidayatnahw","Arabic","Hidayat al-Nahw","هداية النحو","Shaykh Siraj al-Din 'Uthman al-Awadhi","الشيخ سراج الدين عثمان الأودهي","d. 758 AH","The whole of nahw in clear, vowelled Arabic"],
-  [4,"t_hikam","hikam","Tasawwuf","al-Hikam al-'Ata'iyyah","الحكم العطائية","Imam Ibn 'Ata' Allah al-Iskandari","الإمام ابن عطاء الله السكندري","d. 709 AH","The 264 aphorisms, the letters and the intimate prayers, fully vowelled"],
-  [1,"t_adhkar","adhkar","Tasawwuf","al-Adhkar","الأذكار","Imam al-Nawawi","الإمام النووي","d. 676 AH","The remembrances of the day and night, from the Sunnah"],
-  [1,"t_tibyan","tibyan","Tajweed","al-Tibyan fi Adab Hamalat al-Qur'an","التبيان في آداب حملة القرآن","Imam al-Nawawi","الإمام النووي","d. 676 AH","The manners of those who carry the Qur'an"],
-  [2,"t_munqidh","munqidh","Tasawwuf","al-Munqidh min al-Dalal","المنقذ من الضلال","Imam Abu Hamid al-Ghazali","الإمام أبو حامد الغزالي","d. 505 AH","Al-Ghazali's own account of his search for certainty"],
-  [3,"t_ikhtiyar","ikhtiyar","Fiqh","al-Ikhtiyar li-Ta'lil al-Mukhtar","الاختيار لتعليل المختار","Imam 'Abd Allah ibn Mahmud al-Mawsili","الإمام عبد الله بن محمود الموصلي","d. 683 AH","Hanafi fiqh with the reasons behind each ruling"],
-  [3,"t_tuhfa","tuhfa","Fiqh","Tuhfat al-Fuqaha'","تحفة الفقهاء","Imam 'Ala' al-Din al-Samarqandi","الإمام علاء الدين السمرقندي","d. 539 AH","The Hanafi text that Bada'i' al-Sana'i' explains"],
-  [3,"t_shatibiyya","shatibiyya","Tajweed","al-Shatibiyyah (Hirz al-Amani)","حرز الأماني ووجه التهاني","Imam al-Qasim ibn Firruh al-Shatibi","الإمام القاسم بن فيره الشاطبي","d. 590 AH","The poem of the seven readings"],
-  [4,"t_usul_sarakhsi","usul_sarakhsi","Usul al-Fiqh","Usul al-Sarakhsi","أصول السرخسي","Imam Shams al-A'immah al-Sarakhsi","الإمام شمس الأئمة السرخسي","d. 483 AH","The Hanafi principles of fiqh, dictated by the author"],
-  [4,"t_mizan_usul","mizan_usul","Usul al-Fiqh","Mizan al-Usul","ميزان الأصول في نتائج العقول","Imam 'Ala' al-Din al-Samarqandi","الإمام علاء الدين السمرقندي","d. 539 AH","Usul al-fiqh on the method of the Hanafi mutakallimun"],
-  [4,"t_nasafi","nasafi","Tafsir","Tafsir al-Nasafi (Madarik al-Tanzil)","مدارك التنزيل وحقائق التأويل","Imam Hafiz al-Din al-Nasafi","الإمام حافظ الدين النسفي","d. 710 AH","A Hanafi, Maturidi tafsir of the whole Qur'an"],
-  [5,"t_tabyin","tabyin","Fiqh","Tabyin al-Haqa'iq","تبيين الحقائق شرح كنز الدقائق","Imam Fakhr al-Din al-Zayla'i","الإمام فخر الدين الزيلعي","d. 743 AH","The great commentary on Kanz al-Daqa'iq, with al-Shalabi's notes"],
-  [5,"t_badai","badai","Fiqh","Bada'i' al-Sana'i'","بدائع الصنائع في ترتيب الشرائع","Imam 'Ala' al-Din al-Kasani","الإمام علاء الدين الكاساني","d. 587 AH","Hanafi fiqh arranged by its principles"],
-  [5,"t_mabsut","mabsut","Fiqh","al-Mabsut","المبسوط","Imam Shams al-A'immah al-Sarakhsi","الإمام شمس الأئمة السرخسي","d. 483 AH","The vast Hanafi encyclopaedia, dictated from prison"],
-  [1,"t_ayyuha","ayyuha","Tasawwuf","Ayyuha al-Walad","أيها الولد","Imam Abu Hamid al-Ghazali","الإمام أبو حامد الغزالي","d. 505 AH","A letter of advice to a student: knowledge is for acting on"],
-  [1,"t_nawawi_seerah","nawawi_seerah","Seerah","The Life of the Prophet ﷺ (from Tahdhib al-Asma')","الترجمة النبوية من تهذيب الأسماء واللغات","Imam al-Nawawi","الإمام النووي","d. 676 AH","His lineage, description, family, character and miracles"],
-  [3,"t_nihaya_fitan","nihaya_fitan","Signs of the Hour","al-Nihayah fi'l-Fitan wa'l-Malahim","النهاية في الفتن والملاحم","Imam Ibn Kathir","الإمام ابن كثير","d. 774 AH","The trials and great battles before the Hour"],
-  [4,"t_nuzha","nuzha","Hadith","Nuzhat al-Nazar (Sharh Nukhbat al-Fikar)","نزهة النظر في توضيح نخبة الفكر","Imam Ibn Hajar al-'Asqalani","الإمام ابن حجر العسقلاني","d. 852 AH","The sciences of hadith, explained by their author"],
-  [4,"t_bayquniyya","bayquniyya","Hadith","al-Manzumah al-Bayquniyyah","المنظومة البيقونية","Imam 'Umar al-Bayquni","الإمام عمر البيقوني","d. 1080 AH","The 34-line poem on the terms of hadith"],
-  [5,"t_tajrid","tajrid","Hadith","Mukhtasar Sahih al-Bukhari (al-Tajrid al-Sarih)","التجريد الصريح لأحاديث الجامع الصحيح","Imam Zayn al-Din al-Zabidi","الإمام زين الدين الزبيدي","d. 893 AH","Sahih al-Bukhari without the repeats and chains"],
-  [2,"t_qisas","qisas","History","Qisas al-Anbiya'","قصص الأنبياء","Imam Ibn Kathir","الإمام ابن كثير","d. 774 AH","The stories of the prophets عليهم السلام, from Adam to 'Isa"],
-  [3,"t_tarikh_khulafa","tarikh_khulafa","History","Tarikh al-Khulafa'","تاريخ الخلفاء","Imam Jalal al-Din al-Suyuti","الإمام جلال الدين السيوطي","d. 911 AH","The caliphs from Abu Bakr رضي الله عنه to the author's own time"],
-  [1,"t_bidaya","bidaya","Tasawwuf","Bidayat al-Hidayah","بداية الهداية","Imam Abu Hamid al-Ghazali","الإمام أبو حامد الغزالي","d. 505 AH","The beginning of guidance: a day of worship, and keeping away from sin"],
-  [3,"t_taarruf","taarruf","Tasawwuf","al-Ta'arruf li-Madhhab Ahl al-Tasawwuf","التعرف لمذهب أهل التصوف","Imam Abu Bakr al-Kalabadhi","الإمام أبو بكر الكلاباذي","d. 380 AH","What the early Sufis believed and taught"],
-  [4,"t_qut","qut","Tasawwuf","Qut al-Qulub","قوت القلوب","Imam Abu Talib al-Makki","الإمام أبو طالب المكي","d. 386 AH","Nourishment of the hearts: the inner life of worship"],
-  [5,"t_ghunya","ghunya","Tasawwuf","al-Ghunyah li-Talibi Tariq al-Haqq","الغنية لطالبي طريق الحق","Shaykh 'Abd al-Qadir al-Jilani","الشيخ عبد القادر الجيلاني","d. 561 AH","Belief, worship, manners and the path, for seekers of the truth"],
-  [5,"t_alfiyya","alfiyya","Arabic","Alfiyyat Ibn Malik","ألفية ابن مالك","Imam Jamal al-Din Ibn Malik","الإمام جمال الدين ابن مالك","d. 672 AH","The thousand-line poem of grammar"],
-  [2,"t_risala","risala","Tasawwuf","al-Risalah al-Qushayriyyah","الرسالة القشيرية","Imam Abu'l-Qasim al-Qushayri","الإمام أبو القاسم القشيري","d. 465 AH","The classic guide to Tasawwuf: its people, stations and states"],
-  [3,"t_kafiya","kafiya","Arabic","al-Kafiyah","الكافية في النحو","Imam Ibn al-Hajib","الإمام ابن الحاجب","d. 646 AH","The classic concise text of nahw"],
-  [3,"t_maqamat","maqamat","Arabic","Maqamat al-Hariri","مقامات الحريري","Imam Abu Muhammad al-Hariri","الإمام أبو محمد الحريري","d. 516 AH","Fifty tales in the finest Arabic prose"],
-  [3,"t_manar","manar","Usul al-Fiqh","al-Manar","منار الأنوار","Imam Hafiz al-Din al-Nasafi","الإمام حافظ الدين النسفي","d. 710 AH","The usul text explained in Nur al-Anwar"],
-  [3,"t_shifa","shifa","Seerah","al-Shifa","الشفا بتعريف حقوق المصطفى","Qadi 'Iyad","القاضي عياض","d. 544 AH","The rights of the Prophet ﷺ and his perfect qualities"],
-  [3,"t_tadhkira","tadhkira","Signs of the Hour","al-Tadhkirah","التذكرة بأحوال الموتى وأمور الآخرة","Imam al-Qurtubi","الإمام القرطبي","d. 671 AH","Death, the grave, the Hour and the Hereafter"],
-  [4,"t_baydawi","baydawi","Tafsir","Tafsir al-Baydawi","أنوار التنزيل وأسرار التأويل","Qadi Nasir al-Din al-Baydawi","القاضي ناصر الدين البيضاوي","d. 685 AH","The lights of revelation: tafsir of the whole Qur'an"],
-  [4,"t_mukhtasar","mukhtasar_maani","Arabic","Mukhtasar al-Ma'ani","مختصر المعاني","Imam Sa'd al-Din al-Taftazani","الإمام سعد الدين التفتازاني","d. 792 AH","Balaghah: meanings, expression and ornament"],
-  [4,"t_milal","milal","Comparative Aqeedah","al-Milal wa'l-Nihal","الملل والنحل","Imam al-Shahrastani","الإمام الشهرستاني","d. 548 AH","The religions and sects, and what each one holds"],
-  [4,"t_ihya","ihya","Tasawwuf","Ihya' 'Ulum al-Din","إحياء علوم الدين","Imam Abu Hamid al-Ghazali","الإمام أبو حامد الغزالي","d. 505 AH","The revival of the religious sciences, all forty books"],
-  [4,"t_tawdih","tawdih","Usul al-Fiqh","al-Tawdih","التوضيح في حل غوامض التنقيح","Imam Sadr al-Shari'ah al-Mahbubi","الإمام صدر الشريعة المحبوبي","d. 747 AH","Advanced Hanafi usul al-fiqh"],
-  [5,"t_muwatta","muwatta","Hadith","al-Muwatta'","الموطأ","Imam Malik ibn Anas","الإمام مالك بن أنس","d. 179 AH","The first great book of hadith and fiqh"],
-  [5,"t_abudawud","abudawud","Hadith","Sunan Abi Dawud","سنن أبي داود","Imam Abu Dawud al-Sijistani","الإمام أبو داود السجستاني","d. 275 AH","The hadith of rulings"],
-  [5,"t_tirmidhi","tirmidhi","Hadith","Jami' al-Tirmidhi","جامع الترمذي","Imam Abu 'Isa al-Tirmidhi","الإمام أبو عيسى الترمذي","d. 279 AH","Hadith with their grading and the views of the jurists"],
-  [5,"t_nasai","nasai","Hadith","Sunan al-Nasa'i","سنن النسائي","Imam Ahmad ibn Shu'ayb al-Nasa'i","الإمام أحمد بن شعيب النسائي","d. 303 AH","al-Mujtaba, the shorter Sunan"],
-  [5,"t_ibnmajah","ibnmajah","Hadith","Sunan Ibn Majah","سنن ابن ماجه","Imam Ibn Majah al-Qazwini","الإمام ابن ماجه القزويني","d. 273 AH","The sixth of the six books"],
-  [5,"t_sharhmaani","sharh_maani","Hadith","Sharh Ma'ani al-Athar","شرح معاني الآثار","Imam Abu Ja'far al-Tahawi","الإمام أبو جعفر الطحاوي","d. 321 AH","Hadith that seem to differ, reconciled with Hanafi reasoning"],
+  [1,"t_tahawiyya","tahawiyya_full","Aqeedah","The Creed of Imam al-Tahawi","الْعَقِيدَةُ الطَّحَاوِيَّةُ","Imam Abu Ja'far al-Tahawi","الْإِمَامُ أَبُو جَعْفَرٍ الطَّحَاوِيُّ","d. 321 AH","The creed of Ahl al-Sunnah, point by point"],
+  [1,"t_umm","umm","Aqeedah","Umm al-Barahin","أُمّ الْبَرَاهِينِ","Imam Muhammad ibn Yusuf al-Sanusi","الْإِمَامِ مُحَمَّدُ بْنِ يُوسُفَ السَّنُوسِيُّ","d. 895 AH","What is necessary, impossible and possible for Allah and His messengers ﷺ"],
+  [1,"t_nur","nur_idah","Fiqh","Nur al-Idah","نُورُ الْإِيضَاحِ","Imam Hasan al-Shurunbulali","الْإِمَامُ حَسَنٌ الشُّرُنْبُلَالِيُّ","d. 1069 AH","Hanafi fiqh of purification, prayer and fasting"],
+  [1,"t_ajurrum","ajurrumiyya","Arabic","al-Ajurrumiyyah","الْمُقَدِّمَةُ الْآجْرُومِيَّةُ","Imam Ibn Ajurrum al-Sanhaji","الْإِمَامُ ابْنُ آجَرُومَ الصَّنْهَاجِيُّ","d. 723 AH","The first text of Arabic grammar"],
+  [1,"t_arbain","arbain","Hadith","The Forty Hadith","الْأَرْبَعُونَ النَّوَوِيَّةُ","Imam Yahya ibn Sharaf al-Nawawi","الْإِمَامُ يَحْيَى بْنُ شَرَفٍ النَّوَوِيُّ","d. 676 AH","Forty-two hadith on which the religion turns"],
+  [2,"t_jawhara","jawhara","Aqeedah","Jawharat al-Tawhid","جَوْهَرَةُ التَّوْحِيدِ","Imam Ibrahim al-Laqqani","الْإِمَامُ إبْرَاهِيمُ اللَّقَانِيُّ","d. 1041 AH","The Ash'ari creed in verse"],
+  [2,"t_fiqhakbar","fiqh_akbar","Aqeedah","al-Fiqh al-Akbar","الْفِقْهُ الْأَكْبَرُ","Imam Abu Hanifah al-Nu'man","الْإِمَامُ أَبُو حَنِيفَةَ النُّعْمَانُ","d. 150 AH","The greatest understanding: the Imam's creed"],
+  [2,"t_quduri","quduri","Fiqh","Mukhtasar al-Quduri","مُخْتَصَرِ الْقُدُورِيِّ","Imam Abu'l-Husayn al-Quduri","الْإِمَامُ أَبُو الْحُسَيْنِ الْقُدُورِيُّ","d. 428 AH","The classic Hanafi manual, every kitab"],
+  [2,"t_maraqi","maraqi","Fiqh","Maraqi al-Falah","مَرَاقِي الْفَلَاحِ","Imam Hasan al-Shurunbulali","الْإِمَامُ حَسَنٌ الشُّرُنْبُلَالِيُّ","d. 1069 AH","The commentary on Nur al-Idah"],
+  [2,"t_shashi","usul_shashi","Usul al-Fiqh","Usul al-Shashi","أُصُولُ الشَّاشِيِّ","Imam Nizam al-Din al-Shashi","الْإِمَامُ نِظَامُ الدِّينِ الشَّاشِيُّ","d. 344 AH","The first text of Hanafi usul"],
+  [2,"t_qatr","qatr","Arabic","Sharh Qatr al-Nada","شَرْحُ قُطْرِ النَّدَى","Imam Jamal al-Din Ibn Hisham","الْإِمَامُ جَمَالُ الدِّينِ ابْنُ هِشَامٍ","d. 761 AH","Arabic grammar, explained by its author"],
+  [2,"t_riyad","riyad","Hadith","Riyad al-Salihin","رِيَاضُ الصَّالِحِينَ","Imam Yahya ibn Sharaf al-Nawawi","الْإِمَامُ يَحْيَى بْنُ شَرَفٍ النَّوَوِيُّ","d. 676 AH","The gardens of the righteous, bab by bab"],
+  [2,"t_muslim","muslim","Hadith","Sahih Muslim","صَحِيحُ مُسْلِمٍ","Imam Muslim ibn al-Hajjaj","الْإِمَامُ مُسْلِمُ بْنُ الْحَجَّاجِ","d. 261 AH","The complete collection, in Arabic and English"],
+  [2,"t_burda","burda","Seerah","Qasidat al-Burdah","قَصِيدَةُ الْبُرْدَةِ","Imam Sharaf al-Din al-Busiri","الْإِمَامُ شَرَفُ الدِّينِ الْبُوصِيرِي","d. 696 AH","The poem of the Cloak, in praise of the Prophet ﷺ"],
+  [3,"t_majalla","majalla","Fiqh","The Majallah","مَجَلَّةُ الْأَحْكَامِ الْعَدْلِيَّةِ","The Ottoman committee of jurists","لَجْنَةُ مِنْ فُقَهَاءِ الدَّوْلَةِ الْعُثْمَانِيَّةِ","1293 AH","The Hanafi civil code, all sixteen books"],
+  [3,"t_kanz","kanz","Fiqh","Kanz al-Daqa'iq","كَنْزُ الدَّقَائِقِ","Imam Hafiz al-Din al-Nasafi","الْإِمَامُ حَافِظُ الدِّينِ النَّسَفِيُّ","d. 710 AH","The treasure of fine points: advanced Hanafi fiqh"],
+  [3,"t_jalalayn","jalalayn","Tafsir","Tafsir al-Jalalayn","تَفْسِيرُ الْجَلَّالَيْنِ","Imams al-Mahalli and al-Suyuti","الْإِمَامَانِ الْمَحَلِّيُّ وَالسُّيُوطِيُّ","d. 864 and 911 AH","Tafsir of the whole Qur'an"],
+  [4,"t_hidaya","hidaya","Fiqh","al-Hidayah","الْهِدَايَةُ","Imam Burhan al-Din al-Marghinani","الْإِمَامُ بُرْهَانُ الدِّينِ الْمَرْغِينَانِيِّ","d. 593 AH","The great Hanafi commentary, with its proofs"],
+  [4,"t_mughni","mughni","Arabic","Mughni al-Labib","مُغْنِي اللَّبِيبِ","Imam Jamal al-Din Ibn Hisham","الْإِمَامُ جَمَالُ الدِّينِ ابْنُ هِشَامٍ","d. 761 AH","Advanced grammar: particles and sentences"],
+  [4,"t_iqtisad","iqtisad","Aqeedah","al-Iqtisad fi'l-I'tiqad","الِاقْتِصَادُ فِي الِاعْتِقَادِ","Imam Abu Hamid al-Ghazali","الْإِمَامُ أَبُو حَامِدٍ الْغَزَالِيُّ","d. 505 AH","Moderation in belief, with its proofs"],
+  [5,"t_bukhari","bukhari","Hadith","Sahih al-Bukhari","صَحِيحُ الْبُخَارِيِّ","Imam Muhammad ibn Isma'il al-Bukhari","الْإِمَامُ مُحَمَّدُ بْنُ إسْمَاعِيلَ الْبُخَارِيُّ","d. 256 AH","The complete collection, in Arabic and English"],
+  [5,"t_shamail","shamail","Seerah","al-Shama'il al-Muhammadiyyah","الشَّمَائِلِ الْمُحَمَّدِيَّةِ","Imam Abu 'Isa al-Tirmidhi","الْإِمَامُ أَبُو عِيسَى التِّرْمِذِيُّ","d. 279 AH","The description and character of the Prophet ﷺ"],
+  [1,"t_fusul","fusul","Seerah","al-Fusul fi Sirat al-Rasul ﷺ","الْفُصُولُ فِي سِيرَةِ الرَّسُولِ","Imam Ibn Kathir","الْإِمَامِ ابْنُ كَثِيرٍ","d. 774 AH","A short seerah, chapter by chapter"],
+  [2,"t_jazariyya","jazariyya","Tajweed","al-Muqaddimah al-Jazariyyah","الْمُقَدِّمَةُ الْجَزْرِيَّةُ","Imam Ibn al-Jazari","الْإِمَامُ ابْنُ الْجَزَرِيِّ","d. 833 AH","The classic poem on tajweed, with harakat and English"],
+  [2,"t_nuryaqin","nuryaqin","Seerah","Nur al-Yaqin","نُورُ الْيَقِينِ فِي سِيرَةِ سَيِّدِ الْمُرْسَلِينَ","Shaykh Muhammad al-Khudari","الشَّيْخُ مُحَمَّدٌ الْخُضْرِيُّ","d. 1345 AH","The seerah taught in madrasas for a century"],
+  [3,"t_tamhid","tamhid","Tajweed","al-Tamhid fi 'Ilm al-Tajwid","التَّمْهِيدِ فِي عِلْمِ التَّجْوِيدِ","Imam Ibn al-Jazari","الْإِمَامُ ابْنُ الْجَزَرِيِّ","d. 833 AH","Ibn al-Jazari's prose work on tajweed"],
+  [4,"t_ibnhisham","ibnhisham","Seerah","al-Sirah al-Nabawiyyah","السِّيرَةُ النَّبَوِيَّةُ","Imam Ibn Hisham","الْإِمَامُ ابْنُ هِشَامٍ","d. 213 AH","The great early seerah, from Ibn Ishaq"],
+  [1,"t_nahwmir","nahwmir","Arabic","Nahw Mir","نَحْوُ مِيرٍ","Mir Sayyid Sharif al-Jurjani","مِيرُ سَيِّدُ شَرِيفٍ الْجُرْجَانِيِّ","d. 816 AH","First steps in Arabic grammar, fully vowelled"],
+  [1,"t_azhari","azhari","Arabic","Sharh al-Ajurrumiyyah of Khalid al-Azhari","شَرْحُ الشَّيْخِ خَالِدٍ الْأَزْهَرِيِّ عَلَى الْآجْرُومِيَّةِ","Shaykh Khalid al-Azhari","الشَّيْخُ خَالِدٌ الْأَزْهَرِيُّ","d. 905 AH","The Ajurrumiyyah explained line by line, fully vowelled"],
+  [1,"t_miatamil","miatamil","Arabic","Sharh Mi'at 'Amil","شَرْحُ مِائَةِ عَامِلٍ","Imam 'Abd al-Rahman al-Jami","الْإِمَامُ عَبْدُ الرَّحْمَنِ الْجَامِيُّ","d. 898 AH","The hundred words that govern endings, explained"],
+  [2,"t_hidayatnahw","hidayatnahw","Arabic","Hidayat al-Nahw","هِدَايَةُ النَّحْوِ","Shaykh Siraj al-Din 'Uthman al-Awadhi","الشَّيْخُ سِرَاجُ الدِّينِ عُثْمَانُ الْأَوْدَهِيُّ","d. 758 AH","The whole of nahw in clear, vowelled Arabic"],
+  [4,"t_hikam","hikam","Tasawwuf","al-Hikam al-'Ata'iyyah","الْحِكَمُ الْعَطَائِيَّةِ","Imam Ibn 'Ata' Allah al-Iskandari","الْإِمَامُ ابْنُ عَطَاءِ اللَّهِ السَّكَنْدَرِيُّ","d. 709 AH","The 264 aphorisms, the letters and the intimate prayers, fully vowelled"],
+  [1,"t_adhkar","adhkar","Tasawwuf","al-Adhkar","الْأَذْكَارِ","Imam al-Nawawi","الْإِمَامُ النَّوَوِيُّ","d. 676 AH","The remembrances of the day and night, from the Sunnah"],
+  [1,"t_tibyan","tibyan","Tajweed","al-Tibyan fi Adab Hamalat al-Qur'an","التِّبْيَانُ فِي آدَابِ حَمَلَةِ الْقُرْآنِ","Imam al-Nawawi","الْإِمَامُ النَّوَوِيُّ","d. 676 AH","The manners of those who carry the Qur'an"],
+  [2,"t_munqidh","munqidh","Tasawwuf","al-Munqidh min al-Dalal","الْمُنْقِذُ مِنْ الضَّلَالِ","Imam Abu Hamid al-Ghazali","الْإِمَامُ أَبُو حَامِدٍ الْغَزَالِيُّ","d. 505 AH","Al-Ghazali's own account of his search for certainty"],
+  [3,"t_ikhtiyar","ikhtiyar","Fiqh","al-Ikhtiyar li-Ta'lil al-Mukhtar","الِاخْتِيَارِ لِتَعْلِيلِ الْمُخْتَارِ","Imam 'Abd Allah ibn Mahmud al-Mawsili","الْإِمَامُ عَبْدُ اللَّهِ بْنُ مَحْمُودٍ الْمَوْصِلِيُّ","d. 683 AH","Hanafi fiqh with the reasons behind each ruling"],
+  [3,"t_tuhfa","tuhfa","Fiqh","Tuhfat al-Fuqaha'","تُحْفَةُ الْفُقَهَاءِ","Imam 'Ala' al-Din al-Samarqandi","الْإِمَامُ عَلَاءُ الدِّينِ السَّمَرْقَنْدِيُّ","d. 539 AH","The Hanafi text that Bada'i' al-Sana'i' explains"],
+  [3,"t_shatibiyya","shatibiyya","Tajweed","al-Shatibiyyah (Hirz al-Amani)","حِرْزُ الْأَمَانِي وَوَجْهُ التَّهَانِي","Imam al-Qasim ibn Firruh al-Shatibi","الْإِمَامُ الْقَاسِمُ بْنُ فِيرَهِ الشَّاطِبِيُّ","d. 590 AH","The poem of the seven readings"],
+  [4,"t_usul_sarakhsi","usul_sarakhsi","Usul al-Fiqh","Usul al-Sarakhsi","أُصُولُ السَّرَخْسِيِّ","Imam Shams al-A'immah al-Sarakhsi","الْإِمَامُ شَمْسُ الْأَئِمَّةِ السَّرَخْسِيُّ","d. 483 AH","The Hanafi principles of fiqh, dictated by the author"],
+  [4,"t_mizan_usul","mizan_usul","Usul al-Fiqh","Mizan al-Usul","مِيزَانُ الْأُصُولِ فِي نَتَائِجِ الْعُقُولِ","Imam 'Ala' al-Din al-Samarqandi","الْإِمَامُ عَلَاءُ الدِّينِ السَّمَرْقَنْدِيُّ","d. 539 AH","Usul al-fiqh on the method of the Hanafi mutakallimun"],
+  [4,"t_nasafi","nasafi","Tafsir","Tafsir al-Nasafi (Madarik al-Tanzil)","مَدَارِكُ التَّنْزِيلِ وَحَقَائِقُ التَّأْوِيلِ","Imam Hafiz al-Din al-Nasafi","الْإِمَامُ حَافِظُ الدِّينِ النَّسَفِيُّ","d. 710 AH","A Hanafi, Maturidi tafsir of the whole Qur'an"],
+  [5,"t_tabyin","tabyin","Fiqh","Tabyin al-Haqa'iq","تَبْيِينُ الْحَقَائِقِ شَرْحُ كَنْزِ الدَّقَائِقِ","Imam Fakhr al-Din al-Zayla'i","الْإِمَامُ فَخْرُ الدِّينِ الزَّيْلَعِيّ","d. 743 AH","The great commentary on Kanz al-Daqa'iq, with al-Shalabi's notes"],
+  [5,"t_badai","badai","Fiqh","Bada'i' al-Sana'i'","بَدَائِعُ الصَّنَائِعِ فِي تَرْتِيبِ الشَّرَائِعِ","Imam 'Ala' al-Din al-Kasani","الْإِمَامُ عَلَاءُ الدِّينِ الْكَاسَانِيِّ","d. 587 AH","Hanafi fiqh arranged by its principles"],
+  [5,"t_mabsut","mabsut","Fiqh","al-Mabsut","الْمَبْسُوطِ","Imam Shams al-A'immah al-Sarakhsi","الْإِمَامُ شَمْسُ الْأَئِمَّةِ السَّرَخْسِيُّ","d. 483 AH","The vast Hanafi encyclopaedia, dictated from prison"],
+  [1,"t_ayyuha","ayyuha","Tasawwuf","Ayyuha al-Walad","أَيُّهَا الْوَلَدُ","Imam Abu Hamid al-Ghazali","الْإِمَامُ أَبُو حَامِدٍ الْغَزَالِيُّ","d. 505 AH","A letter of advice to a student: knowledge is for acting on"],
+  [1,"t_nawawi_seerah","nawawi_seerah","Seerah","The Life of the Prophet ﷺ (from Tahdhib al-Asma')","التَّرْجَمَةُ النَّبَوِيَّةُ مِنْ تَهْذِيبِ الْأَسْمَاءِ وَاللُّغَاتِ","Imam al-Nawawi","الْإِمَامُ النَّوَوِيُّ","d. 676 AH","His lineage, description, family, character and miracles"],
+  [3,"t_nihaya_fitan","nihaya_fitan","Signs of the Hour","al-Nihayah fi'l-Fitan wa'l-Malahim","النِّهَايَةُ فِي الْفِتَنِ وَالْمَلَاحِمِ","Imam Ibn Kathir","الْإِمَامِ ابْنُ كَثِيرٍ","d. 774 AH","The trials and great battles before the Hour"],
+  [4,"t_nuzha","nuzha","Hadith","Nuzhat al-Nazar (Sharh Nukhbat al-Fikar)","نُّزْهَةُ النَّظَرِ فِي تَوْضِيحِ نُخْبَةِ الْفِكْرِ","Imam Ibn Hajar al-'Asqalani","الْإِمَامُ ابْنُ حَجَرٍ الْعَسْقَلَانِيُّ","d. 852 AH","The sciences of hadith, explained by their author"],
+  [4,"t_bayquniyya","bayquniyya","Hadith","al-Manzumah al-Bayquniyyah","الْمَنْظُومَةُ الْبَيْقُونِيَّةُ","Imam 'Umar al-Bayquni","الْإِمَامُ عُمَرُ الْبَيْقُونِيُّ","d. 1080 AH","The 34-line poem on the terms of hadith"],
+  [5,"t_tajrid","tajrid","Hadith","Mukhtasar Sahih al-Bukhari (al-Tajrid al-Sarih)","التَّجْرِيدِ الصَّرِيحِ لِأَحَادِيثِ الْجَامِعِ الصَّحِيحِ","Imam Zayn al-Din al-Zabidi","الْإِمَامُ زَيْنُ الدِّينِ الزُّبَيْدِيُّ","d. 893 AH","Sahih al-Bukhari without the repeats and chains"],
+  [2,"t_qisas","qisas","History","Qisas al-Anbiya'","قَصَصُ الْأَنْبِيَاءِ","Imam Ibn Kathir","الْإِمَامِ ابْنُ كَثِيرٍ","d. 774 AH","The stories of the prophets عَلَيْهِمُ السَّلَامُ, from Adam to 'Isa"],
+  [3,"t_tarikh_khulafa","tarikh_khulafa","History","Tarikh al-Khulafa'","تَارِيخُ الْخُلَفَاءِ","Imam Jalal al-Din al-Suyuti","الْإِمَامُ جَلَالُ الدِّينِ السُّيُوطِيُّ","d. 911 AH","The caliphs from Abu Bakr رَضِيَ اللَّهُ عَنْهُ to the author's own time"],
+  [1,"t_bidaya","bidaya","Tasawwuf","Bidayat al-Hidayah","بداية الْهِدَايَةُ","Imam Abu Hamid al-Ghazali","الْإِمَامُ أَبُو حَامِدٍ الْغَزَالِيُّ","d. 505 AH","The beginning of guidance: a day of worship, and keeping away from sin"],
+  [3,"t_taarruf","taarruf","Tasawwuf","al-Ta'arruf li-Madhhab Ahl al-Tasawwuf","التَّعَرُّفُ لِمَذْهَبِ أَهْلِ التَّصَوُّفِ","Imam Abu Bakr al-Kalabadhi","الْإِمَامُ أَبُو بَكْرٍ الْكَلَابَاذِيُّ","d. 380 AH","What the early Sufis believed and taught"],
+  [4,"t_qut","qut","Tasawwuf","Qut al-Qulub","قُوتُ الْقُلُوبِ","Imam Abu Talib al-Makki","الْإِمَامُ أَبُو طَالِبٍ الْمَكِّيُّ","d. 386 AH","Nourishment of the hearts: the inner life of worship"],
+  [5,"t_ghunya","ghunya","Tasawwuf","al-Ghunyah li-Talibi Tariq al-Haqq","الْغَنِيَّةُ لِطَالِبِي طَرِيقِ الْحَقِّ","Shaykh 'Abd al-Qadir al-Jilani","الشَّيْخُ عَبْدُ الْقَادِرِ الْجِيلَانِيُّ","d. 561 AH","Belief, worship, manners and the path, for seekers of the truth"],
+  [5,"t_alfiyya","alfiyya","Arabic","Alfiyyat Ibn Malik","أَلْفِيَّةُ ابْنِ مَالِكٍ","Imam Jamal al-Din Ibn Malik","الْإِمَامُ جَمَالُ الدِّينِ ابْنُ مَالِكٍ","d. 672 AH","The thousand-line poem of grammar"],
+  [2,"t_risala","risala","Tasawwuf","al-Risalah al-Qushayriyyah","الرِّسَالَةُ الْقُشَيْرِيَّةُ","Imam Abu'l-Qasim al-Qushayri","الْإِمَامُ أَبُو الْقَاسِمِ الْقُشَيْرِيُّ","d. 465 AH","The classic guide to Tasawwuf: its people, stations and states"],
+  [3,"t_kafiya","kafiya","Arabic","al-Kafiyah","الْكَافِيَةِ فِي النَّحْوِ","Imam Ibn al-Hajib","الْإِمَامِ ابْنُ الْحَاجِبِ","d. 646 AH","The classic concise text of nahw"],
+  [3,"t_maqamat","maqamat","Arabic","Maqamat al-Hariri","مَقَامَاتُ الْحَرِيرِي","Imam Abu Muhammad al-Hariri","الْإِمَامُ أَبُو مُحَمَّدٍ الْحَرِيرِي","d. 516 AH","Fifty tales in the finest Arabic prose"],
+  [3,"t_manar","manar","Usul al-Fiqh","al-Manar","مَنَارُ الْأَنْوَارِ","Imam Hafiz al-Din al-Nasafi","الْإِمَامُ حَافِظُ الدِّينِ النَّسَفِيُّ","d. 710 AH","The usul text explained in Nur al-Anwar"],
+  [3,"t_shifa","shifa","Seerah","al-Shifa","الشِّفَا بِتَعْرِيفِ حُقُوقِ الْمُصْطَفَى","Qadi 'Iyad","الْقَاضِي عِيَاضٌ","d. 544 AH","The rights of the Prophet ﷺ and his perfect qualities"],
+  [3,"t_tadhkira","tadhkira","Signs of the Hour","al-Tadhkirah","التَّذْكِرَةِ بِأَحْوَالِ الْمَوْتَى وَأُمُورِ الْآخِرَةِ","Imam al-Qurtubi","الْإِمَامُ الْقُرْطُبِيُّ","d. 671 AH","Death, the grave, the Hour and the Hereafter"],
+  [4,"t_baydawi","baydawi","Tafsir","Tafsir al-Baydawi","أَنْوَارُ التَّنْزِيلِ وَأَسْرَارُ التَّأْوِيلِ","Qadi Nasir al-Din al-Baydawi","الْقَاضِي نَاصِرُ الدِّينِ الْبَيْضَاوِيُّ","d. 685 AH","The lights of revelation: tafsir of the whole Qur'an"],
+  [4,"t_mukhtasar","mukhtasar_maani","Arabic","Mukhtasar al-Ma'ani","مُخْتَصَرُ الْمَعَانِي","Imam Sa'd al-Din al-Taftazani","الْإِمَامُ سَعْدُ الدِّينِ التَّفْتَازَانِيُّ","d. 792 AH","Balaghah: meanings, expression and ornament"],
+  [4,"t_milal","milal","Comparative Aqeedah","al-Milal wa'l-Nihal","الْمِلَلَ وَالنَّحْلُ","Imam al-Shahrastani","الْإِمَامُ الشِّهْرِسْتَانِيُّ","d. 548 AH","The religions and sects, and what each one holds"],
+  [4,"t_ihya","ihya","Tasawwuf","Ihya' 'Ulum al-Din","إحْيَاءُ عُلُومِ الدِّينِ","Imam Abu Hamid al-Ghazali","الْإِمَامُ أَبُو حَامِدٍ الْغَزَالِيُّ","d. 505 AH","The revival of the religious sciences, all forty books"],
+  [4,"t_tawdih","tawdih","Usul al-Fiqh","al-Tawdih","التَّوْضِيحُ فِي حَلِّ غَوَامِضِ التَّنْقِيحِ","Imam Sadr al-Shari'ah al-Mahbubi","الْإِمَامُ صَدْرُ الشَّرِيعَةِ الْمَحْبُوبِيُّ","d. 747 AH","Advanced Hanafi usul al-fiqh"],
+  [5,"t_muwatta","muwatta","Hadith","al-Muwatta'","الْمُوَطَّأِ","Imam Malik ibn Anas","الْإِمَامُ مَالِكُ بْنُ أَنَسٍ","d. 179 AH","The first great book of hadith and fiqh"],
+  [5,"t_abudawud","abudawud","Hadith","Sunan Abi Dawud","سُنَنُ أَبِي دَاوُد","Imam Abu Dawud al-Sijistani","الْإِمَامُ أَبُو دَاوُد السِّجِسْتَانِيُّ","d. 275 AH","The hadith of rulings"],
+  [5,"t_tirmidhi","tirmidhi","Hadith","Jami' al-Tirmidhi","جَامِعُ التِّرْمِذِيِّ","Imam Abu 'Isa al-Tirmidhi","الْإِمَامُ أَبُو عِيسَى التِّرْمِذِيُّ","d. 279 AH","Hadith with their grading and the views of the jurists"],
+  [5,"t_nasai","nasai","Hadith","Sunan al-Nasa'i","سُنَنُ النَّسَائِيّ","Imam Ahmad ibn Shu'ayb al-Nasa'i","الْإِمَامِ أَحْمَدُ بْنِ شُعَيْبٍ النَّسَائِيّ","d. 303 AH","al-Mujtaba, the shorter Sunan"],
+  [5,"t_ibnmajah","ibnmajah","Hadith","Sunan Ibn Majah","سُنَنٌ ابْنِ مَاجَهْ","Imam Ibn Majah al-Qazwini","الْإِمَامُ ابْنُ مَاجَهْ الْقَزْوِينِيُّ","d. 273 AH","The sixth of the six books"],
+  [5,"t_sharhmaani","sharh_maani","Hadith","Sharh Ma'ani al-Athar","شَرْحُ مَعَانِي الْآثَارِ","Imam Abu Ja'far al-Tahawi","الْإِمَامُ أَبُو جَعْفَرٍ الطَّحَاوِيُّ","d. 321 AH","Hadith that seem to differ, reconciled with Hanafi reasoning"],
 ].map(([y,id,file,subject,title,ar,author,authorAr,when,sub]) => ({ y, id, file, subject, title, ar, author, authorAr, when, sub, type:"text", per:1, glyph:"",
-  honor: author.startsWith("The Ottoman") ? "" : author.startsWith("Imams") ? "رحمهما الله" : "رحمه الله" }));
+  honor: author.startsWith("The Ottoman") ? "" : author.startsWith("Imams") ? "رَحِمَهُمَا اللَّهُ" : "رَحِمَهُ اللَّهُ" }));
 YEARS.forEach(y => (y.read||[]).forEach(id => { const b = LIBRARY.find(x => x.id === id); if (b) b.y = y.n; }));
 LIBRARY.forEach(b => { if (b.y >= 1) YEARS[b.y-1].books.push(b); });   // Fard al-'Ayn books live in the Library only
 /* After Year 5: one year of further study in a module the student chooses */
@@ -999,7 +999,7 @@ function yearStatus(y){
 /* ============================ HELPERS ============================ */
 const $ = s => document.querySelector(s);
 const AR_RUN = /[\u0600-\u06FF\uFDF0-\uFDFF\uFE70-\uFEFF](?:[\u0600-\u06FF\uFDF0-\uFDFF\uFE70-\uFEFF\u064B-\u065F\s]*[\u0600-\u06FF\uFDF0-\uFDFF\uFE70-\uFEFF])?/g;
-/* escape HTML; in English text, isolate Arabic phrases (ﷺ, رضي الله عنه…) so word order stays correct */
+/* escape HTML; in English text, isolate Arabic phrases (ﷺ, رَضِيَ اللَّهُ عَنْهُ…) so word order stays correct */
 window.escH = s => esc(s);
 /* Harakat on/off, one setting for the whole app. Qur'anic text (﴿…﴾, {…}, Qur'an-word cards) always keeps its harakat. */
 const HARAKAT = /[\u064B-\u0652\u0670\u0653-\u0655]/g;
@@ -1219,7 +1219,7 @@ function bindReadLinks(root){ root.querySelectorAll("[data-read]").forEach(b => 
 let LEARN = null, LS = null;
 const LEARN_DECK = { aqeedah:["fard_aqeedah"], fiqh:["fard_tahara","fard_salah","fard_sawm","fard_zakat"] };
 const OLD_TOPIC = { belief:"aqeedah", purity:"fiqh", prayer:"fiqh", fasting:"fiqh", zakat:"fiqh", heart:"tazkiyah" };
-async function loadLearn(){ if (LEARN) return LEARN; try { LEARN = await fetch("data/learn.json?v=a31b6e65").then(r => r.json()); } catch(e){ LEARN = []; } return LEARN; }
+async function loadLearn(){ if (LEARN) return LEARN; try { LEARN = await fetch("data/learn.json?v=22c5c177").then(r => r.json()); } catch(e){ LEARN = []; } return LEARN; }
 const learnDone = id => !!(S.learn||{})[id];
 function nextLearn(){ for (const u of LEARN||[]) for (let k = 0; k < u.lessons.length; k++) if (!learnDone(u.lessons[k].id)) return { u, k }; return null; }
 function learnHome(){
@@ -1384,7 +1384,7 @@ function homeView(){
       <span style="flex:1"><b id="sk-left">${leftToday()}</b><span class="small" style="display:block;opacity:.85">left today to keep your ${S.streak}-day streak</span></span></section>` : "";
   const signs = YEARS[0].books.find(b => b.id === "signs"), tj = FARD_DECKS.find(d => d.id === "tajwid"), ayy = bookById("t_ayyuha");
   const more = `${secH("More to explore", "Extra courses and short books to read.")}<div class="stack">${tj ? itemDeck(tj, true) : ""}${signs ? itemBook(signs, true) : ""}
-      ${ayy ? `<button class="item" data-read="t_ayyuha|0"><span class="libthumb">${cover(ayy, 34)}</span><span style="flex:1;min-width:0"><span class="t">Ayyuha al-Walad</span><br><span class="s">Imam al-Ghazali's رحمه الله letter of advice to a student</span></span><span class="pill">Read</span></button>` : ""}</div>`;
+      ${ayy ? `<button class="item" data-read="t_ayyuha|0"><span class="libthumb">${cover(ayy, 34)}</span><span style="flex:1;min-width:0"><span class="t">Ayyuha al-Walad</span><br><span class="s">Imam al-Ghazali's رَحِمَهُ اللَّهُ letter of advice to a student</span></span><span class="pill">Read</span></button>` : ""}</div>`;
   const decksHtml = learnDecks();
   const tile = (attr, ico, t, sub) => `<button class="hm-tile" ${attr}${sub ? ` aria-label="${t}, ${sub}"` : ""}><span class="hm-ico" aria-hidden="true">${ico}${sub && /review/.test(sub) ? `<i class="hm-badge">${cards}</i>` : ""}</span><span class="hm-t">${t}</span></button>`;
   const G = typeof GICO !== "undefined" ? GICO : {};
@@ -1450,7 +1450,7 @@ function fardAynCard(){                     // Fard al-'Ayn: optional, for anyon
     <div class="stack"><p class="sublabel">Tajweed and the letters</p>${itemDeck(D("tajwid"), true)}
       <p class="sublabel">Fiqh and Aqeedah</p>${FARD_DECKS.filter(d => d.id.startsWith("fard_")).map(d => itemDeck(d, true)).join("")}
       <div class="item noico soon"><span style="flex:1"><span class="kicker" style="margin:0">Coming soon</span><span class="t" style="display:block">Is'af al-Muridin</span></span></div>
-      <p class="sublabel">Tasawwuf</p>${ayy ? `<button class="item" data-read="t_ayyuha|0"><span class="libthumb">${cover(ayy, 34)}</span><span style="flex:1"><span class="t">Ayyuha al-Walad</span><br><span class="s">Imam al-Ghazali's رحمه الله letter of advice to a student</span></span><span class="pill gold">Read</span></button>` : ""}
+      <p class="sublabel">Tasawwuf</p>${ayy ? `<button class="item" data-read="t_ayyuha|0"><span class="libthumb">${cover(ayy, 34)}</span><span style="flex:1"><span class="t">Ayyuha al-Walad</span><br><span class="s">Imam al-Ghazali's رَحِمَهُ اللَّهُ letter of advice to a student</span></span><span class="pill gold">Read</span></button>` : ""}
       <p class="sublabel">The End Times</p>${signs ? itemBook(signs, true) : ""}</div></details>`;
 }
 function syllabusView(){
@@ -1710,7 +1710,7 @@ function bookCard(b){
 }
 // Which school of creed each book follows. Both schools are Ahl al-Sunnah; they differ only in a few secondary questions.
 const SCHOOL = { t_tahawiyya:"Both", t_fiqhakbar:"Maturidi", t_nasafi:"Maturidi", t_umm:"Ash'ari", t_jawhara:"Ash'ari", t_iqtisad:"Ash'ari", t_milal:"Ash'ari", t_munqidh:"Ash'ari", t_ihya:"Ash'ari" };
-const SCHOOL_NOTE = { Maturidi:"Maturidi: the school of Imam Abu Mansur al-Maturidi رحمه الله, followed by most Hanafis.", "Ash'ari":"Ash'ari: the school of Imam Abu al-Hasan al-Ash'ari رحمه الله, followed by most Shafi'is and Malikis.", Both:"Accepted by both schools: the shared creed of Ahl al-Sunnah." };
+const SCHOOL_NOTE = { Maturidi:"Maturidi: the school of Imam Abu Mansur al-Maturidi رَحِمَهُ اللَّهُ, followed by most Hanafis.", "Ash'ari":"Ash'ari: the school of Imam Abu al-Hasan al-Ash'ari رَحِمَهُ اللَّهُ, followed by most Shafi'is and Malikis.", Both:"Accepted by both schools: the shared creed of Ahl al-Sunnah." };
 const LIB_SUBJECTS = ["Aqeedah","Fiqh","Usul al-Fiqh","Tasawwuf","Hadith","Tafsir","Tajweed","Seerah","History","Signs of the Hour","Arabic"];
 const libSubject = b => b.subject === "Comparative Aqeedah" ? "Aqeedah" : b.subject;
 function libraryView(){
@@ -1904,7 +1904,7 @@ function voiceScore(v){ const n = (v.name||"").toLowerCase(); let s = 0;
 function voicesFor(lang){ return (hasTTS() ? speechSynthesis.getVoices() : []).filter(v => v.lang && v.lang.toLowerCase().startsWith(lang)).sort((a,b) => voiceScore(b) - voiceScore(a)); }
 function voiceFor(lang){ const vs = voicesFor(lang), pick = (S.voices||{})[lang]; return vs.find(v => v.name === pick) || vs[0] || null; }
 // Never let a synthetic voice recite the Qur'an: ayat in ﴿…﴾ or {…} are skipped with a short pause.
-const speakable = t => String(t).replace(/﴿[^﴾]*﴾|\{[^}]*\}/g, " … ").replace(/[ﷺ]/g, " صلى الله عليه وسلم ").replace(/\s+/g, " ").trim();
+const speakable = t => String(t).replace(/﴿[^﴾]*﴾|\{[^}]*\}/g, " … ").replace(/[ﷺ]/g, " صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ ").replace(/\s+/g, " ").trim();
 function stopAudio(){ AUD.on = false; AUD.token++; if (hasTTS()) speechSynthesis.cancel(); if (AUD.el) { AUD.el.pause(); AUD.el = null; } document.querySelectorAll(".para.speaking").forEach(x => x.classList.remove("speaking")); }
 function markPara(j){ document.querySelectorAll(".para").forEach(x => x.classList.toggle("speaking", +x.dataset.pj === j)); const el = document.querySelector(`.para[data-pj="${j}"]`); if (el) el.scrollIntoView({ block:"center", behavior:"smooth" }); }
 function sayOne(text, lang, rate, token){ return new Promise(res => { if (!text || token !== AUD.token) return res();
@@ -1922,7 +1922,7 @@ async function speakFrom(b, i, j0){
     else if (S.arVoice !== false && voiceFor("ar")) await sayOne(speakable(ar[j]), "ar", P.rate*0.95, token);
     if (token !== AUD.token) return;
     if (P.english && s.aud_en && s.aud_en[j]) await playFile(s.aud_en[j], P.rate, token);
-    else { if (P.english && s.en && s.en[j]) await sayOne(speakable(s.en[j]).replace(/صلى الله عليه وسلم/g, "peace and blessings be upon him").replace(/عليه السلام/g, "peace be upon him").replace(/رضي الله عنهما?|رضي الله عنها|رضي الله عنهم/g, "may Allah be pleased with them").replace(/رحمه الله/g, "may Allah have mercy on him"), "en", P.rate*0.95, token); }
+    else { if (P.english && s.en && s.en[j]) await sayOne(speakable(s.en[j]).replace(/صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ/g, "peace and blessings be upon him").replace(/عَلَيْهِ السَّلَامُ/g, "peace be upon him").replace(/رَضِيَ اللَّهُ عَنْهُمَا?|رَضِيَ اللَّهُ عَنْهَا|رَضِيَ اللَّهُ عَنْهُمْ/g, "may Allah be pleased with them").replace(/رَحِمَهُ اللَّهُ/g, "may Allah have mercy on him"), "en", P.rate*0.95, token); }
   }
   if (token !== AUD.token) return;
   // audiobook: carry on to the next section
@@ -2022,7 +2022,7 @@ function startStudy(decks){
   renderStudy();
 }
 /* ---- Bilingual Q&A: one switch shows question AND answer in Arabic or English (more languages later) ---- */
-const LANGS = { ar:"العربية", en:"English" };
+const LANGS = { ar:"الْعَرَبِيَّةِ", en:"English" };
 const isQA = c => !!c.tr || !!c.fa === !!c.ba;           // switchable: same-language Q&A, or any card carrying a translation
 const origLang = c => c.lang || (c.fa && c.ba ? "ar" : c.fa && !c.ba ? "en" : c.fa ? "ar" : "en");
 function viewCard(c){
@@ -2260,7 +2260,7 @@ async function finishTest(){
 if (/[?&]dev=1/.test(location.search)) { S.dev = true; save(); } else if (/[?&]dev=0/.test(location.search)) { delete S.dev; save(); }
 /* ﷺ and similar marks: always draw them with an Arabic font, at a readable size */
 (function(){ const RX = /[ﷺﷻ﷽]/, AR = /[؀-ۿﷰ-﷿]/, LAT = /[A-Za-z]/, RUN = /([؀-ۿﷰ-﷿]+(?:[  ]+[؀-ۿﷰ-﷿]+)*)/;
-  // In English text, Arabic phrases (رضي الله عنه, ﷺ) are isolated so they keep their order and use an Arabic font
+  // In English text, Arabic phrases (رَضِيَ اللَّهُ عَنْهُ, ﷺ) are isolated so they keep their order and use an Arabic font
   const skip = n => n.parentNode && n.parentNode.closest && n.parentNode.closest(".saw,svg,textarea,input,.ar,.ar-read,.line-ar,.word-ar,[dir=rtl]");
   const wrap = root => { const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, { acceptNode: n => AR.test(n.nodeValue) && (RX.test(n.nodeValue) || LAT.test(n.nodeValue)) && !skip(n) ? 1 : 2 });
     const list = []; while (w.nextNode()) list.push(w.currentNode);
@@ -2726,7 +2726,7 @@ function salawatView(){
       <p class="ar sal-ar" lang="ar" dir="rtl">${esc(x.ar)}</p>${tlLine(x.ar)}${x.en ? `<p class="sal-en">${esc(x.en)}</p>` : ""}
       <div class="sal-src"><p><b>Source:</b> ${esc(x.src)}</p>${x.virtue ? `<p><b>Virtue:</b> ${esc(x.virtue)}</p>` : ""}${x.grade ? `<p class="small muted">${esc(x.grade)}</p>` : ""}</div>
       <div class="sal-c"><button class="btn small-btn" data-sal="${x.id}">Count one</button><span class="small muted">${(cnt[x.id]||0).toLocaleString()} recited</span></div></section>`).join("")}
-    ${SALAWAT.pending ? `<p class="small muted">${esc(SALAWAT.pending.replace(/ and Dala'il al-Khayrat of Imam al-Jazuli رحمه الله/, ""))}</p>` : ""}`);
+    ${SALAWAT.pending ? `<p class="small muted">${esc(SALAWAT.pending.replace(/ and Dala'il al-Khayrat of Imam al-Jazuli رَحِمَهُ اللَّهُ/, ""))}</p>` : ""}`);
 }
 function bindSalawat(){ document.querySelectorAll("[data-sal]").forEach(b => b.onclick = () => { S.salCount = S.salCount || {}; S.salCount[b.dataset.sal] = (S.salCount[b.dataset.sal]||0) + 1; save();
   const s = b.nextElementSibling; if (s) s.textContent = S.salCount[b.dataset.sal].toLocaleString() + " recited"; if (navigator.vibrate) navigator.vibrate(8); }); }
@@ -2837,7 +2837,7 @@ function tasbihView(){
       <button class="btn ghost small-btn" id="tbundo" ${T.n ? "" : "disabled"}>Undo</button><button class="btn ghost small-btn" id="tbreset" ${T.n ? "" : "disabled"}>Reset</button></div>
     <p class="small muted" id="tbt-h" style="margin:4px 0 8px">Type any number you like, or leave it empty to count freely. You'll feel a buzz when you reach it.</p>
     <p class="small muted">All time: ${DHIKR.filter(x => (T.tot||{})[x[0]]).map(x => `${esc(x[2])} ${T.tot[x[0]].toLocaleString()}`).join(" · ") || "nothing yet"}.</p>
-    <details class="exbox"><summary><b>After each prayer</b></summary><p class="small" style="margin:8px 0 0">Subhan Allah 33, al-hamdu lillah 33, Allahu akbar 33 (or 34), then the tahlil once: "Whoever does this after every prayer, his sins are forgiven even if they are like the foam of the sea." Sahih Muslim (597), from Abu Hurayrah رضي الله عنه.</p></details>`);
+    <details class="exbox"><summary><b>After each prayer</b></summary><p class="small" style="margin:8px 0 0">Subhan Allah 33, al-hamdu lillah 33, Allahu akbar 33 (or 34), then the tahlil once: "Whoever does this after every prayer, his sins are forgiven even if they are like the foam of the sea." Sahih Muslim (597), from Abu Hurayrah رَضِيَ اللَّهُ عَنْهُ.</p></details>`);
 }
 function bindTasbih(){
   const T = S.tasbih; const tap = $("#tbtap"); const on = document.querySelector(".tb-chips .on"); if (on) on.parentNode.scrollLeft = on.offsetLeft - 16;
@@ -3180,5 +3180,5 @@ function tlDecorate(root){
   new MutationObserver(() => { if (q) return; q = requestAnimationFrame(() => { q = 0; tlDecorate(app); }); }).observe(app, { childList:true, subtree:true }); })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=36b800f615");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=3e7ec204db");</script></body>
 </html>

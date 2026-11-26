@@ -286,5 +286,5 @@ GUIDES = [
 ]
 if __name__ == "__main__":
     here = os.path.dirname(os.path.abspath(__file__))
-    json.dump(GUIDES, open(os.path.join(here, "..", "app", "data", "guides.json"), "w"), ensure_ascii=False, separators=(",", ":"))
+    json.dump(__import__("harakat_cache").apply(GUIDES), open(os.path.join(here, "..", "app", "data", "guides.json"), "w"), ensure_ascii=False, separators=(",", ":"))
     print("guides", [(g["id"], len(g["steps"]), sum(len(s.get("says", [])) for s in g["steps"])) for g in GUIDES])

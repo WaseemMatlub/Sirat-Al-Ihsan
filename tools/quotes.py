@@ -32,4 +32,4 @@ out += [
  {"ar": "وأوقاتك عمرك، وعمرك رأس مالك", "en": "Your moments are your life, and your life is your capital.", "by": "Imam Abu Hamid al-Ghazali رحمه الله", "src": "Bidayat al-Hidayah"},
  {"ar": "العلم بلا عمل جنون، والعمل بغير علم لا يكون", "en": "Knowledge without action is madness, and action without knowledge does not happen.", "by": "Imam Abu Hamid al-Ghazali رحمه الله", "src": "Ayyuha al-Walad"},
 ]
-json.dump(out, open("app/data/quotes.json", "w"), ensure_ascii=False, separators=(",", ":")); print("quotes", len(out))
+json.dump(__import__("harakat_cache").apply(out), open("app/data/quotes.json", "w"), ensure_ascii=False, separators=(",", ":")); print("quotes", len(out))
