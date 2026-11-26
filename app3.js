@@ -466,7 +466,19 @@ function nextLesson(){
   return null;
 }
 function modal(html, onReady){ const d = document.createElement("div"); d.className = "modal"; d.innerHTML = `<div class="card" role="dialog">${html}</div>`; document.body.appendChild(d); onReady && onReady(d, () => d.remove()); return d; }
-function confirmBox(text, onYes){ modal(`<p style="margin-top:0;font-weight:700">${esc(text)}</p><div class="btnrow"><button class="btn ghost" id="mno">Cancel</button><button class="btn" id="myes">Yes</button></div>`, (d, close) => { d.querySelector("#mno").onclick = close; d.querySelector("#myes").onclick = () => { close(); onYes(); }; }); }
+// Confirm a destructive action. The safe choice is the green, focused button; the destructive one is red and plain.
+function confirmBox(text, onYes, yes = "Yes", keep = "Cancel"){ modal(`<p style="margin-top:0;font-weight:700">${esc(text)}</p><div class="btnrow"><button class="btn danger-ghost" id="myes">${esc(yes)}</button><button class="btn" id="mno">${esc(keep)}</button></div>`, (d, close) => { const no = d.querySelector("#mno"); no.onclick = close; setTimeout(() => no.focus(), 30); d.querySelector("#myes").onclick = () => { close(); onYes(); }; d.onclick = e => { if (e.target === d) close(); }; }); }
+// Resetting everything needs a second, typed confirmation
+function resetFlow(){
+  confirmBox("Reset all progress? This deletes your XP, streak, lessons, flashcards, highlights, notes and test results.", () => {
+    modal(`<p style="margin-top:0;font-weight:700">Are you sure? This can't be undone.</p><p class="small muted" style="margin:0 0 8px">Type <b>RESET</b> to confirm.</p>
+      <input id="rsin" autocomplete="off" autocapitalize="characters" aria-label="Type RESET to confirm" style="width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);font:inherit;background:var(--soft);color:var(--ink)">
+      <div class="btnrow" style="margin-top:12px"><button class="btn danger-ghost" id="rsyes" disabled>Delete everything</button><button class="btn" id="rsno">Keep my progress</button></div>`, (d, close) => {
+        const i = d.querySelector("#rsin"), y = d.querySelector("#rsyes"); d.querySelector("#rsno").onclick = close;
+        i.oninput = () => { y.disabled = i.value.trim().toUpperCase() !== "RESET"; };
+        y.onclick = () => { close(); S = fresh(); S.welcomed = true; save(); go({ name:"home" }); toast("Progress reset"); }; });
+  }, "Reset", "Keep my progress");
+}
 
 /* ============================ VIEWS ============================ */
 let view = { name:"home" };
@@ -1595,7 +1607,7 @@ function render(){ appBadge(); checkUnlock(); if (typeof hlHideBar === "function
       y.books.forEach(b => S.books[b.id] = [...Array(lessonsOf(b)).keys()]);
       core(y.decks).forEach(d => d.cards.forEach(c => S.cards[c.id] = { ivl:MASTER_IVL+3, ease:2.5, reps:4, lapses:0, due:today()+10 }));
       S.log = S.log.concat(Array(60).fill(1)); save(); go({ name:"year", n:y.n }); }); };
-  const rs = $("#reset"); if (rs) rs.onclick = () => confirmBox("Reset all progress, XP, flashcards and test results?", () => { S = fresh(); save(); go({ name:"home" }); });
+  const rs = $("#reset"); if (rs) rs.onclick = resetFlow;
 }
 applyTheme(); if (S.arSize) document.documentElement.style.setProperty("--arz", S.arSize);
 try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch(e){}   // ask the browser not to clear saved progress
