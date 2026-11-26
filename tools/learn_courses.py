@@ -387,6 +387,8 @@ if __name__ == "__main__":
             ls.append({"id": lid, "title": lt, "about": about, "cards": [{"t": t, "x": x, "src": s} for t, x, s in cards],
                        "checks": [{"q": q, "a": a, "w": w, "why": y, "src": s} for q, a, w, y, s in checks]})
         out.append({"id": cid, "title": title, "ar": ar, "sub": sub, "book": book, "color": color, "lessons": ls})
+    from learn_polish import polish
+    out = polish(out)
     missing = set(OLD) - used; assert not missing, missing
     assert set(NEW) <= used, set(NEW) - used
     for c in out:

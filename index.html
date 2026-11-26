@@ -123,6 +123,7 @@ details{margin-top:10px} summary{cursor:pointer;color:var(--brand);font-weight:7
 .tile{border:1px solid var(--line);border-radius:14px;padding:12px;background:var(--surface)}
 .tile b{display:block;font-size:1.5rem;font-variant-numeric:tabular-nums}
 .tile span{font-size:.82rem;color:var(--muted);font-weight:600}
+.notice.ok{background:var(--ok-soft)}
 .notice{display:flex;gap:10px;align-items:flex-start;background:var(--gold-soft);border-radius:12px;padding:10px 12px;font-size:.86rem}
 .notice svg{flex:none;width:20px;height:20px;margin-top:1px}
 nav.tabs{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);z-index:10}
@@ -465,7 +466,7 @@ mark.hl.has-note{border-bottom:2px solid #8A6D00}
 .tb-row{display:flex;align-items:center;gap:10px;margin:12px 0}.tb-row label{flex:1}.tb-row select{font:inherit;padding:8px;border-radius:10px;border:1px solid var(--line);background:var(--soft);color:var(--ink)}
 .hello{font-family:var(--display);font-size:1.6rem;font-weight:700;margin:6px 0 6px}
 .chip.mini{padding:4px 9px;font-size:.85rem;gap:4px;cursor:pointer;font:inherit;font-weight:700;color:var(--ink)}.chip.xp svg{color:var(--gold)}
-.hm-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.hm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .hm-tile{display:flex;flex-direction:column;align-items:center;gap:6px;min-height:84px;padding:12px 4px 10px;border:1px solid var(--line);border-radius:16px;background:var(--surface);color:var(--ink);font:inherit;text-align:left;cursor:pointer;box-shadow:0 1px 2px rgba(16,24,40,.04)}
 .hm-tile:active{background:var(--soft)}.hm-ico{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:color-mix(in srgb,var(--brand) 11%,var(--surface));color:var(--brand);font-size:1.15rem;margin-bottom:2px}
 .hm-t{font-weight:600;font-size:.78rem;line-height:1.2;text-align:center}.hm-ico{position:relative}.hm-badge{position:absolute;top:-6px;right:-10px;min-width:18px;height:18px;padding:0 4px;border-radius:9px;background:var(--bad,#c0392b);color:#fff;font-size:.68rem;font-style:normal;font-weight:700;display:grid;place-items:center}.hm-s{font-size:.8rem;color:var(--muted);line-height:1.3}
@@ -513,6 +514,8 @@ mark.hl.has-note{border-bottom:2px solid #8A6D00}
 .lc-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}.lc-row.on{border-color:#F1B5AE}
 .lc-t{margin:0;font-weight:600}.lc-own{flex-basis:100%;display:flex;gap:14px}
 .cform{display:grid;gap:10px;margin-top:8px}.cform label{display:grid;gap:4px;font-weight:600}.cform input,.cform select{font:inherit;font-weight:400;padding:9px 10px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.tl{font-style:italic;color:var(--muted);margin:4px 0 6px;line-height:1.6;font-size:.95rem}.dl-text+.tl,.tl-read{font-size:.92rem}
+.tl-sw{margin-bottom:6px}
 
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--line);padding:4px;border-radius:14px}
 .seg button{border:0;background:transparent;border-radius:10px;padding:10px 6px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
@@ -1212,7 +1215,7 @@ function bindReadLinks(root){ root.querySelectorAll("[data-read]").forEach(b => 
 let LEARN = null, LS = null;
 const LEARN_DECK = { aqeedah:["fard_aqeedah"], fiqh:["fard_tahara","fard_salah","fard_sawm","fard_zakat"] };
 const OLD_TOPIC = { belief:"aqeedah", purity:"fiqh", prayer:"fiqh", fasting:"fiqh", zakat:"fiqh", heart:"tazkiyah" };
-async function loadLearn(){ if (LEARN) return LEARN; try { LEARN = await fetch("data/learn.json?v=bff2c2cf").then(r => r.json()); } catch(e){ LEARN = []; } return LEARN; }
+async function loadLearn(){ if (LEARN) return LEARN; try { LEARN = await fetch("data/learn.json?v=40c8f505").then(r => r.json()); } catch(e){ LEARN = []; } return LEARN; }
 const learnDone = id => !!(S.learn||{})[id];
 function nextLearn(){ for (const u of LEARN||[]) for (let k = 0; k < u.lessons.length; k++) if (!learnDone(u.lessons[k].id)) return { u, k }; return null; }
 function learnHome(){
@@ -1225,8 +1228,9 @@ function learnHome(){
       <span class="tp-p"><span class="bar"><i style="width:${Math.max(2, pct)}%;background:${u.color}"></i></span><span class="tp-n">${d}/${n}</span></span></span>
     <span class="tp-ch">Change<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></button>
     <p class="small muted tp-b">Based on ${esc(u.book || "")}</p>`;
+  const upNext = u.lessons.findIndex(l => !learnDone(l.id));
   const card = (l, k) => { const ok = learnDone(l.id);
-    return `<article class="lcard" style="--uc:${u.color}"><div class="lc-art" aria-hidden="true"><span class="ar">${esc(u.ar || "")}</span><span class="lc-n">${k+1} of ${n}</span></div>
+    return `<article class="lcard ${k === upNext ? "up-next" : ""}" style="--uc:${u.color}"><div class="lc-art" aria-hidden="true"><span class="ar">${esc(u.ar || "")}</span><span class="lc-n">${k === upNext ? "Up next · " : ""}${k+1} of ${n}</span></div>
       <div class="lc-body"><p class="lc-k">${esc(u.title)}</p><h3>${esc(l.title)}</h3><p class="lc-a">${esc(l.about || "")}</p></div>
       ${ok ? `<button class="lc-btn done" data-learn="${u.id}|${k}">${ICON.check.replace("<svg",'<svg width="16" height="16"')} Lesson complete<span class="small"> · go over it again</span></button>`
            : `<button class="lc-btn" data-learn="${u.id}|${k}">Start lesson</button>`}</article>`; };
@@ -1287,8 +1291,8 @@ function renderLearn(){
         ${nxt ? `<p class="muted" style="margin-top:16px">Next time: ${esc(nxt.title)}.</p>` : ""}`;
       foot = `<div class="pfoot"><button class="btn" id="next">Finish lesson</button></div>`;
     } else {
-    const q = LS.steps.slice(0, LS.i).filter(x => x.kind === "mcq").length + 1, nq = LS.l.checks.length;
-    body = `<div class="kicker">Question ${q} of ${nq}</div><p class="q" style="font-size:1.1rem">${esc(st.q)}</p>
+    const q = LS.steps.slice(0, LS.i).filter(x => x.kind === "mcq" && !x.retry).length + 1, nq = LS.l.checks.length;
+    body = `<div class="kicker">${st.retry ? "Let's try this one again" : `Question ${q} of ${nq}`}</div><p class="q" style="font-size:1.1rem">${esc(st.q)}</p>
       <div class="opts">${st.options.map((o, i) => { let cls = ""; if (LS.answered) { if (o === st.answer) cls = "right"; else if (i === LS.sel) cls = "wrong"; } else if (i === LS.sel) cls = "sel";
         return `<button class="opt ${cls}" data-o="${i}" ${LS.answered ? "disabled" : ""}>${esc(o)}</button>`; }).join("")}</div>`;
     if (!LS.answered) foot = `<div class="pfoot"><button class="btn" id="check" ${LS.sel === null ? "disabled" : ""}>Check answer</button></div>`;
@@ -1300,7 +1304,11 @@ function renderLearn(){
   }
   $("#app").innerHTML = `<div class="player"><div class="player-in"><div class="phead"><button class="x" id="quit" aria-label="Leave lesson">${ICON.x}</button><div class="bar"><i style="width:${LS.i/LS.steps.length*100}%;background:${LS.u.color}"></i></div></div><div class="pbody">${body}</div>${foot}</div></div>`;
   document.querySelectorAll("[data-o]").forEach(x => x.onclick = () => { LS.sel = +x.dataset.o; renderLearn(); });
-  const ck = $("#check"); if (ck) ck.onclick = () => { LS.answered = true; if (st.options[LS.sel] === st.answer) LS.right++; renderLearn(); };
+  const ck = $("#check"); if (ck) ck.onclick = () => { LS.answered = true;
+    if (st.options[LS.sel] === st.answer) { if (!st.retry) LS.right++; }
+    else { LS.fixed = (LS.fixed || 0) + (st.retry ? 0 : 1);   // wrong: it comes back before the recap, until it is answered right
+      const r = LS.steps.findIndex(x => x.kind === "recap"); LS.steps.splice(r, 0, { ...st, retry:true, options:shuffle([...st.options]) }); }
+    renderLearn(); };
   const eb = document.querySelector(".explain-box"); if (eb) eb.scrollIntoView({ block:"nearest", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
   const nx = $("#next"); if (nx) nx.onclick = () => { LS.i++; LS.sel = null; LS.answered = false; renderLearn(); window.scrollTo(0,0); };
   $("#quit").onclick = () => confirmBox("Leave this lesson? It won't be marked as done.", () => { LS = null; go({ name:"home" }); });
@@ -1333,7 +1341,8 @@ function finishLearn(){
   S.learn = { ...(S.learn||{}), [l.id]: Date.now() }; const adv = touchDay(first ? 10 : 2); save();
   const next = u.lessons[k+1];
   $("#app").innerHTML = `<div class="player"><div class="player-in"><div class="done-screen"><h2>Lesson complete</h2><p class="muted">${esc(l.title)}</p>
-    <div class="tiles"><div class="tile"><b>${Math.round(right / l.checks.length * 100)}%</b><span>Lesson score</span></div><div class="tile"><b>${S.streak}</b><span>Day streak</span></div></div></div>
+    <div class="tiles"><div class="tile"><b>${Math.round(right / l.checks.length * 100)}%</b><span>Lesson score</span></div><div class="tile"><b>${S.streak}</b><span>Day streak</span></div></div>
+    ${LS.fixed ? `<p class="small muted" style="margin-top:14px">You went back over ${LS.fixed} question${LS.fixed > 1 ? "s" : ""} until you got ${LS.fixed > 1 ? "them" : "it"} right.</p>` : `<p class="small muted" style="margin-top:14px">Every answer right first time. Mā shā' Allāh.</p>`}</div>
     <div class="pfoot">${next ? `<button class="btn" id="nextl">Next: ${esc(next.title)}</button>` : ""}<button class="btn ${next ? "ghost" : ""}" id="cont">${next ? "Continue later" : "Done"}</button></div></div></div>`;
   if (adv) toast(`${S.streak} day streak! Keep going`);
   const nl = $("#nextl"); if (nl) nl.onclick = () => startLearn(u.id, k+1);
@@ -1371,14 +1380,25 @@ function homeView(){
       ${tile('data-go="salawat"', `<span class="ar">ص</span>`, "Salawat", "")}
       ${tile('data-go="dalail"', `<span class="ar">د</span>`, "Dala'il", `Part ${typeof dalailToday === "function" ? dalailToday() : ""} today`)}
       ${tile('data-dua="daily"', G.daily || "", "Du'as", "Daily du'as")}
-      ${tile('data-dua="rabbana"', G.rabbana || "", "Rabbana", "The 40 Rabbana")}
-      ${tile('data-dua="ghazali"', G.ghazali || "", "Ghazali", "Imam al-Ghazali's du'as")}
       ${tile('data-go="tasbih"', ICON_BEADS, "Tasbih", "")}
-      ${cards || decksHtml ? tile('data-study="all"', ICON.flame.replace("<svg",'<svg width="22" height="22"'), "Flashcards", cards ? `${cards} to review` : "All done today") : ""}
+      ${cards || decksHtml ? tile('data-go="cards"', ICON.flame.replace("<svg",'<svg width="22" height="22"'), "Flashcards", cards ? `${cards} to review` : "All done today") : ""}
       ${tile('data-go="tools"', ICON.tools.replace("<svg",'<svg width="22" height="22"'), "Guides", "Guides and tools")}
     </div>
     ${course.replace('class="card simple-row"', 'class="card simple-row slim"')}${readRow.replace('class="card simple-row"', 'class="card simple-row slim"')}
     ${installCard()}`);
+}
+// Flashcards overview: every deck you study, how many are waiting in each, then start one or all
+function cardsView(){
+  const decks = studyDecks(), stats = decks.map(d => [d, deckStats(d)]);
+  const waiting = d => { const st = deckStats(d); return st.due + Math.min(newLeft(d), st.nw); };
+  const total = decks.reduce((n, d) => n + waiting(d), 0);
+  const learn = decks.filter(d => d.fard), course = decks.filter(d => !d.fard);
+  return shell(`<button class="back" data-go="home">${ICON.back} Home</button><h1 style="margin-bottom:4px">Flashcards</h1>
+    <p class="small muted" style="margin:0 0 12px">Short question cards that come back just before you would forget them. A few minutes a day keeps what you learnt.</p>
+    ${total ? `<button class="btn" data-study="all" style="width:100%">Review all ${total} waiting today</button>` : `<div class="notice ok"><span>All caught up for today. Come back tomorrow, or open a deck below to study ahead.</span></div>`}
+    ${learn.length ? `<p class="label">From Learn the basics</p><div class="stack">${learn.map(d => itemDeck(d, true)).join("")}</div>` : ""}
+    ${course.length ? `<p class="label">From your Course</p><div class="stack">${course.map(d => itemDeck(d, true)).join("")}</div>` : ""}
+    <details class="exbox" style="margin-top:14px"><summary><b>How flashcards work</b></summary><p class="small" style="margin:8px 0 0;line-height:1.6">Read the question, think of the answer, then tap to see it. Say how well you knew it: cards you found hard come back sooner, easy ones later. New cards are added a few each day so it never piles up.</p></details>`);
 }
 /* Optional course before Year 1: what every Muslim must know. Never required, never locks anything. */
 /* Optional course before Year 1: what every Muslim must know. Never required, never locks anything.
@@ -1550,7 +1570,7 @@ function settingsView(){
     <p class="label">Study</p>
     <div class="setlist">
       ${row("remind","Streak reminder","A notification at 8pm if you haven't studied yet that day", toggle("remind", !!S.remind))}
-      ${row("hk","Show harakat","Qur'anic text always keeps its harakat", toggle("hk", S.harakat!==false))}
+      ${row("tlset","Show transliteration","Arabic also written in English letters, under the Arabic", toggle("tlset", !!S.tl))}
       ${row("clang","Question and answer language","Applies to every Q&A deck. More languages are planned", `<select id="clang"><option value="" ${!S.cardLang?"selected":""}>As written</option><option value="en" ${S.cardLang==="en"?"selected":""}>English</option><option value="ar" ${S.cardLang==="ar"?"selected":""}>العربية</option></select>`)}
       ${row("npd","New flashcards a day","Across all subjects", `<select id="npd">${[5,10,15,20,30,50].map(n=>`<option ${n===S.newPerDay?"selected":""}>${n}</option>`).join("")}</select>`)}
       ${row("tl","Pronunciation guide","English letters under new Arabic words, e.g. kitāb", `<select id="tl">${[["y1","Year 1 only"],["on","Always"],["off","Off"]].map(([v,t]) => `<option value="${v}" ${(S.translit||"y1")===v?"selected":""}>${t}</option>`).join("")}</select>`)}
@@ -1724,12 +1744,12 @@ function readView(b, i){
   const T = TEXTS[b.file]; if (!T) return `<p class="muted">Loading…</p>`;
   const s = T.sections[i], P = S.readPrefs = Object.assign({ harakat:true, english:true, size:2, rate:1 }, S.readPrefs||{}), key = `t|${b.id}|${i}`;
   const ar = s.v || s.p;   // esc() removes harakat when they're switched off, but never inside ayat
-  const paras = ar.map((t,j) => `<div class="para" data-pj="${j}"><p class="ar-read">${esc(t)}</p>${P.english && s.en && s.en[j] ? `<p class="en-read">${esc(s.en[j])}</p>` : ""}</div>`).join("");
+  const paras = ar.map((t,j) => `<div class="para" data-pj="${j}"><p class="ar-read">${esc(t)}</p>${tlLine(t, "tl-read")}${P.english && s.en && s.en[j] ? `<p class="en-read">${esc(s.en[j])}</p>` : ""}</div>`).join("");
   return `<div class="player"><div class="player-in"><div class="phead"><button class="x" id="rquit" aria-label="Close">${ICON.x}</button><div class="bar"><i style="width:${(i+1)/T.sections.length*100}%;background:${b.color}"></i></div><span class="count">${i+1}/${T.sections.length}</span></div>
     <div class="pbody reader"><div class="kicker">${esc(b.title)}${s.parent?` · <span class="${hasAr(s.parent)?"ar":""}">${esc(s.parent)}</span>`:""}</div>
       ${hasAr(s.h)?`<h2 class="ar" style="text-align:right;font-size:1.5rem;margin:4px 0 2px">${esc(s.h)}</h2>`:`<h2 style="font-size:1.25rem;margin:4px 0 2px">${esc(s.h)}</h2>`}${s.he?`<p class="muted" style="margin:0 0 8px">${esc(s.he)}</p>`:""}
       <div class="tools" style="margin:6px 0 10px"><button class="tool listen ${AUD.on?"on":""}" id="listen">${AUD.on?ICON.pause+" Pause":ICON.play+" Listen"}</button>
-        ${s.v || /[\u064B-\u0652]/.test(ar.join(" ").slice(0, 400)) ? `<button class="tool ${S.harakat!==false?"on":""}" id="tg-h" aria-pressed="${S.harakat!==false}">حَ Harakat ${S.harakat!==false?"on":"off"}</button>` : `<button class="tool" disabled style="opacity:.55" title="Harakat for this book are being added">حَ Harakat coming</button>`}${s.en?`<button class="tool ${P.english?"on":""}" id="tg-e">EN English</button>`:""}
+        ${/[\u064B-\u0652]/.test(ar.join(" ").slice(0, 400)) ? `<button class="tool ${tlOn()?"on":""}" id="tg-tl" aria-pressed="${tlOn()}">Aa Transliteration</button>` : ""}${s.en?`<button class="tool ${P.english?"on":""}" id="tg-e">EN English</button>`:""}
         <button class="tool" id="fsdn" aria-label="Smaller text">A−</button><button class="tool" id="fsup" aria-label="Larger text">A+</button>
         ${AUD.on?`<button class="tool" id="rate">${P.rate}× speed</button>`:""}</div>
       ${S.dictUsed && hlEntries().length ? "" : `<p class="small muted" style="margin:0 0 8px">Tip: tap a word to look it up. Press and hold, then select words to highlight them or add a note. Pin a sticky note to any page.</p>`}${typeof stickyHtml === "function" ? stickyHtml(b.id, i) : ""}<div class="card fs${P.size}">${paras}</div>${toolRow(key,false)}</div>
@@ -1838,6 +1858,7 @@ function bindRead(b, i){
   $("#app").querySelectorAll(".ar-read").forEach(p => p.onclick = e => { if (String(getSelection()) || e.target.closest("mark.hl")) return; const w = wordAt(e.clientX, e.clientY); if (normAr(w).length >= 2) showLookup(w); });
   hlBind(b, i); if (typeof stickyBind === "function") stickyBind(b, i);
   const tg = (k) => () => { S.readPrefs[k] = !S.readPrefs[k]; save(); $("#app").innerHTML = readView(b, i); bindRead(b, i); };
+  const ttl = $("#tg-tl"); if (ttl) ttl.onclick = () => { S.tl = !S.tl; save(); $("#app").innerHTML = readView(b, i); bindRead(b, i); };
   const th = $("#tg-h"); if (th) th.onclick = () => { S.harakat = S.harakat === false; save(); $("#app").innerHTML = readView(b, i); bindRead(b, i);
     }; const te = $("#tg-e"); if (te) te.onclick = tg("english");
   const redraw = () => { $("#app").innerHTML = readView(b, i); bindRead(b, i); if (AUD.on) markPara(AUD.j); };
@@ -1928,7 +1949,7 @@ function toolRow(k, know){ const it = k.startsWith("c|") ? itemByKey(k) : null, 
   const langBtn = qa ? `<button class="tool lang" data-lang="1" aria-label="Switch question and answer language">${ICON.globe} ${shownLang(it.c) === "ar" ? "English" : "العربية"}</button>` : "";
   return `<div class="tools">${langBtn}<button class="tool ${isSaved(k)?"on":""}" data-save="${esc(k)}" aria-label="Save">${isSaved(k)?ICON.saved:ICON.save}<span>${isSaved(k)?"Saved":"Save"}</span></button>
   <button class="tool" data-report="${esc(k)}" aria-label="Report a problem">${ICON.flag}<span>Report</span></button>
-  <button class="tool ${S.harakat!==false?"on":""}" data-harakat="1" aria-label="Harakat on or off">حَ ${S.harakat!==false?"on":"off"}</button>
+  <button class="tool ${tlOn()?"on":""}" data-tlbtn="1" aria-pressed="${tlOn()}">Aa Transliteration</button>
   ${know?`<button class="tool" id="know" aria-label="I already know this">${ICON.know}<span>I know this</span></button>`:""}</div>`; }
 function itemByKey(k){
   const [kind, id, i] = k.split("|");
@@ -1963,7 +1984,7 @@ function openReport(k){
 function bindTools(root, rerender){
   root.querySelectorAll("[data-lang]").forEach(b => b.onclick = () => { const k = b.closest(".tools").querySelector("[data-save]").dataset.save, it = itemByKey(k);
     S.cardLang = shownLang(it.c) === "ar" ? "en" : "ar"; save(); rerender && rerender(); });
-  root.querySelectorAll("[data-harakat]").forEach(b => b.onclick = () => { S.harakat = S.harakat === false; save(); toast(S.harakat ? "Harakat on" : "Harakat off (Qur'anic text keeps its harakat)"); rerender && rerender(); });
+  root.querySelectorAll("[data-tlbtn]").forEach(b => b.onclick = () => { S.tl = !S.tl; save(); rerender && rerender(); });
   root.querySelectorAll("[data-save]").forEach(b => b.onclick = () => { toggleSave(b.dataset.save); rerender && rerender(); });
   root.querySelectorAll("[data-report]").forEach(b => b.onclick = () => openReport(b.dataset.report));
 }
@@ -2240,6 +2261,7 @@ function render(){ appBadge(); checkUnlock(); if (typeof hlHideBar === "function
   if (!S.welcomed){ app.innerHTML = welcomeView(); bindWelcome(); return; }
   if (view.name === "home") app.innerHTML = homeView();
   else if (view.name === "live") { app.innerHTML = liveView(); }
+  else if (view.name === "cards") { app.innerHTML = cardsView(); }
   else if (view.name === "year") { const yy = yearOf(view.n);
     if (!loaded(yy)) { app.innerHTML = shell(`<p class="muted">Loading Year ${view.n}…</p>`); loadYear(view.n).then(() => { if (!S.unlocked.includes(view.n)) { S.unlocked.push(view.n); save(); } render(); }, () => toast("Could not load this year. Check your connection.")); return; }
     if (!S.unlocked.includes(view.n)) { S.unlocked.push(view.n); save(); }
@@ -2290,7 +2312,7 @@ function render(){ appBadge(); checkUnlock(); if (typeof hlHideBar === "function
   if (hasTTS() && view.name === "settings" && !voicesFor("en").length) speechSynthesis.onvoiceschanged = () => { if (view.name === "settings") render(); };
   const av = $("#arvoice"); if (av) av.onchange = () => { S.arVoice = av.checked; save(); };
   const cl = $("#clang"); if (cl) cl.onchange = () => { S.cardLang = cl.value || null; save(); };
-  const hk = $("#hk"); if (hk) hk.onchange = () => { S.harakat = hk.checked; save(); };
+  const tls = $("#tlset"); if (tls) tls.onchange = () => { S.tl = tls.checked; save(); };
   app.querySelectorAll("[data-theme]").forEach(b => b.onclick = () => { S.theme = b.dataset.theme; save(); applyTheme(); render(); });
   fillLeaderboard();
   const mk = $("#markread"); if (mk) mk.onclick = () => confirmBox("Mark the whole book as read? This counts towards opening the next year.", () => { const b = bookById(mk.dataset.mark), n = lessonsOf(b); S.books[b.id] = [...Array(n).keys()]; save(); toast("Marked as read"); render(); });
@@ -2312,6 +2334,7 @@ function render(){ appBadge(); checkUnlock(); if (typeof hlHideBar === "function
       S.log = S.log.concat(Array(60).fill(1)); save(); go({ name:"year", n:y.n }); }); };
   const rs = $("#reset"); if (rs) rs.onclick = resetFlow;
 }
+if (S.harakat === false) { delete S.harakat; save(); }   // harakat are always shown now
 document.addEventListener("click", e => { const b = e.target.closest("[data-golive]"); if (b) go({ name:"live", book:b.dataset.golive || null }); });
 applyTheme(); if (S.arSize) document.documentElement.style.setProperty("--arz", S.arSize);
 try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch(e){}   // ask the browser not to clear saved progress
@@ -2654,7 +2677,7 @@ function salawatCard(){
   if (!SALAWAT) { loadSalawat().then(() => { if (view.name === "home" && SALAWAT) render(); }); return ""; }
   const short = SALAWAT.items.filter(x => x.id !== "taj"), x = short[today() % short.length], n = (S.salCount||{})[x.id] || 0;
   return `<section class="card salcard" aria-labelledby="salh"><p class="sal-k" id="salh">Today's salawat · ${esc(x.name)}</p>
-    <p class="ar sal-ar" lang="ar" dir="rtl">${esc(x.ar)}</p>
+    <p class="ar sal-ar" lang="ar" dir="rtl">${esc(x.ar)}</p>${tlLine(x.ar)}
     <button class="salbtn" data-sal="${x.id}"><span class="sb-plus" aria-hidden="true">+1</span><span class="sb-t">Tap each time you recite it</span><span class="sb-n" data-salc="${x.id}">${n.toLocaleString()}</span></button></section>
     <div class="glist">${grow("salawat", "", "ص", "All salawat", "Seven salawat with their sources and virtues")}${grow("dalail", "", "د", "Dala'il al-Khayrat", "Imam al-Jazuli's book of salawat, one part a day")}</div>`;
 }
@@ -2678,10 +2701,10 @@ function salawatView(){
   if (!SALAWAT) { loadSalawat().then(render); return shell(`<p class="muted">Loading…</p>`); }
   const cnt = S.salCount || {};
   return shell(`<button class="back" data-go="home">${ICON.back} Home</button><h1>Salawat on the Prophet ﷺ</h1>
-    <p class="muted" style="margin:0 0 6px">${esc(SALAWAT.intro)}</p><p class="small muted" style="margin:0 0 14px">${esc(SALAWAT.introSrc)}</p>
+    <p class="muted" style="margin:0 0 6px">${esc(SALAWAT.intro)}</p><p class="small muted" style="margin:0 0 14px">${esc(SALAWAT.introSrc)}</p>${arSizeCtl()}
     <button class="item dl-entry" data-go="dalail"><span class="dl-ico ar" aria-hidden="true">د</span><span style="flex:1;min-width:0"><span class="t">Dala'il al-Khayrat</span><br><span class="s">Imam al-Jazuli's salawat, one hizb a day</span></span><span aria-hidden="true">›</span></button>
     ${SALAWAT.items.map(x => `<section class="card pad sal" id="sal-${x.id}"><h2 style="margin:0 0 2px">${esc(x.name)}</h2><p class="small muted" style="margin:0 0 10px">${esc(x.by)}</p>
-      <p class="ar sal-ar" lang="ar" dir="rtl">${esc(x.ar)}</p>${x.en ? `<p class="sal-en">${esc(x.en)}</p>` : ""}
+      <p class="ar sal-ar" lang="ar" dir="rtl">${esc(x.ar)}</p>${tlLine(x.ar)}${x.en ? `<p class="sal-en">${esc(x.en)}</p>` : ""}
       <div class="sal-src"><p><b>Source:</b> ${esc(x.src)}</p>${x.virtue ? `<p><b>Virtue:</b> ${esc(x.virtue)}</p>` : ""}${x.grade ? `<p class="small muted">${esc(x.grade)}</p>` : ""}</div>
       <div class="sal-c"><button class="btn small-btn" data-sal="${x.id}">Count one</button><span class="small muted">${(cnt[x.id]||0).toLocaleString()} recited</span></div></section>`).join("")}
     ${SALAWAT.pending ? `<p class="small muted">${esc(SALAWAT.pending.replace(/ and Dala'il al-Khayrat of Imam al-Jazuli رحمه الله/, ""))}</p>` : ""}`);
@@ -2695,8 +2718,8 @@ let DUAS = null;
 const loadDuas = async () => DUAS || (DUAS = await fetch("data/duas.json").then(r => r.json()).catch(() => null));
 function duaBody(x){
   if (x.parts) return `<ol class="dsteps">${x.parts.map(p => `<li><p class="ds-h">${esc(p.step)}</p><p class="ds-do">${esc(p.do)}</p>
-      <p class="ar dua-ar" lang="ar" dir="rtl">${esc(p.ar)}</p><p class="dua-en">${esc(p.en)}</p></li>`).join("")}</ol>`;
-  return `<p class="ar dua-ar" lang="ar" dir="rtl">${esc(x.ar)}</p><p class="dua-en">${esc(x.en)}</p>`;
+      <p class="ar dua-ar" lang="ar" dir="rtl">${esc(p.ar)}</p>${tlLine(p.ar)}<p class="dua-en">${esc(p.en)}</p></li>`).join("")}</ol>`;
+  return `<p class="ar dua-ar" lang="ar" dir="rtl">${esc(x.ar)}</p>${tlLine(x.ar)}<p class="dua-en">${esc(x.en)}</p>`;
 }
 function duasView(sec){
   if (!DUAS) { loadDuas().then(render); return shell(`<p class="muted">Loading…</p>`); }
@@ -2717,14 +2740,14 @@ const DL_TILES = [["opening","Opening Du'a","","wide"],["asma","Names of Allah",
 // Arabic with optional English under each paragraph; repeated lines show "×3"
 function dlBody(paras, en, times){
   const tr = S.dlTr && en && en.length === paras.length;
-  if (!tr && !(times||[]).some(Boolean)) return `<div class="dl-text" lang="ar" dir="rtl">${dlFlow(paras)}</div>`;
-  return `<div class="dl-list">${paras.map((p, i) => `<div class="dl-item"><p class="dl-ar ar" lang="ar" dir="rtl">${esc(p)}${(times||[])[i] > 1 ? ` <span class="dl-x">×${times[i]}</span>` : ""}</p>${tr ? `<p class="dl-en">${esc(en[i])}</p>` : ""}</div>`).join("")}</div>`;
+  if (!tr && !tlOn() && !(times||[]).some(Boolean)) return `<div class="dl-text" lang="ar" dir="rtl">${dlFlow(paras)}</div>`;
+  return `<div class="dl-list">${paras.map((p, i) => `<div class="dl-item"><p class="dl-ar ar" lang="ar" dir="rtl">${esc(p)}${(times||[])[i] > 1 ? ` <span class="dl-x">×${times[i]}</span>` : ""}</p>${tlLine(p)}${tr ? `<p class="dl-en">${esc(en[i])}</p>` : ""}</div>`).join("")}</div>`;
 }
 const dlTrSwitch = has => has ? `<label class="dl-tr"><span>Show English</span><input type="checkbox" id="dltr" role="switch" ${S.dlTr ? "checked" : ""}></label>` : "";
 // Short phrases flow on one line with a stop mark between them; a new paragraph starts at each "Allahumma"
 // One Arabic size for every reading page (Dala'il, du'as, guides), saved on this device
 function arSizeCtl(){ const v = S.arSize || 1;
-  return `<div class="arsize"><span class="small muted">Arabic size</span><span class="ar small" aria-hidden="true">ا</span><input type="range" id="arsz" min="0.8" max="1.8" step="0.1" value="${v}" aria-label="Arabic text size"><span class="ar" aria-hidden="true" style="font-size:1.4rem">ا</span></div>`; }
+  return `${tlSwitch()}<div class="arsize"><span class="small muted">Arabic size</span><span class="ar small" aria-hidden="true">ا</span><input type="range" id="arsz" min="0.8" max="1.8" step="0.1" value="${v}" aria-label="Arabic text size"><span class="ar" aria-hidden="true" style="font-size:1.4rem">ا</span></div>`; }
 function bindArSize(){ const r = $("#arsz"); if (r) r.oninput = () => { S.arSize = +r.value; document.documentElement.style.setProperty("--arz", S.arSize); save(); };
   const t = $("#dltr"); if (t) t.onchange = () => { S.dlTr = t.checked; save(); render(); }; }
 function dlFlow(paras){
@@ -2784,10 +2807,10 @@ const DHIKR = [
 function tasbihView(){
   const T = S.tasbih = S.tasbih || { d:"subhan", n:0, target:33, tot:{} }, d = DHIKR.find(x => x[0] === T.d) || DHIKR[0];
   const inRound = T.target ? (T.n % T.target || (T.n ? T.target : 0)) : 0, pct = T.target ? inRound / T.target * 100 : 0, rounds = T.target ? Math.floor((T.n - 1) / T.target) : 0;
-  return shell(`<button class="back" data-go="tools">${ICON.back} Tools</button><h1 style="margin-bottom:8px">Tasbih counter</h1>
+  return shell(`<button class="back" data-go="tools">${ICON.back} Tools</button><h1 style="margin-bottom:8px">Tasbih counter</h1>${tlSwitch()}
     <div class="tb-chips" role="group" aria-label="Choose a dhikr">${DHIKR.map(x => `<button class="dchip ${x[0] === T.d ? "on" : ""}" data-tbd="${x[0]}" aria-pressed="${x[0] === T.d}">${esc(x[2])}</button>`).join("")}</div>
     <button class="tb-pad" id="tbtap" aria-label="Count one. ${T.n} so far">
-      ${d[1] ? `<span class="ar tb-ar" lang="ar">${esc(d[1])}</span>` : ""}<span class="tb-en">${esc(d[3])}</span>
+      ${d[1] ? `<span class="ar tb-ar" lang="ar">${esc(d[1])}</span>${tlOn() ? `<span class="tb-en" style="font-style:italic">${esc(translit(d[1]))}</span>` : ""}` : ""}<span class="tb-en">${esc(d[3])}</span>
       <span class="tb-n" aria-live="polite">${T.n}</span>
       ${T.target ? `<span class="tb-ring" style="--p:${pct}%"></span><span class="tb-of">${inRound} of ${T.target}${rounds > 0 ? ` · ${rounds} round${rounds > 1 ? "s" : ""} done` : ""}</span>` : `<span class="tb-of">no target</span>`}
       <span class="tb-hint">Tap anywhere here</span></button>
@@ -3043,6 +3066,99 @@ function liveBox(bookId, label){
     <span class="small muted" style="display:block">${n ? `${n} live or upcoming class${n > 1 ? "es" : ""}${bookId ? " on this book" : ""}, and recordings.` : `Live classes on ${esc(label)} from our madrasa, and recordings.`}</span></div><span class="pill">Open</span></button>`;
 }
 
+/* ============================ TRANSLITERATION ============================
+   Turns fully voweled Arabic into easy Latin letters, for people who cannot read Arabic fluently yet.
+   Long vowels have a line (ā ī ū); ʿ is the letter 'ayn; ' is a glottal stop (hamza). Works only on voweled text. */
+const TL_C = { "ب":"b","ت":"t","ث":"th","ج":"j","ح":"ḥ","خ":"kh","د":"d","ذ":"dh","ر":"r","ز":"z","س":"s","ش":"sh","ص":"ṣ","ض":"ḍ","ط":"ṭ","ظ":"ẓ",
+  "ع":"ʿ","غ":"gh","ف":"f","ق":"q","ك":"k","ل":"l","م":"m","ن":"n","ه":"h","و":"w","ي":"y","ء":"'","أ":"'","إ":"'","ؤ":"'","ئ":"'","ڤ":"v","پ":"p","گ":"g","چ":"ch","ک":"k","ی":"y" };
+const TL_V = { "َ":"a", "ِ":"i", "ُ":"u", "ً":"an", "ٍ":"in", "ٌ":"un" };
+const TL_SKIP = /[ؐ-ؚۖ-ۭـࣰ-ࣲٕٟٓٔ]/g;   // Qur'anic pause marks, tatweel, small signs
+function tlWord(w, first){
+  w = w.replace(TL_SKIP, "").replace(/ۡ|۟/g, "ْ").replace(/ٱ/g, "ا").replace(/ىٰ/g, "ى");
+  const bare = w.replace(/[ً-ْٰ]/g, "");
+  // The name of Allah, with or without a prefix
+  const m = bare.match(/^([وفبت]?)ال?له(م?)$/) || (bare === "لله" ? [bare, "ل", ""] : null);
+  if (m && /لّ|لَّ|لِّ|لُّ|ّ/.test(w)) {
+    const pre = m[1] ? (TL_C[m[1]] + ((w.match(/^[وفبتل]([َُِ])/) || [])[1] ? TL_V[w.match(/^[وفبتل]([َُِ])/)[1]] : "a")) : "";
+    const end = (w.match(/([ًٌٍَُِ])[^ً-ْ]*$/) || [])[1];
+    if (m[2]) return (pre ? pre + "llāhumma" : "Allāhumma");
+    return (pre ? pre + "llāh" : "Allāh") + (end ? TL_V[end].replace("n", "") : "");
+  }
+  let out = "", i = 0;
+  const L = [...w], isH = c => /[ً-ْٰ]/.test(c || "");
+  const marks = k => { let j = k + 1, s = ""; while (j < L.length && isH(L[j])) s += L[j++]; return s; };
+  while (i < L.length) {
+    const c = L[i], mk = marks(i), next = L[i + 1 + mk.length], prevV = out.slice(-1);
+    i += 1 + mk.length;
+    if (isH(c)) continue;
+    // Definite article at the start of a word (after an optional prefix): al-
+    if ((c === "ا") && L[i] === "ل" && (out === "" || /^(wa|fa|bi|ka)$/.test(out))) {
+      const lm = marks(i - 1 + 1);   // marks on the lam
+      out += out ? "l-" : "al-"; i += 1 + lm.length;
+      if (/ّ/.test(marks(i - 1))) {}  // sun letter: its shadda is read normally below
+      continue;
+    }
+    if (c === "ل" && out === "" && L[i] === "ل" && /ِ/.test(mk)) { out += "lil-"; i += 1 + marks(i).length; continue; }
+    if (c === "ا" || c === "آ") {
+      if (c === "آ") { out += out && !/-$/.test(out) ? "'ā" : "ā"; continue; }
+      if (/[َ]/.test(mk)) { out += /^(wa|fa)$/.test(out) ? " a" : out && !/-$/.test(out) ? "'a" : "a"; continue; }      // hamza on alif written without the hamza sign
+      if (/[ِ]/.test(mk)) { out += /^(wa|fa)$/.test(out) ? " i" : out && !/-$/.test(out) ? "'i" : "i"; continue; }
+      if (/[ُ]/.test(mk)) { out += /^(wa|fa)$/.test(out) ? " u" : out && !/-$/.test(out) ? "'u" : "u"; continue; }
+      if (prevV === "a" && !/n$/.test(out.slice(-2)) ) { out = out.slice(0, -1) + "ā"; continue; }
+      if (/an$/.test(out)) continue;                                        // tanwin fath written on the alif
+      if (out === "") { out += first ? "a" : ""; continue; }
+      if (/[bcdfghjklmnpqrstvwxyzḥṣḍṭẓʿ']$/.test(out)) { out += "ā"; continue; }   // a letter with its fatha left off, then alif
+      continue;
+    }
+    if (c === "ى") { out += prevV === "a" ? "" : "ā"; if (prevV === "a") out = out.slice(0, -1) + "ā"; continue; }
+    if (c === "ة") { const v = mk.match(/[ًٌٍَُِ]/); out += v ? "t" + TL_V[v[0]] : "h"; continue; }
+    if ((c === "و" || c === "ي") && !/[ًٌٍَُِّ]/.test(mk)) {
+      if (c === "و" && prevV === "u") { out = out.slice(0, -1) + "ū"; continue; }
+      if (c === "ي" && prevV === "i") { out = out.slice(0, -1) + "ī"; continue; }
+      out += c === "و" ? "w" : "y"; continue;       // diphthong aw / ay
+    }
+    let cons = TL_C[c]; if (cons === undefined) { out += c; continue; }
+    if (cons === "'" && out === "") cons = "";        // a word-initial hamza is not written
+    if (/ّ/.test(mk) && !/-$/.test(out)) cons = cons + cons;   // shadda doubles, except a sun letter after al-
+    if (cons === "'" && /-$/.test(out)) cons = "";
+    if (cons === "'" && /^(wa|fa)$/.test(out)) cons = " ";
+    out += cons;
+    if (/ٰ/.test(mk)) { out += "ā"; continue; }
+    const v = mk.match(/[ًٌٍَُِ]/); if (v) out += TL_V[v[0]];
+  }
+  return out.replace(/-(?=$)/, "");
+}
+function translit(s){
+  if (!s || !/[ً-ْ]/.test(s)) return "";
+  const letters = (s.match(/[\u0628-\u064A]/g) || []).length, marks = (s.match(/[\u064B-\u0652]/g) || []).length;
+  if (letters && marks / letters < 0.55) return "";   // only partly voweled: a guess would mislead, so show nothing
+  const words = String(s).replace(/[﴿﴾«»]/g, "").split(/(\s+|[،؛؟.!:()\[\]{}"«»—–-]+)/);
+  let first = true, txt = words.map(w => { if (!/[ء-ي]/.test(w)) { first = /[.؟!]/.test(w) || first; return w.replace(/،/g, ",").replace(/؛/g, ";").replace(/؟/g, "?"); }
+    const t = tlWord(w, true); first = false; return t; }).join("");
+  txt = txt.replace(/\s+/g, " ").replace(/ ([,;?.!])/g, "$1").trim()
+    .replace(/([a-zāīūḥṣḍṭẓʿ'])(un|in|[aiu])(?=[,;?.!]|$)/g, "$1");   // stop on a pause, as it is read
+  return txt.charAt(0).toUpperCase() + txt.slice(1);
+}
+// The switch, shown on every page with Arabic. One setting for the whole app.
+const tlOn = () => !!S.tl;
+const tlLine = (ar, cls) => tlOn() ? (t => t ? `<p class="tl ${cls || ""}" lang="ar-Latn">${esc(t)}</p>` : "")(translit(ar)) : "";
+const tlSwitch = () => `<label class="dl-tr tl-sw"><span>Show transliteration <span class="small muted">(Arabic in English letters)</span></span><input type="checkbox" data-tl role="switch" ${tlOn() ? "checked" : ""}></label>`;
+document.addEventListener("change", e => { const t = e.target.closest("[data-tl]"); if (!t) return; S.tl = t.checked; save(); if (typeof render === "function") render(); });
+// Everywhere else (flashcards, lessons, books, guides): add the transliteration under any Arabic passage that has harakat
+function tlDecorate(root){
+  if (!tlOn() || !root) return;
+  root.querySelectorAll('p.ar, div.ar, h2.ar, p[lang="ar"], div[lang="ar"]:not(.dl-text):not(.dl-list), .q.ar, .ar-read, .front .ar, .back .ar').forEach(el => {
+    if (el.closest("button, .item, .lcard, header, nav, .tb-chips, .rootcard, .dsearch, .kicker") || el.dataset.tl) return;
+    const n = el.nextElementSibling; if (n && n.classList.contains("tl")) return;
+    const t = el.textContent || ""; if (!/[ً-ْ]/.test(t) || t.trim().split(/\s+/).length < 1) return;
+    if (el.closest(".gs-say") && el.parentElement.querySelector(".gs-tr")) return;   // guides already have a hand-written one
+    const tx = translit(t); if (!tx) return; el.dataset.tl = "1";
+    const p = document.createElement("p"); p.className = "tl"; p.setAttribute("lang", "ar-Latn"); p.textContent = tx; el.after(p);
+  });
+}
+(() => { let q = 0; const app = document.getElementById("app"); if (!app || typeof MutationObserver === "undefined") return;
+  new MutationObserver(() => { if (q) return; q = requestAnimationFrame(() => { q = 0; tlDecorate(app); }); }).observe(app, { childList:true, subtree:true }); })();
+
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=6afb251e21");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=170cbd028a");</script></body>
 </html>
