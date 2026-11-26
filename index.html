@@ -1215,7 +1215,7 @@ function bindReadLinks(root){ root.querySelectorAll("[data-read]").forEach(b => 
 let LEARN = null, LS = null;
 const LEARN_DECK = { aqeedah:["fard_aqeedah"], fiqh:["fard_tahara","fard_salah","fard_sawm","fard_zakat"] };
 const OLD_TOPIC = { belief:"aqeedah", purity:"fiqh", prayer:"fiqh", fasting:"fiqh", zakat:"fiqh", heart:"tazkiyah" };
-async function loadLearn(){ if (LEARN) return LEARN; try { LEARN = await fetch("data/learn.json?v=40c8f505").then(r => r.json()); } catch(e){ LEARN = []; } return LEARN; }
+async function loadLearn(){ if (LEARN) return LEARN; try { LEARN = await fetch("data/learn.json?v=a31b6e65").then(r => r.json()); } catch(e){ LEARN = []; } return LEARN; }
 const learnDone = id => !!(S.learn||{})[id];
 function nextLearn(){ for (const u of LEARN||[]) for (let k = 0; k < u.lessons.length; k++) if (!learnDone(u.lessons[k].id)) return { u, k }; return null; }
 function learnHome(){
@@ -1261,7 +1261,11 @@ function topicSheet(){
 }
 function fitLearnCards(){
   const c = $("#lcards"); if (!c || !LEARN) return; const u = LEARN.find(x => x.id === c.dataset.topic);
-  const k = u.lessons.findIndex(l => !learnDone(l.id)); if (k > 0) c.scrollLeft = c.children[k].offsetLeft - 16;
+  // Bring the next lesson into view. Measured from the screen, not offsetLeft (which shifts with an earlier scroll and
+  // overshot by 2–3 cards on phones), and jumped to instantly so a second render can't add to a scroll still moving.
+  const k = u.lessons.findIndex(l => !learnDone(l.id));
+  if (k > 0 && c.children[k]) { const to = c.scrollLeft + c.children[k].getBoundingClientRect().left - c.getBoundingClientRect().left - 16;
+    c.style.scrollSnapType = "none"; c.scrollTo({ left: Math.max(0, to), behavior: "instant" }); requestAnimationFrame(() => { c.style.scrollSnapType = ""; }); }
   const ch = $("#topic-change"); if (ch) ch.onclick = topicSheet;
 }
 function unitView(id){
@@ -3160,5 +3164,5 @@ function tlDecorate(root){
   new MutationObserver(() => { if (q) return; q = requestAnimationFrame(() => { q = 0; tlDecorate(app); }); }).observe(app, { childList:true, subtree:true }); })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=170cbd028a");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=025925adc7");</script></body>
 </html>
