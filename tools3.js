@@ -11,6 +11,7 @@ const TOOL_ICON = {
   kaaba:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 7l8-3 8 3v11l-8 3-8-3z"/><path d="M4 7l8 3 8-3M12 10v11M4 11l8 3 8-3"/></svg>',
   drop:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/></svg>',
   pray:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 20h18M7 20v-4l5-3 5 3v4M12 13V9M12 9a2 2 0 1 0 0-4 2 2 0 0 0 0 4z"/></svg>',
+  beads:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="4" r="2"/><circle cx="6.5" cy="7" r="2"/><circle cx="17.5" cy="7" r="2"/><circle cx="5" cy="13" r="2"/><circle cx="19" cy="13" r="2"/><circle cx="8" cy="18.5" r="2"/><circle cx="16" cy="18.5" r="2"/><path d="M12 20.5v1.5"/></svg>',
   salawat:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>',
 };
 function toolsView(){
@@ -20,6 +21,8 @@ function toolsView(){
       ${row('data-guide="wudu"', "drop", "How to make wudu", "What is fard and what is sunnah, in order")}
       ${row('data-guide="ghusl"', "drop", "How to make ghusl", "The full bath and its three obligations")}
       ${row('data-guide="salah"', "pray", "How to pray", "Every position and what to say")}</div>
+    <p class="label">Dhikr</p><div class="stack">
+      ${row('data-go="tasbih"', "beads", "Tasbih counter", "Tap to count your dhikr, with a target and a gentle buzz")}</div>
     <p class="label">Prayer</p><div class="stack">
       ${row('data-go="qibla"', "qibla", "Qibla finder", "Point your phone to the Ka'bah")}
       ${row('data-go="qada"', "qada", "Qada' prayers", "Work out missed prayers and track making them up")}</div>
@@ -380,6 +383,14 @@ let DALAIL = null;
 const loadDalail = async () => DALAIL || (DALAIL = await fetch("data/dalail.json").then(r => r.json()).catch(() => null));
 const dalailToday = () => [7, 1, 2, 3, 4, 5, 6][new Date().getDay()];   // Sunday = 7th hizb, Monday = 1st
 const DL_TILES = [["opening","Opening Du'a",""],["asma","Names of Allah","ﷻ"],["nabi","Names of the Prophet","ﷺ"],["niyyah","Du'a of Intention",""]];
+// Short phrases flow on one line with a stop mark between them; a new paragraph starts at each "Allahumma"
+function dlFlow(paras){
+  const out = []; let cur = [];
+  const flush = () => { if (cur.length) out.push(`<p>${cur.map(x => `${esc(x)} <span class="dl-stop" aria-hidden="true"></span>`).join(" ")}</p>`); cur = []; };
+  paras.forEach(p => { if (/^فَصْلٌ/.test(p)) { flush(); out.push(`<p class="dl-h">${esc(p)}</p>`); return; }
+    if (/^(اللَّهُمَّ|الْحَمْدُ|بِسْمِ)/.test(p) && cur.length) flush(); cur.push(p); });
+  flush(); return out.join("");
+}
 function dalailMenu(){
   const t = dalailToday(), readToday = (S.dalail || {})[new Date().toDateString()], ex = DALAIL.extra || {};
   const tile = (attr, label, sub, cls, ok) => `<button class="dl-tile ${cls || ""}" ${attr} ${ok ? "" : 'aria-disabled="true"'}><span class="dl-tl">${label}</span>${sub ? `<span class="dl-ts">${sub}</span>` : ""}</button>`;
@@ -404,10 +415,46 @@ function dalailView(n, x){
     <div class="spread" style="align-items:baseline"><h1 style="margin-bottom:2px">Part ${cur.n}</h1><span class="ar muted" lang="ar" style="font-size:1.1rem">${esc(cur.ar)}</span></div>
     <p class="muted" style="margin:0 0 12px">${esc(cur.day)}${cur.n === t ? " · today's part" : ""}. Book pages ${esc(cur.pages)}.</p>
     <section class="card pad dl-card">
-      ${cur.paras ? `<div class="dl-text" lang="ar" dir="rtl">${cur.paras.map(p => /^فَصْلٌ/.test(p) ? `<p class="dl-h">${esc(p)}</p>` : `<p>${esc(p)} <span class="dl-stop" aria-hidden="true"></span></p>`).join("")}</div>
+      ${cur.paras ? `<div class="dl-text" lang="ar" dir="rtl">${dlFlow(cur.paras)}</div>
         <button class="btn ${read ? "ghost" : ""}" id="dlread" style="margin-top:12px" ${read ? "disabled" : ""}>${read ? "Read today, alhamdulillah" : "I've read this part today"}</button>`
       : `<p class="muted">This part is being typed in, letter by letter, from the printed edition.</p>`}</section>
     <div class="btnrow">${prev ? `<button class="btn ghost" data-hizb="${prev.n}">‹ Part ${prev.n}</button>` : "<span></span>"}${next ? `<button class="btn ghost" data-hizb="${next.n}">Part ${next.n} ›</button>` : `<button class="btn ghost" data-dlx="khatm">Du'a of Completion ›</button>`}</div>`);
+}
+/* ---------------- Tasbih ---------------- */
+const DHIKR = [
+  ["subhan", "سُبْحَانَ اللَّهِ", "Subhan Allah", "Glory be to Allah"],
+  ["hamd", "الْحَمْدُ لِلَّهِ", "Al-hamdu lillah", "All praise is for Allah"],
+  ["akbar", "اللَّهُ أَكْبَرُ", "Allahu akbar", "Allah is the Greatest"],
+  ["tahlil", "لَا إِلَهَ إِلَّا اللَّهُ", "La ilaha illa Allah", "There is no god but Allah"],
+  ["istighfar", "أَسْتَغْفِرُ اللَّهَ", "Astaghfirullah", "I ask Allah's forgiveness"],
+  ["salawat", "اللَّهُمَّ صَلِّ عَلَى سَيِّدِنَا مُحَمَّدٍ", "Allahumma salli 'ala sayyidina Muhammad", "O Allah, send blessings on our master Muhammad ﷺ"],
+  ["hawqala", "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ", "La hawla wa la quwwata illa billah", "There is no power and no strength except by Allah"],
+  ["free", "", "Any dhikr", "Count anything you like"],
+];
+function tasbihView(){
+  const T = S.tasbih = S.tasbih || { d:"subhan", n:0, target:33, tot:{} }, d = DHIKR.find(x => x[0] === T.d) || DHIKR[0];
+  const inRound = T.target ? (T.n % T.target || (T.n ? T.target : 0)) : 0, pct = T.target ? inRound / T.target * 100 : 0, rounds = T.target ? Math.floor((T.n - 1) / T.target) : 0;
+  return shell(`<button class="back" data-go="tools">${ICON.back} Tools</button><h1 style="margin-bottom:8px">Tasbih counter</h1>
+    <div class="tb-chips" role="group" aria-label="Choose a dhikr">${DHIKR.map(x => `<button class="dchip ${x[0] === T.d ? "on" : ""}" data-tbd="${x[0]}" aria-pressed="${x[0] === T.d}">${esc(x[2])}</button>`).join("")}</div>
+    <button class="tb-pad" id="tbtap" aria-label="Count one. ${T.n} so far">
+      ${d[1] ? `<span class="ar tb-ar" lang="ar">${esc(d[1])}</span>` : ""}<span class="tb-en">${esc(d[3])}</span>
+      <span class="tb-n" aria-live="polite">${T.n}</span>
+      ${T.target ? `<span class="tb-ring" style="--p:${pct}%"></span><span class="tb-of">${inRound} of ${T.target}${rounds > 0 ? ` · ${rounds} round${rounds > 1 ? "s" : ""} done` : ""}</span>` : `<span class="tb-of">no target</span>`}
+      <span class="tb-hint">Tap anywhere here</span></button>
+    <div class="tb-row"><label class="small">Target <select id="tbt">${[33, 34, 99, 100, 1000, 0].map(n => `<option value="${n}" ${T.target === n ? "selected" : ""}>${n || "None"}</option>`).join("")}</select></label>
+      <button class="btn ghost small-btn" id="tbundo" ${T.n ? "" : "disabled"}>Undo</button><button class="btn ghost small-btn" id="tbreset" ${T.n ? "" : "disabled"}>Reset</button></div>
+    <p class="small muted">All time: ${DHIKR.filter(x => (T.tot||{})[x[0]]).map(x => `${esc(x[2])} ${T.tot[x[0]].toLocaleString()}`).join(" · ") || "nothing yet"}.</p>
+    <details class="exbox"><summary><b>After each prayer</b></summary><p class="small" style="margin:8px 0 0">Subhan Allah 33, al-hamdu lillah 33, Allahu akbar 33 (or 34), then the tahlil once: "Whoever does this after every prayer, his sins are forgiven even if they are like the foam of the sea." Sahih Muslim (597), from Abu Hurayrah رضي الله عنه.</p></details>`);
+}
+function bindTasbih(){
+  const T = S.tasbih; const tap = $("#tbtap"); const on = document.querySelector(".tb-chips .on"); if (on) on.parentNode.scrollLeft = on.offsetLeft - 16;
+  if (tap) tap.onclick = () => { T.n++; T.tot = T.tot || {}; T.tot[T.d] = (T.tot[T.d] || 0) + 1; save();
+    const hit = T.target && T.n % T.target === 0; if (navigator.vibrate) navigator.vibrate(hit ? [60, 60, 60] : 8);
+    if (hit) toast(`${T.target} done. Alhamdulillah`); render(); };
+  document.querySelectorAll("[data-tbd]").forEach(b => b.onclick = () => { T.d = b.dataset.tbd; T.n = 0; save(); render(); });
+  const t = $("#tbt"); if (t) t.onchange = () => { T.target = +t.value; save(); render(); };
+  const u = $("#tbundo"); if (u) u.onclick = () => { if (T.n) { T.n--; T.tot[T.d] = Math.max(0, (T.tot[T.d]||1) - 1); save(); render(); } };
+  const r = $("#tbreset"); if (r) r.onclick = () => { T.n = 0; save(); render(); };
 }
 function toolsRender(app){
   if (view.name === "dalail") { app.innerHTML = dalailView(view.n, view.x); return true; }
@@ -419,6 +466,7 @@ function toolsRender(app){
   else if (view.name === "zakat") app.innerHTML = zakatView();
   else if (view.name === "inherit") app.innerHTML = inheritView();
   else if (view.name === "salawat") app.innerHTML = salawatView();
+  else if (view.name === "tasbih") app.innerHTML = tasbihView();
   else return false;
   return true;
 }
@@ -433,5 +481,5 @@ function toolsBind(app){
     const k = d.indexOf(i); if (k >= 0) d.splice(k, 1); else d.push(i); save(); const y = window.scrollY; render(); window.scrollTo(0, y); });
   const gr = $("#greset"); if (gr) gr.onclick = () => confirmBox("Clear all ticks for this guide?", () => { S.guides[view.id] = []; save(); render(); });
   if (view.name === "qibla") bindQibla(); if (view.name === "qada") bindQada(); if (view.name === "zakat") bindZakat();
-  if (view.name === "inherit") bindInherit(); if (view.name === "salawat") bindSalawat(); if (view.name === "home") bindSalCard();
+  if (view.name === "inherit") bindInherit(); if (view.name === "salawat") bindSalawat(); if (view.name === "tasbih") bindTasbih(); if (view.name === "home") bindSalCard();
 }

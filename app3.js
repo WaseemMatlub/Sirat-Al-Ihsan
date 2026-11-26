@@ -696,6 +696,7 @@ function homeView(){
   const decksHtml = learnDecks();
   return shell(`
     <h1 class="sr-only">Home</h1><section class="illum"><p class="ar illum-ar">السَّلَامُ عَلَيْكُمْ</p><p class="illum-en">Assalamu 'alaykum${S.name?`, ${esc(S.name)}`:""}</p></section>
+    <section class="card hotd" id="hotd" hidden></section>
     ${streakCard}
     ${secH("Learn the basics", "Short lessons on what every Muslim must know. Each ends with a few questions. Tap the course box to switch subject, and swipe to see more lessons.")}
     ${learnHome()}
@@ -704,7 +705,6 @@ function homeView(){
     ${salawatCard()}
     ${secH("Du'as", "Du'as for each part of the day, with harakat, meaning and source.")}
     ${duaRows()}
-    <section class="card hotd" id="hotd" hidden></section>
     ${course}${readRow}
     ${more}
     ${installCard()}`);
