@@ -472,10 +472,10 @@ function confirmBox(text, onYes){ modal(`<p style="margin-top:0;font-weight:700"
 let view = { name:"home" };
 const isLibBook = () => view.name === "book" && bookById(view.id) && bookById(view.id).type === "text";
 function applyTheme(){ const t = S.theme || "auto", r = document.documentElement; if (t === "auto") r.removeAttribute("data-theme"); else r.setAttribute("data-theme", t);
-  const dark = t === "dark" || (t === "auto" && matchMedia("(prefers-color-scheme: dark)").matches), m = document.querySelector('meta[name="theme-color"]'); if (m) m.content = dark ? "#141412" : "#FAF7F0"; }
+  const dark = t === "dark" || (t === "auto" && matchMedia("(prefers-color-scheme: dark)").matches), m = document.querySelector('meta[name="theme-color"]'); if (m) m.content = dark ? "#111315" : "#FFFFFF"; }
 function go(v){ if (typeof stopAudio === "function" && AUD.on) stopAudio(); view = v; render(); window.scrollTo(0,0); }
 function shell(inner){
-  return `<header class="topbar"><div class="brandmark">${ICON.logo}<span>Dār aṣ-Ṣiddīq</span></div>
+  return `<header class="topbar"><button class="brandmark" data-go="home" aria-label="Dār aṣ-Ṣiddīq, go to home">${ICON.logo}<span>Dār aṣ-Ṣiddīq</span></button>
     <div class="stats"><button class="chip iconbtn" data-go="search" aria-label="Search">${ICON.search}</button><button class="chip iconbtn" data-go="settings" aria-label="Settings">${ICON.gear}</button><span class="chip" aria-label="${S.streak} day streak">${ICON.flame}${S.streak}</span></div></header>
     <main>${inner}</main>
     <nav class="tabs"><div class="in"><button data-go="home" ${["home","unit","duas","salawat"].includes(view.name)?'aria-current="page"':""}>${ICON.home}Learn</button><button data-go="syllabus" ${["syllabus","year","spec"].includes(view.name)||(view.name==="book"&&!isLibBook())?'aria-current="page"':""}>${ICON.learn}Course</button><button data-go="library" ${view.name==="library"||isLibBook()?'aria-current="page"':""}>${ICON.shelf}Library</button><button data-go="tools" ${["tools","guide","qibla","qada","zakat","inherit"].includes(view.name)?'aria-current="page"':""}>${ICON.tools}Tools</button><button data-go="profile" ${view.name==="profile"?'aria-current="page"':""}>${ICON.user}Progress</button></div></nav>`;
@@ -562,15 +562,19 @@ function learnHome(){
   if (!LEARN) { loadLearn().then(() => { if (view.name === "home") render(); }); return `<p class="muted">Loading…</p>`; }
   const nx = nextLearn(), u = LEARN.find(x => x.id === (OLD_TOPIC[S.topic] || S.topic)) || (nx && nx.u) || LEARN[0];
   const d = u.lessons.filter(l => learnDone(l.id)).length, n = u.lessons.length, pct = Math.round(d / n * 100);
-  const head = `<button class="card topic" id="topic-change" aria-haspopup="dialog" aria-label="${esc(u.title)}, ${pct}% done. Change course"><span class="topic-r"><span class="topic-t">${esc(u.title)}</span><span class="chip-btn" aria-hidden="true">Change</span></span>
-    <span class="small muted topic-b">Based on ${esc(u.book || "")}</span><span class="topic-p"><span class="bar"><i style="width:${Math.max(2, pct)}%;background:${u.color}"></i></span><span class="small muted">${pct}%</span></span></button>`;
+  const head = `<button class="topic" id="topic-change" aria-haspopup="dialog" aria-label="Course: ${esc(u.title)}, ${pct}% done. Change course" style="--uc:${u.color}">
+    <span class="tp-ico ar" aria-hidden="true">${({aqeedah:"ع",fiqh:"ف",halal:"ح",doubts:"ي",seerah:"س",quran:"ق",tazkiyah:"ت"})[u.id] || ""}</span>
+    <span class="tp-mid"><span class="tp-k">Course</span><span class="tp-t">${esc(u.title)}</span>
+      <span class="tp-p"><span class="bar"><i style="width:${Math.max(2, pct)}%;background:${u.color}"></i></span><span class="tp-n">${d}/${n}</span></span></span>
+    <span class="tp-ch">Change<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></button>
+    <p class="small muted tp-b">Based on ${esc(u.book || "")}</p>`;
   const card = (l, k) => { const ok = learnDone(l.id);
     return `<article class="lcard" style="--uc:${u.color}"><div class="lc-art" aria-hidden="true"><span class="ar">${esc(u.ar || "")}</span><span class="lc-n">${k+1} of ${n}</span></div>
       <div class="lc-body"><p class="lc-k">${esc(u.title)}</p><h3>${esc(l.title)}</h3><p class="lc-a">${esc(l.about || "")}</p></div>
       ${ok ? `<button class="lc-btn done" data-learn="${u.id}|${k}">${ICON.check.replace("<svg",'<svg width="16" height="16"')} Lesson complete<span class="small"> · go over it again</span></button>`
            : `<button class="lc-btn" data-learn="${u.id}|${k}">Start lesson</button>`}</article>`; };
   const decks = (LEARN_DECK[u.id] || []).map(id => FARD_DECKS.find(x => x.id === id)).filter(Boolean);
-  return `${head}<div class="lcards" id="lcards" data-topic="${u.id}" aria-label="${esc(u.title)} lessons, swipe to see more">${u.lessons.map(card).join("")}</div>${decks.length ? `<p class="label">Review with flashcards</p><div class="stack">${decks.map(d => itemDeck(d, true)).join("")}</div>` : ""}`;
+  return `${head}<div class="lcards" id="lcards" data-topic="${u.id}" aria-label="${esc(u.title)} lessons, swipe to see more">${u.lessons.map(card).join("")}</div>${salawatCard()}${decks.length ? `<p class="label">Review with flashcards</p><div class="stack">${decks.map(d => itemDeck(d, true)).join("")}</div>` : ""}`;
 }
 function topicSheet(){
   const d = modal(`<h2 style="margin:4px 0 4px;text-align:center">Switch course</h2><p class="small muted" style="text-align:center;margin:0 0 14px">Every lesson is open. Each course follows a classical book, and every card has been checked against its source text.</p>
@@ -686,7 +690,6 @@ function homeView(){
   return shell(`
     <section class="illum"><p class="ar illum-ar">السَّلَامُ عَلَيْكُمْ</p><p class="illum-en">Assalamu 'alaykum${S.name?`, ${esc(S.name)}`:""}</p></section>
     ${streakCard}
-    ${salawatCard()}
     ${learnHome()}
     <section class="card hotd" id="hotd" hidden></section>
     ${cardsRow}${course}${readRow}
