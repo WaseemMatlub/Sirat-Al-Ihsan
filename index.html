@@ -519,6 +519,7 @@ mark.hl.has-note{border-bottom:2px solid #8A6D00}
 .recap .rc-x{display:block;font-size:.92rem;line-height:1.5;margin-top:3px;color:var(--ink)}
 .item.noico{display:flex;align-items:center;gap:12px}
 .item.noico>span:first-child{flex:1;min-width:0}
+.tb-goal{display:flex;align-items:center;gap:6px}.tb-goal input{width:6.5em;font:inherit;padding:7px 9px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
 
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--line);padding:4px;border-radius:14px}
 .seg button{border:0;background:transparent;border-radius:10px;padding:10px 6px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
@@ -2823,17 +2824,18 @@ const DHIKR = [
   ["free", "", "Any dhikr", "Count anything you like"],
 ];
 function tasbihView(){
-  const T = S.tasbih = S.tasbih || { d:"subhan", n:0, target:33, tot:{} }, d = DHIKR.find(x => x[0] === T.d) || DHIKR[0];
+  const T = S.tasbih = S.tasbih || { d:"subhan", n:0, target:0, tot:{} }, d = DHIKR.find(x => x[0] === T.d) || DHIKR[0];
   const inRound = T.target ? (T.n % T.target || (T.n ? T.target : 0)) : 0, pct = T.target ? inRound / T.target * 100 : 0, rounds = T.target ? Math.floor((T.n - 1) / T.target) : 0;
   return shell(`<button class="back" data-go="tools">${ICON.back} Tools</button><h1 style="margin-bottom:8px">Tasbih counter</h1>${tlSwitch()}
     <div class="tb-chips" role="group" aria-label="Choose a dhikr">${DHIKR.map(x => `<button class="dchip ${x[0] === T.d ? "on" : ""}" data-tbd="${x[0]}" aria-pressed="${x[0] === T.d}">${esc(x[2])}</button>`).join("")}</div>
     <button class="tb-pad" id="tbtap" aria-label="Count one. ${T.n} so far">
       ${d[1] ? `<span class="ar tb-ar" lang="ar">${esc(d[1])}</span>${tlOn() ? `<span class="tb-en" style="font-style:italic">${esc(translit(d[1]))}</span>` : ""}` : ""}<span class="tb-en">${esc(d[3])}</span>
       <span class="tb-n" aria-live="polite">${T.n}</span>
-      ${T.target ? `<span class="tb-ring" style="--p:${pct}%"></span><span class="tb-of">${inRound} of ${T.target}${rounds > 0 ? ` · ${rounds} round${rounds > 1 ? "s" : ""} done` : ""}</span>` : `<span class="tb-of">no target</span>`}
+      ${T.target ? `<span class="tb-ring" style="--p:${pct}%"></span><span class="tb-of">${inRound} of ${T.target}${rounds > 0 ? ` · ${rounds} round${rounds > 1 ? "s" : ""} done` : ""}</span>` : `<span class="tb-of">Counting freely</span>`}
       <span class="tb-hint">Tap anywhere here</span></button>
-    <div class="tb-row"><label class="small">Target <select id="tbt">${[33, 34, 99, 100, 1000, 0].map(n => `<option value="${n}" ${T.target === n ? "selected" : ""}>${n || "None"}</option>`).join("")}</select></label>
+    <div class="tb-row"><label class="small tb-goal">Your target <input id="tbt" type="number" inputmode="numeric" min="1" max="1000000" placeholder="None" value="${T.target || ""}" aria-describedby="tbt-h"></label>
       <button class="btn ghost small-btn" id="tbundo" ${T.n ? "" : "disabled"}>Undo</button><button class="btn ghost small-btn" id="tbreset" ${T.n ? "" : "disabled"}>Reset</button></div>
+    <p class="small muted" id="tbt-h" style="margin:4px 0 8px">Type any number you like, or leave it empty to count freely. You'll feel a buzz when you reach it.</p>
     <p class="small muted">All time: ${DHIKR.filter(x => (T.tot||{})[x[0]]).map(x => `${esc(x[2])} ${T.tot[x[0]].toLocaleString()}`).join(" · ") || "nothing yet"}.</p>
     <details class="exbox"><summary><b>After each prayer</b></summary><p class="small" style="margin:8px 0 0">Subhan Allah 33, al-hamdu lillah 33, Allahu akbar 33 (or 34), then the tahlil once: "Whoever does this after every prayer, his sins are forgiven even if they are like the foam of the sea." Sahih Muslim (597), from Abu Hurayrah رضي الله عنه.</p></details>`);
 }
@@ -2843,7 +2845,7 @@ function bindTasbih(){
     const hit = T.target && T.n % T.target === 0; if (navigator.vibrate) navigator.vibrate(hit ? [60, 60, 60] : 8);
     if (hit) toast(`${T.target} done. Alhamdulillah`); render(); };
   document.querySelectorAll("[data-tbd]").forEach(b => b.onclick = () => { T.d = b.dataset.tbd; T.n = 0; save(); render(); });
-  const t = $("#tbt"); if (t) t.onchange = () => { T.target = +t.value; save(); render(); };
+  const t = $("#tbt"); if (t) t.onchange = () => { const v = Math.floor(+t.value); T.target = v > 0 ? Math.min(v, 1000000) : 0; save(); render(); };
   const u = $("#tbundo"); if (u) u.onclick = () => { if (T.n) { T.n--; T.tot[T.d] = Math.max(0, (T.tot[T.d]||1) - 1); save(); render(); } };
   const r = $("#tbreset"); if (r) r.onclick = () => { T.n = 0; save(); render(); };
 }
@@ -3178,5 +3180,5 @@ function tlDecorate(root){
   new MutationObserver(() => { if (q) return; q = requestAnimationFrame(() => { q = 0; tlDecorate(app); }); }).observe(app, { childList:true, subtree:true }); })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=92f813f9e4");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=36b800f615");</script></body>
 </html>
