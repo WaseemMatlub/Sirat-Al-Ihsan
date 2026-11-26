@@ -54,13 +54,13 @@ t0 = time.time(); nw = 0
 for f in files():
     try: d = json.load(open(f))
     except Exception: continue
-    secs = d.get("sections") if isinstance(d, dict) else None
-    if not secs or d.get("ai_harakat"): continue
+    secs = d.get("sections") if isinstance(d, dict) else (d if isinstance(d, list) else None)
+    if not secs or not isinstance(secs[0], dict) or (isinstance(d, dict) and d.get("ai_harakat")): continue
     if any("v" in s for s in secs) or not needs([x for s in secs[:20] for x in s.get("p", [])]): continue
     for s in secs:
         if s.get("p"): s["p"] = vowel_batch(s["p"]); nw += sum(len(x.split()) for x in s["p"])
         if s.get("h") and not re.search("[a-zA-Z]", s["h"]): s["h"] = vowel_batch([s["h"]])[0]
-    d["ai_harakat"] = True
+    if isinstance(d, dict): d["ai_harakat"] = True
     json.dump(d, open(f, "w"), ensure_ascii=False, separators=(",", ":"))
     print(f"{os.path.relpath(f, TEXTS)}: {nw} words, {time.time()-t0:.0f}s", flush=True)
 print("done", nw, "words", f"{time.time()-t0:.0f}s")
