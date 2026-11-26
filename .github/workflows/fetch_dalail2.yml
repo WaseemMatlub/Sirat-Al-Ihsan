@@ -1,0 +1,15 @@
+name: fetch-dalail-2
+on: workflow_dispatch
+permissions: { contents: write }
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download the Urdu-English Dala'il PDF (source only, kept on a separate unpublished branch)
+        run: |
+          mkdir -p /tmp/d && curl -fsSL -A "Mozilla/5.0" "https://data.nur.nu/Kutub/English/Dalail-al-Khayrat-collection/Dalail-al-Khayrat-urdu-eng.pdf" -o /tmp/d/dalail-eng.pdf
+          ls -la /tmp/d; file /tmp/d/dalail-eng.pdf
+          git config user.name "github-actions"; git config user.email "actions@github.com"
+          git fetch origin dalail-src && git checkout dalail-src
+          cp /tmp/d/dalail-eng.pdf . && git add dalail-eng.pdf && git commit -m "Dala'il al-Khayrat Urdu-English source PDF" && git push origin dalail-src
