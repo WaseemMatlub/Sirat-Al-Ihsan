@@ -1,5 +1,8 @@
 name: add-harakat
-on: workflow_dispatch
+on:
+  workflow_dispatch:
+    inputs:
+      only: { description: 'Run just this shard (blank = all)', required: false, default: '' }
 permissions: { contents: write }
 jobs:
   vowel:
@@ -8,17 +11,23 @@ jobs:
     strategy:
       fail-fast: false
       matrix: { shard: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19] }
+    env: { ONLY: "${{ inputs.only }}" }
     steps:
       - uses: actions/checkout@v4
+      - name: Skip?
+        run: if [ -n "$ONLY" ] && [ "$ONLY" != "${{ matrix.shard }}" ]; then echo SKIP=1 >> $GITHUB_ENV; fi
       - name: Install the CATT tashkeel model (Apache-2.0)
+        if: env.SKIP != '1'
         run: |
           pip install -q torch --index-url https://download.pytorch.org/whl/cpu
           pip install -q pytorch_lightning kaldialign
           git clone -q --depth 1 https://github.com/abjadai/catt /tmp/catt
-          mkdir -p /tmp/catt/models && curl -fsSL -o /tmp/catt/models/best_eo_mlm_ns_epoch_193.pt https://github.com/abjadai/catt/releases/download/v2/best_eo_mlm_ns_epoch_193.pt
+          mkdir -p /tmp/catt/models && curl -fsSL --retry 6 --retry-all-errors -o /tmp/catt/models/best_eo_mlm_ns_epoch_193.pt https://github.com/abjadai/catt/releases/download/v2/best_eo_mlm_ns_epoch_193.pt
       - name: Add harakat to this shard
-        run: cd /tmp/catt && python tools_run.py 2>/dev/null || python $GITHUB_WORKSPACE/tools/harakat.py $GITHUB_WORKSPACE/data/texts ${{ matrix.shard }} 20 /tmp/catt
+        if: env.SKIP != '1'
+        run: python $GITHUB_WORKSPACE/tools/harakat.py $GITHUB_WORKSPACE/data/texts ${{ matrix.shard }} 20 /tmp/catt
       - name: Keep the changed files
+        if: env.SKIP != '1'
         run: |
           mkdir -p /tmp/out && cd data/texts && git ls-files -m . | while read f; do mkdir -p /tmp/out/$(dirname "$f"); cp "$f" /tmp/out/"$f"; done; ls -R /tmp/out | head
       - uses: actions/upload-artifact@v4
@@ -33,6 +42,7 @@ jobs:
         with: { path: /tmp/all }
       - name: Commit to the harakat branch for review
         run: |
-          for d in /tmp/all/shard-*; do cp -r "$d"/. data/texts/; done
           git config user.name "github-actions"; git config user.email "actions@github.com"
-          git checkout -b harakat && git add data/texts && git commit -qm "Library texts: harakat added by the CATT model, awaiting a teacher's check" && git push -f origin harakat
+          if git fetch -q origin harakat; then git checkout -q -B harakat FETCH_HEAD; else git checkout -q -b harakat; fi
+          for d in /tmp/all/shard-*; do cp -r "$d"/. data/texts/; done
+          git add data/texts && git commit -qm "Library texts: harakat added by the CATT model, awaiting a teacher's check" && git push origin harakat || echo nothing new
