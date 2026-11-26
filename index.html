@@ -516,6 +516,7 @@ mark.hl.has-note{border-bottom:2px solid #8A6D00}
 .cform{display:grid;gap:10px;margin-top:8px}.cform label{display:grid;gap:4px;font-weight:600}.cform input,.cform select{font:inherit;font-weight:400;padding:9px 10px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
 .tl{font-style:italic;color:var(--muted);margin:4px 0 6px;line-height:1.6;font-size:.95rem}.dl-text+.tl,.tl-read{font-size:.92rem}
 .tl-sw{margin-bottom:6px}
+.recap .rc-x{display:block;font-size:.92rem;line-height:1.5;margin-top:3px;color:var(--ink)}
 
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--line);padding:4px;border-radius:14px}
 .seg button{border:0;background:transparent;border-radius:10px;padding:10px 6px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
@@ -1291,7 +1292,8 @@ function renderLearn(){
     if (st.kind === "recap") {
       const nxt = LS.u.lessons[LS.k + 1];
       body = `<div class="kicker">To recap</div><h2 style="margin:4px 0 12px">${esc(LS.l.title)}</h2>
-        <ol class="recap">${LS.l.cards.map(c => `<li><span><b>${esc(c.t)}</b><span class="small muted" style="display:block">${esc(c.src)}</span></span></li>`).join("")}</ol>
+        <ol class="recap">${LS.l.cards.map(c => `<li><span><b>${esc(c.t)}</b><span class="rc-x">${esc(c.x)}</span></span></li>`).join("")}</ol>
+        <p class="small muted" style="margin:10px 0 0">From ${esc([...new Set(LS.l.cards.map(c => c.src.split(",")[0]))].join(" and "))}</p>
         ${nxt ? `<p class="muted" style="margin-top:16px">Next time: ${esc(nxt.title)}.</p>` : ""}`;
       foot = `<div class="pfoot"><button class="btn" id="next">Finish lesson</button></div>`;
     } else {
@@ -3174,5 +3176,5 @@ function tlDecorate(root){
   new MutationObserver(() => { if (q) return; q = requestAnimationFrame(() => { q = 0; tlDecorate(app); }); }).observe(app, { childList:true, subtree:true }); })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=15d488d42e");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=07e651a89d");</script></body>
 </html>
