@@ -401,6 +401,25 @@ nav.tabs .in{grid-template-columns:repeat(5,1fr)!important;padding:6px 6px 10px}
 .tp-b{margin:0 2px 12px}
 .salcard{margin-top:4px}
 
+/* highlights and notes */
+mark.hl{color:inherit;border-radius:3px;padding:0 1px;cursor:pointer;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.hl-y{background:#FFE58A}.hl-g{background:#BFEBC7}.hl-b{background:#C3DDFB}.hl-p{background:#F9C7DA}
+html[data-theme=dark] mark.hl{color:#111}
+@media (prefers-color-scheme:dark){html:not([data-theme=light]) mark.hl{color:#111}}
+mark.hl.has-note{border-bottom:2px solid #8A6D00}
+.hlbar{position:fixed;z-index:60;display:flex;align-items:center;gap:6px;padding:6px 8px;background:#1F2328;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.hlc{width:30px;height:30px;border-radius:50%;border:2px solid rgba(255,255,255,.85);padding:0}.hlc.on{outline:3px solid var(--ink);outline-offset:2px}
+.hlsep{width:1px;height:22px;background:rgba(255,255,255,.25);margin:0 2px}
+.hlbtn{background:none;border:0;color:#fff;font-weight:700;font-size:.88rem;padding:6px 8px;border-radius:8px}
+.hlq{margin:0 0 12px;padding:10px 12px;border-left:4px solid #E0B400;background:var(--soft);border-radius:8px;line-height:1.7;max-height:30vh;overflow:auto}
+.hlq.ar{border-left:0;border-right:4px solid #E0B400;font-size:1.2rem}
+#hlnote{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);margin:6px 0 12px;resize:vertical}
+.hlcols{display:flex;gap:10px;margin:0 0 14px}.hlcols .hlc{border-color:var(--line)}
+.hlitem{grid-template-columns:auto 1fr!important;align-items:start}
+.hlsw{width:10px;align-self:stretch;min-height:34px;border-radius:5px;display:block}
+.hlnote-s{display:block;margin-top:6px;font-size:.88rem;color:var(--ink);background:var(--soft);border-radius:8px;padding:6px 8px}
+.notesrow{grid-template-columns:auto 1fr auto!important;margin-bottom:14px}
+
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--line);padding:4px;border-radius:14px}
 .seg button{border:0;background:transparent;border-radius:10px;padding:10px 6px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
 .seg button.on{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
@@ -1497,7 +1516,7 @@ function libraryView(){
   const shelves = LIB_SUBJECTS.filter(x => !f || x === f).map(x => { const bs = books.filter(b => libSubject(b) === x).sort((a, c) => a.year - c.year);
     return !bs.length ? "" : f ? `<p class="label">${esc(x)} <span class="muted small">${bs.length} books</span></p><div class="shelf">${bs.map(bookCard).join("")}</div>`
       : `<div class="shelf-h"><p class="label">${esc(x)}</p><button class="linkbtn" data-libsub="${esc(x)}">See all ${bs.length}</button></div><div class="shelf row">${bs.map(bookCard).join("")}</div>`; }).join("");
-  return shell(`<h1>Library</h1><p class="muted" style="margin:0 0 12px">${books.length} complete books, from the first texts to Sahih al-Bukhari. Free to read, bab by bab.</p>
+  return shell(`<h1>Library</h1><p class="muted" style="margin:0 0 12px">${books.length} complete books, from the first texts to Sahih al-Bukhari. Free to read, bab by bab.</p>${hlEntries().length ? `<button class="item notesrow" data-go="notes"><span class="hlsw hl-y" aria-hidden="true"></span><span style="flex:1;min-width:0"><span class="t">Your notes</span><br><span class="s">${hlEntries().length} highlights and notes</span></span><span aria-hidden="true">›</span></button>` : ""}
     ${cont}${chips}${shelves}
     <p class="small muted" style="margin-top:18px">Arabic texts from the OpenITI corpus. Harakat and English marked “Awaiting a teacher's check” are waiting for a teacher's check.</p>`);
 }
@@ -1523,6 +1542,7 @@ function textView(b){
     ${done.length?`<div class="spread small muted"><span>${done.length} of ${n} read</span><span>${Math.round(done.length/n*100)}%</span></div><span class="bar" style="display:block;margin:4px 0 10px"><i style="width:${done.length/n*100}%;background:var(--brand)"></i></span>`:""}
     ${next>=0?`<button class="btn" data-read="${b.id}|${next}" style="margin:4px 0 6px">${done.length?`Continue from section ${next+1}`:"Start reading"}</button>
       <button class="linkbtn small" id="markread" data-mark="${b.id}" style="display:block;margin:2px 0 8px">I've already read this book</button>`:`<div class="notice">${ICON.check}<span>You've read the whole book, alhamdulillah.</span></div>`}
+    ${hlEntries(b.id).length ? `<p class="label">Your highlights and notes</p>${hlListHtml(hlEntries(b.id), false)}` : ""}
     <p class="label">Contents</p>${toc}
     <p class="small muted" style="margin-top:14px">${T.ai?"The harakat and English are awaiting a teacher's check. ":""}${hasEn(b)?"":"Arabic text from the OpenITI corpus; English will be added."}</p>`);
 }
@@ -1538,7 +1558,7 @@ function readView(b, i){
         ${s.v ? `<button class="tool ${S.harakat!==false?"on":""}" id="tg-h">حَ Harakat ${S.harakat!==false?"on":"off"}</button>` : `<button class="tool" disabled style="opacity:.55" title="Harakat for this book are being added">حَ No harakat yet</button>`}${s.en?`<button class="tool ${P.english?"on":""}" id="tg-e">EN English</button>`:""}
         <button class="tool" id="fsdn" aria-label="Smaller text">A−</button><button class="tool" id="fsup" aria-label="Larger text">A+</button>
         ${AUD.on?`<button class="tool" id="rate">${P.rate}× speed</button>`:""}</div>
-      ${S.dictUsed ? "" : `<p class="small muted" style="margin:0 0 8px">Tip: tap any Arabic word to look it up in the dictionary.</p>`}<div class="card fs${P.size}">${paras}</div>${toolRow(key,false)}</div>
+      ${S.dictUsed && hlEntries().length ? "" : `<p class="small muted" style="margin:0 0 8px">Tip: tap a word to look it up. Press and hold, then select words to highlight them or add a note.</p>`}<div class="card fs${P.size}">${paras}</div>${toolRow(key,false)}</div>
     <div class="pfoot"><div class="grades two"><button class="grade" id="rprev" style="background:var(--surface);color:var(--ink);border:1px solid var(--line)" ${i===0?"disabled":""}>← Previous</button><button class="grade g2" id="rnext">${i+1<T.sections.length?"✓ Read · next":"✓ Finish"}</button></div></div></div></div>`;
 }
 /* ---- Dictionary: tap an Arabic word in the reader ----
@@ -1591,7 +1611,8 @@ async function showLookup(word){
 }
 function bindRead(b, i){
   const T = TEXTS[b.file]; bindTools($("#app"), () => { $("#app").innerHTML = readView(b, i); bindRead(b, i); });
-  $("#app").querySelectorAll(".ar-read").forEach(p => p.onclick = e => { if (String(getSelection())) return; const w = wordAt(e.clientX, e.clientY); if (normAr(w).length >= 2) showLookup(w); });
+  $("#app").querySelectorAll(".ar-read").forEach(p => p.onclick = e => { if (String(getSelection()) || e.target.closest("mark.hl")) return; const w = wordAt(e.clientX, e.clientY); if (normAr(w).length >= 2) showLookup(w); });
+  hlBind(b, i);
   const tg = (k) => () => { S.readPrefs[k] = !S.readPrefs[k]; save(); $("#app").innerHTML = readView(b, i); bindRead(b, i); };
   const th = $("#tg-h"); if (th) th.onclick = () => { S.harakat = S.harakat === false; save(); $("#app").innerHTML = readView(b, i); bindRead(b, i);
     if (S.harakat && !T.sections[i].v) toast("This book doesn't have harakat added yet. They'll appear when they're ready."); }; const te = $("#tg-e"); if (te) te.onclick = tg("english");
@@ -1988,7 +2009,7 @@ function checkUnlock(){                     // the next year opens when this yea
   const n = Math.max(...S.unlocked); if (n >= YEARS.length) return;
   const y = yearOf(n); if (y.prepared && yearStatus(y).open) { S.unlocked.push(n+1); save(); setTimeout(() => toast(`Year ${n+1} is now open, alhamdulillah`), 400); }
 }
-function render(){ appBadge(); checkUnlock();
+function render(){ appBadge(); checkUnlock(); if (typeof hlHideBar === "function") hlHideBar();
   const app = $("#app");
   if (!S.welcomed){ app.innerHTML = welcomeView(); bindWelcome(); return; }
   if (view.name === "home") app.innerHTML = homeView();
@@ -2001,6 +2022,7 @@ function render(){ appBadge(); checkUnlock();
   else if (view.name === "syllabus") app.innerHTML = syllabusView();
   else if (view.name === "settings") app.innerHTML = settingsView();
   else if (view.name === "unit") app.innerHTML = unitView(view.id);
+  else if (view.name === "notes") app.innerHTML = notesView();
   else if (toolsRender(app)) {}
   else app.innerHTML = profileView();
   app.querySelectorAll("[data-go]").forEach(b => b.onclick = () => go({ name:b.dataset.go }));
@@ -2383,6 +2405,96 @@ function toolsBind(app){
   if (view.name === "inherit") bindInherit(); if (view.name === "salawat") bindSalawat(); if (view.name === "home") bindSalCard();
 }
 
+/* ============================ Highlights and notes in the reader (Kindle-style) ============================
+   S.hl["bookId|section"] = [{ id, p, w:"ar"|"en", q, k, c, note, at }]
+   q: the selected text with harakat removed; k: which occurrence of q in that paragraph. Matching ignores harakat,
+   so highlights survive switching harakat on and off. Saved on the device with the rest of the user's data. */
+const HL_COLORS = [["y","Yellow"],["g","Green"],["b","Blue"],["p","Pink"]];
+const hlNorm = s => s.replace(/[ً-ٰٟـۖ-ۭ‌-‏]/g, "").replace(/\s+/g, " ");
+function hlMap(text){ let n = "", map = [], sp = false;
+  for (let i = 0; i < text.length; i++) { const ch = text[i];
+    if (/[ً-ٰٟـۖ-ۭ‌-‏]/.test(ch)) continue;
+    if (/\s/.test(ch)) { if (sp) continue; sp = true; n += " "; map.push(i); continue; }
+    sp = false; n += ch; map.push(i); }
+  return { n, map }; }
+function hlRange(el, s, e){ const r = document.createRange(), w = document.createTreeWalker(el, NodeFilter.SHOW_TEXT); let pos = 0, node, set = false;
+  while ((node = w.nextNode())) { const L = node.textContent.length;
+    if (!set && s < pos + L) { r.setStart(node, s - pos); set = true; }
+    if (set && e <= pos + L) { r.setEnd(node, e - pos); return r; } pos += L; }
+  return null; }
+function hlList(key){ S.hl = S.hl || {}; return S.hl[key] || (S.hl[key] = []); }
+function hlApply(bid, i){
+  const key = `${bid}|${i}`, list = (S.hl||{})[key] || [];
+  list.forEach(h => { const para = document.querySelector(`.para[data-pj="${h.p}"] .${h.w === "en" ? "en-read" : "ar-read"}`); if (!para) return;
+    const { n, map } = hlMap(para.textContent); let at = -1, from = 0;
+    for (let c = 0; c <= h.k; c++) { at = n.indexOf(h.q, from); if (at < 0) break; from = at + 1; }
+    if (at < 0) return; const s = map[at], e = map[at + h.q.length - 1] + 1;
+    // extend the end over any harakat that follow the last letter
+    let end = e; const t = para.textContent; while (end < t.length && /[ً-ٰٟۖ-ۭ]/.test(t[end])) end++;
+    const r = hlRange(para, s, end); if (!r) return;
+    try { const m = document.createElement("mark"); m.className = `hl hl-${h.c}${h.note ? " has-note" : ""}`; m.dataset.hl = h.id; m.tabIndex = 0;
+      m.setAttribute("aria-label", h.note ? "Highlight with a note" : "Highlight"); m.appendChild(r.extractContents()); r.insertNode(m); } catch(e){} });
+}
+let HLBAR = null;
+function hlHideBar(){ if (HLBAR) { HLBAR.remove(); HLBAR = null; } }
+function hlFromSelection(bid, i){
+  const sel = getSelection(); if (!sel || sel.isCollapsed || !sel.rangeCount) return null;
+  const r = sel.getRangeAt(0), el = (r.commonAncestorContainer.nodeType === 3 ? r.commonAncestorContainer.parentElement : r.commonAncestorContainer).closest(".ar-read,.en-read");
+  if (!el || !el.closest(".reader")) return null;
+  const para = el.closest(".para"); if (!para) return null;
+  const pre = document.createRange(); pre.selectNodeContents(el); pre.setEnd(r.startContainer, r.startOffset);
+  const before = hlNorm(pre.toString()), q = hlNorm(r.toString()).trim(); if (q.length < 2) return null;
+  const full = hlMap(el.textContent).n; let k = 0, from = 0, at;
+  const startN = before.replace(/^\s+/, "").length + (before.length - before.replace(/^\s+/, "").length);
+  while ((at = full.indexOf(q, from)) >= 0 && at < startN - 1) { k++; from = at + 1; }
+  return { p: +para.dataset.pj, w: el.classList.contains("en-read") ? "en" : "ar", q, k, rect: r.getBoundingClientRect() };
+}
+function hlSave(bid, i, sel, c, note){
+  const list = hlList(`${bid}|${i}`), h = { id: Date.now().toString(36) + Math.random().toString(36).slice(2, 5), p: sel.p, w: sel.w, q: sel.q, k: sel.k, c, note: note || "", at: Date.now() };
+  list.push(h); save(); return h; }
+function hlShowBar(b, i, sel){
+  hlHideBar(); const bar = HLBAR = document.createElement("div"); bar.className = "hlbar"; bar.setAttribute("role", "toolbar"); bar.setAttribute("aria-label", "Highlight");
+  bar.innerHTML = HL_COLORS.map(([c, t]) => `<button class="hlc hl-${c}" data-c="${c}" aria-label="Highlight ${t}"></button>`).join("") +
+    `<span class="hlsep"></span><button class="hlbtn" data-act="note">Note</button><button class="hlbtn" data-act="copy">Copy</button>`;
+  document.body.appendChild(bar);
+  const top = sel.rect.bottom + 10 + bar.offsetHeight > innerHeight - 90 ? sel.rect.top - bar.offsetHeight - 10 : sel.rect.bottom + 10;
+  bar.style.top = Math.max(8, top) + "px"; bar.style.left = Math.min(innerWidth - bar.offsetWidth - 8, Math.max(8, sel.rect.left + sel.rect.width / 2 - bar.offsetWidth / 2)) + "px";
+  bar.onmousedown = e => e.preventDefault();
+  bar.querySelectorAll("[data-c]").forEach(x => x.onclick = () => { hlSave(b.id, i, sel, x.dataset.c); getSelection().removeAllRanges(); hlHideBar(); hlRedraw(b, i); });
+  bar.querySelector('[data-act="copy"]').onclick = () => { const t = String(getSelection()); (navigator.clipboard ? navigator.clipboard.writeText(t) : Promise.reject()).then(() => toast("Copied"), () => {}); hlHideBar(); };
+  bar.querySelector('[data-act="note"]').onclick = () => { getSelection().removeAllRanges(); hlHideBar(); const h = hlSave(b.id, i, sel, "y"); hlRedraw(b, i); hlEdit(b, i, h.id, true); };
+}
+function hlRedraw(b, i){ const y = document.querySelector(".pbody") ? document.querySelector(".pbody").scrollTop : 0; $("#app").innerHTML = readView(b, i); bindRead(b, i); const pb = document.querySelector(".pbody"); if (pb) pb.scrollTop = y; }
+function hlEdit(b, i, id, fresh){
+  const list = hlList(`${b.id}|${i}`), h = list.find(x => x.id === id); if (!h) return;
+  modal(`<h2 style="margin:0 0 8px">${fresh ? "Add a note" : "Highlight"}</h2>
+    <blockquote class="hlq ${h.w === "ar" ? "ar" : ""}" ${h.w === "ar" ? 'dir="rtl" lang="ar"' : ""}>${esc(h.q)}</blockquote>
+    <label class="small" for="hlnote" style="font-weight:700">Your note</label><textarea id="hlnote" rows="4" placeholder="Write a note…">${esc(h.note)}</textarea>
+    <div class="hlcols" role="group" aria-label="Colour">${HL_COLORS.map(([c, t]) => `<button class="hlc hl-${c} ${h.c === c ? "on" : ""}" data-c="${c}" aria-label="${t}" aria-pressed="${h.c === c}"></button>`).join("")}</div>
+    <div class="btnrow"><button class="btn ghost" id="hldel">Delete</button><button class="btn" id="hlok">Save</button></div>`, (el, close) => {
+      let c = h.c; el.querySelectorAll("[data-c]").forEach(x => x.onclick = () => { c = x.dataset.c; el.querySelectorAll("[data-c]").forEach(y => { y.classList.toggle("on", y === x); y.setAttribute("aria-pressed", y === x); }); });
+      const ta = el.querySelector("#hlnote"); setTimeout(() => ta.focus(), 50);
+      el.querySelector("#hlok").onclick = () => { h.note = ta.value.trim(); h.c = c; save(); close(); hlRedraw(b, i); if (h.note) toast("Note saved"); };
+      el.querySelector("#hldel").onclick = () => { list.splice(list.indexOf(h), 1); save(); close(); hlRedraw(b, i); toast("Highlight removed"); };
+      el.onclick = e => { if (e.target === el) close(); }; });
+}
+function hlBind(b, i){
+  hlApply(b.id, i);
+  document.querySelectorAll("mark.hl").forEach(m => { const open = e => { e.stopPropagation(); hlEdit(b, i, m.dataset.hl); }; m.onclick = open; m.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(e); } }; });
+  let t; document.onselectionchange = () => { clearTimeout(t); t = setTimeout(() => { if (!document.querySelector(".reader")) { hlHideBar(); document.onselectionchange = null; return; }
+    const s = hlFromSelection(b.id, i); if (s) hlShowBar(b, i, s); else hlHideBar(); }, 250); };
+}
+// all highlights and notes for one book, or every book
+function hlEntries(bid){ const out = []; for (const [k, list] of Object.entries(S.hl || {})) { const [id, i] = k.split("|"); if (bid && id !== bid) continue; list.forEach(h => out.push({ ...h, bid:id, i:+i })); }
+  return out.sort((a, b) => a.bid === b.bid ? (a.i - b.i || a.p - b.p) : 0); }
+function hlListHtml(entries, showBook){
+  return entries.length ? `<div class="stack">${entries.map(h => { const bk = bookById(h.bid); return `<button class="item hlitem" data-read="${h.bid}|${h.i}"><span class="hlsw hl-${h.c}" aria-hidden="true"></span>
+    <span style="min-width:0;flex:1">${showBook && bk ? `<span class="s" style="display:block">${esc(bk.title)} · section ${h.i + 1}</span>` : `<span class="s" style="display:block">Section ${h.i + 1}</span>`}
+      <span class="t ${h.w === "ar" ? "ar" : ""}" style="display:block">${esc(snip(h.q, 120))}</span>${h.note ? `<span class="hlnote-s">${esc(h.note)}</span>` : ""}</span></button>`; }).join("")}</div>`
+    : `<p class="muted">Select any words in a book to highlight them or add a note.</p>`; }
+function notesView(){ const all = hlEntries(); return shell(`<button class="back" data-go="library">${ICON.back} Library</button><h1>Your notes</h1>
+  <p class="muted" style="margin:0 0 14px">${all.length ? `${all.length} highlight${all.length > 1 ? "s" : ""}, ${all.filter(h => h.note).length} with notes. Tap one to open it in the book.` : "Highlights and notes you make in any book appear here."}</p>${hlListHtml(all, true)}`); }
+
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=ba41c88afc");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=b2c53f2c76");</script></body>
 </html>

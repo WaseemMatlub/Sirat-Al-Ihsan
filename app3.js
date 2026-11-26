@@ -965,7 +965,7 @@ function libraryView(){
   const shelves = LIB_SUBJECTS.filter(x => !f || x === f).map(x => { const bs = books.filter(b => libSubject(b) === x).sort((a, c) => a.year - c.year);
     return !bs.length ? "" : f ? `<p class="label">${esc(x)} <span class="muted small">${bs.length} books</span></p><div class="shelf">${bs.map(bookCard).join("")}</div>`
       : `<div class="shelf-h"><p class="label">${esc(x)}</p><button class="linkbtn" data-libsub="${esc(x)}">See all ${bs.length}</button></div><div class="shelf row">${bs.map(bookCard).join("")}</div>`; }).join("");
-  return shell(`<h1>Library</h1><p class="muted" style="margin:0 0 12px">${books.length} complete books, from the first texts to Sahih al-Bukhari. Free to read, bab by bab.</p>
+  return shell(`<h1>Library</h1><p class="muted" style="margin:0 0 12px">${books.length} complete books, from the first texts to Sahih al-Bukhari. Free to read, bab by bab.</p>${hlEntries().length ? `<button class="item notesrow" data-go="notes"><span class="hlsw hl-y" aria-hidden="true"></span><span style="flex:1;min-width:0"><span class="t">Your notes</span><br><span class="s">${hlEntries().length} highlights and notes</span></span><span aria-hidden="true">›</span></button>` : ""}
     ${cont}${chips}${shelves}
     <p class="small muted" style="margin-top:18px">Arabic texts from the OpenITI corpus. Harakat and English marked “Awaiting a teacher's check” are waiting for a teacher's check.</p>`);
 }
@@ -991,6 +991,7 @@ function textView(b){
     ${done.length?`<div class="spread small muted"><span>${done.length} of ${n} read</span><span>${Math.round(done.length/n*100)}%</span></div><span class="bar" style="display:block;margin:4px 0 10px"><i style="width:${done.length/n*100}%;background:var(--brand)"></i></span>`:""}
     ${next>=0?`<button class="btn" data-read="${b.id}|${next}" style="margin:4px 0 6px">${done.length?`Continue from section ${next+1}`:"Start reading"}</button>
       <button class="linkbtn small" id="markread" data-mark="${b.id}" style="display:block;margin:2px 0 8px">I've already read this book</button>`:`<div class="notice">${ICON.check}<span>You've read the whole book, alhamdulillah.</span></div>`}
+    ${hlEntries(b.id).length ? `<p class="label">Your highlights and notes</p>${hlListHtml(hlEntries(b.id), false)}` : ""}
     <p class="label">Contents</p>${toc}
     <p class="small muted" style="margin-top:14px">${T.ai?"The harakat and English are awaiting a teacher's check. ":""}${hasEn(b)?"":"Arabic text from the OpenITI corpus; English will be added."}</p>`);
 }
@@ -1006,7 +1007,7 @@ function readView(b, i){
         ${s.v ? `<button class="tool ${S.harakat!==false?"on":""}" id="tg-h">حَ Harakat ${S.harakat!==false?"on":"off"}</button>` : `<button class="tool" disabled style="opacity:.55" title="Harakat for this book are being added">حَ No harakat yet</button>`}${s.en?`<button class="tool ${P.english?"on":""}" id="tg-e">EN English</button>`:""}
         <button class="tool" id="fsdn" aria-label="Smaller text">A−</button><button class="tool" id="fsup" aria-label="Larger text">A+</button>
         ${AUD.on?`<button class="tool" id="rate">${P.rate}× speed</button>`:""}</div>
-      ${S.dictUsed ? "" : `<p class="small muted" style="margin:0 0 8px">Tip: tap any Arabic word to look it up in the dictionary.</p>`}<div class="card fs${P.size}">${paras}</div>${toolRow(key,false)}</div>
+      ${S.dictUsed && hlEntries().length ? "" : `<p class="small muted" style="margin:0 0 8px">Tip: tap a word to look it up. Press and hold, then select words to highlight them or add a note.</p>`}<div class="card fs${P.size}">${paras}</div>${toolRow(key,false)}</div>
     <div class="pfoot"><div class="grades two"><button class="grade" id="rprev" style="background:var(--surface);color:var(--ink);border:1px solid var(--line)" ${i===0?"disabled":""}>← Previous</button><button class="grade g2" id="rnext">${i+1<T.sections.length?"✓ Read · next":"✓ Finish"}</button></div></div></div></div>`;
 }
 /* ---- Dictionary: tap an Arabic word in the reader ----
@@ -1059,7 +1060,8 @@ async function showLookup(word){
 }
 function bindRead(b, i){
   const T = TEXTS[b.file]; bindTools($("#app"), () => { $("#app").innerHTML = readView(b, i); bindRead(b, i); });
-  $("#app").querySelectorAll(".ar-read").forEach(p => p.onclick = e => { if (String(getSelection())) return; const w = wordAt(e.clientX, e.clientY); if (normAr(w).length >= 2) showLookup(w); });
+  $("#app").querySelectorAll(".ar-read").forEach(p => p.onclick = e => { if (String(getSelection()) || e.target.closest("mark.hl")) return; const w = wordAt(e.clientX, e.clientY); if (normAr(w).length >= 2) showLookup(w); });
+  hlBind(b, i);
   const tg = (k) => () => { S.readPrefs[k] = !S.readPrefs[k]; save(); $("#app").innerHTML = readView(b, i); bindRead(b, i); };
   const th = $("#tg-h"); if (th) th.onclick = () => { S.harakat = S.harakat === false; save(); $("#app").innerHTML = readView(b, i); bindRead(b, i);
     if (S.harakat && !T.sections[i].v) toast("This book doesn't have harakat added yet. They'll appear when they're ready."); }; const te = $("#tg-e"); if (te) te.onclick = tg("english");
@@ -1456,7 +1458,7 @@ function checkUnlock(){                     // the next year opens when this yea
   const n = Math.max(...S.unlocked); if (n >= YEARS.length) return;
   const y = yearOf(n); if (y.prepared && yearStatus(y).open) { S.unlocked.push(n+1); save(); setTimeout(() => toast(`Year ${n+1} is now open, alhamdulillah`), 400); }
 }
-function render(){ appBadge(); checkUnlock();
+function render(){ appBadge(); checkUnlock(); if (typeof hlHideBar === "function") hlHideBar();
   const app = $("#app");
   if (!S.welcomed){ app.innerHTML = welcomeView(); bindWelcome(); return; }
   if (view.name === "home") app.innerHTML = homeView();
@@ -1469,6 +1471,7 @@ function render(){ appBadge(); checkUnlock();
   else if (view.name === "syllabus") app.innerHTML = syllabusView();
   else if (view.name === "settings") app.innerHTML = settingsView();
   else if (view.name === "unit") app.innerHTML = unitView(view.id);
+  else if (view.name === "notes") app.innerHTML = notesView();
   else if (toolsRender(app)) {}
   else app.innerHTML = profileView();
   app.querySelectorAll("[data-go]").forEach(b => b.onclick = () => go({ name:b.dataset.go }));

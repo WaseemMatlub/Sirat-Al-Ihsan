@@ -400,6 +400,25 @@ nav.tabs .in{grid-template-columns:repeat(5,1fr)!important;padding:6px 6px 10px}
 .tp-ch{display:inline-flex;align-items:center;gap:4px;flex:none;padding:7px 10px 7px 12px;border-radius:999px;background:var(--soft);font-size:.82rem;font-weight:700;color:var(--ink)}
 .tp-b{margin:0 2px 12px}
 .salcard{margin-top:4px}
+
+/* highlights and notes */
+mark.hl{color:inherit;border-radius:3px;padding:0 1px;cursor:pointer;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.hl-y{background:#FFE58A}.hl-g{background:#BFEBC7}.hl-b{background:#C3DDFB}.hl-p{background:#F9C7DA}
+html[data-theme=dark] mark.hl{color:#111}
+@media (prefers-color-scheme:dark){html:not([data-theme=light]) mark.hl{color:#111}}
+mark.hl.has-note{border-bottom:2px solid #8A6D00}
+.hlbar{position:fixed;z-index:60;display:flex;align-items:center;gap:6px;padding:6px 8px;background:#1F2328;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+.hlc{width:30px;height:30px;border-radius:50%;border:2px solid rgba(255,255,255,.85);padding:0}.hlc.on{outline:3px solid var(--ink);outline-offset:2px}
+.hlsep{width:1px;height:22px;background:rgba(255,255,255,.25);margin:0 2px}
+.hlbtn{background:none;border:0;color:#fff;font-weight:700;font-size:.88rem;padding:6px 8px;border-radius:8px}
+.hlq{margin:0 0 12px;padding:10px 12px;border-left:4px solid #E0B400;background:var(--soft);border-radius:8px;line-height:1.7;max-height:30vh;overflow:auto}
+.hlq.ar{border-left:0;border-right:4px solid #E0B400;font-size:1.2rem}
+#hlnote{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--surface);color:var(--ink);margin:6px 0 12px;resize:vertical}
+.hlcols{display:flex;gap:10px;margin:0 0 14px}.hlcols .hlc{border-color:var(--line)}
+.hlitem{grid-template-columns:auto 1fr!important;align-items:start}
+.hlsw{width:10px;align-self:stretch;min-height:34px;border-radius:5px;display:block}
+.hlnote-s{display:block;margin-top:6px;font-size:.88rem;color:var(--ink);background:var(--soft);border-radius:8px;padding:6px 8px}
+.notesrow{grid-template-columns:auto 1fr auto!important;margin-bottom:14px}
 </style>
 </head>
 <body>
