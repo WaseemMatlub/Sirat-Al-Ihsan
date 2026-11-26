@@ -46,21 +46,46 @@ def vowel_batch(paras):
         res[pi] = p
     return res
 
+LOW = 0.5   # a string with fewer marks than this per letter is voweled again from scratch
+def low(x):
+    L = len(re.findall("[ء-ي]", x)); return L >= 2 and len(H.findall(x)) / L < LOW
+
 def files():
-    fs = [f for f in glob.glob(os.path.join(TEXTS, "*.json")) + glob.glob(os.path.join(TEXTS, "*", "*.json")) if not f.endswith("index.json")]
+    fs = [f for f in glob.glob(os.path.join(TEXTS, "**", "*.json"), recursive=True)
+          if "/dict/" not in f and "wordaudio" not in f and "/audio" not in f and not f.endswith("index.json")]
     return sorted(f for f in fs if int(hashlib.md5(os.path.relpath(f, TEXTS).encode()).hexdigest(), 16) % SHARDS == SHARD)
 
-t0 = time.time(); nw = 0
+def collect(x, out, path=()):
+    """Every string in the file that is Arabic with too few harakat, with where it lives."""
+    if isinstance(x, str):
+        if low(x): out.append(path)
+    elif isinstance(x, dict):
+        for k, v in x.items(): collect(v, out, path + (k,))
+    elif isinstance(x, list):
+        for k, v in enumerate(x): collect(v, out, path + (k,))
+
+def get(d, p):
+    for k in p: d = d[k]
+    return d
+def put(d, p, v):
+    for k in p[:-1]: d = d[k]
+    d[p[-1]] = v
+
+total = 0; t0 = time.time()
 for f in files():
-    try: d = json.load(open(f))
+    try: d = json.load(open(f, encoding="utf-8"))
     except Exception: continue
-    secs = d.get("sections") if isinstance(d, dict) else (d if isinstance(d, list) else None)
-    if not secs or not isinstance(secs[0], dict) or (isinstance(d, dict) and d.get("ai_harakat")): continue
-    if any("v" in s for s in secs) or not needs([x for s in secs[:20] for x in s.get("p", [])]): continue
-    for s in secs:
-        if s.get("p"): s["p"] = vowel_batch(s["p"]); nw += sum(len(x.split()) for x in s["p"])
-        if s.get("h") and not re.search("[a-zA-Z]", s["h"]): s["h"] = vowel_batch([s["h"]])[0]
+    paths = []; collect(d, paths)
+    if not paths: continue
+    texts = [get(d, p) for p in paths]
+    out = []
+    for i in range(0, len(texts), 200): out += vowel_batch(texts[i:i+200])
+    changed = 0
+    for p, a, b in zip(paths, texts, out):
+        if a != b: put(d, p, b); changed += 1
+    if not changed: continue
     if isinstance(d, dict): d["ai_harakat"] = True
-    json.dump(d, open(f, "w"), ensure_ascii=False, separators=(",", ":"))
-    print(f"{os.path.relpath(f, TEXTS)}: {nw} words, {time.time()-t0:.0f}s", flush=True)
-print("done", nw, "words", f"{time.time()-t0:.0f}s")
+    json.dump(d, open(f, "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
+    n = sum(len(x.split()) for x in texts); total += n
+    print(f"{os.path.relpath(f, TEXTS)}: {changed} strings, {n} words, {time.time()-t0:.0f}s", flush=True)
+print("done", total, "words")

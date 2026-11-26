@@ -25,11 +25,11 @@ jobs:
           mkdir -p /tmp/catt/models && curl -fsSL --retry 6 --retry-all-errors -o /tmp/catt/models/best_eo_mlm_ns_epoch_193.pt https://github.com/abjadai/catt/releases/download/v2/best_eo_mlm_ns_epoch_193.pt
       - name: Add harakat to this shard
         if: env.SKIP != '1'
-        run: python $GITHUB_WORKSPACE/tools/harakat.py $GITHUB_WORKSPACE/data/texts ${{ matrix.shard }} 20 /tmp/catt
+        run: python $GITHUB_WORKSPACE/tools/harakat.py $GITHUB_WORKSPACE/data ${{ matrix.shard }} 20 /tmp/catt
       - name: Keep the changed files
         if: env.SKIP != '1'
         run: |
-          mkdir -p /tmp/out && cd data/texts && git ls-files -m . | while read f; do mkdir -p /tmp/out/$(dirname "$f"); cp "$f" /tmp/out/"$f"; done; ls -R /tmp/out | head
+          mkdir -p /tmp/out && cd data && git ls-files -m . | while read f; do mkdir -p /tmp/out/$(dirname "$f"); cp "$f" /tmp/out/"$f"; done; ls -R /tmp/out | head
       - uses: actions/upload-artifact@v4
         with: { name: "shard-${{ matrix.shard }}", path: /tmp/out, if-no-files-found: ignore, retention-days: 3 }
   collect:
@@ -44,5 +44,5 @@ jobs:
         run: |
           git config user.name "github-actions"; git config user.email "actions@github.com"
           if git fetch -q origin harakat; then git checkout -q -B harakat FETCH_HEAD; else git checkout -q -b harakat; fi
-          for d in /tmp/all/shard-*; do cp -r "$d"/. data/texts/; done
-          git add data/texts && git commit -qm "Library texts: harakat added by the CATT model, awaiting a teacher's check" && git push origin harakat || echo nothing new
+          for d in /tmp/all/shard-*; do cp -r "$d"/. data/; done
+          git add data && git commit -qm "Library texts: harakat added by the CATT model, awaiting a teacher's check" && git push origin harakat || echo nothing new
