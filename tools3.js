@@ -375,6 +375,7 @@ function duasView(sec){
   const cur = DUAS.sections.find(x => x.id === sec) || DUAS.sections[0];
   return shell(`<button class="back" data-go="home">${ICON.back} Home</button><h1 style="margin-bottom:10px">Du'as</h1>
     <div class="dseg" role="tablist" aria-label="Du'a collections">${DUAS.sections.map(x => `<button role="tab" aria-selected="${x.id === cur.id}" class="${x.id === cur.id ? "on" : ""}" data-dua="${x.id}">${esc(x.title)}</button>`).join("")}</div>
+    ${arSizeCtl()}
     <section class="about-box"><p class="ab-h">About this collection</p><p>${esc(cur.about || cur.sub)}</p><p class="small muted" style="margin:6px 0 0">Tap a du'a to open it. ${cur.items.length} in this collection.</p></section>
     <div class="dlist">${cur.items.map((x, i) => { const t = x.t.replace(/^\d+\.\s*/, "") || "Rabbana";
       return `<details class="dua"><summary><span class="dua-n">${i+1}</span><span class="g-m"><span class="g-t">${esc(t)}</span>${x.when || x.parts ? `<span class="g-s">${esc(x.when || x.parts.length + " short steps, in order")}</span>` : ""}</span>${CHEV}</summary>
@@ -386,6 +387,11 @@ const loadDalail = async () => DALAIL || (DALAIL = await fetch("data/dalail.json
 const dalailToday = () => [7, 1, 2, 3, 4, 5, 6][new Date().getDay()];   // Sunday = 7th hizb, Monday = 1st
 const DL_TILES = [["opening","Opening Du'a",""],["asma","Names of Allah","ﷻ"],["nabi","Names of the Prophet","ﷺ"],["niyyah","Du'a of Intention",""]];
 // Short phrases flow on one line with a stop mark between them; a new paragraph starts at each "Allahumma"
+// One Arabic size for every reading page (Dala'il, du'as, guides), saved on this device
+function arSizeCtl(){ const v = S.arSize || 1;
+  return `<div class="arsize"><span class="small muted">Arabic size</span><span class="ar small" aria-hidden="true">ا</span><input type="range" id="arsz" min="0.8" max="1.8" step="0.1" value="${v}" aria-label="Arabic text size"><span class="ar" aria-hidden="true" style="font-size:1.4rem">ا</span></div>`; }
+function bindArSize(){ const r = $("#arsz"); if (r) r.oninput = () => { S.arSize = +r.value; document.documentElement.style.setProperty("--arz", S.arSize); save(); };
+  const t = $("#dltr"); if (t) t.onchange = () => { S.dlTr = t.checked; save(); render(); }; }
 function dlFlow(paras){
   const out = []; let cur = [];
   const flush = () => { if (cur.length) out.push(`<p>${cur.map(x => `${esc(x)} <span class="dl-stop" aria-hidden="true"></span>`).join(" ")}</p>`); cur = []; };
@@ -416,6 +422,7 @@ function dalailView(n, x){
   return shell(`<button class="back" data-dlmenu>${ICON.back} Dala'il al-Khayrat</button>
     <div class="spread" style="align-items:baseline"><h1 style="margin-bottom:2px">Part ${cur.n}</h1><span class="ar muted" lang="ar" style="font-size:1.1rem">${esc(cur.ar)}</span></div>
     <p class="muted" style="margin:0 0 12px">${esc(cur.day)}${cur.n === t ? " · today's part" : ""}. Book pages ${esc(cur.pages)}.</p>
+    ${arSizeCtl()}${cur.en ? `<label class="dl-tr"><span>English translation</span><input type="checkbox" id="dltr" role="switch" ${S.dlTr ? "checked" : ""}></label>` : ""}
     <section class="card pad dl-card">
       ${cur.paras ? `<div class="dl-text" lang="ar" dir="rtl">${dlFlow(cur.paras)}</div>
         <button class="btn ${read ? "ghost" : ""}" id="dlread" style="margin-top:12px" ${read ? "disabled" : ""}>${read ? "Read today, alhamdulillah" : "I've read this part today"}</button>`
@@ -423,6 +430,7 @@ function dalailView(n, x){
     <div class="btnrow">${prev ? `<button class="btn ghost" data-hizb="${prev.n}">‹ Part ${prev.n}</button>` : "<span></span>"}${next ? `<button class="btn ghost" data-hizb="${next.n}">Part ${next.n} ›</button>` : `<button class="btn ghost" data-dlx="khatm">Du'a of Completion ›</button>`}</div>`);
 }
 /* ---------------- Tasbih ---------------- */
+const ICON_BEADS = '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="4" r="2"/><circle cx="6.5" cy="7" r="2"/><circle cx="17.5" cy="7" r="2"/><circle cx="5" cy="13" r="2"/><circle cx="19" cy="13" r="2"/><circle cx="8" cy="18.5" r="2"/><circle cx="16" cy="18.5" r="2"/></svg>';
 const DHIKR = [
   ["subhan", "سُبْحَانَ اللَّهِ", "Subhan Allah", "Glory be to Allah"],
   ["hamd", "الْحَمْدُ لِلَّهِ", "Al-hamdu lillah", "All praise is for Allah"],
@@ -477,6 +485,7 @@ function toolsBind(app){
   app.querySelectorAll("[data-hizb]").forEach(b => b.onclick = () => { if (b.getAttribute("aria-disabled")) return toast("This part is being typed in. Coming soon."); go({ name:"dalail", n:+b.dataset.hizb }); window.scrollTo(0,0); });
   app.querySelectorAll("[data-dlx]").forEach(b => b.onclick = () => { if (b.getAttribute("aria-disabled")) return toast("This section is being typed in from a printed edition. Coming soon."); go({ name:"dalail", x:b.dataset.dlx }); });
   app.querySelectorAll("[data-dlmenu]").forEach(b => b.onclick = () => go({ name:"dalail" }));
+  bindArSize();
   const dr = app.querySelector("#dlread"); if (dr) dr.onclick = () => { S.dalail = S.dalail || {}; S.dalail[new Date().toDateString()] = view.n; save(); toast("May Allah accept it"); render(); };
   app.querySelectorAll("[data-guide]").forEach(b => b.onclick = () => go({ name:"guide", id:b.dataset.guide }));
   app.querySelectorAll("[data-gstep]").forEach(b => b.onclick = () => { S.guides = S.guides || {}; const d = S.guides[view.id] = S.guides[view.id] || [], i = +b.dataset.gstep;

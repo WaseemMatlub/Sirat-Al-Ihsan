@@ -476,7 +476,7 @@ function applyTheme(){ const t = S.theme || "auto", r = document.documentElement
 function go(v){ if (typeof stopAudio === "function" && AUD.on) stopAudio(); view = v; render(); window.scrollTo(0,0); }
 function shell(inner){
   return `<header class="topbar"><button class="brandmark" data-go="home" aria-label="Dār aṣ-Ṣiddīq, go to home">${ICON.logo}<span>Dār aṣ-Ṣiddīq</span></button>
-    <div class="stats"><button class="chip iconbtn" data-go="search" aria-label="Search">${ICON.search}</button><button class="chip iconbtn" data-go="settings" aria-label="Settings">${ICON.gear}</button><span class="chip" aria-label="${S.streak} day streak">${ICON.flame}${S.streak}</span></div></header>
+    <div class="stats"><button class="chip iconbtn" data-go="search" aria-label="Search">${ICON.search}</button><button class="chip iconbtn" data-go="settings" aria-label="Settings">${ICON.gear}</button><button class="chip mini" data-go="profile" aria-label="${S.streak} day streak">${ICON.flame.replace("<svg",'<svg width="14" height="14"')}${S.streak}</button><button class="chip mini xp" data-go="profile" aria-label="${S.xp} XP">${ICON.star.replace("<svg",'<svg width="14" height="14"').replace("var(--brand)","var(--gold)")}${S.xp >= 10000 ? (S.xp/1000).toFixed(0)+"k" : S.xp}</button></div></header>
     <main>${inner}</main>
     <nav class="tabs"><div class="in"><button data-go="home" ${["home","unit","duas","salawat","dalail"].includes(view.name)?'aria-current="page"':""}>${ICON.home}Learn</button><button data-go="syllabus" ${["syllabus","year","spec"].includes(view.name)||(view.name==="book"&&!isLibBook())?'aria-current="page"':""}>${ICON.learn}Course</button><button data-go="library" ${view.name==="library"||isLibBook()?'aria-current="page"':""}>${ICON.shelf}Library</button><button data-go="tools" ${["tools","guide","qibla","qada","zakat","inherit"].includes(view.name)?'aria-current="page"':""}>${ICON.tools}Tools</button><button data-go="profile" ${view.name==="profile"?'aria-current="page"':""}>${ICON.user}Progress</button></div></nav>`;
 }
@@ -582,6 +582,13 @@ function learnDecks(){
   return (LEARN_DECK[u.id] || []).map(id => FARD_DECKS.find(x => x.id === id)).filter(Boolean).map(d => itemDeck(d, true)).join("");
 }
 const secH = (t, sub) => `<h2 class="sec-h">${t}</h2><p class="sec-s">${sub}</p>`;
+function tutorSheet(what){
+  modal(`<h2 style="margin:4px 0 6px">Study with a teacher</h2>
+    <p class="small" style="margin:0 0 10px">Our madrasa at Dār aṣ-Ṣiddīq al-Akbar (Bradford) teaches the classical books with qualified teachers, in person and online. Reading a text with a teacher is the way knowledge has always been passed on.</p>
+    <div class="about-box" style="margin:0 0 12px"><p class="small" style="margin:0"><b>You asked about:</b> ${esc(what)}</p></div>
+    ${TUTOR_URL ? `<a class="btn" href="${TUTOR_URL}" target="_blank" rel="noopener">Open the sign-up form</a>` : `<p class="small muted" style="margin:0 0 10px">Sign-ups open with the madrasa in the new year, in shā' Allāh. Check back here soon.</p>`}
+    <button class="btn ghost" id="tut-x" style="margin-top:10px">Close</button>`, (el, close) => { el.querySelector("#tut-x").onclick = close; el.onclick = e => { if (e.target === el) close(); }; });
+}
 function topicSheet(){
   const d = modal(`<h2 style="margin:4px 0 4px;text-align:center">Switch course</h2><p class="small muted" style="text-align:center;margin:0 0 14px">Every lesson is open. Each course follows a classical book, and every card has been checked against its source text.</p>
     <div class="stack">${LEARN.map(u => { const dn = u.lessons.filter(l => learnDone(l.id)).length, on = (OLD_TOPIC[S.topic] || S.topic || (nextLearn()||{u:LEARN[0]}).u.id) === u.id;
@@ -694,19 +701,26 @@ function homeView(){
   const more = `${secH("More to explore", "Extra courses and short books to read.")}<div class="stack">${tj ? itemDeck(tj, true) : ""}${signs ? itemBook(signs, true) : ""}
       ${ayy ? `<button class="item" data-read="t_ayyuha|0"><span class="libthumb">${cover(ayy, 34)}</span><span style="flex:1;min-width:0"><span class="t">Ayyuha al-Walad</span><br><span class="s">Imam al-Ghazali's رحمه الله letter of advice to a student</span></span><span class="pill">Read</span></button>` : ""}</div>`;
   const decksHtml = learnDecks();
+  const tile = (attr, ico, t, sub) => `<button class="hm-tile" ${attr}${sub ? ` aria-label="${t}, ${sub}"` : ""}><span class="hm-ico" aria-hidden="true">${ico}${sub && /review/.test(sub) ? `<i class="hm-badge">${cards}</i>` : ""}</span><span class="hm-t">${t}</span></button>`;
+  const G = typeof GICO !== "undefined" ? GICO : {};
   return shell(`
-    <h1 class="sr-only">Home</h1><section class="illum"><p class="ar illum-ar">السَّلَامُ عَلَيْكُمْ</p><p class="illum-en">Assalamu 'alaykum${S.name?`, ${esc(S.name)}`:""}</p></section>
-    <section class="card hotd" id="hotd" hidden></section>
+    <h1 class="hello">Salaam${S.name ? `, ${esc(S.name)}` : ""}</h1>
     ${streakCard}
-    ${secH("Learn the basics", "Short lessons on what every Muslim must know. Each ends with a few questions. Tap the course box to switch subject, and swipe to see more lessons.")}
+    <div class="sec-row"><h2 class="sec-h">Learn the basics</h2></div>
     ${learnHome()}
-    ${cardsRow || decksHtml ? `${secH("Remember what you've learnt", "Flashcards show a question; you recall the answer, then turn the card to check. The app brings each card back just before you would forget it.")}<div class="stack">${cardsRow.replace('class="card simple-row"', 'class="item"')}${decksHtml}</div>` : ""}
-    ${secH("Salawat on the Prophet ﷺ", "Send blessings on the Prophet ﷺ. One salawat each day, with a counter.")}
-    ${salawatCard()}
-    ${secH("Du'as", "Du'as for each part of the day, with harakat, meaning and source.")}
-    ${duaRows()}
-    ${course}${readRow}
-    ${more}
+    <section class="card hotd" id="hotd" hidden></section>
+    <h2 class="sec-h">Daily practice</h2>
+    <div class="hm-grid">
+      ${tile('data-go="salawat"', `<span class="ar">ص</span>`, "Salawat", "")}
+      ${tile('data-go="dalail"', `<span class="ar">د</span>`, "Dala'il", `Part ${typeof dalailToday === "function" ? dalailToday() : ""} today`)}
+      ${tile('data-dua="daily"', G.daily || "", "Du'as", "Daily du'as")}
+      ${tile('data-dua="rabbana"', G.rabbana || "", "Rabbana", "The 40 Rabbana")}
+      ${tile('data-dua="ghazali"', G.ghazali || "", "Ghazali", "Imam al-Ghazali's du'as")}
+      ${tile('data-go="tasbih"', ICON_BEADS, "Tasbih", "")}
+      ${cards || decksHtml ? tile('data-study="all"', ICON.flame.replace("<svg",'<svg width="22" height="22"'), "Flashcards", cards ? `${cards} to review` : "All done today") : ""}
+      ${tile('data-go="tools"', ICON.tools.replace("<svg",'<svg width="22" height="22"'), "Guides", "Guides and tools")}
+    </div>
+    ${course.replace('class="card simple-row"', 'class="card simple-row slim"')}${readRow.replace('class="card simple-row"', 'class="card simple-row slim"')}
     ${installCard()}`);
 }
 /* Optional course before Year 1: what every Muslim must know. Never required, never locks anything. */
@@ -744,11 +758,39 @@ function fardAynCard(){                     // Fard al-'Ayn: optional, for anyon
       <p class="sublabel">The End Times</p>${signs ? itemBook(signs, true) : ""}</div></details>`;
 }
 function syllabusView(){
-  const N = Math.max(...S.unlocked), place = N <= YEARS.length && !(S.tests[N] && S.tests[N].passed);
-  return shell(`<h1>Course</h1><p class="muted" style="margin:0 0 14px">For students of knowledge: the classical books, year by year. Each year opens when you have read the one before.</p>
-    <div class="stack">${YEARS.map(yearCard).join("")}${specCard()}</div>
+  const rec = recYear(), doneY = y => loaded(y) && y.prepared && yearStatus(y).open;
+  const node = (cls, attr, badge, t, sub, right) => `<li class="tr-node ${cls}"><button class="tr-btn" ${attr}><span class="tr-dot">${badge}</span><span class="tr-txt"><b>${t}</b><span class="small muted">${sub}</span></span>${right || ""}</button></li>`;
+  const fard = node(S.start === "fard" || !S.start ? "" : "", 'data-go="home"', ICON.check.replace("<svg",'<svg width="14" height="14"'), "Fard al-'Ayn", "The essentials for every Muslim. Start here if you are new.", `<span class="pill">Learn tab</span>`);
+  const years = YEARS.map(y => { const dn = doneY(y), cur = y.n === rec;
+    return node(dn ? "done" : cur ? "cur" : "", `data-year="${y.n}"`, dn ? ICON.check.replace("<svg",'<svg width="14" height="14"') : y.n, `Year ${y.n}`, esc(y.title),
+      dn ? `<span class="pill ok">Done</span>` : cur ? `<span class="pill gold">Recommended</span>` : y.prepared ? `<span class="pill">Open</span>` : `<span class="pill">Soon</span>`); }).join("");
+  const m = MODULES.find(x => x.name === S.spec);
+  const spec = node(m ? "done" : "", 'data-spec="1"', ICON.star.replace("<svg",'<svg width="14" height="14"'), "Specialisation", m ? esc(m.name) : "One subject in depth, after Year 5", `<span class="pill">${m ? "Chosen" : "Open"}</span>`);
+  return shell(`<h1>Course</h1><p class="muted" style="margin:0 0 14px">For students of knowledge: the classical books, year by year. Follow the path below. Nothing is locked: the path is a recommendation, and you are free to study any year or book if you're determined.</p>
+    <ol class="tree">${fard}${years}${spec}</ol>
+    ${tutorBox("the Course")}
     <p class="label">Extra study</p>${historyCard()}
-    ${place ? `<p class="label">Skip ahead</p><button class="card simple-row" data-place="${N}"><span style="flex:1"><b>Studied before?</b><span class="small muted" style="display:block">Take the Year ${N} test now. Pass it to skip ahead.</span></span><span class="pill">Test</span></button>` : ""}`);
+    <p class="label">Book paths in the Library</p><p class="small muted" style="margin:0 0 8px">Each subject has a recommended order of books. Open any book in the Library to see what to read before it and after it.</p>
+    <div class="stack">${BOOK_PATHS.map(([sub, ids]) => { const bs = ids.map(bookById).filter(Boolean); return bs.length ? `<details class="kitab"><summary><span style="flex:1">${esc(sub)}</span><span class="small muted">${bs.length} books</span></summary><ol class="bpath">${bs.map((b, i) => `<li><button class="linkbtn" data-book="${b.id}">${esc(b.title)}</button>${i === 0 ? ` <span class="pill">Start here</span>` : ""}</li>`).join("")}</ol></details>` : ""; }).join("")}</div>`);
+}
+// Recommended order of books in each subject. Only a suggestion: every book stays open.
+const BOOK_PATHS = [
+  ["Aqeedah", ["t_umm","t_jawhara","t_tahawiyya","t_fiqhakbar","t_nasafi","t_tamhid","t_iqtisad","t_milal"]],
+  ["Hanafi Fiqh", ["t_nur","t_maraqi","t_quduri","t_kanz","t_ikhtiyar","t_majalla","t_hidaya","t_tabyin","t_badai","t_mabsut"]],
+  ["Usul al-Fiqh", ["t_shashi","t_manar","t_mizan_usul","t_tawdih","t_usul_sarakhsi"]],
+  ["Hadith", ["t_arbain","t_riyad","t_bayquniyya","t_nuzha","t_shamail","t_muwatta","t_bukhari","t_muslim","t_abudawud","t_tirmidhi","t_nasai","t_ibnmajah","t_sharhmaani"]],
+  ["Tafsir", ["t_jalalayn","t_baydawi"]],
+  ["Tajweed", ["t_tuhfa","t_jazariyya","t_shatibiyya"]],
+  ["Arabic", ["t_ajurrum","t_nahwmir","t_miatamil","t_hidayatnahw","t_qatr","t_kafiya","t_alfiyya","t_maqamat"]],
+  ["Tasawwuf", ["t_ayyuha","t_bidaya","t_adhkar","t_munqidh","t_hikam","t_risala","t_taarruf","t_qut","t_ghunya","t_ihya"]],
+  ["Seerah", ["t_nawawi_seerah","t_nuryaqin","t_shamail","t_ibnhisham","t_shifa"]],
+];
+function bookPath(id){ for (const [sub, ids] of BOOK_PATHS) { const L = ids.filter(bookById), i = L.indexOf(id); if (i >= 0) return { sub, before:L.slice(0, i).map(bookById), after:L[i+1] ? bookById(L[i+1]) : null, i, n:L.length }; } return null; }
+// Study a book with a teacher from the madrasa at Dar as-Siddiq al-Akbar
+const TUTOR_URL = "";   // the madrasa's sign-up form; set when ready
+function tutorBox(what){
+  return `<section class="tutor"><div style="flex:1;min-width:0"><b>Study with a teacher</b><span class="small muted" style="display:block">Read ${esc(what)} with a teacher from our madrasa at Dār aṣ-Ṣiddīq al-Akbar.</span></div>
+    <button class="btn small-btn" data-tutor="${esc(what)}">Request</button></section>`;
 }
 function step3(n, title, sub, status, frac, done){ return `<div class="step3 ${done?"done":""}"><span class="s3n">${done?ICON.check.replace("<svg",'<svg width="13" height="13"'):n}</span><div class="s3b"><div class="spread"><b>${title}</b><span class="small muted">${status}</span></div>${sub?`<span class="s3s">${sub}</span>`:""}<div class="bar"><i style="width:${Math.min(100,frac*100)}%;${done?"background:var(--ok)":""}"></i></div></div></div>`; }
 function gate(label, frac, done){ return `<div class="gate ${done?"done":""}"><span>${label}</span><div class="bar"><i style="width:${Math.min(100,frac*100)}%;${done?"background:var(--ok)":""}"></i></div></div>`; }
@@ -782,7 +824,7 @@ function itemDeck(d, open){
     ${!open?ICON.lock:avail?`<span class="pill brand">${avail} to study</span>`:`<span class="pill ok">Done today</span>`}${d.opt && !d.fard?`<span class="pill" style="margin-left:4px">Optional</span>`:""}</button>`;
 }
 function yearView(n){
-  const y = yearOf(n), open = S.unlocked.includes(n) && loaded(y), st = yearStatus(y);
+  const y = yearOf(n), open = loaded(y), st = yearStatus(y);
   const ord = s => MODULES.findIndex(m => m.name === s);
   const lessons = lessonBooks(y).sort((p,q) => ord(p.subject) - ord(q.subject));
   const reads = (y.read||[]).map(id => bookById(id)).filter(Boolean);
@@ -793,7 +835,8 @@ function yearView(n){
       ${!open?ICON.lock:d>=L?`<span class="pill ok">Done</span>`:`<span class="pill">${d}/${L}</span>`}</button>`; };
   return shell(`<button class="back" data-go="syllabus">${ICON.back} Course</button>
     <h1 style="margin-bottom:4px">Year ${n}: ${esc(y.title)}</h1>
-    ${open ? "" : `<div class="notice">${ICON.lock}<span>Pass the Year ${n-1} final test to open this year.</span></div>`}
+    ${n > recYear() ? `<div class="notice"><span>We recommend finishing Year ${recYear()} first, but every year is open. Go ahead if you're ready.</span></div>` : ""}
+    ${tutorBox(`Year ${n}: ${y.title}`)}
     ${open && !y.prepared ? `<div class="notice"><span>The books for Year ${n} are still being prepared.</span></div>` : ""}
     <section class="stepsec">${head(1, "Lessons", "Short lessons from this year's books.", `<span class="small muted">${st.ld} of ${st.lt}</span>`)}
       <div class="stack">${lessons.length ? lessons.map(lessonRow).join("") : `<p class="small muted" style="margin:0">No short lessons this year.</p>`}</div></section>
@@ -802,7 +845,7 @@ function yearView(n){
         return `<button class="item" ${open?`data-read="${b.id}|${S.lastRead && S.lastRead.id === b.id ? S.lastRead.i : nxt}"`:"disabled"}><span class="libthumb">${cover(b, 34)}</span>
         <span style="flex:1;min-width:0"><span class="kicker" style="margin:0">${esc(b.subject)}</span><span class="t" style="display:block">${esc(b.title)}</span></span>${!open?ICON.lock:d>=L?`<span class="pill ok">Read</span>`:`<span class="pill">${Math.round(d/L*100)}%</span>`}</button>`; }).join("")}</div>` : `<p class="small muted" style="margin:0">No books to read this year.</p>`}
       ${(y.coming||[]).length ? `<p class="sublabel">Coming soon</p><div class="stack">${y.coming.map(([t,s]) => `<div class="item soon"><span style="flex:1;min-width:0"><span class="kicker" style="margin:0">${esc(s)}</span><span class="t" style="display:block">${esc(t)}</span></span></div>`).join("")}</div>` : ""}</section>
-    <p class="small muted" style="margin:14px 2px 0">${n < YEARS.length ? `When steps 1 and 2 are done, Year ${n+1} opens.` : "When steps 1 and 2 are done, the course is complete."}</p>
+    <p class="small muted" style="margin:14px 2px 0">${n < YEARS.length ? `When steps 1 and 2 are done, Year ${n+1} is recommended next.` : "When steps 1 and 2 are done, the course is complete."}</p>
     <p class="label" style="margin-top:26px">Practice (optional)</p>
     <section class="stepsec" style="margin-top:6px"><div class="stephead"><div style="flex:1"><h2>Flashcards</h2><p class="small muted">Questions from this year's books. Review a few each day.</p></div><span class="small muted">${st.cm.toLocaleString()} of ${st.ct.toLocaleString()}</span></div>
       ${open ? `<button class="btn" data-study="all" ${ready?"":"disabled"}>${ready ? `Review flashcards (${ready})` : "All done for today"}</button>` : ""}
@@ -818,12 +861,12 @@ function bookView(id){
   const L = lessonsOf(b), done = S.books[id]||[];
   const nextIdx = [...Array(L).keys()].find(i => !done.includes(i));
   const items = [...Array(L).keys()].map(i => {
-    const first = b.lines[i*b.per], isDone = done.includes(i), locked = !isDone && i !== nextIdx;
+    const first = b.lines[i*b.per], isDone = done.includes(i), locked = false;
     const label = b.type === "hadith" ? `<span class="t" style="display:block">${esc(snip(first.en, 70))}</span>` : `<span class="t ar" style="display:block;font-weight:700;font-size:1.1rem">${esc(snip(first.ar, 48))}</span>`;
     return `<button class="item" data-lesson="${i}" ${locked?'disabled style="opacity:.55"':""}>
       <span class="ico" style="background:${isDone?"var(--ok)":locked?"var(--line)":b.color};font-family:var(--body);font-size:1rem;font-weight:800">${isDone?ICON.check.replace("<svg",'<svg width="20" height="20"'):i+1}</span>
       <span>${label}<span class="s">Lesson ${i+1} · ${Math.min(b.per, b.lines.length-i*b.per)} ${b.type==="hadith"?"hadith":"lines"}</span></span>
-      ${locked?ICON.lock:isDone?`<span class="pill ok">Review</span>`:`<span class="pill gold">Next</span>`}</button>`; }).join("");
+      ${isDone?`<span class="pill ok">Review</span>`:i === nextIdx?`<span class="pill gold">Next</span>`:""}</button>`; }).join("");
   return shell(`<button class="back" data-year="${b.year}">${ICON.back} Year ${b.year}</button>
     <section class="hero" style="--c:${b.color}"><div class="hero-art">${art(ART_OF[b.id]||"star",b.color,84)}</div><h1>${esc(b.title)}</h1><p>${esc(b.sub)}. ${b.type==="hadith"?"Read each hadith in Arabic and English, then check what you remember.":"Read each line in Arabic and English, then check your understanding."}</p></section>
     <p class="label">${done.length} of ${L} lessons done</p><div class="stack">${items}</div>`);
@@ -1004,6 +1047,12 @@ function textView(b){
     ${done.length?`<div class="spread small muted"><span>${done.length} of ${n} read</span><span>${Math.round(done.length/n*100)}%</span></div><span class="bar" style="display:block;margin:4px 0 10px"><i style="width:${done.length/n*100}%;background:var(--brand)"></i></span>`:""}
     ${next>=0?`<button class="btn" data-read="${b.id}|${next}" style="margin:4px 0 6px">${done.length?`Continue from section ${next+1}`:"Start reading"}</button>
       <button class="linkbtn small" id="markread" data-mark="${b.id}" style="display:block;margin:2px 0 8px">I've already read this book</button>`:`<div class="notice">${ICON.check}<span>You've read the whole book, alhamdulillah.</span></div>`}
+    ${(() => { const P = bookPath(b.id); if (!P) return ""; const unread = P.before.filter(x => (S.books[x.id]||[]).length < 1);
+      return `<section class="pathbox"><p class="pb-h">${esc(P.sub)} path · book ${P.i+1} of ${P.n}</p>
+        ${P.before.length ? `<p class="small" style="margin:0 0 6px">${unread.length ? "Recommended before this book:" : "You've started the books before this one. Good."}</p><div class="pb-chips">${P.before.map(x => `<button class="pb-chip ${(S.books[x.id]||[]).length ? "on" : ""}" data-book="${x.id}">${esc(x.title)}</button>`).join("")}</div>` : `<p class="small" style="margin:0">A good first book in ${esc(P.sub)}.</p>`}
+        ${P.after ? `<p class="small muted" style="margin:8px 0 0">Next after this: <button class="linkbtn" data-book="${P.after.id}">${esc(P.after.title)}</button></p>` : ""}
+        <p class="small muted" style="margin:6px 0 0">Only a recommendation: you are free to read it now.</p></section>`; })()}
+    ${tutorBox(b.title)}
     ${hlEntries(b.id).length ? `<p class="label">Your highlights and notes</p>${hlListHtml(hlEntries(b.id), false)}` : ""}
     <p class="label">Contents</p>${toc}
     <p class="small muted" style="margin-top:14px">${T.ai?"The harakat and English are awaiting a teacher's check. ":""}${hasEn(b)?"":"Arabic text from the OpenITI corpus; English will be added."}</p>`);
@@ -1135,7 +1184,7 @@ async function openRead(id, i){
 }
 
 /* ---- Specialisation (further studies) ---- */
-const specOpen = () => !!(S.tests[YEARS.length] && S.tests[YEARS.length].passed);
+const specOpen = () => true;   // open to all; recommended after Year 5
 function specCard(){
   const open = specOpen(), m = MODULES.find(x => x.name === S.spec);
   return `<button class="year row ${open?"":"locked"}" data-spec="1"><span class="yr-badge">${ICON.star.replace("<svg",'<svg width="20" height="20"')}</span>
@@ -1147,7 +1196,7 @@ function specView(){
   const intro = `<button class="back" data-go="syllabus">${ICON.back} Course</button>
     <section class="hero" style="--c:var(--gold)"><div class="hero-art">${art("star","#C8912B",84)}</div><h1>Specialisation (Takhassus)</h1>
     <p>After the Dawrat al-Hadith, spend a year of further study in one module, going deeper into its texts with a teacher.</p></section>
-    ${open?"":`<div class="notice">${ICON.lock}<span>Pass the Year ${YEARS.length} final test to choose your specialisation. You can look at the options now.</span></div>`}`;
+    <div class="notice"><span>Recommended after Year ${YEARS.length}. You can choose it at any time.</span></div>`;
   if (chosen) return shell(`${intro}<p class="label">Your specialisation</p>
     <div class="card"><div class="row" style="gap:12px;align-items:center">${art(chosen.art, chosen.color, 54)}<div><h2 style="margin:0">${esc(chosen.name)}</h2><p class="small muted" style="margin:2px 0 0">${esc(chosen.about)}</p></div></div>
     <p class="label" style="margin-top:14px">Texts for further study</p>${(SPEC_TEXTS[chosen.name]||[]).map(t=>`<div class="item soon"><span class="ico art-ico" style="opacity:.5">${art(chosen.art, chosen.color, 36)}</span><span><span class="t">${esc(t)}</span><br><span class="s">Coming soon</span></span></div>`).join("")}
@@ -1467,15 +1516,20 @@ if (/[?&]dev=1/.test(location.search)) { S.dev = true; save(); } else if (/[?&]d
       n.parentNode.replaceChild(f, n); } };
   new MutationObserver(ms => ms.forEach(m => m.addedNodes.forEach(n => n.nodeType === 1 ? wrap(n) : n.nodeType === 3 && n.parentNode && wrap(n.parentNode)))).observe(document.getElementById("app"), { childList:true, subtree:true });
 })();
-function checkUnlock(){                     // the next year opens when this year's lessons and books are read
-  const n = Math.max(...S.unlocked); if (n >= YEARS.length) return;
-  const y = yearOf(n); if (y.prepared && yearStatus(y).open) { S.unlocked.push(n+1); save(); setTimeout(() => toast(`Year ${n+1} is now open, alhamdulillah`), 400); }
+// Nothing is locked. The app only recommends the next year once this one's lessons and books are read.
+const recYear = () => { if (!S.recYear) S.recYear = Math.min(YEARS.length, Math.max(...S.unlocked)); return S.recYear; };
+function checkUnlock(){
+  const n = recYear(); if (n >= YEARS.length || !loaded(yearOf(n))) return;
+  const y = yearOf(n); if (y.prepared && yearStatus(y).open) { S.recYear = n + 1; if (!S.unlocked.includes(n+1)) S.unlocked.push(n+1); save(); setTimeout(() => toast(`Well done. Year ${n+1} is recommended next`), 400); }
 }
 function render(){ appBadge(); checkUnlock(); if (typeof hlHideBar === "function") hlHideBar();
   const app = $("#app");
   if (!S.welcomed){ app.innerHTML = welcomeView(); bindWelcome(); return; }
   if (view.name === "home") app.innerHTML = homeView();
-  else if (view.name === "year") app.innerHTML = yearView(view.n);
+  else if (view.name === "year") { const yy = yearOf(view.n);
+    if (!loaded(yy)) { app.innerHTML = shell(`<p class="muted">Loading Year ${view.n}…</p>`); loadYear(view.n).then(() => { if (!S.unlocked.includes(view.n)) { S.unlocked.push(view.n); save(); } render(); }, () => toast("Could not load this year. Check your connection.")); return; }
+    if (!S.unlocked.includes(view.n)) { S.unlocked.push(view.n); save(); }
+    app.innerHTML = yearView(view.n); }
   else if (view.name === "book") { const b = bookById(view.id); if (b.type === "text" && !TEXTS[b.file]) { app.innerHTML = shell(`<p class="muted">Loading ${esc(b.title)}…</p>`); loadText(b.file).then(render, () => { toast("Could not load the text. Check your connection."); go({name:"year", n:b.year}); }); return; } app.innerHTML = bookView(view.id); }
   else if (view.name === "read") return openRead(view.id, view.i);
   else if (view.name === "search") app.innerHTML = searchView();
@@ -1505,6 +1559,7 @@ function render(){ appBadge(); checkUnlock(); if (typeof hlHideBar === "function
   app.querySelectorAll("[data-startlesson]").forEach(b => b.onclick = () => { const [id, i] = b.dataset.startlesson.split("|"); startLesson(id, +i); });
   bindReadLinks(app); toolsBind(app);
   app.querySelectorAll("[data-spec]").forEach(b => b.onclick = () => go({ name:"spec" }));
+  app.querySelectorAll("[data-tutor]").forEach(b => b.onclick = () => tutorSheet(b.dataset.tutor));
   app.querySelectorAll("[data-pick]").forEach(b => b.onclick = () => { if (!specOpen()) return; const m = b.dataset.pick;
     confirmBox(`Choose ${m} as your specialisation?`, () => { S.spec = m; save(); render(); }); });
   const cs = $("#changespec"); if (cs) cs.onclick = () => confirmBox("Change your specialisation? Your progress in the five years is kept.", () => { S.spec = null; save(); render(); });
@@ -1542,7 +1597,9 @@ function render(){ appBadge(); checkUnlock(); if (typeof hlHideBar === "function
       S.log = S.log.concat(Array(60).fill(1)); save(); go({ name:"year", n:y.n }); }); };
   const rs = $("#reset"); if (rs) rs.onclick = () => confirmBox("Reset all progress, XP, flashcards and test results?", () => { S = fresh(); save(); go({ name:"home" }); });
 }
-applyTheme(); try { matchMedia("(prefers-color-scheme: dark)").addEventListener("change", applyTheme); } catch(e){}
+applyTheme(); if (S.arSize) document.documentElement.style.setProperty("--arz", S.arSize);
+try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch(e){}   // ask the browser not to clear saved progress
+try { matchMedia("(prefers-color-scheme: dark)").addEventListener("change", applyTheme); } catch(e){}
 (async function init(){
   $("#app").innerHTML = `<div class="done-screen" style="min-height:60vh"><div style="width:64px">${ICON.logo}</div><p class="muted">Loading…</p></div>`;
   try { await Promise.all(S.unlocked.map(loadYear)); }
