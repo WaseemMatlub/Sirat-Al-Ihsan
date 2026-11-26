@@ -21,6 +21,17 @@ def needs(paras):
     t = " ".join(paras[:30]); L = len(re.findall("[ء-ي]", t))
     return L > 0 and len(H.findall(t)) / L < 0.25
 
+# Fixed spellings for the honorifics, so they are always voweled the same, correct way
+HONOR = {"رحمه الله": "رَحِمَهُ اللَّهُ", "رحمهما الله": "رَحِمَهُمَا اللَّهُ", "رحمهم الله": "رَحِمَهُمُ اللَّهُ",
+  "رضي الله عنه": "رَضِيَ اللَّهُ عَنْهُ", "رضي الله عنها": "رَضِيَ اللَّهُ عَنْهَا", "رضي الله عنهما": "رَضِيَ اللَّهُ عَنْهُمَا", "رضي الله عنهم": "رَضِيَ اللَّهُ عَنْهُمْ",
+  "عليه السلام": "عَلَيْهِ السَّلَامُ", "عليها السلام": "عَلَيْهَا السَّلَامُ", "عليهما السلام": "عَلَيْهِمَا السَّلَامُ", "عليهم السلام": "عَلَيْهِمُ السَّلَامُ",
+  "صلى الله عليه وسلم": "صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ"}
+def _pat(b): return re.compile("(?<![ء-ي])" + "".join(re.escape(ch) + "[ً-ْٰ]*" if ch != " " else " " for ch in b) + "(?![ء-يً-ْ])")
+HONOR_RE = [(_pat(k), v) for k, v in sorted(HONOR.items(), key=lambda x: -len(x[0]))]
+def honorifics(t):
+    for r, v in HONOR_RE: t = r.sub(v, t)
+    return t
+
 def vowel_batch(paras):
     """Return the paragraphs with harakat added to every Arabic word."""
     jobs, slots = [], []          # each job: a chunk of bare Arabic words; slots: (para, [match spans])
@@ -43,7 +54,7 @@ def vowel_batch(paras):
     for pi, ed in edits.items():
         p = paras[pi]
         for s, e, w in sorted(ed, reverse=True): p = p[:s] + w + p[e:]
-        res[pi] = p
+        res[pi] = honorifics(p)
     return res
 
 LOW = 0.5   # a string with fewer marks than this per letter is voweled again from scratch
