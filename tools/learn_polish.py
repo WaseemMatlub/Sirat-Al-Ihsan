@@ -859,8 +859,27 @@ def polish(courses):
     return courses
 _AY.AYAT.update(FAM.AYAT) if "_AY" in globals() else None
 
+# ---- 27 Nov: Tasawwuf and Tazkiyah (broad), and mawlid, tawassul and istighathah in Aqeedah
+import learn_tasawwuf as TW
+_polish3e = polish
+def polish(courses):
+    courses = _polish3e(courses)
+    tz = next(c for c in courses if c["id"] == "tazkiyah")
+    tz.update({"title": "Tasawwuf and Tazkiyah", "ar": "التَّصَوُّفُ وَالتَّزْكِيَةُ", "sub": "Purifying the heart, the stations of the path, the tariqahs and seeking a guide",
+               "book": "al-Risalah al-Qushayriyyah, with Ihya' 'Ulum al-Din and Bidayat al-Hidayah"})
+    have = {l["id"]: l for l in tz["lessons"]}
+    for lid, (title, about, cards, checks) in TW.LESSONS.items():
+        have[lid] = _lesson((lid, title, about, cards, checks))
+    tz["lessons"] = [have[i] for i in TW.ORDER if i in have] + [l for i, l in have.items() if i not in TW.ORDER]
+    aq = next(c for c in courses if c["id"] == "aqeedah")
+    if not any(l["id"] == "aq_mawlid" for l in aq["lessons"]):
+        i = next(k for k, l in enumerate(aq["lessons"]) if l["id"] == "aq_shirk")
+        aq["lessons"].insert(i + 1, _lesson(TW.MAWLID))
+    return courses
+
 # ---- Qur'an verses on the lessons, then tappable references into the Library
 import learn_ayat as _AY, learn_refs as _RF
+_AY.AYAT.update(TW.AYAT)
 _AY.AYAT.update(FAM.AYAT)
 _polish4 = polish
 def polish(courses):

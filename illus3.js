@@ -324,6 +324,7 @@ const LILL = (() => {
     sh_who: "c_sahabah", sh_abubakr: "cave", sh_umar: "skyline", sh_uthman: "inkpot", sh_ali: "door", sh_ten: "c_seerah", sh_mothers: "c_tazkiyah", sh_bayt: "door", sh_love: "c_sahabah",
     ad_wake: "c_adab", ad_adhkar: "c_doubts", ad_afterprayer: "mihrab", ad_salam: "door", ad_eat: "table", ad_dress: "door", ad_home: "door", ad_social: "skyline", ad_sleep: "c_adab", ad_limbs: "c_tazkiyah", ad_teach: "books",
     fm_before: "c_family", f_nikah: "skyline", fm_mahram: "c_tazkiyah", fm_wife: "door", fm_husband: "c_adab", fm_together: "c_family", fm_divorce: "rain", hh_parents: "table", fm_children: "c_seerah", fm_kin: "door",
+    tw_what: "c_tazkiyah", tw_roots: "c_quran", tw_fear: "sea", tw_stations: "rain", tw_ikhlas: "mihrab", tw_tariqah: "skyline", tw_shaykh: "books", tw_states: "cosmos", tw_question: "c_doubts", aq_mawlid: "c_seerah",
     dd1: "c_doubts", dd2: "c_tazkiyah", dd3: "books", dd4: "c_quran", dd5: "sea", dd6: "cosmos",
     tl_letters1: "inkpot", tl_letters2: "books", tl_harakat: "c_tilawah", tl_makharij: "mihrab", tl_nun: "mihrab", tl_meem: "c_tilawah", tl_madd: "skyline", tl_more: "c_quran", tl_fatihah: "c_tilawah",
   };

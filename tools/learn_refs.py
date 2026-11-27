@@ -37,8 +37,8 @@ KEY = {
  "tarikh_khulafa": {"sh_abubakr": "ابو بكر", "sh_umar": "عمر بن الخطاب", "sh_uthman": "عثمان بن", "sh_ali": "علي بن ابي", "sh_love": "علي بن ابي", "sh_bayt": "الحسن بن علي"},
  "bidaya": {"heart1": "توطئه", "heart3": "الغيبه", "heart4": "الحسد", "heart5": "اداب العالم", "ad_wake": "الاستيقاظ", "ad_eat": "البطن",
    "ad_home": "دخول المسجد", "ad_sleep": "النوم", "ad_limbs": "اداب العين", "ad_teach": "اداب العالم", "ad_salam": "العلاقه بالعوام"},
- "risala": {"tz_path": "باب الادب", "heart2": "التوبه", "tz_dhikr": "الذكر", "tz_tawakkul": "التوكل", "tz_sabr": "الصبر"},
- "munqidh": {"dd6": "اقسام علومهم", "dd2": "السفسطه", "dd3": "طرق الصوفيه", "dd4": "حقيقه النبوه", "dd5": "طرق الصوفيه"},
+ "risala": {"tw_what": "التصوف", "tw_roots": "مقدمه", "tw_fear": "الخوف", "tw_stations": "الورع", "tw_ikhlas": "الاخلاص", "tw_tariqah": "الصحبه", "tw_shaykh": "الوصيه", "tw_states": "كرامات", "tw_question": "مقدمه", "tz_path": "الوصيه", "heart2": "التوبه", "tz_dhikr": "الذكر", "tz_tawakkul": "التوكل", "tz_sabr": "الصبر"},
+ "munqidh": {"tw_shaykh": "طرق الصوفيه", "tw_question": "طرق الصوفيه", "dd6": "اقسام علومهم", "dd2": "السفسطه", "dd3": "طرق الصوفيه", "dd4": "حقيقه النبوه", "dd5": "طرق الصوفيه"},
  "tibyan": {"qr0": "الباب الاول", "qr5": "الباب السادس"},
  "ayyuha": {"heart5": "ايها الولد"},
  "shamail": {"sr7": "خلق رسول"},
@@ -101,7 +101,8 @@ def by_english(f, text, chapter=None, near=None, head="", allow=None):
     return None
 
 ANCHOR = {}
-KEYC = {("fm_divorce", "Khul'"): "الخلع", ("fm_divorce", "'Iddah"): "العده", ("fm_mahram", "By nursing"): "الرضاع",("tz_path", "A false guide"): "مقدمه", ("f_nikah", "Divorce"): "كتاب الطلاق", ("f_nikah", "Rights"): "النفقات",("sr5", "Uhud"): "احد", ("sr5", "The Trench"): "الخندق", ("heart4", "Showing off"): "الرياء", ("heart4", "Self-admiration"): "العجب",
+KEYC = {("tw_stations", "Detachment (zuhd)"): "الزهد", ("tw_stations", "Gratitude (shukr)"): "الشكر", ("tw_stations", "Contentment (rida)"): "الرضا", ("tw_stations", "Love (mahabbah)"): "المحبه",
+  ("tw_fear", "Hope"): "الرجاء", ("tw_ikhlas", "Watchfulness (muraqabah)"): "المراقبه", ("tw_states", "States and stations"): "الحال", ("tw_states", "Dreams and unveilings"): "الرؤيا", ("tw_tariqah", "Different methods"): "الذكر",("fm_divorce", "Khul'"): "الخلع", ("fm_divorce", "'Iddah"): "العده", ("fm_mahram", "By nursing"): "الرضاع",("tz_path", "A false guide"): "مقدمه", ("f_nikah", "Divorce"): "كتاب الطلاق", ("f_nikah", "Rights"): "النفقات",("sr5", "Uhud"): "احد", ("sr5", "The Trench"): "الخندق", ("heart4", "Showing off"): "الرياء", ("heart4", "Self-admiration"): "العجب",
   ("sr6", "The opening of Makkah"): "فتح مكه", ("sr6", "The farewell"): "حجه الوداع", ("sr4", "The Hijrah"): "هجره رسول", ("sr4", "The pledges of 'Aqabah"): "العقبه",
   ("sr3", "Abyssinia"): "المعذبين", ("sr3", "The boycott and Ta'if"): "مقاطعه", ("sr1b", "In the desert"): "ولادته", ("heart3", "Backbiting"): "الغيبه",
   ("ad_limbs", "Eyes and ears"): "اداب العين", ("ad_limbs", "The tongue"): "الكذب", ("ad_limbs", "Stomach, hands, feet"): "اداب البطن"}
@@ -150,6 +151,14 @@ def resolve(src, text, lid):
             head = ", ".join(s.split(",")[1:]) + " " + text.split(" ")[0]
             hit = by_english(f, text, chap, near, head, allow) or (by_english(f, text, None, near, head, allow) if chap else None)
             if hit: return {"b": lib, "i": hit[0], "j": hit[1]}
+        if f == "risala":
+            RQCH = {"introduction": "مقدمه", "masters of the path": "مشايخ", "repentance": "التوبه", "scrupulousness": "الورع", "detachment": "الزهد",
+                    "silence": "الصمت", "gratitude": "الشكر", "watchfulness": "المراقبه", "contentment": "الرضا", "chivalry": "الفتوه", "on adab": "الادب"}
+            ch = next((v for k, v in RQCH.items() if k in low), None)
+            if ch:
+                i = by_heading(f, ch)
+                if i is not None: return {"b": lib, "i": i}
+            if "chapter on" in low: return None   # a chapter this edition of the Risalah does not include
         key = KEYC.get((lid, TITLE.get("t"))) or KEY.get(f, {}).get(lid)
         if key:
             i = by_heading(f, key)

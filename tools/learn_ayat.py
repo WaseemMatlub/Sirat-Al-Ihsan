@@ -5,7 +5,7 @@ Q = json.load(open(os.path.join(os.path.dirname(__file__), "data", "quran_uthman
 NAME = {1: "al-Fatihah", 2: "al-Baqarah", 3: "Al 'Imran", 4: "al-Nisa'", 5: "al-Ma'idah", 6: "al-An'am", 7: "al-A'raf", 8: "al-Anfal", 9: "al-Tawbah",
   13: "al-Ra'd", 15: "al-Hijr", 16: "al-Nahl", 17: "al-Isra'", 21: "al-Anbiya'", 23: "al-Mu'minun", 24: "al-Nur", 31: "Luqman", 33: "al-Ahzab",
   37: "al-Saffat", 39: "al-Zumar", 42: "al-Shura", 48: "al-Fath", 49: "al-Hujurat", 51: "al-Dhariyat", 52: "al-Tur", 54: "al-Qamar", 56: "al-Waqi'ah",
-  57: "al-Hadid", 62: "al-Jumu'ah", 65: "al-Talaq", 67: "al-Mulk", 66: "al-Tahrim", 24: "al-Nur", 66: "al-Tahrim", 68: "al-Qalam", 73: "al-Muzzammil", 75: "al-Qiyamah", 83: "al-Mutaffifin",
+  57: "al-Hadid", 62: "al-Jumu'ah", 65: "al-Talaq", 91: "al-Shams", 32: "al-Sajdah", 18: "al-Kahf", 72: "al-Jinn", 29: "al-'Ankabut", 67: "al-Mulk", 66: "al-Tahrim", 24: "al-Nur", 66: "al-Tahrim", 68: "al-Qalam", 73: "al-Muzzammil", 75: "al-Qiyamah", 83: "al-Mutaffifin",
   96: "al-'Alaq", 10: "Yunus", 47: "Muhammad", 98: "al-Bayyinah", 99: "al-Zalzalah", 112: "al-Ikhlas", 14: "Ibrahim", 20: "Ta Ha", 25: "al-Furqan", 30: "al-Rum", 64: "al-Taghabun"}
 
 # lesson -> [(surah, from, to, meaning)]
