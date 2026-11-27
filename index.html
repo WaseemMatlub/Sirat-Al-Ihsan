@@ -670,13 +670,7 @@ button.td-row{cursor:pointer}button.td-row:active{opacity:.7}button.td-row:focus
 .sal-tags .pb-chip{padding:7px 12px}.sal-tags .pb-chip.on{background:#1F6B4A;border-color:#1F6B4A;color:#fff}
 .td-list li .td-quick b,.td-list li.ok .td-quick b{color:#fff;opacity:1}.sw-v{align-content:start}
 /* floating tab bar, in the app's own colours */
-nav.tabs{left:12px!important;right:12px!important;bottom:calc(10px + env(safe-area-inset-bottom,0px));max-width:520px;margin:0 auto;background:var(--surface)!important;border:1px solid var(--line)!important;border-radius:999px;box-shadow:0 12px 32px rgba(14,30,22,.16),0 2px 8px rgba(14,30,22,.10)}
-nav.tabs .in{padding:6px!important;gap:2px}
-nav.tabs button{color:var(--muted);border-radius:999px;padding:8px 2px 7px!important;font-weight:700}
-nav.tabs button svg{width:23px;height:23px}
-nav.tabs button[aria-current="page"]{color:#fff;background:var(--brand)}
-nav.tabs button:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
-main{padding-bottom:calc(110px + env(safe-area-inset-bottom,0px))!important}
+main{padding-bottom:calc(84px + env(safe-area-inset-bottom,0px))!important}
 /* tasbih: a full screen that does not scroll */
 body:has(.tbx){overflow:hidden}
 .tbx{position:fixed;inset:0;z-index:40;background:var(--bg);color:var(--ink);display:flex;flex-direction:column;height:100dvh;padding:calc(6px + env(safe-area-inset-top,0px)) 14px calc(10px + env(safe-area-inset-bottom,0px));overflow:hidden;text-align:center}
@@ -719,10 +713,6 @@ body:has(.tbx){overflow:hidden}
 .tbm-r{display:flex;align-items:center;gap:4px;padding:8px 8px 8px 12px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}.tbm-t{flex:1;min-width:0;display:grid}.tbm-t b{font-size:.95rem;line-height:1.3}
 .tbm-b{all:unset;box-sizing:border-box;cursor:pointer;width:40px;height:40px;border-radius:10px;display:grid;place-items:center;color:var(--ink)}.tbm-b:disabled{opacity:.25;cursor:default}.tbm-b.del{color:#C0392B}.tbm-b:focus-visible{outline:2px solid var(--gold)}
 /* while scrolling, the bar shrinks to the page you are on, then opens again when you stop */
-nav.tabs{transition:left .28s cubic-bezier(.2,.8,.2,1),right .28s cubic-bezier(.2,.8,.2,1),opacity .2s}
-nav.tabs.mini{left:calc(50% - 64px)!important;right:calc(50% - 64px)!important}
-nav.tabs.mini button:not([aria-current="page"]){display:none}nav.tabs.mini .in{grid-template-columns:1fr!important}
-@media (prefers-reduced-motion: reduce){nav.tabs{transition:none}}
 .bpx-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}.bpx-pct{font-size:1.6rem;font-weight:800;color:var(--brand)}
 .bpx-dd{margin-top:10px;border-top:1px solid var(--line);padding-top:6px}.bpx-dd summary{cursor:pointer;font-weight:700;padding:8px 0;list-style:none;display:flex;justify-content:space-between}
 .bpx-dd summary::after{content:"";width:9px;height:9px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);margin:4px 4px 0 0;transition:transform .2s}.bpx-dd[open] summary::after{transform:rotate(-135deg);margin-top:8px}
@@ -741,6 +731,19 @@ nav.tabs.mini button:not([aria-current="page"]){display:none}nav.tabs.mini .in{g
 .mw-card{min-height:46vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:24px;border-radius:20px;background:var(--surface);border:1px solid var(--line);box-shadow:0 10px 30px rgba(14,30,22,.08);cursor:pointer}
 .mw-big{font-size:2.6rem;line-height:1.5}.mw-mean{font-size:1.15rem;font-weight:600;margin:0}
 .mw-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+nav.tabs{left:0!important;right:0!important;bottom:0;max-width:none;border-radius:0;background:color-mix(in srgb,var(--surface) 98%,transparent)!important;-webkit-backdrop-filter:saturate(1.6) blur(14px);backdrop-filter:saturate(1.6) blur(14px);border:0!important;border-top:1px solid var(--line)!important;box-shadow:0 -6px 20px rgba(14,30,22,.06);padding-bottom:env(safe-area-inset-bottom,0px)}
+nav.tabs .in{max-width:560px;padding:5px 6px 4px!important;gap:0}
+nav.tabs button{position:relative;color:var(--muted);padding:5px 2px 6px!important;gap:3px;font-size:.68rem!important;font-weight:700;letter-spacing:.01em;border-radius:10px;transition:color .15s}
+nav.tabs button svg{width:22px;height:22px;stroke-width:1.9}
+nav.tabs button[aria-current="page"]{color:var(--brand);background:none}
+nav.tabs button[aria-current="page"]::after{content:"";position:absolute;bottom:0;left:50%;width:4px;height:4px;margin-left:-2px;border-radius:50%;background:var(--brand)}
+nav.tabs button:focus-visible{outline:2px solid var(--gold);outline-offset:-2px}
+.hme-list{list-style:none;margin:0 0 12px;padding:0;display:grid;gap:6px;max-height:58vh;overflow:auto}
+.hme-r{display:grid;grid-template-columns:auto 1fr 36px auto;align-items:center;gap:10px;padding:6px 8px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.hme-r.off .hm-ico{opacity:.55}.hme-r.off .hme-t{color:var(--muted)}.hme-t{font-weight:600;font-size:.92rem}
+.hme-sw{position:relative;width:44px;height:26px;display:inline-block}.hme-sw input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer;z-index:1}
+.hme-sw span{position:absolute;inset:0;border-radius:13px;background:var(--line);transition:background .15s}.hme-sw span::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .15s}
+.hme-sw input:checked+span{background:var(--brand)}.hme-sw input:checked+span::after{transform:translateX(18px)}.hme-sw input:focus-visible+span{outline:2px solid var(--gold);outline-offset:2px}
 
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--line);padding:4px;border-radius:14px}
 .seg button{border:0;background:transparent;border-radius:10px;padding:10px 6px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
@@ -1555,8 +1558,6 @@ const HAPTIC = (() => { let lab = null; return (ms = 8) => { if (S.haptics === f
       const i = document.createElement("input"); i.type = "checkbox"; i.setAttribute("switch", ""); i.tabIndex = -1; lab.appendChild(i); document.body.appendChild(lab); }
     lab.click(); } catch(e){} }; })();
 // the tab bar tucks itself in while the page scrolls, and opens again a moment after scrolling stops
-(() => { let t = null, y0 = 0; window.addEventListener("scroll", () => { const n = document.querySelector("nav.tabs"); if (!n) return;
-  if (Math.abs(window.scrollY - y0) > 8) n.classList.add("mini"); clearTimeout(t); t = setTimeout(() => { n.classList.remove("mini"); y0 = window.scrollY; }, 650); }, { passive: true }); })();
 let REF_BACK = null;
 document.addEventListener("click", async e => {
   const b = e.target.closest("[data-ref]"); if (!b) return; e.preventDefault(); e.stopPropagation();
@@ -1689,14 +1690,9 @@ function homeView(){
     <div class="sec-row"><h2 class="sec-h">Learn the basics</h2><button class="linkbtn small" data-go="basics">See the whole path</button></div>
     ${learnHome()}
     <section class="card hotd" id="hotd" hidden></section>
-    <h2 class="sec-h">Daily practice</h2>
+    <div class="sec-row"><h2 class="sec-h">Daily practice</h2><button class="linkbtn small" id="hmedit">Edit</button></div>
     <div class="hm-grid">
-      ${tile('data-go="salawat"', `<span class="ar">ص</span>`, "Salawat", "")}
-      ${tile('data-go="dalail"', `<span class="ar">د</span>`, "Dala'il", `Part ${typeof dalailToday === "function" ? dalailToday() : ""} today`)}
-      ${tile('data-dua="daily"', G.daily || "", "Du'as", "Daily du'as")}
-      ${tile('data-go="tasbih"', ICON_BEADS, "Tasbih", "")}
-      ${cards || decksHtml ? tile('data-go="cards"', ICON.flame.replace("<svg",'<svg width="22" height="22"'), "Flashcards", cards ? `${cards} to review` : "All done today") : ""}
-      ${tile('data-go="tools"', ICON.tools.replace("<svg",'<svg width="22" height="22"'), "Guides", "Guides and tools")}
+      ${homeTiles().map(([id, attr, ico, t]) => id === "cards" ? tile(attr, ico(), t, cards ? `${cards} to review` : "All done today") : id === "dalail" ? tile(attr, ico(), t, `Part ${typeof dalailToday === "function" ? dalailToday() : ""} today`) : tile(attr, ico(), t, "")).join("")}
     </div>
     ${course.replace('class="card simple-row"', 'class="card simple-row slim"')}${readRow.replace('class="card simple-row"', 'class="card simple-row slim"')}
     ${installCard()}`);
@@ -2740,7 +2736,12 @@ const TOOL_ICON = {
 };
 function toolsView(){
   const row = (go, ico, t, s) => `<button class="item tool" ${go}><span class="sr-ico">${TOOL_ICON[ico]}</span><span style="min-width:0"><span class="t">${t}</span><br><span class="s">${s}</span></span><span aria-hidden="true">›</span></button>`;
-  return shell(`<h1>Tools</h1><p class="muted" style="margin:0 0 14px">Guides and calculators. They all work without internet.</p>
+  return shell(`<div class="spread"><h1>Tools</h1><button class="linkbtn small" id="hmedit">Choose home shortcuts</button></div><p class="muted" style="margin:0 0 14px">Daily worship, guides and calculators. They all work without internet.</p>
+    <p class="label">Daily worship</p><div class="stack">
+      ${row('data-go="salawat"', "salawat", "Salawat", "Send blessings on the Prophet ﷺ, with a counter for each")}
+      ${row('data-dua="daily"', "book", "Du'as", "Daily du'as, the du'as of the Prophets and more")}
+      ${row('data-go="dalail"', "book", "Dala'il al-Khayrat", "Imam al-Jazuli's daily portion of salawat")}
+      ${row('data-go="tasbih"', "beads", "Tasbih counter", "Tap to count your dhikr, with a target and a gentle buzz")}</div>
     <p class="label">Step-by-step guides</p><div class="stack">
       ${row('data-guide="wudu"', "drop", "How to make wudu", "What is fard and what is sunnah, in order")}
       ${row('data-guide="ghusl"', "drop", "How to make ghusl", "The full bath and its three obligations")}
@@ -2753,8 +2754,7 @@ function toolsView(){
     <p class="label">Arabic</p><div class="stack">
       ${row('data-go="dict"', "book", "Arabic dictionary", "Search by root, Arabic word or English, with every verb form")}
       ${row('data-go="glossary"', "book", "Words to know", "Every term from the lessons, explained simply")}</div>
-    <p class="label">Dhikr</p><div class="stack">
-      ${row('data-go="tasbih"', "beads", "Tasbih counter", "Tap to count your dhikr, with a target and a gentle buzz")}</div>
+
     <p class="label">Prayer</p><div class="stack">
       ${row('data-go="qibla"', "qibla", "Qibla finder", "Point your phone to the Ka'bah")}
       ${row('data-go="qada"', "qada", "Qada' prayers", "Work out missed prayers and track making them up")}</div>
@@ -3398,6 +3398,46 @@ function bindMyWords(app){
   app.querySelectorAll("[data-mwdel]").forEach(b => b.onclick = () => { const n = +b.dataset.mwdel, x = MW()[n];
     confirmBox(`Remove ${x.w} from My words?`, () => { MW().splice(n, 1); save(); render(); }, "Remove", "Keep"); });
 }
+
+/* ---- Home shortcuts: the user chooses which tools appear on the home page, and in what order ---- */
+const HOME_TOOLS = [
+  ["salawat", 'data-go="salawat"', () => `<span class="ar">ص</span>`, "Salawat"],
+  ["dalail", 'data-go="dalail"', () => `<span class="ar">د</span>`, "Dala'il"],
+  ["duas", 'data-dua="daily"', () => (typeof GICO !== "undefined" && GICO.daily) || TOOL_ICON.book, "Du'as"],
+  ["tasbih", 'data-go="tasbih"', () => typeof ICON_BEADS !== "undefined" ? ICON_BEADS : TOOL_ICON.beads, "Tasbih"],
+  ["cards", 'data-go="cards"', () => ICON.flame.replace("<svg", '<svg width="22" height="22"'), "Flashcards"],
+  ["tools", 'data-go="tools"', () => ICON.tools.replace("<svg", '<svg width="22" height="22"'), "All tools"],
+  ["mywords", 'data-go="mywords"', () => `<span class="ar">ع</span>`, "My words"],
+  ["qibla", 'data-go="qibla"', () => TOOL_ICON.qibla, "Qibla"],
+  ["qada", 'data-go="qada"', () => TOOL_ICON.qada, "Qada'"],
+  ["zakat", 'data-go="zakat"', () => TOOL_ICON.zakat, "Zakat"],
+  ["inherit", 'data-go="inherit"', () => TOOL_ICON.inherit, "Inheritance"],
+  ["dict", 'data-go="dict"', () => TOOL_ICON.book, "Dictionary"],
+  ["glossary", 'data-go="glossary"', () => TOOL_ICON.book, "Words to know"],
+  ["wudu", 'data-guide="wudu"', () => TOOL_ICON.drop, "Wudu guide"],
+  ["salah", 'data-guide="salah"', () => TOOL_ICON.pray, "How to pray"],
+  ["umrah", 'data-guide="umrah"', () => TOOL_ICON.kaaba, "'Umrah guide"],
+  ["family", 'data-golin="family"', () => TOOL_ICON.tree, "Prophet's ﷺ family"],
+  ["prophets", 'data-golin="prophets"', () => TOOL_ICON.star, "The Prophets"],
+];
+const HOME_DEFAULT = ["salawat", "dalail", "duas", "tasbih", "cards", "tools"];
+const homeTiles = () => (S.homeTiles || HOME_DEFAULT).map(id => HOME_TOOLS.find(x => x[0] === id)).filter(Boolean);
+function homeEdit(){
+  const on = () => S.homeTiles || HOME_DEFAULT.slice();
+  const draw = d => { const L = on();
+    d.querySelector(".hme-list").innerHTML = [...L.map(id => HOME_TOOLS.find(x => x[0] === id)).filter(Boolean), ...HOME_TOOLS.filter(x => !L.includes(x[0]))].map(([id, , ico, t]) => { const k = L.indexOf(id);
+      return `<li class="hme-r ${k < 0 ? "off" : ""}"><span class="hm-ico" aria-hidden="true">${ico()}</span><span class="hme-t">${t}</span>
+        ${k > 0 ? `<button class="x" data-hmup="${id}" aria-label="Move ${t} up">${ICON.back.replace("<svg", '<svg style="transform:rotate(90deg)"')}</button>` : `<span></span>`}
+        <label class="hme-sw"><input type="checkbox" data-hmon="${id}" ${k >= 0 ? "checked" : ""} aria-label="Show ${t} on the home page"><span></span></label></li>`; }).join("");
+    d.querySelectorAll("[data-hmon]").forEach(c => c.onchange = () => { const L2 = on().filter(x => x !== c.dataset.hmon); if (c.checked) L2.push(c.dataset.hmon); S.homeTiles = L2; save(); HAPTIC(); draw(d); });
+    d.querySelectorAll("[data-hmup]").forEach(b => b.onclick = () => { const L2 = on(), i = L2.indexOf(b.dataset.hmup); [L2[i - 1], L2[i]] = [L2[i], L2[i - 1]]; S.homeTiles = L2; save(); draw(d); }); };
+  const d = modal(`<div class="spread"><h2 style="margin:0">Home shortcuts</h2><button class="x" id="hmx" aria-label="Close">${ICON.x}</button></div>
+    <p class="small muted" style="margin:6px 0 10px">Turn on the tools you use most. They appear under Daily practice on the home page, in this order.</p><ul class="hme-list"></ul>
+    <button class="linkbtn small" id="hmreset">Back to the default shortcuts</button>`, (d, close) => { d.querySelector("#hmx").onclick = () => { close(); if (view.name === "home") render(); }; d.onclick = e => { if (e.target === d) { close(); if (view.name === "home") render(); } };
+      d.querySelector("#hmreset").onclick = () => { delete S.homeTiles; save(); draw(d); }; });
+  d.classList.add("sheet"); draw(d);
+}
+document.addEventListener("click", e => { if (e.target.closest("#hmedit")) homeEdit(); });
 
 /* ============================ Highlights and notes in the reader (Kindle-style) ============================
    S.hl["bookId|section"] = [{ id, p, w:"ar"|"en", q, k, c, note, at }]
@@ -4915,5 +4955,5 @@ const FAM_HON = (() => { const o = {}, f = ["Halimah al-Sa'diyyah", "Umm Ayman (
   f.forEach(n => o[n] = HON.f); m.forEach(n => o[n] = HON.m); return o; })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=214bbfdf81");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=4becf1d330");</script></body>
 </html>
