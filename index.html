@@ -638,6 +638,14 @@ button.td-row{cursor:pointer}button.td-row:active{opacity:.7}button.td-row:focus
 .cl-h{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;margin:0 0 6px;font-size:.9rem}.cl-root{margin-left:auto;font-size:1.2rem;color:var(--brand)}
 .cl-x{text-align:right;line-height:2;margin:0 0 4px;font-size:1.12rem}
 .rc-more{display:grid;gap:2px;justify-items:start;margin-top:6px}.rc-more .rc-lane{justify-self:stretch}
+/* family and prophets charts */
+.fam-top{display:grid;justify-items:center;gap:2px;padding:14px;border-radius:16px;background:#1F6B4A;color:#fff;margin:10px 0 4px}.fam-me{font-weight:800;font-size:1.15rem}.fam-top .ar{font-size:1.2rem;color:#F3E6C4}
+.ln.wife .ln-dot{border-color:#8A3B5C}.ln.child .ln-dot{border-color:#B68A2E;background:#FBF1D6}.ln.grand .ln-dot{width:18px;height:18px;border-width:2px;margin-left:3px}.ln.dif .ln-dot{border-style:dashed;border-color:#8A8A8A}
+.fam-g{list-style:none}.ln-list.sub{margin:0 0 6px 26px;padding-left:6px}.ln-list.sub::before{left:14px;background:#D9C08A}
+.charts{display:grid;gap:8px;margin:0 0 16px}.chart-b{all:unset;box-sizing:border-box;cursor:pointer;display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+.chart-b:focus-visible{outline:2px solid var(--brand);outline-offset:2px}.chart-b:active{transform:scale(.99)}.chart-b>span:last-child{display:grid;gap:2px}
+.chart-ic{flex:none;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:color-mix(in srgb,var(--brand) 10%,var(--surface));color:var(--brand)}
+@media (prefers-reduced-motion: no-preference){.lineage.go .fam-g,.lineage.go .fam-top{animation:lnIn .45s ease both;animation-delay:calc(var(--d) * 55ms)}}
 
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--line);padding:4px;border-radius:14px}
 .seg button{border:0;background:transparent;border-radius:10px;padding:10px 6px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
@@ -1265,7 +1273,7 @@ function shell(inner){
   return `<header class="topbar"><button class="brandmark" data-go="home" aria-label="Dār aṣ-Ṣiddīq, go to home">${ICON.logo}<span>Dār aṣ-Ṣiddīq</span></button>
     <div class="stats"><button class="chip iconbtn" data-go="search" aria-label="Search">${ICON.search}</button><button class="chip iconbtn" data-go="settings" aria-label="Settings">${ICON.gear}</button><button class="chip mini streak ${streakToday() ? "on" : "off"}" data-go="profile" aria-label="${liveStreak()} day streak${streakToday() ? ", done today" : ", not done yet today"}">${ICON.flame.replace("<svg",'<svg width="14" height="14"')}${liveStreak()}</button><button class="chip mini xp" data-golb="1" aria-label="${S.xp} XP, open the leaderboard">${S.xp >= 10000 ? (S.xp/1000).toFixed(0)+"k" : S.xp}<span class="xp-l" aria-hidden="true">XP</span></button></div></header>
     <main>${inner}</main>
-    <nav class="tabs"><div class="in"><button data-go="home" ${["home","unit","duas","salawat","dalail","basics","glossary","cards","notes","lineage"].includes(view.name)?'aria-current="page"':""}>${ICON.home}Learn</button><button data-go="syllabus" ${["syllabus","year","spec","live"].includes(view.name)||(view.name==="book"&&!isLibBook())?'aria-current="page"':""}>${ICON.learn}Course</button><button data-go="library" ${view.name==="library"||isLibBook()?'aria-current="page"':""}>${ICON.shelf}Library</button><button data-go="tools" ${["tools","guide","qibla","qada","zakat","inherit"].includes(view.name)?'aria-current="page"':""}>${ICON.tools}Tools</button><button data-go="profile" ${view.name==="profile"?'aria-current="page"':""}>${ICON.user}Progress</button></div></nav>`;
+    <nav class="tabs"><div class="in"><button data-go="home" ${["home","unit","duas","salawat","dalail","basics","glossary","cards","notes","lineage","family","prophets"].includes(view.name)?'aria-current="page"':""}>${ICON.home}Learn</button><button data-go="syllabus" ${["syllabus","year","spec","live"].includes(view.name)||(view.name==="book"&&!isLibBook())?'aria-current="page"':""}>${ICON.learn}Course</button><button data-go="library" ${view.name==="library"||isLibBook()?'aria-current="page"':""}>${ICON.shelf}Library</button><button data-go="tools" ${["tools","guide","qibla","qada","zakat","inherit"].includes(view.name)?'aria-current="page"':""}>${ICON.tools}Tools</button><button data-go="profile" ${view.name==="profile"?'aria-current="page"':""}>${ICON.user}Progress</button></div></nav>`;
 }
 /* First visit: three short steps, then straight into learning */
 const ARCH = (w=170) => `<svg class="arch" viewBox="0 0 200 240" width="${w}" aria-hidden="true"><defs><pattern id="ob-p" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M10 1l2.6 6.4L19 10l-6.4 2.6L10 19l-2.6-6.4L1 10l6.4-2.6z" fill="none" stroke="#E2C27A" stroke-width=".7" opacity=".45"/></pattern></defs>
@@ -1342,7 +1350,7 @@ function bindReadLinks(root){ root.querySelectorAll("[data-read]").forEach(b => 
 let LEARN = null, LS = null;
 const LEARN_DECK = { aqeedah:["fard_aqeedah"], fiqh:["fard_tahara","fard_salah","fard_sawm","fard_zakat"] };
 const OLD_TOPIC = { belief:"aqeedah", purity:"fiqh", prayer:"fiqh", fasting:"fiqh", zakat:"fiqh", heart:"tazkiyah" };
-async function loadLearn(){ if (LEARN) return LEARN; try { LEARN = await fetch("data/learn.json?v=3e1b9266").then(r => r.json()); } catch(e){ LEARN = []; } return LEARN; }
+async function loadLearn(){ if (LEARN) return LEARN; try { LEARN = await fetch("data/learn.json?v=0f7205aa").then(r => r.json()); } catch(e){ LEARN = []; } return LEARN; }
 const learnDone = id => !!(S.learn||{})[id];
 function nextLearn(){ for (const u of LEARN||[]) for (let k = 0; k < u.lessons.length; k++) if (!learnDone(u.lessons[k].id)) return { u, k }; return null; }
 function learnHome(){
@@ -1408,6 +1416,7 @@ function unitView(id){
   const deck = (LEARN_DECK[id] || []).map(x => FARD_DECKS.find(d => d.id === x)).filter(Boolean)[0];
   return shell(`<button class="back" data-go="home">${ICON.back} Home</button>
     <h1 style="margin-bottom:2px">${esc(u.title)}</h1><p class="muted" style="margin:0 0 16px">${esc(u.sub)}</p>
+    ${["seerah", "sahabah", "aqeedah"].includes(id) ? chartsRow(id) : ""}
     <div class="stack">${u.lessons.map((l, k) => `<button class="item" data-learn="${u.id}|${k}"><span class="lnum" style="background:${u.color}">${learnDone(l.id) ? ICON.check.replace("<svg",'<svg width="14" height="14"') : k+1}</span>
       <span style="flex:1;min-width:0"><span class="t">${esc(l.title)}</span><br><span class="s">${l.cards.length} cards, ${l.checks.length} questions</span></span>${learnDone(l.id) ? `<span class="pill ok">Done</span>` : ""}</button>`).join("")}</div>
     ${deck ? `<p class="label">Keep it fresh</p>${itemDeck(deck, true)}` : ""}`);
@@ -2494,6 +2503,8 @@ function render(){ appBadge(); checkUnlock(); if (typeof hlHideBar === "function
   else if (view.name === "glossary") { app.innerHTML = glossaryView(); }
   else if (view.name === "notes") { app.innerHTML = notesView(); }
   else if (view.name === "lineage") { app.innerHTML = lineageView(); lineageBind(); }
+  else if (view.name === "family") { app.innerHTML = familyView(); lineageBind(); }
+  else if (view.name === "prophets") { app.innerHTML = prophetsView(); lineageBind(); }
   else if (view.name === "year") { const yy = yearOf(view.n);
     if (!loaded(yy)) { app.innerHTML = shell(`<p class="muted">Loading Year ${view.n}…</p>`); loadYear(view.n).then(() => { if (!S.unlocked.includes(view.n)) { S.unlocked.push(view.n); save(); } render(); }, () => toast("Could not load this year. Check your connection.")); return; }
     if (!S.unlocked.includes(view.n)) { S.unlocked.push(view.n); save(); }
@@ -2588,6 +2599,8 @@ let GUIDES = null, SALAWAT = null;
 const loadGuides = async () => GUIDES || (GUIDES = await fetch("data/guides.json").then(r => r.json()).catch(() => []));
 const loadSalawat = async () => SALAWAT || (SALAWAT = await fetch("data/salawat.json").then(r => r.json()).catch(() => null));
 const TOOL_ICON = {
+  tree:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="4" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="12" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><path d="M12 6v6M5 17v-5h14v5M12 12v5"/></svg>',
+  star:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3l2.4 5 5.6.6-4.2 3.8 1.2 5.6L12 15.2 7 18l1.2-5.6L4 8.6 9.6 8z"/></svg>',
   qibla:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></svg>',
   qada:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M8 3v4M16 3v4M4 10h16M9 15l2 2 4-4"/></svg>',
   zakat:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><ellipse cx="12" cy="7" rx="7" ry="3"/><path d="M5 7v5c0 1.7 3.1 3 7 3s7-1.3 7-3V7M5 12v5c0 1.7 3.1 3 7 3s7-1.3 7-3v-5"/></svg>',
@@ -2607,6 +2620,10 @@ function toolsView(){
       ${row('data-guide="ghusl"', "drop", "How to make ghusl", "The full bath and its three obligations")}
       ${row('data-guide="salah"', "pray", "How to pray", "Every position and what to say")}
       ${row('data-guide="qada"', "qada", "Making up missed prayers", "The quickest valid way, from the classical books")}</div>
+    <p class="label">Seerah and the Prophets</p><div class="stack">
+      ${row('data-golin="lineage"', "tree", "The Prophet's ﷺ lineage", "From him back to Adam عَلَيْهِ السَّلَامُ, traced step by step")}
+      ${row('data-golin="family"', "tree", "The family of the Prophet ﷺ", "His wives, children and grandchildren")}
+      ${row('data-golin="prophets"', "star", "The Prophets عَلَيْهِمُ السَّلَامُ", "The twenty-five in the Qur'an, and those in hadith and the classical books")}</div>
     <p class="label">Arabic</p><div class="stack">
       ${row('data-go="dict"', "book", "Arabic dictionary", "Search by root, Arabic word or English, with every verb form")}
       ${row('data-go="glossary"', "book", "Words to know", "Every term from the lessons, explained simply")}</div>
@@ -4256,7 +4273,7 @@ function lineageView(){
   return shell(`<button class="back" id="ln-back">${ICON.back} Back</button>
     <h1 style="margin-bottom:4px">The family tree of the Prophet ﷺ</h1>
     <p class="muted" style="margin:0 0 6px">From Muhammad ﷺ back to Adam عَلَيْهِ السَّلَامُ. Prophets are marked in gold. Tap a name with <b>i</b> to read more.</p>
-    <p class="small"><button class="linkbtn small" id="ln-replay">Trace the line again</button> · <button class="linkbtn small" data-ref="t_fusul|${LIN_REF.fusul}|">Read his lineage in al-Fusul</button></p>
+    <p class="small"><button class="linkbtn small" id="ln-replay">Trace the line again</button> · <button class="linkbtn small" data-golin="family">His family</button> · <button class="linkbtn small" data-ref="t_fusul|${LIN_REF.fusul}|">Read it in al-Fusul</button></p>
     <div class="lineage" id="lineage">
       <p class="ln-h">Agreed by all the scholars <span class="small muted">(${A.length - 1} forefathers)</span></p>
       <ol class="ln-list">${A.map((n, k) => node(n, k, "a")).join("")}</ol>
@@ -4278,6 +4295,148 @@ function lineageBind(){
     if (open) return; const p = document.createElement("p"); p.className = "ln-note"; p.textContent = b.dataset.ln; b.after(p); b.setAttribute("aria-expanded", "true"); });
 }
 
+// ---- the Prophet's ﷺ household: parents, wives, children and grandchildren
+const RA = { m: "رَضِيَ اللَّهُ عَنْهُ", f: "رَضِيَ اللَّهُ عَنْهَا", p: "رَضِيَ اللَّهُ عَنْهُمَا" };
+const FAMILY = {
+  parents: [
+    ["'Abdullah ibn 'Abd al-Muttalib", "عَبْدُ اللَّهِ بْنُ عَبْدِ الْمُطَّلِبِ", "His father. He died in Madinah on a trading journey before the Prophet ﷺ was born."],
+    ["Aminah bint Wahb", "آمِنَةُ بِنْتُ وَهْبٍ", "His mother, of Banu Zuhrah. She died at al-Abwa' when he ﷺ was six."],
+    ["Halimah al-Sa'diyyah", "حَلِيمَةُ السَّعْدِيَّةُ", `His wet-nurse ${RA.f}, who raised him ﷺ in the desert among Banu Sa'd.`],
+    ["Umm Ayman (Barakah)", "أُمُّ أَيْمَنَ", `His nurse ${RA.f}, whom he ﷺ called 'my mother after my mother'.`],
+  ],
+  wives: [
+    ["Khadijah bint Khuwaylid", "خَدِيجَةُ بِنْتُ خُوَيْلِدٍ", `The first to believe ${RA.f}. Married when he ﷺ was twenty-five; he married no one else in her lifetime. Mother of all his children except Ibrahim. She died in Makkah three years before the Hijrah.`],
+    ["Sawdah bint Zam'ah", "سَوْدَةُ بِنْتُ زَمْعَةَ", `${RA.f} Married in Makkah after Khadijah's passing. She gave her day to 'A'ishah.`],
+    ["'A'ishah bint Abi Bakr", "عَائِشَةُ بِنْتُ أَبِي بَكْرٍ", `${RA.f} Daughter of Abu Bakr al-Siddiq, the most learned woman of the ummah, from whom a great part of the Sunnah is narrated. He ﷺ passed away in her room.`],
+    ["Hafsah bint 'Umar", "حَفْصَةُ بِنْتُ عُمَرَ", `${RA.f} Daughter of 'Umar. The first written copy of the Qur'an was kept with her.`],
+    ["Zaynab bint Khuzaymah", "زَيْنَبُ بِنْتُ خُزَيْمَةَ", `${RA.f} Called the Mother of the Poor for her generosity. She died a few months after the marriage.`],
+    ["Umm Salamah (Hind)", "أُمُّ سَلَمَةَ", `${RA.f} Known for her wisdom; her counsel at Hudaybiyah. The last of the Mothers of the Believers to pass away.`],
+    ["Zaynab bint Jahsh", "زَيْنَبُ بِنْتُ جَحْشٍ", `${RA.f} Her marriage was commanded by Allah in Surat al-Ahzab. Known for giving with her own hands.`],
+    ["Juwayriyah bint al-Harith", "جُوَيْرِيَةُ بِنْتُ الْحَارِثِ", `${RA.f} Through her marriage a hundred families of her tribe were freed.`],
+    ["Umm Habibah (Ramlah)", "أُمُّ حَبِيبَةَ", `${RA.f} Daughter of Abu Sufyan. She held to Islam in Abyssinia, where the marriage was contracted.`],
+    ["Safiyyah bint Huyayy", "صَفِيَّةُ بِنْتُ حُيَيٍّ", `${RA.f} Of the descendants of Harun عَلَيْهِ السَّلَامُ. Married after Khaybar.`],
+    ["Maymunah bint al-Harith", "مَيْمُونَةُ بِنْتُ الْحَارِثِ", `${RA.f} The last he ﷺ married, after the 'Umrah of 7 AH.`],
+  ],
+  children: [
+    ["al-Qasim", "الْقَاسِمُ", "His first son, from Khadijah. He ﷺ was called Abu al-Qasim after him. He died as a small child in Makkah.", []],
+    ["Zaynab", "زَيْنَبُ", `${RA.f} His eldest daughter. Married Abu al-'As ibn al-Rabi'. She died in 8 AH.`, [
+      ["'Ali ibn Abi al-'As", "عَلِيُّ بْنُ أَبِي الْعَاصِ", "Died as a boy."],
+      ["Umamah bint Abi al-'As", "أُمَامَةُ بِنْتُ أَبِي الْعَاصِ", `${RA.f} The Prophet ﷺ carried her while he prayed (al-Bukhari). 'Ali married her after Fatimah's passing.`]]],
+    ["Ruqayyah", "رُقَيَّةُ", `${RA.f} Married 'Uthman ibn 'Affan and emigrated with him to Abyssinia. She died in Madinah during Badr, 2 AH.`, [
+      ["'Abdullah ibn 'Uthman", "عَبْدُ اللَّهِ بْنُ عُثْمَانَ", "Died aged about six."]]],
+    ["Umm Kulthum", "أُمُّ كُلْثُومٍ", `${RA.f} Married 'Uthman after Ruqayyah, which is why he is called Dhu al-Nurayn, 'the one with two lights'. She died in 9 AH.`, []],
+    ["Fatimah al-Zahra'", "فَاطِمَةُ الزَّهْرَاءُ", `${RA.f} The mistress of the women of Paradise. Married 'Ali ibn Abi Talib. The only one of his children to outlive him ﷺ, by about six months.`, [
+      ["al-Hasan", "الْحَسَنُ", `${RA.m} With al-Husayn, the masters of the youth of Paradise. He made peace between the Muslims, as the Prophet ﷺ foretold.`],
+      ["al-Husayn", "الْحُسَيْنُ", `${RA.m} 'Husayn is from me and I am from Husayn.' Martyred at Karbala in 61 AH.`],
+      ["Zaynab bint 'Ali", "زَيْنَبُ بِنْتُ عَلِيٍّ", `${RA.f} Married 'Abdullah ibn Ja'far. She was with al-Husayn at Karbala.`],
+      ["Umm Kulthum bint 'Ali", "أُمُّ كُلْثُومٍ بِنْتُ عَلِيٍّ", `${RA.f} Married 'Umar ibn al-Khattab.`],
+      ["Muhsin", "مُحَسِّنٌ", "Died as a small child."]]],
+    ["'Abdullah (al-Tayyib, al-Tahir)", "عَبْدُ اللَّهِ", "His son from Khadijah, born after prophethood. He died as a small child in Makkah.", []],
+    ["Ibrahim", "إِبْرَاهِيمُ", "His son from Mariyah al-Qibtiyyah رَضِيَ اللَّهُ عَنْهَا. He died at about eighteen months in 10 AH. The Prophet ﷺ wept and said: 'The eye weeps and the heart grieves, but we say only what pleases our Lord.'", []],
+  ],
+};
+function familyView(){
+  const nb = (n, k, cls = "") => { const [en, ar, note] = n;
+    return `<li class="ln ${cls}" style="--d:${k}"><button class="ln-b" data-ln="${esc(note)}" aria-label="${esc(en)}, tap for more"><span class="ln-dot" aria-hidden="true"></span><span class="ln-en">${esc(en)}</span><span class="ln-ar ar" lang="ar">${esc(ar)}</span><span class="ln-i" aria-hidden="true">i</span></button></li>`; };
+  let d = 0;
+  return shell(`<button class="back" id="ln-back">${ICON.back} Back</button>
+    <h1 style="margin-bottom:4px">The family of the Prophet ﷺ</h1>
+    <p class="muted" style="margin:0 0 6px">His parents, his wives, the Mothers of the Believers, his children and grandchildren. Tap a name to read more.</p>
+    <p class="small"><button class="linkbtn small" id="ln-replay">Play again</button> · <button class="linkbtn small" data-golin="lineage">His lineage back to Adam</button></p>
+    <div class="lineage fam" id="lineage">
+      <div class="fam-top ln" style="--d:0"><span class="fam-me">Muhammad ﷺ</span><span class="ar" lang="ar">مُحَمَّدٌ رَسُولُ اللَّهِ ﷺ</span></div>
+      <p class="ln-h">Parents and those who raised him</p><ol class="ln-list">${FAMILY.parents.map(n => nb(n, ++d)).join("")}</ol>
+      <p class="ln-h">His wives, the Mothers of the Believers <span class="small muted">(in order of marriage)</span></p>
+      <p class="small muted" style="margin:-4px 0 8px">"The Prophet is closer to the believers than their own selves, and his wives are their mothers." (al-Ahzab 6)</p>
+      <ol class="ln-list">${FAMILY.wives.map(n => nb(n, ++d, "wife")).join("")}</ol>
+      <p class="ln-h">His children and grandchildren</p>
+      <ol class="ln-list">${FAMILY.children.map(c => `${nb(c, ++d, "child")}${c[3].length ? `<li class="fam-g" style="--d:${d}"><ol class="ln-list sub">${c[3].map(g => nb(g, ++d, "grand")).join("")}</ol></li>` : ""}`).join("")}</ol>
+    </div>
+    <p class="small muted" style="margin-top:14px">Sources: Ibn Kathir, al-Fusul fi Sirat al-Rasul ﷺ (his wives and children); al-Suyuti, Tarikh al-Khulafa'; Sahih al-Bukhari and Sahih Muslim. Some dates differ slightly between the historians.</p>`);
+}
+
+// ---- the Prophets عَلَيْهِمُ السَّلَامُ: the twenty-five in the Qur'an, and those named in hadith and the classical books
+const PROPHETS = {
+  quran: [
+    ["Adam", "آدَمُ", "The first human and the first Prophet, created by Allah's hands. Allah taught him the names of all things.", "al-Baqarah 30–37, al-A'raf 11–25"],
+    ["Idris", "إِدْرِيسُ", "Truthful and a Prophet; 'We raised him to a high station.' Said to be the first to write with a pen.", "Maryam 56–57, al-Anbiya' 85"],
+    ["Nuh", "نُوحٌ", "One of the five of firm resolve. He called his people for 950 years, then Allah saved the believers in the Ark.", "Nuh, Hud 25–49"],
+    ["Hud", "هُودٌ", "Sent to 'Ad, a mighty people of the sand dunes, who were destroyed by a furious wind.", "Hud 50–60, al-Ahqaf 21–26"],
+    ["Salih", "صَالِحٌ", "Sent to Thamud, who carved homes in the mountains. They killed the she-camel of Allah and were destroyed.", "Hud 61–68, al-Shu'ara' 141–159"],
+    ["Ibrahim", "إِبْرَاهِيمُ", "The Friend of Allah and one of the five of firm resolve. He broke the idols, was saved from the fire, and built the Ka'bah with Isma'il.", "al-Baqarah 124–131, al-Anbiya' 51–70"],
+    ["Lut", "لُوطٌ", "Nephew of Ibrahim, sent to Sodom, whose people were destroyed for their indecency.", "Hud 77–83, al-Hijr 58–77"],
+    ["Isma'il", "إِسْمَاعِيلُ", "Son of Ibrahim, true to his promise; the father of the Arabs of the north and ancestor of the Prophet ﷺ.", "Maryam 54–55, al-Saffat 101–107"],
+    ["Ishaq", "إِسْحَاقُ", "Son of Ibrahim and Sarah, given as glad tidings in their old age.", "Hud 71–73, al-Saffat 112–113"],
+    ["Ya'qub", "يَعْقُوبُ", "Son of Ishaq, also called Isra'il. The Children of Israel descend from his twelve sons.", "Yusuf, al-Baqarah 132–133"],
+    ["Yusuf", "يُوسُفُ", "Son of Ya'qub, thrown into the well, sold, imprisoned, then made treasurer of Egypt; 'the best of stories'.", "Surat Yusuf"],
+    ["Ayyub", "أَيُّوبُ", "The model of patience, tested in his body, family and wealth, then restored.", "al-Anbiya' 83–84, Sad 41–44"],
+    ["Shu'ayb", "شُعَيْبٌ", "Sent to Madyan, who cheated in weights and measures.", "Hud 84–95, al-A'raf 85–93"],
+    ["Musa", "مُوسَى", "One of the five of firm resolve. Allah spoke to him directly; he led the Children of Israel out of Egypt and was given the Tawrah.", "Taha, al-Qasas, al-A'raf"],
+    ["Harun", "هَارُونُ", "Brother of Musa and his helper, sent with him to Pharaoh.", "Taha 29–36, Maryam 53"],
+    ["Dhu al-Kifl", "ذُو الْكِفْلِ", "Among the patient and the best. Most scholars count him a Prophet; some say he was a righteous man.", "al-Anbiya' 85–86, Sad 48"],
+    ["Dawud", "دَاوُدُ", "King and Prophet, given the Zabur. The mountains and birds glorified Allah with him.", "Sad 17–26, Saba' 10–11"],
+    ["Sulayman", "سُلَيْمَانُ", "Son of Dawud, given a kingdom like no other: the wind, the jinn and the speech of birds.", "al-Naml 15–44, Saba' 12–14"],
+    ["Ilyas", "إِلْيَاسُ", "Sent to a people who worshipped the idol Ba'l.", "al-Saffat 123–132, al-An'am 85"],
+    ["al-Yasa'", "الْيَسَعُ", "Successor of Ilyas, named among the best.", "al-An'am 86, Sad 48"],
+    ["Yunus", "يُونُسُ", "Swallowed by the whale, he called out: 'There is no god but You; glory be to You; I was among the wrongdoers.'", "al-Anbiya' 87–88, al-Saffat 139–148"],
+    ["Zakariyya", "زَكَرِيَّا", "Guardian of Maryam. He prayed in old age and was given Yahya.", "Maryam 2–11, Al 'Imran 37–41"],
+    ["Yahya", "يَحْيَى", "Son of Zakariyya, given wisdom as a child; 'peace be upon him the day he was born'.", "Maryam 12–15"],
+    ["'Isa", "عِيسَى", "One of the five of firm resolve. Born of Maryam without a father, given the Injil. He was raised up alive and will return before the Last Day.", "Maryam 16–36, Al 'Imran 45–59"],
+    ["Muhammad ﷺ", "مُحَمَّدٌ ﷺ", "The Seal of the Prophets and the best of creation, sent to all people and jinn until the Last Day, with the Qur'an.", "al-Ahzab 40, al-Fath 29"],
+  ],
+  hadith: [
+    ["Shith", "شِيثُ", "Son of Adam. A hadith reported by Ibn Hibban says fifty scrolls were revealed to him.", "Ibn Hibban, from Abu Dharr"],
+    ["Yusha' ibn Nun", "يُوشَعُ بْنُ نُونٍ", "Musa's young companion in the Qur'an (al-Kahf 60). The Prophet ﷺ told of a Prophet for whom the sun was held back; Imam Ahmad's narration names him as Yusha'.", "Sahih al-Bukhari; Musnad Ahmad"],
+  ],
+  books: [
+    ["Shamwil (Samuel)", "شَمْوِيلُ", "'Their prophet' in al-Baqarah 246, who appointed Talut as king. The commentators name him Shamwil.", "Tafsir; Ibn Kathir, Qisas al-Anbiya'"],
+    ["Hizqil (Ezekiel)", "حِزْقِيلُ", "Linked by the commentators to those who left their homes fearing death, whom Allah raised to life (al-Baqarah 243).", "Ibn Kathir, Qisas al-Anbiya'"],
+    ["Sha'ya (Isaiah)", "شَعْيَا", "A Prophet of the Children of Israel before Zakariyya, according to the historians.", "Ibn Kathir, Qisas al-Anbiya'"],
+    ["Irmiya (Jeremiah)", "إِرْمِيَا", "A Prophet of the Children of Israel at the time of the destruction of Jerusalem, according to the historians.", "Ibn Kathir, Qisas al-Anbiya'"],
+    ["Danyal (Daniel)", "دَانْيَالُ", "A Prophet of the Children of Israel in Babylon, according to the historians.", "Ibn Kathir, Qisas al-Anbiya'"],
+  ],
+  differ: [
+    ["al-Khidr", "الْخَضِرُ", "'A servant of Ours' whom Musa followed (al-Kahf 65–82). Many scholars hold he was a Prophet; others that he was a wali.", "al-Kahf 65–82"],
+    ["'Uzayr", "عُزَيْرٌ", "Named in al-Tawbah 30. The scholars differ over whether he was a Prophet.", "al-Tawbah 30"],
+    ["Dhu al-Qarnayn", "ذُو الْقَرْنَيْنِ", "The just king who built the barrier against Ya'juj and Ma'juj (al-Kahf 83–98). Most scholars say he was a righteous king, not a Prophet.", "al-Kahf 83–98"],
+    ["Luqman", "لُقْمَانُ", "Given wisdom; his advice to his son is in Surat Luqman. Most scholars say he was a wise man, not a Prophet.", "Luqman 12–19"],
+  ],
+};
+function prophetsView(){
+  let d = 0;
+  const nb = (n, cls = "") => { const [en, ar, note, where] = n;
+    return `<li class="ln ${cls}" style="--d:${++d}"><button class="ln-b" data-ln="${esc(note + (where ? "  ·  " + where : ""))}" aria-label="${esc(en)}, tap for more"><span class="ln-dot" aria-hidden="true"></span><span class="ln-en">${esc(en)}</span><span class="ln-ar ar" lang="ar">${esc(ar)}</span><span class="ln-i" aria-hidden="true">i</span></button></li>`; };
+  const P = PROPHETS, firm = ["Nuh", "Ibrahim", "Musa", "'Isa", "Muhammad ﷺ"];
+  return shell(`<button class="back" id="ln-back">${ICON.back} Back</button>
+    <h1 style="margin-bottom:4px">The Prophets عَلَيْهِمُ السَّلَامُ</h1>
+    <p class="muted" style="margin:0 0 6px">We believe in every Prophet Allah sent, without making a difference between them. The five of firm resolve are marked in gold. Tap a name to read more.</p>
+    <p class="small"><button class="linkbtn small" id="ln-replay">Play again</button></p>
+    <div class="lineage" id="lineage">
+      <p class="ln-h">The twenty-five named in the Qur'an <span class="small muted">(in their historical order)</span></p>
+      <p class="small muted" style="margin:-4px 0 8px">The scholars of creed say every Muslim should know these twenty-five by name, and believe in all the others in general.</p>
+      <ol class="ln-list">${P.quran.map(n => nb(n, firm.includes(n[0]) ? "pro" : "")).join("")}</ol>
+      <p class="ln-h">Named in the hadith</p><ol class="ln-list">${P.hadith.map(n => nb(n)).join("")}</ol>
+      <p class="ln-h">Named in the classical books</p><p class="small muted" style="margin:-4px 0 8px">Prophets of the Children of Israel known from the commentators and historians. Their names come from those books, not from the Qur'an or sound hadith.</p>
+      <ol class="ln-list">${P.books.map(n => nb(n)).join("")}</ol>
+      <p class="ln-h">Where the scholars differ</p><ol class="ln-list">${P.differ.map(n => nb(n, "dif")).join("")}</ol>
+      <div class="ln-gap" style="--d:${++d}"><b>How many were there?</b><span class="small">A hadith reported by Imam Ahmad and Ibn Hibban gives 124,000 Prophets, of whom 313 were Messengers. Allah says: 'Of them are those We have told you about, and those We have not.' (Ghafir 78)</span></div>
+    </div>
+    <p class="small muted" style="margin-top:14px">Sources: the Qur'an; Jawharat al-Tawhid (the twenty-five); Ibn Kathir, Qisas al-Anbiya' and al-Bidayah wa al-Nihayah.</p>`);
+}
+document.addEventListener("click", e => { const b = e.target.closest("[data-golin]"); if (!b) return;
+  // remember where we came from, unless we are moving between the charts themselves
+  if (!["lineage", "family", "prophets"].includes(view.name)) REF_BACK = { view: { ...view }, ls: null, y: window.scrollY };
+  go({ name: b.dataset.golin }); window.scrollTo(0, 0); });
+
+const CHARTS = [["lineage", "His lineage", "From Muhammad ﷺ back to Adam"], ["family", "His family", "Wives, children and grandchildren"], ["prophets", "The Prophets", "All twenty-five, and more"]];
+function chartsRow(id){ const pick = { seerah: ["lineage", "family", "prophets"], sahabah: ["family"], aqeedah: ["prophets"] }[id] || ["lineage", "family", "prophets"];
+  return `<div class="charts">${CHARTS.filter(c => pick.includes(c[0])).map(([v, t, s]) => `<button class="chart-b" data-golin="${v}"><span class="chart-ic" aria-hidden="true">${CHART_IC[v]}</span><span><b>${t}</b><span class="small muted">${s}</span></span></button>`).join("")}</div>`; }
+const CHART_IC = {
+  lineage: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="4" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="12" cy="20" r="2"/><path d="M12 6v4M12 14v4"/></svg>`,
+  family: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="4" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="12" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><path d="M12 6v6M5 17v-5h14v5M12 12v5"/></svg>`,
+  prophets: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3l2.4 5 5.6.6-4.2 3.8 1.2 5.6L12 15.2 7 18l1.2-5.6L4 8.6 9.6 8z"/></svg>`,
+};
+
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=c803ad6a1c");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=ebdfe7b997");</script></body>
 </html>
