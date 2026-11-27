@@ -155,6 +155,18 @@ const ILL = (() => {
           g += `<ellipse cx="${f(gx - 2.2)}" cy="${f(gy)}" rx="1.7" ry="3" fill="#D7A949" transform="rotate(${a - 22} ${f(gx - 2.2)} ${f(gy)})"/><ellipse cx="${f(gx + 2.2)}" cy="${f(gy)}" rx="1.7" ry="3" fill="#D7A949" transform="rotate(${a + 22} ${f(gx + 2.2)} ${f(gy)})"/>`; }
         return g + `<ellipse cx="${f(ex)}" cy="${f(ey - 1)}" rx="1.6" ry="3" fill="#D7A949" transform="rotate(${a} ${f(ex)} ${f(ey - 1)})"/>`; }).join("")}`,
 
+    // Marriage, family and rights: a family home at evening, lamps lit in the windows
+    family: p => `<defs>${grad(p + "s", [[0, "#2E4A6B"], [.55, "#B9786A"], [1, "#F0C08E"]])}${grad(p + "wl", [[0, "#F1E2C4"], [1, "#D9C197"]])}${grad(p + "win", [[0, "#FFE7A8"], [1, "#F6C15E"]])}${grad(p + "dr", [[0, "#6E4426"], [1, "#4C2D18"]])}${grad(p + "gd", [[0, "#7E9A62"], [1, "#55703F"]])}</defs>
+      <rect width="360" height="200" fill="url(#${p}s)"/>${stars(57, 18, 60, "#FFF3DA")}<path d="M300 26a15 15 0 1 0 11 25a12 12 0 1 1 -11 -25z" fill="#FFE7AE"/>
+      <rect x="70" y="70" width="220" height="104" fill="url(#${p}wl)"/><rect x="62" y="64" width="236" height="8" rx="2" fill="#B08A4E"/>
+      <path d="${archD(160, 116, 40, .78, 58)}" fill="url(#${p}dr)"/><circle cx="174" cy="148" r="2.2" fill="#E9C46A"/><circle cx="186" cy="148" r="2.2" fill="#E9C46A"/>
+      ${[92, 236].map(x => `<path d="${archD(x, 104, 32, .78, 30)}" fill="url(#${p}win)"/><path d="${archD(x, 104, 32, .78, 30)}" fill="none" stroke="#2F5D5C" stroke-width="3"/><path d="M${x + 16} ${f(104 - archH(32, .78))}V134M${x} 116H${x + 32}" stroke="#2F5D5C" stroke-width="2"/>`).join("")}
+      ${[92, 236].map(x => `<circle cx="${x + 16}" cy="120" r="30" fill="#FFE7A8" opacity=".14"/>`).join("")}
+      <path d="M0 174C80 166 280 166 360 172V200H0Z" fill="url(#${p}gd)"/><path d="M162 174H198L210 200H150Z" fill="#E2CFA6"/>
+      ${palm(34, 182, 64, "#2F4A2E", -4)}${palm(326, 184, 58, "#2F4A2E", 5)}
+      <g transform="translate(136 96)"><path d="M0 0V8" stroke="#C9A24A" stroke-width="1.2"/><path d="M-6 14Q0 6 6 14Z" fill="#E9C46A"/><rect x="-5.5" y="14" width="11" height="14" rx="2" fill="#FFE3A3" stroke="#E9C46A" stroke-width="1.4"/></g>
+      <g transform="translate(224 96)"><path d="M0 0V8" stroke="#C9A24A" stroke-width="1.2"/><path d="M-6 14Q0 6 6 14Z" fill="#E9C46A"/><rect x="-5.5" y="14" width="11" height="14" rx="2" fill="#FFE3A3" stroke="#E9C46A" stroke-width="1.4"/></g>`,
+
     // Dealing with doubts: a lantern lighting the way through the dark
     doubts: p => `<defs>${grad(p + "s", [[0, "#151A33"], [1, "#2E2A55"]])}${rgrad(p + "l", .5, .46, .5, [[0, "#FFD98A", .55], [.5, "#FFD98A", .12], [1, "#FFD98A", 0]])}${grad(p + "g", [[0, "#F6C766"], [1, "#C98A2E"]])}${grad(p + "pt", [[0, "#3B3666", 0], [1, "#E9C46A", .35]])}</defs>
       <rect width="360" height="200" fill="url(#${p}s)"/>${stars(23, 40, 120)}<rect width="360" height="200" fill="url(#${p}l)"/>
@@ -294,7 +306,7 @@ const LILL = (() => {
       <path d="M244 116Q244 100 254 96V88H266V96Q276 100 276 116V156Q260 164 244 156Z" fill="url(#${p}j)"/><path d="M276 112Q290 116 284 132" stroke="#245766" stroke-width="3" fill="none"/><ellipse cx="260" cy="88" rx="8" ry="2.5" fill="#1C4652"/>`,
   };
   // course scenes count as motifs too
-  ["aqeedah", "fiqh", "tilawah", "adab", "seerah", "sahabah", "quran", "tazkiyah", "halal", "doubts"].forEach(id => { M["c_" + id] = null; });
+  ["aqeedah", "fiqh", "tilawah", "adab", "seerah", "sahabah", "quran", "tazkiyah", "halal", "doubts", "family"].forEach(id => { M["c_" + id] = null; });
   const INDOOR = new Set(["mihrab", "coins", "inkpot", "books", "table"]);
   // lesson → motif (explicit for the key ones, then a rotation per course)
   const PICK = {
@@ -303,7 +315,7 @@ const LILL = (() => {
     prayer4: "c_fiqh", prayer5: "c_doubts", f_sunnahs: "c_aqeedah", f_jamaah: "skyline", f_travel: "well", f_qada: "c_doubts", f_jumuah: "skyline", f_janazah: "graves", f_death: "graves", f_eid: "skyline",
     f_sawm0: "iftar", fasting1: "iftar", fasting2: "iftar", fasting3: "iftar", zakat1: "coins", zakat2: "coins", zakat3: "c_halal", f_fitr: "table", f_udhiyah: "tents",
     hj1: "kaaba", hj2: "well", hj3: "tents", hj4: "kaaba", hj9: "kaaba", hj5: "kaaba", hj6: "c_sahabah", hj7: "tents", hj8: "kaaba",
-    hh1: "c_halal", hh_kabair: "c_doubts", hh_parents: "door", f_nikah: "door", hh2: "c_tazkiyah", hh3: "table", hh4: "c_adab", hh5: "c_adab", hh6: "coins", f_money: "coins", hh7: "c_halal",
+    hh1: "c_halal", hh_kabair: "c_doubts", hh2: "c_tazkiyah", hh3: "table", hh4: "c_adab", hh5: "c_adab", hh6: "coins", f_money: "coins", hh7: "c_halal",
     belief1: "books", aq_islam: "kaaba", aq_proof: "sea", belief2: "sea", belief3: "c_aqeedah", belief4: "rain", aq_twenty: "c_quran", aq_speech: "c_tilawah", aq_jaiz: "sea", belief5: "c_quran", aq_nabi: "c_seerah",
     aq_kutub: "books", aq_shahada: "skyline", belief6: "c_aqeedah", aq_sins: "c_doubts", aq_riddah: "c_doubts", aq_shirk: "c_halal", aq_akhira: "graves", aq_ruya: "c_tazkiyah", aq_qadr: "inkpot", aq_signs: "cosmos", aq_awliya: "c_tazkiyah", aq_jamaa: "skyline",
     sr1: "c_aqeedah", sr1b: "well", sr2: "c_quran", sr3: "tents", sr_sorrow: "graves", sr_aqabah: "c_sahabah", sr4: "cave", sr_madinah: "c_seerah", sr5: "well", sr_hudaybiyah: "tents", sr6: "kaaba", sr_farewell: "c_sahabah", sr_passing: "c_seerah", sr_family: "door", sr7: "c_tazkiyah",
@@ -311,6 +323,7 @@ const LILL = (() => {
     heart1: "c_tazkiyah", heart2: "rain", heart3: "c_adab", heart4: "c_doubts", heart5: "books", tz_dhikr: "c_doubts", tz_tawakkul: "c_sahabah", tz_sabr: "sea", tz_path: "c_seerah",
     sh_who: "c_sahabah", sh_abubakr: "cave", sh_umar: "skyline", sh_uthman: "inkpot", sh_ali: "door", sh_ten: "c_seerah", sh_mothers: "c_tazkiyah", sh_bayt: "door", sh_love: "c_sahabah",
     ad_wake: "c_adab", ad_adhkar: "c_doubts", ad_afterprayer: "mihrab", ad_salam: "door", ad_eat: "table", ad_dress: "door", ad_home: "door", ad_social: "skyline", ad_sleep: "c_adab", ad_limbs: "c_tazkiyah", ad_teach: "books",
+    fm_before: "c_family", f_nikah: "skyline", fm_mahram: "c_tazkiyah", fm_wife: "door", fm_husband: "c_adab", fm_together: "c_family", fm_divorce: "rain", hh_parents: "table", fm_children: "c_seerah", fm_kin: "door",
     dd1: "c_doubts", dd2: "c_tazkiyah", dd3: "books", dd4: "c_quran", dd5: "sea", dd6: "cosmos",
     tl_letters1: "inkpot", tl_letters2: "books", tl_harakat: "c_tilawah", tl_makharij: "mihrab", tl_nun: "mihrab", tl_meem: "c_tilawah", tl_madd: "skyline", tl_more: "c_quran", tl_fatihah: "c_tilawah",
   };

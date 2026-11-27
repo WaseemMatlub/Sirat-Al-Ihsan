@@ -30,7 +30,7 @@ KEY = {
    "zakat2": "زكاة العروض", "zakat3": "دفع الصدقة", "f_fitr": "صدقة الفطر", "f_udhiyah": "الاضحيه", "hj1": "كتاب الحج", "hj2": "كتاب الحج",
    "hj3": "كتاب الحج", "hj4": "القران", "hj9": "التمتع", "hj5": "كتاب الحج", "hj6": "كتاب الحج", "hj7": "كتاب الحج", "hj8": "كتاب الحج",
    "hh3": "الذبائح", "hh4": "الكراهيه", "hh5": "الكراهيه", "hh6": "الربا", "sh_bayt": "دفع الصدقة", "f_money": "الربا", "f_death": "الجنائز",
-   "f_nikah": "كتاب النكاح", "f_death": "الفرائض", "f_madhur": "الحيض", "zakat1b": "كتاب الزكاة"},
+   "f_nikah": "كتاب النكاح", "fm_before": "كتاب النكاح", "fm_mahram": "الرضاع", "fm_wife": "النفقات", "fm_husband": "النفقات", "fm_divorce": "كتاب الطلاق", "fm_children": "النفقات", "hh_parents": "النفقات", "f_death": "الفرائض", "f_madhur": "الحيض", "zakat1b": "كتاب الزكاة"},
  "fusul": {"sr1": "نسبه", "sr1b": "ولادته", "sr3": "المعذبين", "sr_sorrow": "خروج النبي", "sr_aqabah": "العقبه", "sr4": "الاسراء",
    "sr_madinah": "المواخاه", "sr5": "بدر الكبرى", "sr_hudaybiyah": "الحديبيه", "sr6": "فتح مكه", "sr_passing": "وفاته", "sr_family": "اولاده",
    "sh_mothers": "ازواجه", "sr2": "مبعثه"},
@@ -42,7 +42,7 @@ KEY = {
  "tibyan": {"qr0": "الباب الاول", "qr5": "الباب السادس"},
  "ayyuha": {"heart5": "ايها الولد"},
  "shamail": {"sr7": "خلق رسول"},
- "ihya": {"hh1": "الحلال", "hh2": "الورع", "hh6": "منكرات", "hh7": "منكرات", "hh_kabair": "الكبائر", "aq_shirk": "الرياء", "heart1": "العلم", "heart3": "الغيبه"},
+ "ihya": {"fm_husband": "آداب النكاح", "fm_wife": "آداب النكاح", "fm_together": "آداب النكاح", "fm_kin": "الصحبة","hh1": "الحلال", "hh2": "الورع", "hh6": "منكرات", "hh7": "منكرات", "hh_kabair": "الكبائر", "aq_shirk": "الرياء", "heart1": "العلم", "heart3": "الغيبه"},
  "usul_shashi": {"fiqh0": "الواجب بحكم"},
  "riyad": {"heart2": "التوبه", "ad_salam": "السلام"},
  "adhkar": {"ad_wake": "استيقظ", "ad_adhkar": "الصباح", "ad_dress": "لبس", "ad_sleep": "النوم"},
@@ -101,7 +101,7 @@ def by_english(f, text, chapter=None, near=None, head="", allow=None):
     return None
 
 ANCHOR = {}
-KEYC = {("tz_path", "A false guide"): "مقدمه", ("f_nikah", "Divorce"): "كتاب الطلاق", ("f_nikah", "Rights"): "النفقات",("sr5", "Uhud"): "احد", ("sr5", "The Trench"): "الخندق", ("heart4", "Showing off"): "الرياء", ("heart4", "Self-admiration"): "العجب",
+KEYC = {("fm_divorce", "Khul'"): "الخلع", ("fm_divorce", "'Iddah"): "العده", ("fm_mahram", "By nursing"): "الرضاع",("tz_path", "A false guide"): "مقدمه", ("f_nikah", "Divorce"): "كتاب الطلاق", ("f_nikah", "Rights"): "النفقات",("sr5", "Uhud"): "احد", ("sr5", "The Trench"): "الخندق", ("heart4", "Showing off"): "الرياء", ("heart4", "Self-admiration"): "العجب",
   ("sr6", "The opening of Makkah"): "فتح مكه", ("sr6", "The farewell"): "حجه الوداع", ("sr4", "The Hijrah"): "هجره رسول", ("sr4", "The pledges of 'Aqabah"): "العقبه",
   ("sr3", "Abyssinia"): "المعذبين", ("sr3", "The boycott and Ta'if"): "مقاطعه", ("sr1b", "In the desert"): "ولادته", ("heart3", "Backbiting"): "الغيبه",
   ("ad_limbs", "Eyes and ears"): "اداب العين", ("ad_limbs", "The tongue"): "الكذب", ("ad_limbs", "Stomach, hands, feet"): "اداب البطن"}

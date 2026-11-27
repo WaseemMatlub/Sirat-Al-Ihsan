@@ -821,8 +821,47 @@ def polish(courses):
         courses.insert(i + 1, TL.COURSE)
     return courses
 
+# ---- 27 Nov (afternoon): Marriage, family and rights as its own course; Abd al-Rahman's corrections
+import learn_family as FAM
+FIX_CARDS3 = {
+ ("hj4", "Tamattu'"): "Entering ihram for 'umrah in the months of Hajj, completing it and leaving ihram, then entering ihram for Hajj from Makkah on the 8th (Yawm al-Tarwiyah). A sacrifice is due. If he cannot afford it, he fasts three days after entering ihram for the 'umrah, the last of them on the day of 'Arafah (best: the 7th, 8th and 9th), and seven after the days of Hajj, best at home. If the three are not fasted before the Day of Sacrifice, fasting no longer counts: only the sacrifice will do, and it stays owed.",
+ ("hh1", "Where he begins"): None,
+ ("tz_dhikr", "A command"): "Allah commands it: 'O you who believe, remember Allah much.' (al-Ahzab 41) Dhikr is not an extra: al-Qushayri calls it the strongest pillar of the path to Allah.",
+ ("tz_tawakkul", "He is enough"): "'Whoever puts his trust in Allah, He is enough for him.' (al-Talaq 3) Trust is in the heart; the limbs still take the means. The Prophet ﷺ said: tie your camel, then trust.",
+ ("tz_sabr", "By Allah"): "'Be patient, and your patience is only by Allah.' (al-Nahl 127) Patience itself is a gift from Allah, so ask Him for it, and do not rely on your own strength.",
+}
+NEW_CARDS3 = {"hh1": [(1, "What haram does", "The Prophet ﷺ said to Ka'b ibn 'Ujrah: no flesh that grew from the unlawful but the Fire is more fitting for it. Al-Ghazali explains that haram food darkens the heart and makes worship heavy, while halal lights it.", "Sunan al-Tirmidhi, Book of Prayer")]}
+FIX_CHECKS3 = {("hj4", "A mutamatti' who cannot afford the sacrifice…"): {
+   "q": "A mutamatti' cannot afford the sacrifice and has not fasted the three days by the Day of Sacrifice. What now?", "a": "Fasting no longer counts; the sacrifice is owed",
+   "w": ["He fasts ten days at home instead", "Nothing is owed", "He fasts three days after Eid"], "why": "The three days must be fasted before the Day of Sacrifice, the last on 'Arafah; after that only the sacrifice will do."}}
+NEW_CHECKS3 = {"hj4": [("A mutamatti' who cannot afford the sacrifice fasts…", "Three days before the Day of Sacrifice and seven after Hajj", ["Ten days after he returns", "Three days after Eid and seven at home", "One month"], "The three end on the day of 'Arafah; the seven come after the days of Hajj.", "Mukhtasar al-Quduri, Book of Hajj")]}
+_polish3d = polish
+def polish(courses):
+    courses = _polish3d(courses)
+    for c in courses: c["lessons"] = [l for l in c["lessons"] if l["id"] not in ("f_nikah", "hh_parents") or c["id"] == "family"]
+    if not any(c["id"] == "family" for c in courses):
+        i = next(k for k, c in enumerate(courses) if c["id"] == "halal")
+        courses.insert(i + 1, {**FAM.COURSE, "lessons": [_lesson(t) for t in FAM.LESSONS]})
+    les = {l["id"]: l for c in courses for l in c["lessons"]}
+    for (lid, t), x in FIX_CARDS3.items():
+        cs = les[lid]["cards"]
+        if x is None: les[lid]["cards"] = [c for c in cs if c["t"] != t]
+        else: next(c for c in cs if c["t"] == t)["x"] = x
+    for lid, add in NEW_CARDS3.items():
+        for i, t, x, src in add:
+            if not any(c["t"] == t for c in les[lid]["cards"]): les[lid]["cards"].insert(i + 1, {"t": t, "x": x, "src": src})
+    for (lid, q), ch in FIX_CHECKS3.items():
+        c = next((c for c in les[lid]["checks"] if c["q"] == q), None)
+        if c: c.update(ch); assert len(c["w"]) == 3 and c["a"] not in c["w"]
+    for lid, add in NEW_CHECKS3.items():
+        for q, a, w, y, src in add:
+            if not any(c["q"] == q for c in les[lid]["checks"]): les[lid]["checks"].append({"q": q, "a": a, "w": w, "why": y, "src": src})
+    return courses
+_AY.AYAT.update(FAM.AYAT) if "_AY" in globals() else None
+
 # ---- Qur'an verses on the lessons, then tappable references into the Library
 import learn_ayat as _AY, learn_refs as _RF
+_AY.AYAT.update(FAM.AYAT)
 _polish4 = polish
 def polish(courses):
     courses = _polish4(courses)

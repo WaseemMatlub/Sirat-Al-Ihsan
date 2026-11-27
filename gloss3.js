@@ -99,6 +99,21 @@ const GLOSS_MORE = [
  ["Iqlab", "Turning a nun sakinah or tanween into a hidden mim before ba'."],
  ["Ikhfa'", "Hiding a letter: saying it lightly through the nose, between clear and merged."],
  ["Hafs", "The narration of the Qur'an from Imam 'Asim through Hafs, the one most Muslims recite today."],
+ ["Nafaqah", "Maintenance: the food, clothing and housing a husband owes his wife, and a father his children."],
+ ["Mahr", "The marriage gift the husband owes the wife. It is her property alone."],
+ ["Walimah", "The wedding meal held by the husband after the marriage: a sunnah."],
+ ["Khitbah", "An engagement: a promise to marry. It does not make the couple lawful to each other."],
+ ["Kafa'ah", "Suitability: the husband being a fitting match for the wife, mainly in religion and character."],
+ ["Khul'", "A separation the wife asks for, giving back the mahr or something else for her release."],
+ ["Talaq", "Divorce pronounced by the husband."],
+ ["Raj'i", "A revocable divorce: after one or two talaqs the husband may take his wife back during the 'iddah."],
+ ["'Iddah", "The waiting period after divorce or death before a woman may remarry."],
+ ["Hadanah", "Custody: the right to raise young children, which goes first to the mother."],
+ ["Rada'ah", "Nursing: a child nursed by a woman within the first two years becomes like her own child for marriage purposes."],
+ ["Silat al-rahim", "Keeping ties with relatives: a duty, and cutting them is a major sin."],
+ ["'Aqiqah", "The sacrifice for a newborn, on the seventh day."],
+ ["Istikharah", "The prayer and du'a for asking Allah to choose what is best in a decision."],
+ ["Halalah", "A marriage arranged only to make a thrice-divorced woman lawful again to her first husband. The Prophet ﷺ cursed it."],
  ["Ruqyah", "Healing by reciting the Qur'an and prophetic du'as over someone."],
 ];
 const GLOSS_ALIAS = { "Makruh tahriman":["makruh tahrimi","makrooh tahrimi","tahrimi","tahriman"], "Makruh tanzihan":["makruh tanzihi","makruh tanzeehi","makrooh tanzihi","tanzihi","tanzeehi","tanzihan"], "Istinja'":["istinja"], "Istibra'":["istibra"], "Rak'ah":["rak'ahs","rakah","rakat"], "Wudu":["wudu'","ablution"], "Sujud":["sajdah","prostration"],
@@ -133,6 +148,7 @@ function glDecorate(root){
       if (tn.parentElement.closest("button, .gl-w, [lang=ar]")) continue;
       const s = tn.nodeValue; _glRe.lastIndex = 0; let m, last = 0, frag = null;
       while ((m = _glRe.exec(s))) {
+        if (/^(say|says|said|sad|din|amin|man)$/i.test(m[0])) continue;   // ordinary English words that look like terms without the apostrophe
         const hit = glLookup(m[1]); if (!hit || seen.has(hit[0])) continue; seen.add(hit[0]);
         frag = frag || document.createDocumentFragment();
         frag.append(s.slice(last, m.index));
