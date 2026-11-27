@@ -680,3 +680,42 @@ def polish(courses):
         if any(c["id"] == C["id"] for c in courses): continue
         courses.append({**{k: v for k, v in C.items() if k != "lessons"}, "lessons": [_lesson(t) for t in C["lessons"]]})
     return courses
+
+# ---- detail pass: rulings that were stated too briefly and could mislead (Abd al-Rahman's review)
+FIX_CARDS = {
+ ("hj3", "Body"): ("Do not use perfume or anything scented, shave or remove any hair, trim the beard or cut the nails. Bathing, shade and wearing a money belt are allowed, with conditions: see the next point.", None),
+ ("f_najasa", "What is excused"): ("'Excused' means the prayer is still valid, not that you may leave it. Heavy impurity: less than a dirham, the prayer is valid but washing it is sunnah; exactly a dirham, washing it is wajib and praying with it is strongly disliked; more than a dirham, it must be washed or the prayer is invalid. Light impurity: excused if less than a quarter of the garment or limb. Tiny pinhead splashes of urine are excused.", "Nur al-Idah with Maraqi al-Falah, Chapter on impurities"),
+ ("hh3", "Whose slaughter"): ("The slaughter of a Muslim or of a Jew or Christian (Ahl al-Kitab) is halal, but only if it is a real slaughter: the throat and main vessels cut while the animal is alive, and no name other than Allah's invoked. Meat killed by stunning, a machine or any other way is not halal, whoever did it. The slaughter of a Magian, an apostate or an idol-worshipper is not eaten.", None),
+ ("hh4", "Silk"): ("Silk is not lawful for men to wear, except a trim or border up to four fingers wide. It is lawful for women.", None),
+ ("hh4", "Gold and silver"): ("Men may not wear gold or silver, except a silver ring (less than one mithqal, about 4.3 g), a belt fitting and a sword decoration of silver. Women may wear gold and silver.", None),
+}
+NEW_CARDS = {
+ "hj3": [(2, "Bathing in ihram", "Bathing for cleanliness or to cool down is allowed, but: no scented soap, shower gel, shampoo or scented wipes, because the later Hanafi scholars count these as perfume, which brings a penalty. Al-Quduri says the muhrim does not wash his head or beard with khitmi (a cleansing plant). Use water, or unscented soap, and wash gently so that no hair falls out. Do not dry yourself with a scented towel.", "Mukhtasar al-Quduri, Book of Hajj")],
+}
+FIX_CHECKS = {
+ ("hj3", "Which is allowed in ihram?"): {"a": "Bathing with water or unscented soap", "w": ["Bathing with scented shower gel", "Cutting the nails", "Trimming the beard"], "why": "Bathing is allowed, but scented soap, shower gel and shampoo count as perfume and bring a penalty. Wash gently so no hair falls."},
+ ("f_najasa", "Heavy impurity (like urine or flowing blood) on your clothes: how much is excused in prayer?"): {"why": "Up to a dirham the prayer is still valid. But exactly a dirham must still be washed (it is wajib), and less than that should be washed (sunnah). More than a dirham invalidates the prayer."},
+ ("hh3", "Is meat slaughtered by a Christian halal?"): {"a": "Yes, if he slaughters properly and names no one but Allah", "w": ["Yes, however the animal was killed", "No, never", "Only if a Muslim watches"], "why": "Al-Quduri: the slaughter of a Muslim or a Kitabi is halal. It must be a real slaughter; stunned-to-death or machine-killed meat is not halal from anyone."},
+ ("hh4", "May a man wear a gold ring?"): {"why": "Men may not wear gold. A silver ring of less than one mithqal (about 4.3 g) is allowed."},
+ ("purity5", "For ghusl, must a woman undo her plaited hair?"): {"why": "For a woman, water reaching the roots is enough. A man must wet the inside of his plaits."},
+}
+NEW_CHECKS = {
+ "hj3": [{"q": "In ihram you want a shower. Which is right?", "a": "Use water or unscented soap, and wash gently", "w": ["Any shower gel is fine as it is only for washing", "Use scented shampoo but not perfume", "Showering is not allowed in ihram"], "why": "Scented soap and shampoo count as perfume. Bathing itself is allowed, without making hair fall.", "src": "Mukhtasar al-Quduri, Book of Hajj"}],
+}
+_polish2 = polish
+def polish(courses):
+    courses = _polish2(courses)
+    les = {l["id"]: l for c in courses for l in c["lessons"]}
+    for (lid, t), (x, src) in FIX_CARDS.items():
+        c = next(c for c in les[lid]["cards"] if c["t"] == t); c["x"] = x
+        if src: c["src"] = src
+    for lid, add in NEW_CARDS.items():
+        for i, t, x, src in add:
+            if not any(c["t"] == t for c in les[lid]["cards"]): les[lid]["cards"].insert(i + 1, {"t": t, "x": x, "src": src})
+    for (lid, q), ch in FIX_CHECKS.items():
+        c = next(c for c in les[lid]["checks"] if c["q"] == q); c.update(ch)
+        assert len(c["w"]) == 3 and c["a"] not in c["w"], q
+    for lid, add in NEW_CHECKS.items():
+        for k in add:
+            if not any(c["q"] == k["q"] for c in les[lid]["checks"]): les[lid]["checks"].append(k)
+    return courses
