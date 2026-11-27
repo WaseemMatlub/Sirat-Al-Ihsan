@@ -669,29 +669,30 @@ button.td-row{cursor:pointer}button.td-row:active{opacity:.7}button.td-row:focus
 .item.ah{grid-template-columns:1fr auto}
 .sal-tags .pb-chip{padding:7px 12px}.sal-tags .pb-chip.on{background:#1F6B4A;border-color:#1F6B4A;color:#fff}
 .td-list li .td-quick b,.td-list li.ok .td-quick b{color:#fff;opacity:1}.sw-v{align-content:start}
-/* floating tab bar */
-nav.tabs{left:12px!important;right:12px!important;border-top:1px solid rgba(255,255,255,.08)!important;bottom:calc(10px + env(safe-area-inset-bottom,0px));max-width:520px;margin:0 auto;background:rgba(16,32,25,.95)!important;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.08);border-radius:999px;box-shadow:0 10px 30px rgba(8,20,14,.28)}
+/* floating tab bar, in the app's own colours */
+nav.tabs{left:12px!important;right:12px!important;bottom:calc(10px + env(safe-area-inset-bottom,0px));max-width:520px;margin:0 auto;background:var(--surface)!important;border:1px solid var(--line)!important;border-radius:999px;box-shadow:0 8px 28px rgba(0,0,0,.12)}
 nav.tabs .in{padding:6px!important;gap:2px}
-nav.tabs button{color:#C9D8CF;border-radius:999px;padding:8px 2px 7px!important;font-weight:700;}
+nav.tabs button{color:var(--muted);border-radius:999px;padding:8px 2px 7px!important;font-weight:700}
 nav.tabs button svg{width:23px;height:23px}
-nav.tabs button[aria-current="page"]{color:#fff;background:#1F6B4A}
-nav.tabs button:focus-visible{outline:2px solid #E9C46A;outline-offset:1px}
+nav.tabs button[aria-current="page"]{color:#fff;background:var(--brand)}
+nav.tabs button:focus-visible{outline:2px solid var(--gold);outline-offset:1px}
 main{padding-bottom:calc(110px + env(safe-area-inset-bottom,0px))!important}
-/* tasbih */
-.tb2{background:#121A16;color:#EEF3EF;border-radius:24px;padding:12px 14px 18px;margin:-4px -4px 0;display:grid;justify-items:center;text-align:center}
-.tb2-top{display:grid;grid-template-columns:44px 1fr 44px 44px;align-items:center;width:100%}.tb2-top h1{margin:0;font-family:Georgia,"Amiri",serif;font-size:1.6rem;color:#fff}
-.tb2-ic{all:unset;box-sizing:border-box;cursor:pointer;width:44px;height:44px;display:grid;place-items:center;border-radius:50%;color:#fff}.tb2-ic svg{width:22px;height:22px}.tb2-ic:focus-visible{outline:2px solid #9FD3B0}
-.tb2-chips{display:flex;gap:8px;overflow-x:auto;width:calc(100% + 28px);margin:10px -14px 0;padding:2px 14px 6px;scrollbar-width:none}.tb2-chips::-webkit-scrollbar{display:none}
-.tb2-chips button{flex:none;font:inherit;font-size:.92rem;padding:8px 16px;border-radius:999px;border:1px solid #3A4A41;background:transparent;color:#EEF3EF;cursor:pointer;white-space:nowrap}
-.tb2-chips button.on{background:#8DBB98;border-color:#8DBB98;color:#10241A;font-weight:700}.tb2-chips button:focus-visible{outline:2px solid #E9C46A;outline-offset:2px}
-.tb2-say{margin:14px 0 0;min-height:52px}.tb2-say .ar{font-size:1.5rem;margin:0;line-height:1.7}.tb2-say p{margin:0;color:#B9C8BE;font-size:.92rem}
-.tb2-n{font-size:4.2rem;font-weight:800;margin:6px 0 4px;line-height:1;font-variant-numeric:tabular-nums}
-.tb2-bar{width:88%;height:8px;border-radius:8px;background:#2A332E;overflow:hidden}.tb2-bar i{display:block;height:100%;background:#8DBB98;border-radius:8px;transition:width .2s}
-.tb2-of{margin:6px 0 0;color:#A9B6AE;font-size:.9rem}
-.tb2-pad{all:unset;box-sizing:border-box;cursor:pointer;width:min(76vw,320px);aspect-ratio:1;border-radius:50%;margin:20px 0 10px;background:radial-gradient(circle at 50% 38%,#A3CDAD,#7FAF8B 70%);box-shadow:0 14px 40px rgba(0,0,0,.35),inset 0 -6px 0 rgba(0,0,0,.12);display:grid;place-items:center;color:#10241A;font-weight:800;font-size:1.1rem;letter-spacing:.02em;-webkit-user-select:none;user-select:none;touch-action:manipulation}
-.tb2-pad:active{transform:scale(.98)}.tb2-pad:focus-visible{outline:3px solid #E9C46A;outline-offset:4px}
-.tb2-foot{display:flex;gap:28px}.tb2-foot button{all:unset;cursor:pointer;padding:10px 12px;color:#D7E1DA;font-size:1.02rem}.tb2-foot .rst{color:#FF8A80}.tb2-foot button:disabled{opacity:.45;cursor:default}.tb2-foot button:focus-visible{outline:2px solid #E9C46A}
-.tb2-all{margin:4px 0 0;color:#A9B6AE;font-size:.82rem}
+/* tasbih: a full screen that does not scroll */
+body:has(.tbx){overflow:hidden}
+.tbx{position:fixed;inset:0;z-index:40;background:var(--bg);color:var(--ink);display:flex;flex-direction:column;height:100dvh;padding:calc(6px + env(safe-area-inset-top,0px)) 14px calc(10px + env(safe-area-inset-bottom,0px));overflow:hidden;text-align:center}
+.tbx-top{display:grid;grid-template-columns:44px 1fr 44px 44px;align-items:center;flex:none}.tbx-top h1{margin:0;font-size:1.35rem}
+.tbx-ic{all:unset;box-sizing:border-box;cursor:pointer;width:44px;height:44px;display:grid;place-items:center;border-radius:50%;color:var(--ink)}.tbx-ic svg{width:22px;height:22px}.tbx-ic:focus-visible{outline:2px solid var(--gold)}
+.tbx-chips{flex:none;display:flex;gap:8px;overflow-x:auto;margin:6px -14px 0;padding:2px 14px 6px;scrollbar-width:none}.tbx-chips::-webkit-scrollbar{display:none}
+.tbx-chips button{flex:none;font:inherit;font-size:.9rem;padding:8px 14px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;white-space:nowrap}
+.tbx-chips button.on{background:var(--brand);border-color:var(--brand);color:#fff;font-weight:700}.tbx-chips button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.tbx-say{flex:none;margin:8px 0 0}.tbx-say .ar{font-size:1.3rem;margin:0;line-height:1.7}.tbx-say p{margin:0;color:var(--muted);font-size:.88rem;line-height:1.4}
+.tbx-n{flex:none;font-size:3.6rem;font-weight:800;margin:4px 0 2px;line-height:1;font-variant-numeric:tabular-nums}
+.tbx-bar{flex:none;width:86%;margin:0 auto;height:8px;border-radius:8px;background:color-mix(in srgb,var(--ink) 10%,transparent);overflow:hidden}.tbx-bar i{display:block;height:100%;background:var(--gold);border-radius:8px;transition:width .2s}
+.tbx-of{flex:none;margin:6px 0 0;color:var(--muted);font-size:.88rem}
+.tbx-mid{flex:1;min-height:0;display:grid;place-items:center;padding:10px 0}
+.tbx-pad{all:unset;box-sizing:border-box;cursor:pointer;height:min(100%,80vw,360px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 50% 35%,color-mix(in srgb,var(--brand) 78%,#fff),var(--brand) 72%);box-shadow:0 14px 36px color-mix(in srgb,var(--brand) 35%,transparent),inset 0 0 0 5px var(--gold);display:grid;place-items:center;color:#fff;font-weight:800;font-size:1.05rem;-webkit-user-select:none;user-select:none;touch-action:manipulation}
+.tbx-pad:active{transform:scale(.98)}.tbx-pad:focus-visible{outline:3px solid var(--gold);outline-offset:4px}
+.tbx-foot{flex:none;display:flex;justify-content:center;gap:28px}.tbx-foot button{all:unset;cursor:pointer;padding:10px 12px;color:var(--ink);font-size:1rem}.tbx-foot .rst{color:#C0392B}.tbx-foot button:disabled{opacity:.4;cursor:default}.tbx-foot button:focus-visible{outline:2px solid var(--gold)}
 .tbf{display:grid;gap:12px}.tbf-top{display:grid;grid-template-columns:44px 1fr 44px;align-items:center}.tbf-top h2{margin:0;text-align:center}
 .tbf-ok{all:unset;cursor:pointer;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:#1F6B4A;color:#fff}.tbf-ok svg{width:22px;height:22px}
 .tbf label{display:grid;gap:6px;font-weight:600;font-size:.92rem}.tbf input,.tbf textarea{font:inherit;padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
@@ -3165,64 +3166,67 @@ const DHIKR = [
   ["hawqala", "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ", "La hawla wa la quwwata illa billah", "There is no power and no strength except by Allah"],
   ["free", "", "Any dhikr", "Count anything you like"],
 ];
-// ---- Tasbih: one big circle to tap, a count per dhikr, targets and reminders, and counters of your own
-const TB_DEF = { subhan: 33, hamd: 33, akbar: 34, tahlil: 100, istighfar: 100, salawat: 100, hawqala: 100, free: 0 };
-function tbState(){ const T = S.tasbih = S.tasbih || {}; T.d = T.d || "subhan"; T.c = T.c || {}; T.tot = T.tot || {}; T.custom = T.custom || []; T.tgt = T.tgt || {};
-  if (T.n && !T.c[T.d]) { T.c[T.d] = T.n; } delete T.n; return T; }
-function tbItems(T){ return [...DHIKR.map(x => ({ id: x[0], title: x[2], ar: x[1], en: x[3], target: T.tgt[x[0]] ?? TB_DEF[x[0]] ?? 0, marks: [] })),
-  ...T.custom.map(c => ({ id: c.id, title: c.title, ar: "", en: c.note || "", target: c.target || 0, marks: c.marks || [], custom: true }))]; }
+// ---- Tasbih: a full screen with one big circle. The list starts with the dhikr after prayer, and every counter can be edited, removed or added.
+const TB_DEFAULTS = () => [
+  { id: "subhan", title: "Subhan Allah", ar: "سُبْحَانَ اللَّهِ", note: "Glory be to Allah", target: 33, marks: [] },
+  { id: "hamd", title: "Al-hamdu lillah", ar: "الْحَمْدُ لِلَّهِ", note: "All praise is for Allah", target: 33, marks: [] },
+  { id: "akbar", title: "Allahu akbar", ar: "اللَّهُ أَكْبَرُ", note: "Allah is the Greatest", target: 33, marks: [] },
+  { id: "tahlil", title: "La ilaha illallah wahdahu…", ar: "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ", note: "There is no god but Allah alone, without partner. His is the dominion and His the praise, and He has power over all things. Said once to complete the hundred (Sahih Muslim).", target: 1, marks: [] },
+];
+function tbState(){ const T = S.tasbih = S.tasbih || {}; T.c = T.c || {}; T.tot = T.tot || {};
+  if (!T.list) { T.list = [...TB_DEFAULTS(), ...(T.custom || []).map(c => ({ id: c.id, title: c.title, ar: "", note: c.note || "", target: c.target || 0, marks: c.marks || [], start: c.start || 0 }))]; delete T.custom; delete T.tgt; delete T.n; }
+  if (!T.list.length) T.list = TB_DEFAULTS();
+  if (!T.list.some(x => x.id === T.d)) T.d = T.list[0].id; return T; }
 function tasbihView(){
-  const T = tbState(), items = tbItems(T), d = items.find(x => x.id === T.d) || items[0], n = T.c[d.id] || 0, tg = d.target;
+  const T = tbState(), d = T.list.find(x => x.id === T.d), n = T.c[d.id] || 0, tg = d.target;
   const inRound = tg ? (n % tg || (n ? tg : 0)) : n, rounds = tg && n ? Math.floor((n - 1) / tg) : 0;
-  return shell(`<div class="tb2">
-    <div class="tb2-top"><button class="tb2-ic" data-go="tools" aria-label="Back to Tools">${ICON.back}</button><h1>Tasbih</h1>
-      <button class="tb2-ic" id="tbadd" aria-label="New counter"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
-      <button class="tb2-ic" id="tbmore" aria-label="Options for ${esc(d.title)}"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button></div>
-    <div class="tb2-chips" role="group" aria-label="Choose a counter">${items.map(x => `<button class="${x.id === d.id ? "on" : ""}" data-tbd="${x.id}" aria-pressed="${x.id === d.id}">${esc(x.title)}${x.target ? ` ×${x.target}` : ""}</button>`).join("")}</div>
-    <div class="tb2-say">${d.ar ? `<p class="ar" lang="ar">${esc(d.ar)}</p>` : ""}<p>${esc(d.en)}</p></div>
-    <p class="tb2-n" aria-live="polite" id="tbn">${inRound.toLocaleString()}</p>
-    ${tg ? `<div class="tb2-bar"><i style="width:${inRound / tg * 100}%"></i></div><p class="tb2-of">of ${tg}${rounds ? ` · ${rounds} round${rounds > 1 ? "s" : ""} done` : ""}</p>` : `<p class="tb2-of">counting freely · ${n.toLocaleString()} in all</p>`}
-    <button class="tb2-pad" id="tbtap" aria-label="Count one ${esc(d.title)}"><span>Tap</span></button>
-    <div class="tb2-foot"><button id="tbundo" ${n ? "" : "disabled"}>Undo</button><button id="tbreset" class="rst" ${n ? "" : "disabled"}>Reset</button></div>
-    <p class="tb2-all">All time: ${(T.tot[d.id] || 0).toLocaleString()} ${esc(d.title)}</p>
-  </div>
-  <details class="exbox" style="margin-top:14px"><summary><b>After each prayer</b></summary><p class="small" style="margin:8px 0 0">Subhan Allah 33, al-hamdu lillah 33, Allahu akbar 34. The Prophet ﷺ said whoever says them after every prayer has his sins forgiven, even if they are like the foam of the sea (Sahih Muslim).</p></details>`);
+  return `<div class="tbx" role="main">
+    <div class="tbx-top"><button class="tbx-ic" data-go="tools" aria-label="Back to Tools">${ICON.back}</button><h1>Tasbih</h1>
+      <button class="tbx-ic" id="tbadd" aria-label="Add a counter"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+      <button class="tbx-ic" id="tbmore" aria-label="Edit or remove ${esc(d.title)}"><svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button></div>
+    <div class="tbx-chips" role="group" aria-label="Choose a counter">${T.list.map(x => `<button class="${x.id === d.id ? "on" : ""}" data-tbd="${x.id}" aria-pressed="${x.id === d.id}">${esc(x.title)}${x.target ? ` ×${x.target}` : ""}</button>`).join("")}</div>
+    <div class="tbx-say">${d.ar ? `<p class="ar" lang="ar">${esc(d.ar)}</p>` : ""}${d.note ? `<p>${esc(d.note)}</p>` : ""}</div>
+    <p class="tbx-n" aria-live="polite" id="tbn">${inRound.toLocaleString()}</p>
+    ${tg ? `<div class="tbx-bar"><i style="width:${inRound / tg * 100}%"></i></div><p class="tbx-of">of ${tg}${rounds ? ` · ${rounds} round${rounds > 1 ? "s" : ""} done` : ""}</p>` : `<p class="tbx-of">no target · ${(T.tot[d.id] || 0).toLocaleString()} in all</p>`}
+    <div class="tbx-mid"><button class="tbx-pad" id="tbtap" aria-label="Count one ${esc(d.title)}">Tap</button></div>
+    <div class="tbx-foot"><button id="tbundo" ${n ? "" : "disabled"}>Undo</button><button id="tbreset" class="rst" ${n ? "" : "disabled"}>Reset</button></div>
+  </div>`;
 }
 function tbForm(x){
-  const isNew = !x; x = x || { title: "", start: 0, marks: [33, 66, 99], target: 99, note: "" };
+  const isNew = !x; x = x || { title: "", ar: "", start: 0, marks: [], target: 33, note: "" };
   modal(`<div class="tbf"><div class="tbf-top"><button class="x" id="tbfx" aria-label="Cancel">${ICON.x}</button><h2>${isNew ? "New counter" : "Edit counter"}</h2><button class="tbf-ok" id="tbfok" aria-label="Save">${ICON.check}</button></div>
-    <label>Title<input id="tbf-t" value="${esc(x.title)}" placeholder="e.g. Astaghfirullah, Surat al-Ikhlas" maxlength="60"></label>
-    <label>Start value<input id="tbf-s" type="number" inputmode="numeric" min="0" value="${x.start || 0}"></label>
+    <label>Title<input id="tbf-t" value="${esc(x.title)}" placeholder="e.g. Allahu akbar, Astaghfirullah" maxlength="60"></label>
+    <label>Arabic <span class="muted small">optional</span><input id="tbf-a" value="${esc(x.ar || "")}" dir="rtl" lang="ar" placeholder="اللَّهُ أَكْبَرُ"></label>
+    <label>Target<input id="tbf-g" type="number" inputmode="numeric" min="0" value="${x.target || ""}" placeholder="None, count freely"></label>
     <label>Reminders <span class="muted small">a buzz at each, e.g. 33, 66, 99</span><input id="tbf-m" value="${(x.marks || []).join(", ")}" inputmode="numeric"></label>
-    <label>Target<input id="tbf-g" type="number" inputmode="numeric" min="0" value="${x.target || ""}" placeholder="None"></label>
-    <label>Note<textarea id="tbf-n" rows="3" placeholder="Why you are reciting it, or its virtue">${esc(x.note || "")}</textarea></label>
-    ${isNew ? "" : `<button class="btn danger-ghost" id="tbfdel" style="margin-top:6px">Delete this counter</button>`}</div>`, (el, close) => {
+    <label>Start value<input id="tbf-s" type="number" inputmode="numeric" min="0" value="${x.start || 0}"></label>
+    <label>Note<textarea id="tbf-n" rows="2" placeholder="Its meaning or virtue">${esc(x.note || "")}</textarea></label>
+    ${isNew ? `<button class="linkbtn small" id="tbfdef" style="justify-self:start">Restore the four dhikr after prayer</button>` : `<button class="btn danger-ghost" id="tbfdel">Remove this counter</button>`}</div>`, (el, close) => {
     el.querySelector("#tbfx").onclick = close;
     el.querySelector("#tbfok").onclick = () => { const T = tbState(), t = el.querySelector("#tbf-t").value.trim(); if (!t) { el.querySelector("#tbf-t").focus(); return toast("Give the counter a title"); }
-      const c = { id: x.id || "c" + Date.now().toString(36), title: t, target: Math.max(0, Math.floor(+el.querySelector("#tbf-g").value || 0)),
+      const c = { id: x.id || "c" + Date.now().toString(36), title: t, ar: el.querySelector("#tbf-a").value.trim(), target: Math.max(0, Math.floor(+el.querySelector("#tbf-g").value || 0)),
         marks: el.querySelector("#tbf-m").value.split(/[^0-9]+/).map(Number).filter(v => v > 0).slice(0, 20), note: el.querySelector("#tbf-n").value.trim(), start: Math.max(0, Math.floor(+el.querySelector("#tbf-s").value || 0)) };
-      const k = T.custom.findIndex(y => y.id === c.id); if (k >= 0) T.custom[k] = c; else { T.custom.push(c); T.c[c.id] = c.start; }
+      const k = T.list.findIndex(y => y.id === c.id); if (k >= 0) T.list[k] = c; else { T.list.push(c); T.c[c.id] = c.start; }
       T.d = c.id; save(); close(); render(); };
-    const del = el.querySelector("#tbfdel"); if (del) del.onclick = () => { const T = tbState(); T.custom = T.custom.filter(y => y.id !== x.id); delete T.c[x.id]; T.d = "subhan"; save(); close(); render(); };
+    const del = el.querySelector("#tbfdel"); if (del) del.onclick = () => { const T = tbState(); T.list = T.list.filter(y => y.id !== x.id); delete T.c[x.id]; if (!T.list.length) T.list = TB_DEFAULTS(); T.d = T.list[0].id; save(); close(); render(); toast("Counter removed"); };
+    const def = el.querySelector("#tbfdef"); if (def) def.onclick = () => { const T = tbState(); TB_DEFAULTS().reverse().forEach(z => { if (!T.list.some(y => y.id === z.id)) T.list.unshift(z); }); T.d = "subhan"; save(); close(); render(); };
   });
-  document.querySelector(".modal:last-of-type").classList.add("sheet");
+  const m = [...document.querySelectorAll(".modal")].pop(); if (m) m.classList.add("sheet");
 }
 function bindTasbih(){
-  const T = tbState(), items = tbItems(T), d = items.find(x => x.id === T.d) || items[0];
-  const on = document.querySelector(".tb2-chips .on"); if (on) on.parentNode.scrollLeft = on.offsetLeft - 16;
+  const T = tbState(), d = T.list.find(x => x.id === T.d);
+  const on = document.querySelector(".tbx-chips .on"); if (on) on.parentNode.scrollLeft = on.offsetLeft - 16;
   const tap = $("#tbtap"); if (tap) tap.onclick = () => { const n = (T.c[d.id] || 0) + 1; T.c[d.id] = n; T.tot[d.id] = (T.tot[d.id] || 0) + 1; save();
-    const hit = d.target && n % d.target === 0, mark = d.marks.includes(n);
+    const hit = d.target && n % d.target === 0, mark = (d.marks || []).includes(n);
     if (hit || mark) { HAPTIC(); setTimeout(() => HAPTIC(), 140); setTimeout(() => HAPTIC(), 280); } else HAPTIC();
-    if (hit) toast(`${d.target} done. Alhamdulillah`); else if (mark) toast(`${n} reached`);
-    tap.classList.remove("pulse"); void tap.offsetWidth; tap.classList.add("pulse"); setTimeout(render, 0); };
+    if (hit) { toast(`${d.target} done. Alhamdulillah`); const k = T.list.indexOf(d); if (k < T.list.length - 1 && k < 3 && TB_DEFAULTS().some(z => z.id === d.id)) { T.d = T.list[k + 1].id; save(); } }
+    else if (mark) toast(`${n} reached`);
+    render(); };
   document.querySelectorAll("[data-tbd]").forEach(b => b.onclick = () => { T.d = b.dataset.tbd; save(); render(); });
   const u = $("#tbundo"); if (u) u.onclick = () => { if (T.c[d.id]) { T.c[d.id]--; T.tot[d.id] = Math.max(0, (T.tot[d.id] || 1) - 1); save(); render(); } };
-  const r = $("#tbreset"); if (r) r.onclick = () => confirmBox(`Reset ${d.title} to ${d.custom ? (T.custom.find(c => c.id === d.id).start || 0) : 0}?`, () => { T.c[d.id] = d.custom ? (T.custom.find(c => c.id === d.id).start || 0) : 0; save(); render(); }, "Reset", "Keep counting");
+  const r = $("#tbreset"); if (r) r.onclick = () => confirmBox(`Reset ${d.title}?`, () => { T.c[d.id] = d.start || 0; save(); render(); }, "Reset", "Keep counting");
   const a = $("#tbadd"); if (a) a.onclick = () => tbForm();
-  const m = $("#tbmore"); if (m) m.onclick = () => { if (d.custom) return tbForm(T.custom.find(c => c.id === d.id));
-    modal(`<h2 style="margin-top:0">${esc(d.title)}</h2><label class="tbf">Target for this dhikr<input id="tbg" type="number" inputmode="numeric" min="0" value="${d.target || ""}" placeholder="None"></label>
-      <div class="btnrow" style="margin-top:12px"><button class="btn ghost" id="tbgx">Cancel</button><button class="btn" id="tbgok">Save</button></div>`, (el, close) => {
-      el.querySelector("#tbgx").onclick = close; el.querySelector("#tbgok").onclick = () => { T.tgt[d.id] = Math.max(0, Math.floor(+el.querySelector("#tbg").value || 0)); save(); close(); render(); }; }); };
+  const m = $("#tbmore"); if (m) m.onclick = () => tbForm(d);
 }
 function toolsRender(app){
   if (view.name === "dalail") { app.innerHTML = dalailView(view.n, view.x); return true; }
@@ -4658,5 +4662,5 @@ const FAM_HON = (() => { const o = {}, f = ["Halimah al-Sa'diyyah", "Umm Ayman (
   f.forEach(n => o[n] = HON.f); m.forEach(n => o[n] = HON.m); return o; })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=f2a0cb16ff");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=efc6570cdb");</script></body>
 </html>
