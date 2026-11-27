@@ -719,3 +719,81 @@ def polish(courses):
         for k in add:
             if not any(c["q"] == k["q"] for c in les[lid]["checks"]): les[lid]["checks"].append(k)
     return courses
+
+# ---- full review (27 Nov): gaps a beginner needs to avoid mistakes
+QN = "Nur al-Idah with Maraqi al-Falah"; QD = "Mukhtasar al-Quduri"
+FIX_CARDS2 = {
+ ("prayer1", "Covering"): "The 'awrah is the part of the body that must be covered. In prayer, for a man it is from the navel to the knees, the knees included. For a woman it is the whole body except the face, the hands and the feet.",
+ ("purity6", "How to do it"): "Make the intention (in tayammum it is fard, unlike wudu), strike clean earth with both palms and wipe the whole face; strike again and wipe both arms including the elbows. Remove or move rings so nothing is left unwiped.",
+ ("f_times", "Three forbidden times"): "No prayer is valid at sunrise until the sun has risen, or when it is at its height. When the sun turns yellow before setting, no prayer is valid except that same day's 'Asr: if you have not prayed it, pray it then, though delaying it that late is sinful. Voluntary prayer is also disliked after the Fajr prayer until sunrise, and after the 'Asr prayer until sunset.",
+ ("f_travel", "It is required"): "In the Hanafi school shortening is required ('azimah), not just allowed. A traveller who prays four on purpose is sinful; if he did not sit after the second rak'ah, the fard is not valid.",
+ ("f_sawm0", "The intention"): "For a Ramadan fast, the intention is valid from the night until before the middle of the day (midway between dawn and sunset). But for a make-up (qada') fast or an expiation fast, the intention must be made before dawn.",
+ ("hj3", "Women"): "A woman is like a man in all this, except that she covers her head and keeps cloth from touching her face (if needed she lets something hang in front that does not touch it), does not raise her voice in the talbiyah, does not jog in tawaf or run between the green markers, and trims her hair instead of shaving.",
+ ("ad_teach", "A duty"): "The Prophet ﷺ said: seeking knowledge is an obligation on every Muslim. Al-Ghazali explains that fard al-'ayn grows with your situation: when a prayer time comes you must know how to pray; before you marry, learn the rulings of marriage; before you trade, learn the rulings of trade. Going deeper is a virtue, and some must do it for the whole community.",
+}
+NEW_CARDS2 = {
+ "purity5": [(9, "Without wudu, without ghusl", "Without wudu you may not pray, do tawaf, or touch the Qur'an (you may recite it from memory). In janabah, hayd or nifas you also may not recite the Qur'an or enter a masjid until you make ghusl. Du'as from the Qur'an may still be said with the intention of du'a.", QN)],
+ "f_how2": [(9, "Women's prayer", "A woman raises her hands to her shoulders, places them on her chest, bows less deeply, and in sujud keeps her body together, stomach close to her thighs and arms on the ground. In the sitting she sits with both feet out to the right side. She recites quietly.", QN)],
+ "f_sahw": [(9, "Unsure how many rak'ahs?", "If this is the first time you have ever had such a doubt, start the prayer again. If it happens to you often, go with what you think most likely. If you cannot decide, take the smaller number, sit after each rak'ah that could be the last, and make sajdat al-sahw.", QD)],
+ "f_jamaah": [(9, "Joining late", "If you join while the imam is in ruku' and bow before he rises, you have caught that rak'ah. If you join after he rises, that rak'ah is not counted. Do not give salam with the imam: when he finishes, stand and make up the rak'ahs you missed. A traveller behind a resident imam prays four.", QD)],
+ "f_jumuah": [(9, "During the khutbah", "Jumu'ah replaces Zuhr for that day. Once the imam comes out for the khutbah, there is no voluntary prayer and no talking: listen in silence, even if you cannot hear. Even telling someone 'be quiet' is not allowed.", QD)],
+ "fasting1": [(9, "Mistake is not forgetting", "Forgetting is excused, but a mistake is not: if water slips down your throat while rinsing in wudu, the fast is broken and you make it up. Swallowing your own saliva, eye drops, a blood test and, according to most contemporary Hanafi scholars, an injection do not break it. An asthma inhaler, deliberately inhaling smoke and deliberately vomiting a mouthful do break it.", "Nur al-Idah, Chapter on what breaks the fast")],
+ "fasting3": [(9, "Pregnancy and nursing", "A pregnant or nursing woman who fears harm to herself or her child may leave the fast and makes it up later, with no fidyah. A traveller may break the fast, but fasting is better if it is not a hardship.", QD)],
+ "zakat1": [(9, "What counts", "Count cash, savings, gold and silver (including jewellery worn every day, in the Hanafi school) and goods bought to sell. Your home, car, furniture and clothes for use are not counted. Gold, silver and cash are added together. For money, many Hanafi scholars today use the silver nisab, as it is better for the poor.", QD)],
+ "zakat3": [(9, "Giving it correctly", "Zakat must be given into the ownership of a poor Muslim. It cannot be used to build a masjid, pay for a funeral, or be given to someone who owns the nisab. If you are unsure, give it through a trustworthy organisation that keeps zakat separate.", QD)],
+ "hh3": [(9, "What is haram to eat", "Pork and everything from it, carrion (an animal not properly slaughtered), flowing blood, alcohol and anything that intoxicates, predators with fangs, birds with talons, and donkeys. Today, check ingredients such as gelatine, animal fat and alcohol in flavourings.", QD + ", Book of Slaughter")],
+ "aq_kutub": [(9, "Angels and Books by name", "Angels are made of light and never disobey Allah. Among them: Jibril brings revelation, Mika'il is over rain and provision, Israfil will blow the Trumpet, and the Angel of Death takes souls. The Books: the Tawrah to Musa, the Zabur to Dawud, the Injil to 'Isa, and the Qur'an to Muhammad ﷺ, which is protected and comes after them all.", "Al-'Aqidah al-Tahawiyyah, with the Qur'an")],
+ "aq_shirk": [(9, "What is not shirk", "Asking Allah by the rank of the Prophet ﷺ or the righteous (tawassul), visiting graves and greeting the dead, and asking the righteous to make du'a for you are the way of Ahl al-Sunnah, as long as you believe only Allah creates benefit and harm. Calling Muslims mushriks for these is a grave error.", "Taqi al-Din al-Subki, Shifa' al-Siqam")],
+ "sr2": [(-1, "At forty", "He ﷺ was forty when revelation began. The first to believe was Khadijah; among free men Abu Bakr; among children 'Ali; and among freed slaves Zayd ibn Harithah رَضِيَ اللَّهُ عَنْهُمْ.", "Ibn Kathir, al-Sirah al-Nabawiyyah")],
+}
+NEW_CHECKS2 = {
+ "purity5": [("You are in janabah and want to read the Qur'an. What must you do first?", "Make ghusl", ["Make wudu only", "Nothing, if you read quietly", "Wash your hands only"], "In janabah you may not recite or touch the Qur'an, or enter a masjid, until you make ghusl.", QN),
+             ("You have no wudu. Which may you still do?", "Recite the Qur'an from memory", ["Touch the Qur'an", "Pray two rak'ahs", "Do tawaf"], "Without wudu you may recite from memory, but not touch the Qur'an, pray or do tawaf.", QN)],
+ "f_how2": [("How does a woman sit in the tashahhud?", "Both feet out to the right side, sitting on the ground", ["On her left foot with the right upright", "Kneeling up on both toes", "Cross-legged"], "A man sits on his left foot with the right upright; a woman sits with both feet out to the right.", QN)],
+ "f_sahw": [("You often doubt whether you prayed three or four. What do you do?", "Go with what you think most likely", ["Always start again", "Always take four", "Ignore it and give salam"], "Restarting is for the first time it ever happens. If it is frequent, act on your strongest thought.", QD)],
+ "f_jamaah": [("You reach the imam after he has risen from ruku'. Have you caught that rak'ah?", "No, you make it up after the imam finishes", ["Yes, joining at any point counts", "Yes, if you say the takbir quickly", "Only in Fajr"], "A rak'ah is caught by joining the ruku'. After the imam's salam, stand and complete what you missed.", QD),
+              ("You joined late. When the imam gives salam, you…", "Stand and make up what you missed", ["Give salam with him", "Make sajdat al-sahw", "Start the whole prayer again"], "Do not give salam with the imam; complete your missed rak'ahs, then give salam.", QD)],
+ "f_times": [("You have not prayed 'Asr and the sun is turning yellow. What do you do?", "Pray it now; that day's 'Asr is still valid", ["Wait and make it up after Maghrib", "Leave it, it is a forbidden time", "Pray it after Fajr tomorrow"], "Today's 'Asr is the exception. Pray it, and repent for delaying it so late.", QN)],
+ "f_sawm0": [("You are making up a missed Ramadan fast. When must you intend it?", "Before dawn", ["Any time before midday", "Any time before sunset", "No intention is needed"], "The midday allowance is for Ramadan itself. A make-up fast needs the intention before dawn.", QN)],
+ "fasting1": [("While rinsing your mouth in wudu, water slips down your throat. Your fast…", "Is broken; make up one day", ["Is fine, it was a mistake", "Needs the expiation", "Is fine if it was a little"], "Forgetting is excused; a mistake is not. One make-up day, no expiation.", QN)],
+ "fasting3": [("A nursing mother fears fasting will harm her baby. What applies?", "She may leave it and make up the days later", ["She must fast anyway", "She pays fidyah and never makes up", "She owes the expiation"], "She makes up the days later, with no fidyah.", QD)],
+ "zakat1": [("In the Hanafi school, is zakat due on gold jewellery a woman wears?", "Yes, it is counted with her wealth", ["No, worn jewellery is exempt", "Only on gold over 1 kg", "Only if she sells it"], "In the Hanafi school gold and silver are counted whether worn or stored.", QD),
+            ("Which of these is counted for zakat?", "Savings in the bank", ["The house you live in", "Your car for daily use", "Your clothes"], "Cash, savings, gold, silver and trade goods are counted; things for personal use are not.", QD)],
+ "zakat3": [("May zakat money be used to build a masjid?", "No, it must be given to a poor person to own", ["Yes, it is the best use", "Yes, if the imam agrees", "Only half of it"], "Zakat is owned by the poor recipient. Masjids are built from other charity.", QD)],
+ "hh3": [("Gelatine in sweets usually comes from…", "Pork or unslaughtered animals, so check before eating", ["Plants only", "Fish only", "It is always halal"], "Gelatine is commonly made from pork or non-halal animals. Look for halal or plant-based versions.", QD + ", Book of Slaughter")],
+ "aq_kutub": [("Which Book was given to 'Isa عَلَيْهِ السَّلَامُ?", "The Injil", ["The Tawrah", "The Zabur", "The Qur'an"], "Tawrah to Musa, Zabur to Dawud, Injil to 'Isa, Qur'an to Muhammad ﷺ.", "Al-'Aqidah al-Tahawiyyah, with the Qur'an")],
+ "aq_shirk": [("Someone says 'O Allah, I ask You by the rank of Your Prophet ﷺ'. What is this?", "Tawassul, which Ahl al-Sunnah allow", ["Shirk", "Disbelief", "A major sin"], "Asking Allah alone, through someone beloved to Him, is not worship of other than Allah.", "Taqi al-Din al-Subki, Shifa' al-Siqam")],
+ "sr2": [("How old was the Prophet ﷺ when revelation began?", "Forty", ["Twenty-five", "Thirty", "Sixty-three"], "He ﷺ received revelation at forty and lived twenty-three years after it.", "Ibn Kathir, al-Sirah al-Nabawiyyah")],
+}
+NEW_LESSON2 = ("f_rakahs", "The five prayers, rak'ah by rak'ah", "How many rak'ahs each prayer has, and how a whole prayer flows.", [
+  ("How many rak'ahs", "Fard: Fajr 2, Zuhr 4, 'Asr 4, Maghrib 3, 'Isha' 4, and Jumu'ah 2 in place of Zuhr on Friday. Witr is 3 after 'Isha'. The imam recites aloud in Fajr, Jumu'ah, and the first two rak'ahs of Maghrib and 'Isha'; the rest is quiet.", QN),
+  ("A two-rak'ah prayer", "Takbir, opening praise, al-Fatihah and a surah, ruku', standing, two sujud: that is one rak'ah. Stand and do the same again without the opening praise, then sit for the tashahhud, blessings on the Prophet ﷺ, du'a and salam.", QN),
+  ("Three or four rak'ahs", "After the second rak'ah, sit for the tashahhud only, then stand for the third. In the third and fourth rak'ahs of a fard prayer, recite only al-Fatihah. After the last rak'ah, sit for the final tashahhud, blessings, du'a and salam.", QN),
+  ("Sunnah prayers", "In sunnah and witr prayers, recite al-Fatihah and a surah in every rak'ah.", QN),
+ ], [
+  ("How many fard rak'ahs is Maghrib?", "Three", ["Two", "Four", "Five"], "Fajr 2, Zuhr 4, 'Asr 4, Maghrib 3, 'Isha' 4.", QN),
+  ("In the third rak'ah of the fard of Zuhr, what do you recite?", "Al-Fatihah only", ["Al-Fatihah and a surah", "Nothing at all", "The tashahhud"], "In the last two rak'ahs of a fard prayer, al-Fatihah alone is enough.", QN),
+  ("In a four-rak'ah prayer, what happens after the second rak'ah?", "Sit for the tashahhud only, then stand", ["Give salam", "Stand straight up without sitting", "Recite the whole final sitting with du'a"], "The first sitting is wajib: tashahhud only, then stand for the third.", QN),
+  ("In which prayers does the imam recite aloud?", "Fajr, Jumu'ah, and the first two rak'ahs of Maghrib and 'Isha'", ["All five prayers, every rak'ah", "Zuhr and 'Asr only", "Only Jumu'ah"], "Zuhr and 'Asr are quiet.", QN),
+ ])
+_polish3 = polish
+def polish(courses):
+    courses = _polish3(courses)
+    les = {l["id"]: l for c in courses for l in c["lessons"]}
+    for (lid, t), x in FIX_CARDS2.items(): next(c for c in les[lid]["cards"] if c["t"] == t)["x"] = x
+    for lid, add in NEW_CARDS2.items():
+        for i, t, x, src in add:
+            cs = les[lid]["cards"]
+            if any(c["t"] == t for c in cs): continue
+            if "," not in src: src = f"{src}, {les[lid]['title']}"
+            cs.insert(len(cs) if i > len(cs) else i + 1, {"t": t, "x": x, "src": src})
+    for lid, add in NEW_CHECKS2.items():
+        for q, a, w, y, src in add:
+            assert len(w) == 3 and a not in w, q
+            if "," not in src: src = f"{src}, {les[lid]['title']}"
+            if not any(c["q"] == q for c in les[lid]["checks"]): les[lid]["checks"].append({"q": q, "a": a, "w": w, "why": y, "src": src})
+    fq = next(c for c in courses if c["id"] == "fiqh")
+    if "f_rakahs" not in les:
+        i = next(k for k, l in enumerate(fq["lessons"]) if l["id"] == "f_how2")
+        fq["lessons"].insert(i + 1, _lesson(NEW_LESSON2))
+    return courses
