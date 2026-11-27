@@ -710,6 +710,8 @@ body:has(.tbx){overflow:hidden}
 .pb-page{justify-self:center;padding:10px 26px;border-radius:14px;background:#B9D6C1;color:#10241A;font-weight:700;font-variant-numeric:tabular-nums}
 @media (prefers-reduced-motion: no-preference){.paper.turn-fwd{animation:pageFwd .35s cubic-bezier(.2,.8,.2,1)}.paper.turn-back{animation:pageBack .35s cubic-bezier(.2,.8,.2,1)}
   @keyframes pageFwd{from{opacity:0;transform:translateX(40px) rotateY(-8deg)}to{opacity:1;transform:none}}@keyframes pageBack{from{opacity:0;transform:translateX(-40px) rotateY(8deg)}to{opacity:1;transform:none}}}
+.sq-l{flex:none;display:grid;gap:2px;justify-items:start}.sq-reset{all:unset;cursor:pointer;margin-top:4px;font-size:.78rem;font-weight:700;color:#fff;border:1px solid rgba(255,255,255,.55);border-radius:999px;padding:3px 10px}.sq-reset:disabled{opacity:.45;cursor:default}.sq-reset:focus-visible{outline:2px solid var(--gold)}
+.sal-cw{flex:none;display:grid;justify-items:center;gap:4px}.sal-rs{all:unset;cursor:pointer;font-size:.75rem;color:var(--muted);text-decoration:underline;text-underline-offset:2px;padding:2px 4px}.sal-rs:focus-visible{outline:2px solid var(--gold)}.sal-rs[hidden]{display:none}
 
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--line);padding:4px;border-radius:14px}
 .seg button{border:0;background:transparent;border-radius:10px;padding:10px 6px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
@@ -3044,6 +3046,7 @@ function duaRows(){
 }
 // ---- Salawat: a quick counter at the top, then every salawat with its own counter beside its name
 const SAL_TAGS = [["all", "All"], ["short", "Short"], ["hadith", "From the hadith"], ["story", "With a story"], ["reward", "Great reward"], ["awliya", "Of the awliya'"]];
+const salAll = () => Math.max(Object.values(S.salCount || {}).reduce((a, b) => a + b, 0), salToday());
 const salToday = () => { const d = new Date().toDateString(), x = S.salDay || {}; return x.d === d ? x.n : 0; };
 function salAdd(id){ S.salCount = S.salCount || {}; S.salCount[id] = (S.salCount[id] || 0) + 1;
   const d = new Date().toDateString(); S.salDay = { d, n: (S.salDay && S.salDay.d === d ? S.salDay.n : 0) + 1 }; S.salTotal = (S.salTotal || 0) + 1;
@@ -3053,13 +3056,15 @@ function salawatView(){
   const cnt = S.salCount || {}, f = SAL_TAGS.some(t => t[0] === S.salTag) ? S.salTag : "all";
   const list = SALAWAT.items.filter(x => f === "all" || (x.tags || []).includes(f));
   return shell(`<button class="back" data-go="home">${ICON.back} Home</button><h1 style="margin-bottom:6px">Salawat on the Prophet ﷺ</h1>
-    <section class="sal-quick" aria-label="Quick counter"><div><p class="sq-k">Today</p><p class="sq-n" id="sq-n">${salToday().toLocaleString()}</p><p class="sq-s small">${(S.salTotal || 0).toLocaleString()} in all</p></div>
+    <section class="sal-quick" aria-label="Quick counter"><div class="sq-l"><p class="sq-k">Sent today</p><p class="sq-n" id="sq-n">${salToday().toLocaleString()}</p><p class="sq-s small">All time: <span id="sq-all">${salAll().toLocaleString()}</span></p>
+      <button class="sq-reset" id="sq-reset" ${salToday() ? "" : "disabled"}>Reset today</button></div>
       <button class="sq-btn" data-sal="short" aria-label="Count one salawat: Allahumma salli 'ala Muhammad"><span class="ar" lang="ar">اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ</span><span class="sq-t">Tap to send salawat</span></button></section>
     <div class="sal-why" tabindex="0" aria-label="Why send salawat: swipe for more">${(SALAWAT.virtues || []).map(v => `<div class="sw-v"><b>${esc(v.t)}</b><span>${esc(v.x)}</span><span class="sw-s">${esc(v.src)}</span></div>`).join("")}</div>
     <div class="pb-chips sal-tags" role="tablist" aria-label="Show">${SAL_TAGS.map(([k, t]) => `<button class="pb-chip ${k === f ? "on" : ""}" role="tab" aria-selected="${k === f}" data-saltag="${k}">${t}</button>`).join("")}</div>
     ${arSizeCtl()}
     ${list.map(x => `<section class="card pad sal" id="sal-${x.id}"><div class="sal-head"><div style="min-width:0"><h2 class="sal-name">${esc(x.name)}</h2><p class="small muted" style="margin:2px 0 0">${esc(x.by)}</p></div>
-        <button class="sal-count" data-sal="${x.id}" aria-label="Count one: ${esc(x.name)}"><b data-salc="${x.id}">${(cnt[x.id] || 0).toLocaleString()}</b><span>+1</span></button></div>
+        <div class="sal-cw"><button class="sal-count" data-sal="${x.id}" aria-label="Count one: ${esc(x.name)}. ${(cnt[x.id] || 0)} so far"><b data-salc="${x.id}">${(cnt[x.id] || 0).toLocaleString()}</b><span>+1</span></button>
+          <button class="sal-rs" data-salrs="${x.id}" ${cnt[x.id] ? "" : "hidden"} aria-label="Reset the count for ${esc(x.name)}">Reset</button></div></div>
       <p class="ar sal-ar" lang="ar" dir="rtl">${esc(x.ar)}</p>${tlLine(x.ar)}${x.en ? `<p class="sal-en">${esc(x.en)}</p>` : ""}
       ${x.story ? `<details class="sal-story"><summary>The story</summary><p>${esc(x.story)}</p></details>` : ""}
       <div class="sal-src">${x.virtue ? `<p><b>Virtue:</b> ${esc(x.virtue)}</p>` : ""}<p><b>Source:</b> ${esc(x.src)}</p>${x.grade ? `<p class="small muted">${esc(x.grade)}</p>` : ""}</div></section>`).join("")}
@@ -3070,7 +3075,12 @@ function bindSalawat(){
   document.querySelectorAll("[data-sal]").forEach(b => b.onclick = () => { const id = b.dataset.sal; salAdd(id);
     document.querySelectorAll(`[data-salc="${id}"]`).forEach(c => c.textContent = S.salCount[id].toLocaleString());
     const n = document.getElementById("sq-n"); if (n) n.textContent = salToday().toLocaleString();
+    const al = document.getElementById("sq-all"); if (al) al.textContent = salAll().toLocaleString();
+    const rs = document.querySelector(`[data-salrs="${id}"]`); if (rs) rs.hidden = false; const rt = document.getElementById("sq-reset"); if (rt) rt.disabled = false;
     b.classList.remove("pulse"); void b.offsetWidth; b.classList.add("pulse"); });
+  const rt = document.getElementById("sq-reset"); if (rt) rt.onclick = () => confirmBox("Reset today's count to 0? Your all-time counts stay.", () => { S.salDay = { d: new Date().toDateString(), n: 0 }; save(); render(); }, "Reset", "Keep");
+  document.querySelectorAll("[data-salrs]").forEach(b => b.onclick = () => { const x = SALAWAT.items.find(y => y.id === b.dataset.salrs);
+    confirmBox(`Reset the count for ${x ? x.name : "this salawat"} to 0?`, () => { S.salCount[b.dataset.salrs] = 0; save(); render(); }, "Reset", "Keep"); });
   document.querySelectorAll("[data-saltag]").forEach(b => b.onclick = () => { S.salTag = b.dataset.saltag; save(); render(); });
 }
 function bindSalCard(){ document.querySelectorAll(".salcard [data-sal]").forEach(b => b.onclick = () => { S.salCount = S.salCount || {}; const k = b.dataset.sal; S.salCount[k] = (S.salCount[k]||0) + 1; save();
@@ -4662,5 +4672,5 @@ const FAM_HON = (() => { const o = {}, f = ["Halimah al-Sa'diyyah", "Umm Ayman (
   f.forEach(n => o[n] = HON.f); m.forEach(n => o[n] = HON.m); return o; })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=efc6570cdb");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=50716bc9e9");</script></body>
 </html>
