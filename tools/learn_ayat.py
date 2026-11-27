@@ -108,7 +108,7 @@ def add_ayat(courses, jal_ref):
         if lid not in les: continue
         l = les[lid]; l["cards"] = [c for c in l["cards"] if not c.get("ar")]
         for k, (s, a, b, en) in enumerate(vv):
-            c = {"t": "From the Qur'an", "ar": text(s, a, b), "x": en, "src": label(s, a, b), "q": [s, a]}
+            c = {"t": "From the Qur'an", "ar": text(s, a, b), "x": en, "src": label(s, a, b), "q": [s, a], "listen": [[s, a, b, "Listen"]]}
             r = jal_ref(s, a)
             if r: c["ref"] = r
             l["cards"].insert(min(1 + k, len(l["cards"])), c)

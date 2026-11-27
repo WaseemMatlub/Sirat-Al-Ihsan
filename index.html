@@ -548,6 +548,9 @@ mark.hl.has-note{border-bottom:2px solid #8A6D00}
 .src-link span{font-weight:600}.src-link:focus-visible{outline:2px solid var(--brand,#1F6B4A);outline-offset:2px;border-radius:4px}
 .para.ref-hit{background:#FBF1D6;border-radius:10px;box-shadow:0 0 0 6px #FBF1D6}
 .nsrc{margin:-4px 0 10px}
+.listen{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 8px}
+.lbtn{display:inline-flex;align-items:center;gap:6px;min-height:40px;padding:6px 12px;border-radius:999px;border:1.5px solid var(--brand,#1F6B4A);background:#fff;color:var(--brand,#1F6B4A);font-weight:700;font-size:.85rem;cursor:pointer}
+.lbtn.on{background:var(--brand,#1F6B4A);color:#fff}.lbtn:focus-visible{outline:2px solid var(--brand,#1F6B4A);outline-offset:2px}
 
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--line);padding:4px;border-radius:14px}
 .seg button{border:0;background:transparent;border-radius:10px;padding:10px 6px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
@@ -1247,7 +1250,7 @@ function bindReadLinks(root){ root.querySelectorAll("[data-read]").forEach(b => 
 let LEARN = null, LS = null;
 const LEARN_DECK = { aqeedah:["fard_aqeedah"], fiqh:["fard_tahara","fard_salah","fard_sawm","fard_zakat"] };
 const OLD_TOPIC = { belief:"aqeedah", purity:"fiqh", prayer:"fiqh", fasting:"fiqh", zakat:"fiqh", heart:"tazkiyah" };
-async function loadLearn(){ if (LEARN) return LEARN; try { LEARN = await fetch("data/learn.json?v=a89bafc6").then(r => r.json()); } catch(e){ LEARN = []; } return LEARN; }
+async function loadLearn(){ if (LEARN) return LEARN; try { LEARN = await fetch("data/learn.json?v=7c90670f").then(r => r.json()); } catch(e){ LEARN = []; } return LEARN; }
 const learnDone = id => !!(S.learn||{})[id];
 function nextLearn(){ for (const u of LEARN||[]) for (let k = 0; k < u.lessons.length; k++) if (!learnDone(u.lessons[k].id)) return { u, k }; return null; }
 function learnHome(){
@@ -1314,6 +1317,26 @@ function srcLine(c, lead, cls = "src"){
   if (!c.ref) return `<p class="${cls}">${lead} ${esc(c.src)}</p>`;
   return `<p class="${cls}"><button class="src-link" data-ref="${c.ref.b}|${c.ref.i}|${c.ref.j ?? ""}" aria-label="${esc(lead + " " + c.src)}, open in the book">${lead} <span>${esc(c.src)}</span> ${ICON.shelf.replace("<svg",'<svg width="14" height="14" aria-hidden="true"')}</button></p>`;
 }
+// ---- recitation audio, streamed from the Al Quran Cloud CDN (al-Husari, with Alafasy as a fallback)
+const VERSES = [7,286,200,176,120,165,206,75,129,109,123,111,43,52,99,128,111,110,98,135,112,78,118,64,77,227,93,88,69,60,34,30,73,54,45,83,182,88,75,85,54,53,89,59,37,35,38,29,18,45,60,49,62,55,78,96,29,22,24,13,14,11,11,18,12,12,30,52,52,44,28,28,20,56,40,31,50,40,46,42,29,19,36,25,22,17,19,26,30,20,15,21,11,8,8,19,5,8,8,11,11,8,3,9,5,4,7,3,6,3,5,4,5,6];
+const ayahNo = (s, a) => VERSES.slice(0, s - 1).reduce((x, y) => x + y, 0) + a;
+const RECITERS = ["128/ar.husary", "128/ar.alafasy"];
+let QPLAY = null;
+function listenRow(c){
+  if (!c.listen) return "";
+  return `<div class="listen">${c.listen.map(([s, a, b, lab]) => `<button class="lbtn" data-qa="${s}:${a}:${b}" aria-pressed="false">${ICON.play.replace("<svg",'<svg aria-hidden="true"')} ${esc(lab)}</button>`).join("")}</div>`;
+}
+function qStop(){ if (QPLAY) { QPLAY.au.pause(); QPLAY.btn.setAttribute("aria-pressed", "false"); QPLAY.btn.classList.remove("on"); QPLAY = null; } }
+function qPlay(btn){
+  const [s, a, b] = btn.dataset.qa.split(":").map(Number); const was = QPLAY && QPLAY.btn === btn; qStop(); if (was) return;
+  if (typeof stopAudio === "function") try { stopAudio(); } catch(e) {}
+  const au = new Audio(); let n = a, r = 0; QPLAY = { au, btn }; btn.setAttribute("aria-pressed", "true"); btn.classList.add("on");
+  const load = () => { au.src = `https://cdn.islamic.network/quran/audio/${RECITERS[r]}/${ayahNo(s, n)}.mp3`; au.play().catch(() => {}); };
+  au.onended = () => { if (++n <= b) load(); else qStop(); };
+  au.onerror = () => { if (++r < RECITERS.length) load(); else { qStop(); toast(navigator.onLine ? "Couldn't play the recitation. Try again." : "Recitation needs an internet connection."); } };
+  load();
+}
+document.addEventListener("click", e => { const b = e.target.closest(".lbtn"); if (b) { e.preventDefault(); e.stopPropagation(); qPlay(b); } }, true);
 let REF_BACK = null;
 document.addEventListener("click", async e => {
   const b = e.target.closest("[data-ref]"); if (!b) return; e.preventDefault(); e.stopPropagation();
@@ -1334,6 +1357,7 @@ function startLearn(uid, k){
   renderLearn();
 }
 function renderLearn(){
+  qStop();
   const st = LS.steps[LS.i]; if (!st) return finishLearn();
   let body, foot;
   if (st.kind === "card") return renderSwipe(st.j);
@@ -1374,7 +1398,7 @@ function renderSwipe(start){
   const cards = LS.l.cards, n = cards.length, steps = LS.steps.length;
   $("#app").innerHTML = `<div class="player"><div class="player-in"><div class="phead"><button class="x" id="quit" aria-label="Leave lesson">${ICON.x}</button><div class="bar"><i id="pbar" style="background:${LS.u.color}"></i></div></div>
     <div class="kicker swipe-k">${esc(LS.l.title)}</div>
-    <div class="swipe" id="swipe" style="--uc:${LS.u.color}" tabindex="0" aria-roledescription="carousel" aria-label="Lesson cards, swipe to move between them">${cards.map((c, j) => `<article class="card learncard sw-card" aria-roledescription="slide" aria-label="Card ${j+1} of ${n}"><h2>${esc(c.t)}</h2>${c.ar ? `<p class="ayah ar" lang="ar">${esc(c.ar)}</p><p class="ayah-en">${c.q ? `‘${esc(c.x)}’` : esc(c.x)}</p>` : `<p>${esc(c.x)}</p>`}${srcLine(c, "From")}</article>`).join("")}</div>
+    <div class="swipe" id="swipe" style="--uc:${LS.u.color}" tabindex="0" aria-roledescription="carousel" aria-label="Lesson cards, swipe to move between them">${cards.map((c, j) => `<article class="card learncard sw-card" aria-roledescription="slide" aria-label="Card ${j+1} of ${n}"><h2>${esc(c.t)}</h2>${c.ar ? `<p class="ayah ar" lang="ar">${esc(c.ar)}</p><p class="ayah-en">${c.q ? `‘${esc(c.x)}’` : esc(c.x)}</p>` : `<p>${esc(c.x)}</p>`}${listenRow(c)}${srcLine(c, "From")}</article>`).join("")}</div>
     <div class="dots" aria-hidden="true">${cards.map(() => `<i></i>`).join("")}</div>
     <div class="pfoot swipe-foot"><button class="btn ghost" id="prev" aria-label="Previous card">${ICON.back}</button><button class="btn" id="next"></button></div></div></div>`;
   const sw = $("#swipe"), dots = [...document.querySelectorAll(".dots i")], prev = $("#prev"), next = $("#next"), bar = $("#pbar");
@@ -3462,7 +3486,7 @@ function notesView(){
     <h1 style="margin-bottom:4px">${esc(u.title)}: notes</h1>
     <p class="muted" style="margin:0 0 6px">Every point from the ${u.lessons.length} lessons, in order. Use it to revise, or to teach your family and friends what you have learnt.</p>
     <p class="small muted no-print" style="margin:0 0 14px">Based on ${esc(u.book || "")}. <button class="linkbtn small" id="nprint">Print or save as PDF</button></p>
-    ${u.lessons.map((l, k) => `<section class="nsec"><h2>${k + 1}. ${esc(l.title)}</h2>${l.cards.map(c => `${c.ar ? `<p class="ayah ar" lang="ar">${esc(c.ar)}</p>` : ""}<p><b>${esc(c.t)}.</b> ${esc(c.x)}</p>${srcLine(c, "", "small muted nsrc")}`).join("")}</section>`).join("")}`);
+    ${u.lessons.map((l, k) => `<section class="nsec"><h2>${k + 1}. ${esc(l.title)}</h2>${l.cards.map(c => `${c.ar ? `<p class="ayah ar" lang="ar">${esc(c.ar)}</p>` : ""}<p><b>${esc(c.t)}.</b> ${esc(c.x)}</p>${listenRow(c)}${srcLine(c, "", "small muted nsrc")}`).join("")}</section>`).join("")}`);
 }
 document.addEventListener("click", e => { const b = e.target.closest("[data-notes]"); if (b) go({ name:"notes", id:b.dataset.notes }); if (e.target.closest("#nprint")) window.print(); });
 
@@ -3625,5 +3649,5 @@ document.addEventListener("click", e => { const b = e.target.closest(".gl-w"); i
   new MutationObserver(() => { if (q) return; q = requestAnimationFrame(() => { q = 0; glDecorate(app); }); }).observe(app, { childList:true, subtree:true }); })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=47ab65121e");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=fb5f6a429b");</script></body>
 </html>

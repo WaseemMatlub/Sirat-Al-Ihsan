@@ -1,9 +1,10 @@
 """Reading the Qur'an: the letters, the vowel signs and the basic rules of tajweed, after al-Muqaddimah al-Jazariyyah."""
 J = "al-Muqaddimah al-Jazariyyah"
 
-def C(t, x, src, ar=None):
+def C(t, x, src, ar=None, listen=None):
     d = {"t": t, "x": x, "src": src}
     if ar: d["ar"] = ar
+    if listen: d["listen"] = listen
     return d
 def Q(q, a, w, why, src): return {"q": q, "a": a, "w": w, "why": why, "src": src}
 
@@ -22,6 +23,8 @@ LESSONS = [
   ]},
  {"id": "tl_letters2", "title": "The Arabic letters (2)", "about": "The second fourteen letters, and the hamzah.", "cards": [
    C("Ta', za', 'ayn, ghayn", "Ta' (ط) is a heavy 't' and za' (ظ) a heavy 'th' as in 'this'. 'Ayn (ع) is a deep sound from the middle of the throat, with no English equal; ghayn (غ), with a dot, is a gargled sound from the top of the throat.", f"{J}, the points of articulation", "ط   ظ   ع   غ"),
+   C("Hear the letter names", "Some surahs open with letters read by their names. Listen to al-Husari read them, and repeat after him.", f"{J}, the points of articulation", "الم   ص   ق   ن   طه   يس   حم   عسق   كهيعص   الر",
+     [[2, 1, 1, "Alif Lam Mim"], [38, 1, 1, "Sad"], [50, 1, 1, "Qaf"], [68, 1, 1, "Nun"], [20, 1, 1, "Ta Ha"], [36, 1, 1, "Ya Sin"], [40, 1, 1, "Ha Mim"], [42, 2, 2, "'Ayn Sin Qaf"], [19, 1, 1, "Kaf Ha Ya 'Ayn Sad"], [10, 1, 1, "Alif Lam Ra"]]),
    C("Fa', qaf, kaf, lam", "Fa' has one dot above; qaf (ق) has two dots and is a deep 'q' from the back of the tongue; kaf (ك) is an ordinary 'k'. Lam is 'l'.", f"{J}, the points of articulation", "ف   ق   ك   ل"),
    C("Mim, nun, ha', waw, ya'", "Mim is 'm' and nun 'n'. This ha' (ه) is a light 'h' from the deepest part of the throat. Waw is 'w' and ya' is 'y'.", f"{J}, the points of articulation", "م   ن   ه   و   ي"),
    C("The hamzah", "The hamzah (ء) is a short catch in the throat, like the break in 'uh-oh'. It often sits on an alif, waw or ya'.", f"{J}, the points of articulation", "ء   أ   ؤ   ئ"),
@@ -57,41 +60,41 @@ LESSONS = [
    Q("Saying كَلْب instead of قَلْب changes 'heart' to…", "'dog'", ["'heart' still", "'mind'", "Nothing changes"], "The point of articulation matters for meaning.", f"{J}, the qualities of the letters"),
   ]},
  {"id": "tl_nun", "title": "Nun sakinah and tanween", "about": "The four rules for a nun with sukun, or tanween.", "cards": [
-   C("Clear (izhar)", "Before the six throat letters (ء ه ع ح غ خ) the nun is said clearly, with no ghunnah.", f"{J}, rulings of nun sakinah and tanween", "مَنْ آمَنَ"),
-   C("Merging (idgham)", "Before the letters of yarmalun (ي ر م ل و ن) the nun merges into the next letter: with ghunnah into ي ن م و, and without it into ل and ر. It only happens across two words.", f"{J}, rulings of nun sakinah and tanween", "مِنْ رَبِّهِمْ   مَنْ يَقُولُ"),
-   C("Changing (iqlab)", "Before ba' the nun turns into a hidden mim, with ghunnah: مِنْ بَعْدِ is read 'mim ba'di'.", f"{J}, rulings of nun sakinah and tanween", "مِنْ بَعْدِ"),
-   C("Hiding (ikhfa')", "Before the other fifteen letters the nun is hidden: said lightly through the nose with ghunnah, the tongue not touching its point.", f"{J}, rulings of nun sakinah and tanween", "أَنْتُمْ   مِنْ قَبْلِ"),
-   C("The ghunnah", "Ghunnah is the sound from the nose, held for about two counts. It is also always there in a nun or mim with shaddah: إِنَّ, ثُمَّ.", f"{J}, the doubled nun and mim", "إِنَّ   ثُمَّ"),
+   C("Clear (izhar)", "Before the six throat letters (ء ه ع ح غ خ) the nun or tanween is said clearly, with no ghunnah: kufuwan ahad.", f"{J}, rulings of nun sakinah and tanween", "كُفُوًا أَحَدٌ", [[112, 4, 4, "Hear it: kufuwan ahad"]]),
+   C("Merging (idgham)", "Before the letters of yarmalun (ي ر م ل و ن) the nun merges into the next letter: with ghunnah into ي ن م و, and without it into ل and ر. It only happens across two words.", f"{J}, rulings of nun sakinah and tanween", "مِنْ رَبِّهِمْ   مَنْ يَقُولُ", [[2, 8, 8, "Hear: man yaqulu"], [112, 4, 4, "Hear: yakul-lahu"]]),
+   C("Changing (iqlab)", "Before ba' the nun or tanween turns into a hidden mim, with ghunnah: lanasfa'an bil-nasiyah is read lanasfa'am bil-nasiyah.", f"{J}, rulings of nun sakinah and tanween", "لَنَسْفَعًا بِالنَّاصِيَةِ", [[96, 15, 15, "Hear it"]]),
+   C("Hiding (ikhfa')", "Before the other fifteen letters the nun is hidden: said lightly through the nose with ghunnah, the tongue not touching its point, as in min ju' (106:4).", f"{J}, rulings of nun sakinah and tanween", "مِنْ جُوعٍ", [[106, 4, 4, "Hear it: min ju'"]]),
+   C("The ghunnah", "Ghunnah is the sound from the nose, held for about two counts. It is also always there in a nun or mim with shaddah: إِنَّ, ثُمَّ.", f"{J}, the doubled nun and mim", "إِنَّا أَعْطَيْنَاكَ", [[108, 1, 1, "Hear it: inna"]]),
   ], "checks": [
    Q("A nun sakinah comes before ع. Which rule applies?", "Izhar: say it clearly", ["Idgham", "Iqlab", "Ikhfa'"], "Before the six throat letters the nun is clear.", f"{J}, rulings of nun sakinah and tanween"),
-   Q("How is مِنْ بَعْدِ read?", "Mim ba'di: the nun turns into a hidden mim", ["Min ba'di, clearly", "Mib-ba'di, merged", "Mi ba'di, no nun"], "This is iqlab, before ba'.", f"{J}, rulings of nun sakinah and tanween"),
+   Q("How is مِنْ بَعْدِ read?", "Mim ba'di: the nun turns into a hidden mim", ["Min ba'di, said clearly", "Mib-ba'di, merged fully", "Mi ba'di, with no nun"], "This is iqlab, before ba'.", f"{J}, rulings of nun sakinah and tanween"),
    Q("Into which letters does the nun merge without ghunnah?", "ل and ر", ["ي and و", "م and ن", "ب and ف"], "With ghunnah: ي ن م و; without: ل ر.", f"{J}, rulings of nun sakinah and tanween"),
    Q("How long is a ghunnah held?", "About two counts", ["Six counts", "No time at all", "As long as one breath"], "Two counts, as in إِنَّ and ثُمَّ.", f"{J}, the doubled nun and mim"),
   ]},
  {"id": "tl_meem", "title": "Mim sakinah", "about": "The three rules for a mim with sukun.", "cards": [
-   C("Hidden before ba'", "A mim sakinah before ba' is hidden with ghunnah, the lips closing lightly (ikhfa' shafawi).", f"{J}, the doubled nun and mim", "تَرْمِيهِمْ بِحِجَارَةٍ"),
-   C("Merged before mim", "A mim sakinah before another mim merges into it with ghunnah.", f"{J}, the doubled nun and mim", "لَهُمْ مَا"),
-   C("Clear before the rest", "Before every other letter the mim is said clearly, taking special care before fa' and waw.", f"{J}, the doubled nun and mim", "أَنْعَمْتَ"),
+   C("Hidden before ba'", "A mim sakinah before ba' is hidden with ghunnah, the lips closing lightly (ikhfa' shafawi).", f"{J}, the doubled nun and mim", "تَرْمِيهِمْ بِحِجَارَةٍ", [[105, 4, 4, "Hear it"]]),
+   C("Merged before mim", "A mim sakinah before another mim merges into it with ghunnah: at'amahum-min ju'.", f"{J}, the doubled nun and mim", "أَطْعَمَهُمْ مِنْ جُوعٍ", [[106, 4, 4, "Hear it"]]),
+   C("Clear before the rest", "Before every other letter the mim is said clearly, taking special care before fa' and waw.", f"{J}, the doubled nun and mim", "أَنْعَمْتَ", [[1, 7, 7, "Hear it"]]),
   ], "checks": [
    Q("A mim sakinah before ba' is…", "Hidden with ghunnah", ["Said clearly", "Dropped", "Turned into nun"], "This is ikhfa' shafawi.", f"{J}, the doubled nun and mim"),
    Q("In أَنْعَمْتَ the mim is…", "Said clearly", ["Hidden", "Merged", "Silent"], "Before any letter but ب and م, the mim is clear.", f"{J}, the doubled nun and mim"),
    Q("A mim sakinah before another mim…", "Merges into it with ghunnah", ["Is said clearly", "Is hidden", "Becomes a nun"], "As in لَهُمْ مَا.", f"{J}, the doubled nun and mim"),
   ]},
  {"id": "tl_madd", "title": "Lengthening (madd)", "about": "How long to hold the long vowels.", "cards": [
-   C("Natural madd", "A long vowel with no hamzah or sukun after it is held two counts. This is the base of all madd.", f"{J}, lengthening and shortening", "قَالَ"),
-   C("Joined madd", "When a hamzah follows the long vowel in the same word, lengthening is obligatory: four or five counts.", f"{J}, lengthening and shortening", "جَاءَ   السَّمَاءِ"),
-   C("Separated madd", "When the hamzah begins the next word, lengthen four or five counts in the reading of Hafs from 'Asim (the most common).", f"{J}, lengthening and shortening", "إِنَّا أَعْطَيْنَاكَ"),
-   C("Necessary madd", "When a shaddah or fixed sukun follows the long vowel, hold it six counts.", f"{J}, lengthening and shortening", "الضَّالِّينَ"),
-   C("Stopping", "When you stop on a word after a long vowel, you may hold it two, four or six counts.", f"{J}, stopping and starting", "الرَّحِيمْ"),
+   C("Natural madd", "A long vowel with no hamzah or sukun after it is held two counts, like the alif in maliki. This is the base of all madd.", f"{J}, lengthening and shortening", "مَالِكِ", [[1, 4, 4, "Hear it"]]),
+   C("Joined madd", "When a hamzah follows the long vowel in the same word, lengthening is obligatory: four or five counts.", f"{J}, lengthening and shortening", "إِذَا جَاءَ", [[110, 1, 1, "Hear it"]]),
+   C("Separated madd", "When the hamzah begins the next word, lengthen four or five counts in the reading of Hafs from 'Asim (the most common).", f"{J}, lengthening and shortening", "إِنَّا أَعْطَيْنَاكَ", [[108, 1, 1, "Hear it"]]),
+   C("Necessary madd", "When a shaddah or fixed sukun follows the long vowel, hold it six counts.", f"{J}, lengthening and shortening", "الضَّالِّينَ", [[1, 7, 7, "Hear it"]]),
+   C("Stopping", "When you stop on a word after a long vowel, you may hold it two, four or six counts.", f"{J}, stopping and starting", "الرَّحِيمْ", [[1, 3, 3, "Hear it"]]),
   ], "checks": [
    Q("How long is a natural madd?", "Two counts", ["Six counts", "Four counts", "One count"], "Two counts is the base.", f"{J}, lengthening and shortening"),
    Q("How long is the madd in الضَّالِّينَ?", "Six counts", ["Two counts", "Four counts", "None"], "A shaddah follows the long vowel: necessary madd, six counts.", f"{J}, lengthening and shortening"),
    Q("In جَاءَ the hamzah follows the long vowel in the same word. The madd is…", "Obligatory, four or five counts", ["Two counts only", "Not lengthened", "Six counts only"], "This is the joined madd.", f"{J}, lengthening and shortening"),
   ]},
  {"id": "tl_more", "title": "Qalqalah, ra' and the lam of Allah", "about": "The echo letters, and when ra' and lam are heavy.", "cards": [
-   C("Qalqalah", "The five letters of qutbu jadd (ق ط ب ج د) are given a slight bounce when they have a sukun, strongest when you stop on them.", f"{J}, the qualities of the letters", "أَحَدْ   يَخْلُقْ"),
-   C("The lam of 'Allah'", "The lam in the name 'Allah' is heavy after a fathah or dammah, and light after a kasrah.", f"{J}, the lams", "قَالَ اللَّهُ   بِسْمِ اللَّهِ"),
-   C("Ra'", "Ra' is heavy with a fathah or dammah, and light with a kasrah.", f"{J}, the ra's", "رَبِّ   رِزْقًا"),
+   C("Qalqalah", "The five letters of qutbu jadd (ق ط ب ج د) are given a slight bounce when they have a sukun, strongest when you stop on them.", f"{J}, the qualities of the letters", "أَحَدْ   الْفَلَقْ", [[112, 1, 1, "Hear: ahad"], [113, 1, 1, "Hear: al-falaq"]]),
+   C("The lam of 'Allah'", "The lam in the name 'Allah' is heavy after a fathah or dammah, and light after a kasrah.", f"{J}, the lams", "اللَّهُ الصَّمَدُ   بِسْمِ اللَّهِ", [[112, 2, 2, "Heavy: Allahu al-samad"], [1, 1, 1, "Light: bismillah"]]),
+   C("Ra'", "Ra' is heavy with a fathah or dammah, and light with a kasrah.", f"{J}, the ra's", "لِرَبِّكَ وَانْحَرْ", [[108, 2, 2, "Hear it"]]),
    C("Where to stop", "Stop where the meaning is complete, at the end of a verse if you can, and stop with a sukun on the last letter. Do not start again from a place that changes the meaning.", f"{J}, stopping and starting"),
   ], "checks": [
    Q("Which letters have qalqalah?", "ق ط ب ج د (qutbu jadd)", ["ي ر م ل و ن", "ء ه ع ح غ خ", "خ ص ض غ ط ق ظ"], "They bounce when they have a sukun.", f"{J}, the qualities of the letters"),
@@ -100,8 +103,8 @@ LESSONS = [
   ]},
  {"id": "tl_fatihah", "title": "Reciting al-Fatihah correctly", "about": "Putting it all together for the surah you recite in every rak'ah.", "cards": [
    C("Tajweed is a duty", "Ibn al-Jazari says applying tajweed is an obligation: whoever does not recite the Qur'an correctly is sinful. At the least, every Muslim must avoid clear mistakes that change letters, vowels or meaning, especially in al-Fatihah.", f"{J}, tajweed"),
-   C("Watch the letters", "Say ح in al-hamdu (not ه), ع in al-'alamin (not ء), ص in al-sirat, and ض in al-dallin with its six-count madd.", f"{J}, the qualities of the letters", "الْحَمْدُ   الْعَالَمِينَ   الصِّرَاطَ   الضَّالِّينَ"),
-   C("Keep the shaddahs", "Al-Fatihah with the basmalah has fourteen shaddahs. In إِيَّاكَ, dropping the shaddah changes the meaning entirely, so press on it.", f"{J}, tajweed", "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ"),
+   C("Watch the letters", "Say ح in al-hamdu (not ه), ع in al-'alamin (not ء), ص in al-sirat, and ض in al-dallin with its six-count madd.", f"{J}, the qualities of the letters", "الْحَمْدُ   الْعَالَمِينَ   الصِّرَاطَ   الضَّالِّينَ", [[1, 1, 7, "Listen to al-Fatihah"]]),
+   C("Keep the shaddahs", "Al-Fatihah with the basmalah has fourteen shaddahs. In إِيَّاكَ, dropping the shaddah changes the meaning entirely, so press on it.", f"{J}, tajweed", "إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ", [[1, 5, 5, "Hear it"]]),
    C("Learn by listening", "Tajweed is taken from a teacher by ear. Recite al-Fatihah to someone who knows, ask them to correct you, and listen to a sound reciter daily.", f"{J}, conclusion"),
   ], "checks": [
    Q("According to Ibn al-Jazari, applying tajweed is…", "An obligation", ["Only for imams", "Only recommended", "Only for Arabs"], "He calls it a binding obligation.", f"{J}, tajweed"),

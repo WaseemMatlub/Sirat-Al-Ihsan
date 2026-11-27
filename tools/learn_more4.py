@@ -26,7 +26,10 @@ def texts_lesson():
         if not x: continue
         src = x.get("src") or "Mukhtasar al-Quduri, how to pray"
         if "," not in src and not src.startswith("Qur'an"): src += ", how to pray"
-        cards.append({"t": t, "ar": x["ar"], "x": x.get("en", ""), "src": src})
+        c = {"t": t, "ar": x["ar"], "x": x.get("en", ""), "src": src}
+        if k == "Al-Fatihah": c["listen"] = [[1, 1, 7, "Listen"]]
+        if k.startswith("For example, al-Ikhlas"): c["listen"] = [[112, 1, 4, "Listen"]]
+        cards.append(c)
     return {"id": "f_texts", "title": "What you recite in prayer", "about": "Every word a beginner must know by heart to pray, with its meaning.",
       "cards": [{"t": "Learn them by heart", "x": "These are the words of the prayer, in order. Al-Fatihah and a short surah are wajib; the rest are sunnah or wajib as the earlier lessons explain. Turn on Transliteration (Aa) if you cannot yet read Arabic, and learn one a day. The How to pray guide in Tools has the same words with audio.", "src": "Nur al-Idah, how the prayer is put together"}] + cards,
       "checks": [
