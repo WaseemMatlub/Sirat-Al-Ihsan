@@ -540,7 +540,7 @@ mark.hl.has-note{border-bottom:2px solid #8A6D00}
 .gl-w{all:unset;cursor:pointer;color:inherit;text-decoration:underline dotted 1.5px;text-decoration-color:var(--brand,#1F6B4A);text-underline-offset:3px}
 .gl-w:focus-visible{outline:2px solid var(--brand,#1F6B4A);outline-offset:2px;border-radius:3px}
 .gl-sheet{position:fixed;inset:0;background:rgba(0,0,0,.35);display:flex;align-items:flex-end;justify-content:center;z-index:200}
-.gl-in{background:var(--card,#fff);color:var(--ink);width:100%;max-width:560px;border-radius:18px 18px 0 0;padding:16px 18px calc(18px + env(safe-area-inset-bottom))}
+.gl-in{background:var(--surface);color:var(--ink);width:100%;max-width:560px;border-radius:18px 18px 0 0;padding:16px 18px calc(18px + env(safe-area-inset-bottom))}
 .gl-top{display:flex;align-items:center;justify-content:space-between;gap:10px}.gl-top h2{margin:0;font-size:1.15rem}.gl-in p{line-height:1.6;margin:8px 0 12px}
 .ayah{font-size:1.45rem;line-height:2.1;margin:6px 0 4px;text-align:right;color:var(--ink)}
 .ayah-en{font-size:1rem;line-height:1.6;margin:0 0 6px}
@@ -670,7 +670,7 @@ button.td-row{cursor:pointer}button.td-row:active{opacity:.7}button.td-row:focus
 .sal-tags .pb-chip{padding:7px 12px}.sal-tags .pb-chip.on{background:#1F6B4A;border-color:#1F6B4A;color:#fff}
 .td-list li .td-quick b,.td-list li.ok .td-quick b{color:#fff;opacity:1}.sw-v{align-content:start}
 /* floating tab bar, in the app's own colours */
-nav.tabs{left:12px!important;right:12px!important;bottom:calc(10px + env(safe-area-inset-bottom,0px));max-width:520px;margin:0 auto;background:var(--surface)!important;border:1px solid var(--line)!important;border-radius:999px;box-shadow:0 8px 28px rgba(0,0,0,.12)}
+nav.tabs{left:12px!important;right:12px!important;bottom:calc(10px + env(safe-area-inset-bottom,0px));max-width:520px;margin:0 auto;background:var(--surface)!important;border:1px solid var(--line)!important;border-radius:999px;box-shadow:0 12px 32px rgba(14,30,22,.16),0 2px 8px rgba(14,30,22,.10)}
 nav.tabs .in{padding:6px!important;gap:2px}
 nav.tabs button{color:var(--muted);border-radius:999px;padding:8px 2px 7px!important;font-weight:700}
 nav.tabs button svg{width:23px;height:23px}
@@ -718,6 +718,29 @@ body:has(.tbx){overflow:hidden}
 .tbm{display:grid;gap:10px}.tbm-l{list-style:none;margin:0;padding:0;display:grid;gap:6px;max-height:52vh;overflow-y:auto}
 .tbm-r{display:flex;align-items:center;gap:4px;padding:8px 8px 8px 12px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}.tbm-t{flex:1;min-width:0;display:grid}.tbm-t b{font-size:.95rem;line-height:1.3}
 .tbm-b{all:unset;box-sizing:border-box;cursor:pointer;width:40px;height:40px;border-radius:10px;display:grid;place-items:center;color:var(--ink)}.tbm-b:disabled{opacity:.25;cursor:default}.tbm-b.del{color:#C0392B}.tbm-b:focus-visible{outline:2px solid var(--gold)}
+/* while scrolling, the bar shrinks to the page you are on, then opens again when you stop */
+nav.tabs{transition:left .28s cubic-bezier(.2,.8,.2,1),right .28s cubic-bezier(.2,.8,.2,1),opacity .2s}
+nav.tabs.mini{left:calc(50% - 64px)!important;right:calc(50% - 64px)!important}
+nav.tabs.mini button:not([aria-current="page"]){display:none}nav.tabs.mini .in{grid-template-columns:1fr!important}
+@media (prefers-reduced-motion: reduce){nav.tabs{transition:none}}
+.bpx-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}.bpx-pct{font-size:1.6rem;font-weight:800;color:var(--brand)}
+.bpx-dd{margin-top:10px;border-top:1px solid var(--line);padding-top:6px}.bpx-dd summary{cursor:pointer;font-weight:700;padding:8px 0;list-style:none;display:flex;justify-content:space-between}
+.bpx-dd summary::after{content:"";width:9px;height:9px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);margin:4px 4px 0 0;transition:transform .2s}.bpx-dd[open] summary::after{transform:rotate(-135deg);margin-top:8px}
+.bpx-dd summary::-webkit-details-marker{display:none}.bpx-l{list-style:none;margin:0;padding:0}
+.bpx-r{all:unset;box-sizing:border-box;cursor:pointer;display:grid;grid-template-columns:10px 1fr 70px 38px auto;align-items:center;gap:10px;width:100%;padding:9px 2px;border-bottom:1px solid var(--line);font-size:.9rem}
+.bpx-r:focus-visible{outline:2px solid var(--brand)}.bpx-dot{width:10px;height:10px;border-radius:50%}.bpx-t{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bpx-b{height:6px;border-radius:6px;background:color-mix(in srgb,var(--ink) 10%,transparent);overflow:hidden}.bpx-b i{display:block;height:100%}.bpx-n{text-align:right;color:var(--muted);font-variant-numeric:tabular-nums}
+.mw-add{margin-top:16px;padding:12px 14px;border-radius:14px;background:var(--surface);border:1px solid var(--line)}
+.mw-add .label{display:block;margin:0 0 6px}
+.mw-row{display:flex;gap:8px}.mw-row input{flex:1;min-width:0;padding:10px 12px;border-radius:10px;border:1px solid var(--line);font:inherit;background:var(--bg);color:inherit}
+.mw-in{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:0;font-size:.92rem}
+.mw-ic{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--soft);font-family:var(--ar-font,serif);font-size:1.2rem}
+.mw-list{display:grid;gap:8px}
+.mw-item{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:10px 12px;border-radius:12px;background:var(--surface);border:1px solid var(--line)}
+.mw-w{font-size:1.45rem;line-height:1.4}.mw-m{font-size:.92rem;min-width:0}.mw-src{display:block;margin-top:2px;padding:0}
+.mw-card{min-height:46vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;text-align:center;padding:24px;border-radius:20px;background:var(--surface);border:1px solid var(--line);box-shadow:0 10px 30px rgba(14,30,22,.08);cursor:pointer}
+.mw-big{font-size:2.6rem;line-height:1.5}.mw-mean{font-size:1.15rem;font-weight:600;margin:0}
+.mw-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
 
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--line);padding:4px;border-radius:14px}
 .seg button{border:0;background:transparent;border-radius:10px;padding:10px 6px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
@@ -1422,7 +1445,7 @@ function bindReadLinks(root){ root.querySelectorAll("[data-read]").forEach(b => 
 let LEARN = null, LS = null;
 const LEARN_DECK = { aqeedah:["fard_aqeedah"], fiqh:["fard_tahara","fard_salah","fard_sawm","fard_zakat"] };
 const OLD_TOPIC = { belief:"aqeedah", purity:"fiqh", prayer:"fiqh", fasting:"fiqh", zakat:"fiqh", heart:"tazkiyah" };
-async function loadLearn(){ if (LEARN) return LEARN; try { LEARN = await fetch("data/learn.json?v=0f7205aa").then(r => r.json()); } catch(e){ LEARN = []; } return LEARN; }
+async function loadLearn(){ if (LEARN) return LEARN; try { LEARN = await fetch("data/learn.json?v=4c00933b").then(r => r.json()); } catch(e){ LEARN = []; } return LEARN; }
 const learnDone = id => !!(S.learn||{})[id];
 function nextLearn(){ for (const u of LEARN||[]) for (let k = 0; k < u.lessons.length; k++) if (!learnDone(u.lessons[k].id)) return { u, k }; return null; }
 function learnHome(){
@@ -1531,6 +1554,9 @@ const HAPTIC = (() => { let lab = null; return (ms = 8) => { if (S.haptics === f
     if (!lab) { lab = document.createElement("label"); lab.setAttribute("aria-hidden", "true"); lab.style.cssText = "position:fixed;left:-9999px;top:0;width:1px;height:1px;overflow:hidden";
       const i = document.createElement("input"); i.type = "checkbox"; i.setAttribute("switch", ""); i.tabIndex = -1; lab.appendChild(i); document.body.appendChild(lab); }
     lab.click(); } catch(e){} }; })();
+// the tab bar tucks itself in while the page scrolls, and opens again a moment after scrolling stops
+(() => { let t = null, y0 = 0; window.addEventListener("scroll", () => { const n = document.querySelector("nav.tabs"); if (!n) return;
+  if (Math.abs(window.scrollY - y0) > 8) n.classList.add("mini"); clearTimeout(t); t = setTimeout(() => { n.classList.remove("mini"); y0 = window.scrollY; }, 650); }, { passive: true }); })();
 let REF_BACK = null;
 document.addEventListener("click", async e => {
   const b = e.target.closest("[data-ref]"); if (!b) return; e.preventDefault(); e.stopPropagation();
@@ -1995,7 +2021,7 @@ function libraryView(){
     if (x === "Aqeedah" && bs.length) return `<p class="label" style="margin-top:18px">Aqeedah</p>${aqeedah(bs)}`;
     return !bs.length ? "" : f ? `<p class="label">${esc(x)} <span class="muted small">${bs.length} books</span></p><div class="shelf">${bs.map(bookCard).join("")}</div>`
       : `<div class="shelf-h"><p class="label">${esc(x)}</p><button class="linkbtn" data-libsub="${esc(x)}">See all ${bs.length}</button></div><div class="shelf row">${bs.map(bookCard).join("")}</div>`; }).join("");
-  return shell(`<h1>Library</h1><p class="muted" style="margin:0 0 12px">${books.length} complete books, from the first texts to Sahih al-Bukhari. Free to read, bab by bab.</p>${hlEntries().length ? `<button class="item notesrow" data-go="notes"><span class="hlsw hl-y" aria-hidden="true"></span><span style="flex:1;min-width:0"><span class="t">Your notes</span><br><span class="s">${hlEntries().length} highlights and notes</span></span><span aria-hidden="true">›</span></button>` : ""}
+  return shell(`<h1>Library</h1><p class="muted" style="margin:0 0 12px">${books.length} complete books, from the first texts to Sahih al-Bukhari. Free to read, bab by bab.</p>${hlEntries().length ? `<button class="item notesrow" data-go="notes"><span class="hlsw hl-y" aria-hidden="true"></span><span style="flex:1;min-width:0"><span class="t">Your notes</span><br><span class="s">${hlEntries().length} highlights and notes</span></span><span aria-hidden="true">›</span></button>` : ""}${typeof myWordsCard === "function" ? myWordsCard() : ""}
     <div class="lib-search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
       <input id="libq" type="search" placeholder="Search books, authors, subjects" value="${esc(S.libQ || "")}" aria-label="Search the Library" autocomplete="off"></div>
     <div id="libres">${S.libQ ? libSearch(S.libQ) : `${cont}${chips}${shelves}`}</div>
@@ -2145,7 +2171,7 @@ async function laneInto(btn){ const box = btn.nextElementSibling, r = btn.datase
 function dictView(){
   const q = S.dictQ || "";
   return shell(`<button class="back" data-go="tools">${ICON.back} Tools</button><h1 style="margin-bottom:4px">Arabic dictionary</h1>
-    <p class="small muted" style="margin:0 0 10px">Look up a word in Arabic or English. Words are grouped by their root, with every verb form and the nouns that come from it.</p>
+    <p class="small muted" style="margin:0 0 10px">Look up a word in Arabic or English. Words are grouped by their root, with every verb form and the nouns that come from it.</p>${typeof myWordsCard === "function" ? myWordsCard() : ""}
     <form id="dform" class="dsearch" role="search"><input id="dq" value="${esc(q)}" placeholder="e.g. كتب, مكتبة, or 'knowledge'" aria-label="Search the dictionary" autocomplete="off" dir="auto"><button class="btn small-btn">Search</button></form>
     <div id="dres">${q ? `<p class="muted small">Searching…</p>` : `<div class="exbox"><p class="small" style="margin:0 0 6px"><b>How to read an entry</b></p><ul class="small" style="margin:0;padding-left:18px;line-height:1.6">
       <li>Arabic words are built from a <b>root</b> of usually three letters. ك ت ب carries the idea of writing.</li>
@@ -2164,7 +2190,7 @@ async function bindDict(){
   document.querySelectorAll("[data-dq]").forEach(b => b.onclick = () => { $("#dq").value = b.dataset.dq; run(); });
   if (S.dictQ) run();
 }
-async function showLookup(word){
+async function showLookup(word, ctx){
   const d = modal(`<div class="dict"><div class="spread"><span class="ar dword">${esc(word)}</span><button class="x" id="dclose" aria-label="Close">${ICON.x}</button></div><p class="muted small">Looking up…</p></div>`, (d, close) => { d.querySelector("#dclose").onclick = close; d.onclick = e => { if (e.target === d) close(); }; });
   d.classList.add("sheet"); S.dictUsed = true; save();
   const r = await lookup(word), box = d.querySelector(".dict"), rr = (await Promise.all(rootsOf(normAr(word)).map(rootGet))).filter(Boolean)[0];
@@ -2177,12 +2203,13 @@ async function showLookup(word){
     : `<p class="muted">No entry found for this word. Particles and names usually aren't in the dictionary.</p>`;
   if (classic) box.querySelectorAll("[data-classic]").forEach(b => { b.nextElementSibling.remove(); b.remove(); });
   box.querySelectorAll("[data-lane]").forEach(b => b.onclick = () => laneInto(b)); box.querySelectorAll("[data-classic]").forEach(b => b.onclick = () => classicInto(b));
+  if (typeof mwAddBox === "function") mwAddBox(box, word, rr, ctx);
 }
 let READ_TURN = "";
 function bindRead(b, i){
   setTimeout(() => { READ_TURN = ""; }, 0);
   const T = TEXTS[b.file]; bindTools($("#app"), () => { $("#app").innerHTML = readView(b, i); bindRead(b, i); });
-  $("#app").querySelectorAll(".ar-read").forEach(p => p.onclick = e => { if (String(getSelection()) || e.target.closest("mark.hl")) return; const w = wordAt(e.clientX, e.clientY); if (normAr(w).length >= 2) showLookup(w); });
+  $("#app").querySelectorAll(".ar-read").forEach(p => p.onclick = e => { if (String(getSelection()) || e.target.closest("mark.hl")) return; const w = wordAt(e.clientX, e.clientY); const pj = p.closest(".para"); if (normAr(w).length >= 2) showLookup(w, { b:b.id, i, j: pj ? +pj.dataset.pj : null }); });
   hlBind(b, i); if (typeof stickyBind === "function") stickyBind(b, i);
   const tg = (k) => () => { S.readPrefs[k] = !S.readPrefs[k]; save(); $("#app").innerHTML = readView(b, i); bindRead(b, i); };
   const ttl = $("#tg-tl"); if (ttl) ttl.onclick = () => { S.tl = !S.tl; save(); $("#app").innerHTML = readView(b, i); bindRead(b, i); };
@@ -3189,6 +3216,7 @@ const DHIKR = [
 ];
 // ---- Tasbih: a full screen with one big circle. The list starts with the dhikr after prayer, and every counter can be edited, removed or added.
 const TB_DEFAULTS = () => [
+  { id: "free", title: "Tasbih", ar: "", note: "Count any dhikr, as much as you like.", target: 0, marks: [] },
   { id: "subhan", title: "Subhan Allah", ar: "سُبْحَانَ اللَّهِ", note: "Glory be to Allah", target: 33, marks: [] },
   { id: "hamd", title: "Al-hamdu lillah", ar: "الْحَمْدُ لِلَّهِ", note: "All praise is for Allah", target: 33, marks: [] },
   { id: "akbar", title: "Allahu akbar", ar: "اللَّهُ أَكْبَرُ", note: "Allah is the Greatest", target: 33, marks: [] },
@@ -3202,9 +3230,10 @@ const TB_DEFAULTS = () => [
   { id: "yunus", title: "The du'a of Yunus", ar: "لَا إِلَهَ إِلَّا أَنْتَ سُبْحَانَكَ إِنِّي كُنْتُ مِنَ الظَّالِمِينَ", note: "There is no god but You; glory be to You; I was among the wrongdoers. No Muslim calls on Allah with it except that He answers him (al-Tirmidhi).", target: 0, marks: [] },
 ];
 function tbState(){ const T = S.tasbih = S.tasbih || {}; T.c = T.c || {}; T.tot = T.tot || {};
-  if (T.list && (T.v || 1) < 2) { TB_DEFAULTS().slice(4).forEach(z => { if (!T.list.some(y => y.id === z.id)) T.list.push(z); }); T.v = 2; }
+  if (T.list && (T.v || 1) < 2) { TB_DEFAULTS().slice(5).forEach(z => { if (!T.list.some(y => y.id === z.id)) T.list.push(z); }); T.v = 2; }
+  if (T.list && T.v < 3) { if (!T.list.some(y => y.id === "free")) T.list.unshift(TB_DEFAULTS()[0]); T.v = 3; }
   if (!T.list) { T.list = [...TB_DEFAULTS(), ...(T.custom || []).map(c => ({ id: c.id, title: c.title, ar: "", note: c.note || "", target: c.target || 0, marks: c.marks || [], start: c.start || 0 }))]; delete T.custom; delete T.tgt; delete T.n; }
-  T.v = 2;
+  T.v = 3;
   if (T.list.length && !T.list.some(x => x.id === T.d)) T.d = T.list[0].id; return T; }
 function tasbihView(){
   const T = tbState();
@@ -3275,7 +3304,7 @@ function bindTasbih(){
   const tap = $("#tbtap"); if (tap) tap.onclick = () => { const n = (T.c[d.id] || 0) + 1; T.c[d.id] = n; T.tot[d.id] = (T.tot[d.id] || 0) + 1; save();
     const hit = d.target && n % d.target === 0, mark = (d.marks || []).includes(n);
     if (hit || mark) { HAPTIC(); setTimeout(() => HAPTIC(), 140); setTimeout(() => HAPTIC(), 280); } else HAPTIC();
-    if (hit) { toast(`${d.target} done. Alhamdulillah`); const k = T.list.indexOf(d); if (k < T.list.length - 1 && k < 3 && TB_DEFAULTS().some(z => z.id === d.id)) { T.d = T.list[k + 1].id; save(); } }
+    if (hit) { toast(`${d.target} done. Alhamdulillah`); const seq = ["subhan", "hamd", "akbar", "tahlil"], q = seq.indexOf(d.id); if (q >= 0 && q < 3 && T.list.some(y => y.id === seq[q + 1])) { T.d = seq[q + 1]; save(); } }
     else if (mark) toast(`${n} reached`);
     render(); };
   document.querySelectorAll("[data-tbd]").forEach(b => b.onclick = () => { T.d = b.dataset.tbd; save(); render(); });
@@ -3296,6 +3325,7 @@ function toolsRender(app){
   else if (view.name === "salawat") app.innerHTML = salawatView();
   else if (view.name === "tasbih") app.innerHTML = tasbihView();
   else if (view.name === "dict") app.innerHTML = dictView();
+  else if (view.name === "mywords") app.innerHTML = myWordsView();
   else return false;
   return true;
 }
@@ -3311,7 +3341,62 @@ function toolsBind(app){
     const k = d.indexOf(i); if (k >= 0) d.splice(k, 1); else d.push(i); save(); const y = window.scrollY; render(); window.scrollTo(0, y); });
   const gr = $("#greset"); if (gr) gr.onclick = () => confirmBox("Clear all ticks for this guide?", () => { S.guides[view.id] = []; save(); render(); });
   if (view.name === "qibla") bindQibla(); if (view.name === "qada") bindQada(); if (view.name === "zakat") bindZakat();
-  if (view.name === "inherit") bindInherit(); if (view.name === "salawat") bindSalawat(); if (view.name === "tasbih") bindTasbih(); if (view.name === "dict") bindDict(); if (view.name === "home") bindSalCard();
+  if (view.name === "inherit") bindInherit(); if (view.name === "salawat") bindSalawat(); if (view.name === "tasbih") bindTasbih(); if (view.name === "dict") bindDict(); if (view.name === "home") bindSalCard(); if (view.name === "mywords") bindMyWords(app);
+}
+/* ---- My words: Arabic words saved while reading, with their own spaced review ---- */
+const MW = () => (S.myWords = S.myWords || []);
+const mwKey = w => normAr(w).replace(/\s/g, "");
+const mwDue = () => MW().filter(x => (x.due || 0) <= Date.now());
+function mwGuess(word, rr){ if (!rr) return ""; const k = mwKey(word);
+  const n = rr.n.find(x => mwKey(x.w) === k) || rr.v.find(x => mwKey(x.pf) === k || mwKey(x.ipf || "") === k);
+  return ((n && n.gl) || (rr.v[0] && rr.v[0].gl) || (rr.n[0] && rr.n[0].gl) || "").split(/;\s*/)[0].replace(/\bGod\b/g, "Allah"); }
+function mwSrc(x){ const b = x.b && bookById(x.b); return b ? `${b.title}, section ${x.i + 1}` : ""; }
+function mwAddBox(box, word, rr, ctx){
+  const old = box.querySelector(".mw-add"); if (old) old.remove();
+  const k = mwKey(word), have = MW().find(x => x.k === k), el = document.createElement("div"); el.className = "mw-add";
+  const draw = () => { const h = MW().find(x => x.k === k);
+    el.innerHTML = h ? `<p class="mw-in"><span>In My words: <b>${esc(h.m || "no meaning yet")}</b></span><button class="linkbtn small" data-mwgo>Open My words</button></p>`
+      : `<label class="label" for="mwm">Add to My words</label><div class="mw-row"><input id="mwm" type="text" value="${esc(mwGuess(word, rr))}" placeholder="Meaning, in your own words" autocomplete="off"><button class="btn small-btn" id="mwadd">Add</button></div>
+         <p class="small muted" style="margin:4px 0 0">Saved with ${ctx && ctx.b ? "where you found it" : "the word"}, to review as flashcards.</p>`;
+    const ad = el.querySelector("#mwadd"); if (ad) ad.onclick = () => { MW().unshift({ k, w: word, m: el.querySelector("#mwm").value.trim(), r: rr ? rr.r : "", b: ctx && ctx.b, i: ctx && ctx.i, j: ctx && ctx.j, t: Date.now(), due: Date.now(), iv: 0 });
+      save(); HAPTIC(); toast("Added to My words"); draw(); };
+    const g = el.querySelector("[data-mwgo]"); if (g) g.onclick = () => { const d = box.closest(".modal,.sheet,dialog") || box.parentNode; const x = d && d.querySelector("#dclose"); if (x) x.click(); go({ name:"mywords" }); }; };
+  draw(); box.appendChild(el);
+}
+function myWordsCard(){ const n = MW().length; if (!n) return ""; const d = mwDue().length;
+  return `<button class="item notesrow" data-go="mywords"><span class="mw-ic" aria-hidden="true">ع</span><span style="flex:1;min-width:0"><span class="t">My words</span><br><span class="s">${n} saved${d ? ` · ${d} to review` : ""}</span></span><span aria-hidden="true">›</span></button>`; }
+function myWordsView(){
+  if (view.rev) return mwReview();
+  const L = MW(), d = mwDue().length;
+  const groups = {}; L.forEach((x, n) => { const g = x.b && bookById(x.b) ? bookById(x.b).title : "From the dictionary"; (groups[g] = groups[g] || []).push([x, n]); });
+  const list = Object.entries(groups).map(([g, xs]) => `<p class="label" style="margin-top:16px">${esc(g)} <span class="muted small">${xs.length}</span></p>
+    <div class="mw-list">${xs.map(([x, n]) => `<div class="mw-item"><span class="ar mw-w" lang="ar">${esc(x.w)}</span><span class="mw-m">${esc(x.m || "No meaning added")}${x.b != null && bookById(x.b) ? `<button class="linkbtn small mw-src" data-ref="${x.b}|${x.i}|${x.j ?? ""}">Section ${x.i + 1}</button>` : ""}</span>
+      <button class="x" data-mwdel="${n}" aria-label="Remove ${esc(x.w)}">${ICON.x}</button></div>`).join("")}</div>`).join("");
+  return shell(`<button class="back" data-go="library">${ICON.back} Library</button><h1 style="margin-bottom:4px">My words</h1>
+    <p class="muted" style="margin:0 0 14px">Tap any Arabic word while reading a book, then add it here. Each word comes back for review: sooner if you forget it, later once you know it.</p>
+    ${L.length ? `<button class="btn" id="mwrev" style="width:100%">${d ? `Review ${d} word${d > 1 ? "s" : ""}` : "Practise all words"}</button>${list}`
+      : `<div class="empty"><p><b>No words yet.</b></p><p class="muted small">Open a book in the Library and tap a word you don't know.</p><button class="btn" data-go="library">Go to the Library</button></div>`}`);
+}
+let MWQ = null;
+function mwReview(){
+  if (!MWQ) { const due = mwDue(); MWQ = { q: (due.length ? due : MW().slice()).map(x => x.k).sort(() => Math.random() - .5), show: false, done: 0 }; }
+  const x = MW().find(y => y.k === MWQ.q[0]);
+  if (!x) { const n = MWQ.done; MWQ = null; return shell(`<div class="done-screen" style="min-height:50vh"><h2>Review done</h2><p class="muted">${n} word${n === 1 ? "" : "s"} reviewed. They will come back when they are due.</p><button class="btn" data-go="mywords">Back to My words</button></div>`); }
+  return shell(`<button class="back" id="mwquit">${ICON.back} My words</button><p class="small muted" style="margin:0 0 8px">${MWQ.q.length} left</p>
+    <section class="mw-card" id="mwflip"><span class="ar mw-big" lang="ar">${esc(x.w)}</span>
+      ${MWQ.show ? `<p class="mw-mean">${esc(x.m || "No meaning added")}</p>${x.r ? `<p class="small muted">Root <span class="ar" lang="ar">${esc([...x.r].join(" "))}</span></p>` : ""}${mwSrc(x) ? `<button class="linkbtn small" data-ref="${x.b}|${x.i}|${x.j ?? ""}">${esc(mwSrc(x))}</button>` : ""}`
+        : `<p class="small muted">Tap to show the meaning</p>`}</section>
+    ${MWQ.show ? `<div class="mw-btns"><button class="btn ghost" data-mwr="0">Again</button><button class="btn" data-mwr="1">I knew it</button></div>` : ""}`);
+}
+function bindMyWords(app){
+  const r = app.querySelector("#mwrev"); if (r) r.onclick = () => { MWQ = null; go({ name:"mywords", rev:1 }); };
+  const q = app.querySelector("#mwquit"); if (q) q.onclick = () => { MWQ = null; go({ name:"mywords" }); };
+  const f = app.querySelector("#mwflip"); if (f) f.onclick = e => { if (e.target.closest("[data-ref]") || MWQ.show) return; MWQ.show = true; HAPTIC(); render(); };
+  app.querySelectorAll("[data-mwr]").forEach(b => b.onclick = () => { const k = MWQ.q.shift(), x = MW().find(y => y.k === k), ok = b.dataset.mwr === "1", D = 864e5;
+    if (x) { if (ok) { x.iv = x.iv ? Math.min(120, Math.round(x.iv * 2.5)) : 1; x.due = Date.now() + x.iv * D - 36e5; MWQ.done++; } else { x.iv = 0; x.due = Date.now(); MWQ.q.push(k); } save(); }
+    MWQ.show = false; HAPTIC(); render(); });
+  app.querySelectorAll("[data-mwdel]").forEach(b => b.onclick = () => { const n = +b.dataset.mwdel, x = MW()[n];
+    confirmBox(`Remove ${x.w} from My words?`, () => { MW().splice(n, 1); save(); render(); }, "Remove", "Keep"); });
 }
 
 /* ============================ Highlights and notes in the reader (Kindle-style) ============================
@@ -3647,8 +3732,12 @@ function rvDue(){
   return Object.entries(S.rv).filter(([k, v]) => v.d <= today()).map(([k]) => { const [lid, j] = k.split("|"), x = byId[lid]; return x && x.l.checks[+j] ? { k, u:x.u, l:x.l, c:x.l.checks[+j] } : null; }).filter(Boolean);
 }
 function mcqOf(c, extra){ return { kind:"mcq", q:c.q, answer:c.a, why:c.why, src:c.src, ref:c.ref, options:shuffle([c.a, ...c.w]), ...extra }; }
+function rvAll(){ if (!LEARN || !S.rv) return []; const byId = {}; LEARN.forEach(u => u.lessons.forEach(l => byId[l.id] = { u, l }));
+  return Object.keys(S.rv).map(k => { const [lid, j] = k.split("|"), x = byId[lid]; return x && x.l.checks[+j] ? { k, u:x.u, l:x.l, c:x.l.checks[+j] } : null; }).filter(Boolean); }
 function startReview(){
-  const due = shuffle(rvDue()).slice(0, 15); if (!due.length) return toast("Nothing to review right now");
+  // due questions first; when none are due, a mixed practice of ten from everything already learnt
+  let due = shuffle(rvDue()).slice(0, 15); if (!due.length) due = shuffle(rvAll()).slice(0, 10);
+  if (!due.length) return toast("Finish a lesson first, then its questions come back here");
   const l = { id:"review", title:"Review", cards:[], checks:due.map(x => x.c) };
   LS = { review:true, u:{ id:"review", lessons:[l] }, k:0, l, steps:due.map(x => mcqOf(x.c, { key:x.k, from:x.l.title })), i:0, sel:null, answered:false, right:0, res:{} };
   renderLearn();
@@ -3705,8 +3794,8 @@ function todayCard(){
       ${l ? row(t.lesson, "learn", t.lesson ? `Next lesson: ${esc(l.title)}` : esc(l.title), `${esc(u.title)} · lesson ${k + 1} of ${u.lessons.length} · 5 min`, `data-learn="${u.id}|${k}"`)
           : row(true, "learn", "All the basics are done", "Mā shā' Allāh. Keep reviewing, or move on to the Course.", `data-go="syllabus"`)}
       ${row(t.review || (!due && t.lesson), "review", due ? `Review ${due} question${due > 1 ? "s" : ""}` : "Review",
-          due ? "From lessons you finished. Coming back to them is what makes them stick." : (Object.keys(S.rv||{}).length ? "Nothing due today. Questions come back on later days." : "Questions from lessons you finish come back here on later days."),
-          due ? `id="rvgo"` : "")}
+          due ? "From lessons you finished. Coming back to them is what makes them stick." : (Object.keys(S.rv||{}).length ? "Nothing due today. Tap for a quick mix of ten from your lessons." : "Questions from lessons you finish come back here on later days."),
+          due || Object.keys(S.rv||{}).length ? `id="rvgo"` : "")}
       <li class="${t.practice ? "ok" : ""}"><div class="td-row td-sal"><button class="td-main" data-go="salawat"><span class="td-ic" aria-hidden="true">${IC.salawat}${t.practice ? `<span class="td-tick">${tick}</span>` : ""}</span>
         <span class="td-m"><b>Send salawat upon the Prophet ﷺ</b><span class="td-s">Tap the green button to send one, or open for many more</span></span></button>
         <button class="td-quick" data-salq aria-label="Send one salawat. ${salToday()} today"><span class="ar" lang="ar">ﷺ</span><b id="td-salc">${salToday() || "+1"}</b></button></div></li>
@@ -3841,9 +3930,14 @@ document.addEventListener("submit", e => { if (e.target.id === "gform") e.preven
 // ---- the basics on the Progress page
 function basicsProgress(){
   if (!LEARN) return "";
-  return `<h2 class="sec-h" style="margin-top:6px">The basics</h2><div class="stack">${basicsCourses().map(u => { const d = u.lessons.filter(l => learnDone(l.id)).length, n = u.lessons.length, c = (S.cert||{})[u.id];
-    return `<button class="item noico" data-go="basics"><span style="flex:1;min-width:0"><span class="t">${esc(u.title)}</span>
-      <span class="bp-p" style="margin-top:6px"><span class="bar"><i style="width:${Math.max(2, d / n * 100)}%;background:${u.color}"></i></span><span class="small">${d}/${n}</span></span></span>${c ? `<span class="pill ok">Passed</span>` : ""}</button>`; }).join("")}</div>`;
+  const cs = basicsCourses(), rows = cs.map(u => ({ u, d: u.lessons.filter(l => learnDone(l.id)).length, n: u.lessons.length }));
+  const D = rows.reduce((a, r) => a + r.d, 0), N = rows.reduce((a, r) => a + r.n, 0), fin = rows.filter(r => r.d === r.n).length, cur = rows.find(r => r.d && r.d < r.n);
+  return `<section class="card pad bpx"><div class="bpx-top"><div><h2 class="sec-h" style="margin:0">The basics</h2><p class="small muted" style="margin:2px 0 0">${D} of ${N} lessons · ${fin} of ${cs.length} courses finished</p></div>
+      <span class="bpx-pct">${Math.round(D / N * 100)}%</span></div>
+    <div class="bar" style="margin:10px 0 4px"><i style="width:${Math.max(2, D / N * 100)}%"></i></div>
+    ${cur ? `<p class="small" style="margin:8px 0 0">Now on: <b>${esc(cur.u.title)}</b>, ${cur.d} of ${cur.n}</p>` : ""}
+    <details class="bpx-dd"><summary>Each course</summary><ul class="bpx-l">${rows.map(({ u, d, n }) => `<li><button data-go="basics" class="bpx-r"><span class="bpx-dot" style="background:${u.color}"></span><span class="bpx-t">${esc(u.title)}</span>
+      <span class="bpx-b"><i style="width:${d / n * 100}%;background:${u.color}"></i></span><span class="bpx-n">${d}/${n}</span>${(S.cert||{})[u.id] ? `<span class="pill ok">Passed</span>` : ""}</button></li>`).join("")}</ul></details></section>`;
 }
 
 // ---- course notes: every card of a course on one page, to revise from or teach from
@@ -3929,6 +4023,8 @@ document.addEventListener("click", e => { const b = e.target.closest("[data-ah]"
 
 // ---- tappable words: any glossary term in lessons, questions, explanations and notes opens its meaning
 const GLOSS_MORE = [
+ ["Siddiqin", "The truthful ones (singular siddiq): the believers of the highest rank after the Prophets, whose faith, words and deeds are wholly true. Abu Bakr al-Siddiq رَضِيَ اللَّهُ عَنْهُ is their foremost. Allah lists them with the Prophets, the martyrs and the righteous (al-Nisa' 69)."],
+ ["Siddiq", "Truthful in faith, word and deed. See Siddiqin."],
  ["Madhy", "A thin, clear fluid that comes out with arousal, without spurts. It breaks wudu and must be washed off, but does not need ghusl."],
  ["Wadi", "A thick white fluid that can come out after urinating. It breaks wudu like urine and is washed off."],
  ["Mani", "Sexual fluid, which comes out with desire and in spurts. Its coming out with desire makes ghusl fard."],
@@ -4819,5 +4915,5 @@ const FAM_HON = (() => { const o = {}, f = ["Halimah al-Sa'diyyah", "Umm Ayman (
   f.forEach(n => o[n] = HON.f); m.forEach(n => o[n] = HON.m); return o; })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=53acdbb789");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=214bbfdf81");</script></body>
 </html>
