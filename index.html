@@ -669,6 +669,46 @@ button.td-row{cursor:pointer}button.td-row:active{opacity:.7}button.td-row:focus
 .item.ah{grid-template-columns:1fr auto}
 .sal-tags .pb-chip{padding:7px 12px}.sal-tags .pb-chip.on{background:#1F6B4A;border-color:#1F6B4A;color:#fff}
 .td-list li .td-quick b,.td-list li.ok .td-quick b{color:#fff;opacity:1}.sw-v{align-content:start}
+/* floating tab bar */
+nav.tabs{left:12px!important;right:12px!important;border-top:1px solid rgba(255,255,255,.08)!important;bottom:calc(10px + env(safe-area-inset-bottom,0px));max-width:520px;margin:0 auto;background:rgba(16,32,25,.95)!important;-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.08);border-radius:999px;box-shadow:0 10px 30px rgba(8,20,14,.28)}
+nav.tabs .in{padding:6px!important;gap:2px}
+nav.tabs button{color:#C9D8CF;border-radius:999px;padding:8px 2px 7px!important;font-weight:700;}
+nav.tabs button svg{width:23px;height:23px}
+nav.tabs button[aria-current="page"]{color:#fff;background:#1F6B4A}
+nav.tabs button:focus-visible{outline:2px solid #E9C46A;outline-offset:1px}
+main{padding-bottom:calc(110px + env(safe-area-inset-bottom,0px))!important}
+/* tasbih */
+.tb2{background:#121A16;color:#EEF3EF;border-radius:24px;padding:12px 14px 18px;margin:-4px -4px 0;display:grid;justify-items:center;text-align:center}
+.tb2-top{display:grid;grid-template-columns:44px 1fr 44px 44px;align-items:center;width:100%}.tb2-top h1{margin:0;font-family:Georgia,"Amiri",serif;font-size:1.6rem;color:#fff}
+.tb2-ic{all:unset;box-sizing:border-box;cursor:pointer;width:44px;height:44px;display:grid;place-items:center;border-radius:50%;color:#fff}.tb2-ic svg{width:22px;height:22px}.tb2-ic:focus-visible{outline:2px solid #9FD3B0}
+.tb2-chips{display:flex;gap:8px;overflow-x:auto;width:calc(100% + 28px);margin:10px -14px 0;padding:2px 14px 6px;scrollbar-width:none}.tb2-chips::-webkit-scrollbar{display:none}
+.tb2-chips button{flex:none;font:inherit;font-size:.92rem;padding:8px 16px;border-radius:999px;border:1px solid #3A4A41;background:transparent;color:#EEF3EF;cursor:pointer;white-space:nowrap}
+.tb2-chips button.on{background:#8DBB98;border-color:#8DBB98;color:#10241A;font-weight:700}.tb2-chips button:focus-visible{outline:2px solid #E9C46A;outline-offset:2px}
+.tb2-say{margin:14px 0 0;min-height:52px}.tb2-say .ar{font-size:1.5rem;margin:0;line-height:1.7}.tb2-say p{margin:0;color:#B9C8BE;font-size:.92rem}
+.tb2-n{font-size:4.2rem;font-weight:800;margin:6px 0 4px;line-height:1;font-variant-numeric:tabular-nums}
+.tb2-bar{width:88%;height:8px;border-radius:8px;background:#2A332E;overflow:hidden}.tb2-bar i{display:block;height:100%;background:#8DBB98;border-radius:8px;transition:width .2s}
+.tb2-of{margin:6px 0 0;color:#A9B6AE;font-size:.9rem}
+.tb2-pad{all:unset;box-sizing:border-box;cursor:pointer;width:min(76vw,320px);aspect-ratio:1;border-radius:50%;margin:20px 0 10px;background:radial-gradient(circle at 50% 38%,#A3CDAD,#7FAF8B 70%);box-shadow:0 14px 40px rgba(0,0,0,.35),inset 0 -6px 0 rgba(0,0,0,.12);display:grid;place-items:center;color:#10241A;font-weight:800;font-size:1.1rem;letter-spacing:.02em;-webkit-user-select:none;user-select:none;touch-action:manipulation}
+.tb2-pad:active{transform:scale(.98)}.tb2-pad:focus-visible{outline:3px solid #E9C46A;outline-offset:4px}
+.tb2-foot{display:flex;gap:28px}.tb2-foot button{all:unset;cursor:pointer;padding:10px 12px;color:#D7E1DA;font-size:1.02rem}.tb2-foot .rst{color:#FF8A80}.tb2-foot button:disabled{opacity:.45;cursor:default}.tb2-foot button:focus-visible{outline:2px solid #E9C46A}
+.tb2-all{margin:4px 0 0;color:#A9B6AE;font-size:.82rem}
+.tbf{display:grid;gap:12px}.tbf-top{display:grid;grid-template-columns:44px 1fr 44px;align-items:center}.tbf-top h2{margin:0;text-align:center}
+.tbf-ok{all:unset;cursor:pointer;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:#1F6B4A;color:#fff}.tbf-ok svg{width:22px;height:22px}
+.tbf label{display:grid;gap:6px;font-weight:600;font-size:.92rem}.tbf input,.tbf textarea{font:inherit;padding:12px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.lib-search{display:flex;align-items:center;gap:8px;padding:0 14px;border:1px solid var(--line);border-radius:14px;background:var(--surface);margin:0 0 12px;color:var(--muted)}
+.lib-search input{flex:1;border:0;background:transparent;font:inherit;padding:12px 0;color:var(--ink);min-width:0}.lib-search input:focus{outline:none}.lib-search:focus-within{border-color:var(--brand);box-shadow:0 0 0 3px color-mix(in srgb,var(--brand) 18%,transparent)}
+/* book page view */
+.paper{position:relative;background:#FFFDF8;color:#1B1A17;border-radius:4px;padding:26px 22px 18px;margin:4px 6px 10px 0;box-shadow:0 1px 2px rgba(0,0,0,.08),0 10px 28px rgba(30,25,15,.12),5px 5px 0 -1px #F3EEE3,5px 5px 0 0 #E2DBCB,9px 9px 0 -1px #F3EEE3,9px 9px 0 0 #E2DBCB}
+.paper .para{border:0;background:none;padding:0;margin:0 0 14px}.paper .ar-read{font-family:Amiri,"Noto Naskh Arabic",serif;text-align:justify;text-align-last:right;line-height:2.05}
+.paper .en-read{font-family:Georgia,"Iowan Old Style","Times New Roman",serif;text-align:justify;hyphens:auto;line-height:1.6;color:#2B2924}
+.pp-run{margin:0 0 14px;text-align:center;font-family:Georgia,serif;font-size:.8rem;letter-spacing:.04em;color:#7A746A;font-variant:small-caps}
+.pp-num{margin:16px 0 0;text-align:center;font-family:Georgia,serif;font-size:.85rem;color:#7A746A}
+.pbook{display:grid;gap:8px}.pbook input[type=range]{width:100%;accent-color:#1F6B4A;height:28px}
+.pb-row{display:grid;grid-template-columns:64px 1fr 64px;align-items:center;gap:10px}
+.pb-arrow{all:unset;box-sizing:border-box;cursor:pointer;height:56px;border-radius:18px;display:grid;place-items:center;background:#1F4A33;color:#fff}.pb-arrow:disabled{opacity:.35;cursor:default}.pb-arrow:focus-visible{outline:3px solid #E9C46A;outline-offset:2px}
+.pb-page{justify-self:center;padding:10px 26px;border-radius:14px;background:#B9D6C1;color:#10241A;font-weight:700;font-variant-numeric:tabular-nums}
+@media (prefers-reduced-motion: no-preference){.paper.turn-fwd{animation:pageFwd .35s cubic-bezier(.2,.8,.2,1)}.paper.turn-back{animation:pageBack .35s cubic-bezier(.2,.8,.2,1)}
+  @keyframes pageFwd{from{opacity:0;transform:translateX(40px) rotateY(-8deg)}to{opacity:1;transform:none}}@keyframes pageBack{from{opacity:0;transform:translateX(-40px) rotateY(8deg)}to{opacity:1;transform:none}}}
 
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--line);padding:4px;border-radius:14px}
 .seg button{border:0;background:transparent;border-radius:10px;padding:10px 6px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
@@ -1947,9 +1987,19 @@ function libraryView(){
     return !bs.length ? "" : f ? `<p class="label">${esc(x)} <span class="muted small">${bs.length} books</span></p><div class="shelf">${bs.map(bookCard).join("")}</div>`
       : `<div class="shelf-h"><p class="label">${esc(x)}</p><button class="linkbtn" data-libsub="${esc(x)}">See all ${bs.length}</button></div><div class="shelf row">${bs.map(bookCard).join("")}</div>`; }).join("");
   return shell(`<h1>Library</h1><p class="muted" style="margin:0 0 12px">${books.length} complete books, from the first texts to Sahih al-Bukhari. Free to read, bab by bab.</p>${hlEntries().length ? `<button class="item notesrow" data-go="notes"><span class="hlsw hl-y" aria-hidden="true"></span><span style="flex:1;min-width:0"><span class="t">Your notes</span><br><span class="s">${hlEntries().length} highlights and notes</span></span><span aria-hidden="true">›</span></button>` : ""}
-    ${cont}${chips}${shelves}
+    <div class="lib-search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+      <input id="libq" type="search" placeholder="Search books, authors, subjects" value="${esc(S.libQ || "")}" aria-label="Search the Library" autocomplete="off"></div>
+    <div id="libres">${S.libQ ? libSearch(S.libQ) : `${cont}${chips}${shelves}`}</div>
     <p class="small muted" style="margin-top:18px">Arabic texts from the OpenITI corpus. Harakat and English marked “Awaiting a teacher's check” are waiting for a teacher's check.</p>`);
 }
+// Library search: title, Arabic title, author, subject and description, in English or Arabic
+function libSearch(q){
+  const n = norm(q).trim(), w = n.split(/\s+/).filter(Boolean), bs = LIB().filter(b => { const k = norm([b.title, b.ar, b.author, b.authorAr, b.subject, b.sub, b.when].join(" ")); return w.every(x => k.includes(x)); });
+  return bs.length ? `<p class="label">${bs.length} book${bs.length > 1 ? "s" : ""}</p><div class="shelf">${bs.map(bookCard).join("")}</div>`
+    : `<p class="muted">No book matches “${esc(q)}”. Try an author, e.g. Ghazali, or a subject, e.g. Hadith. To search inside the books, use Search at the top.</p>`;
+}
+document.addEventListener("input", e => { if (e.target.id !== "libq") return; S.libQ = e.target.value; save();
+  const r = document.getElementById("libres"); if (!r) return; if (S.libQ.trim()) { r.innerHTML = libSearch(S.libQ); r.querySelectorAll("[data-book]").forEach(b => b.onclick = () => go({ name:"book", id:b.dataset.book })); } else render(); });
 /* ---- Full-text reader ---- */
 function textView(b){
   const T = TEXTS[b.file], done = S.books[b.id]||[];
@@ -1992,10 +2042,16 @@ function readView(b, i){
       ${hasAr(s.h)?`<h2 class="ar" style="text-align:right;font-size:1.5rem;margin:4px 0 2px">${esc(s.h)}</h2>`:`<h2 style="font-size:1.25rem;margin:4px 0 2px">${esc(s.h)}</h2>`}${s.he?`<p class="muted" style="margin:0 0 8px">${esc(s.he)}</p>`:""}
       <div class="tools" style="margin:6px 0 10px"><button class="tool listen ${AUD.on?"on":""}" id="listen">${AUD.on?ICON.pause+" Pause":ICON.play+" Listen"}</button>
         ${/[\u064B-\u0652]/.test(ar.join(" ").slice(0, 400)) ? `<button class="tool ${tlOn()?"on":""}" id="tg-tl" aria-pressed="${tlOn()}">Aa Transliteration</button>` : ""}${s.en?`<button class="tool ${P.english?"on":""}" id="tg-e">EN English</button>`:""}
-        <button class="tool" id="fsdn" aria-label="Smaller text">A−</button><button class="tool" id="fsup" aria-label="Larger text">A+</button>
+        <button class="tool ${P.book !== false ? "on" : ""}" id="tg-book" aria-pressed="${P.book !== false}">Page view</button><button class="tool" id="fsdn" aria-label="Smaller text">A−</button><button class="tool" id="fsup" aria-label="Larger text">A+</button>
         ${AUD.on?`<button class="tool" id="rate">${P.rate}× speed</button>`:""}</div>
-      ${S.dictUsed && hlEntries().length ? "" : `<p class="small muted" style="margin:0 0 8px">Tip: tap a word to look it up. Press and hold, then select words to highlight them or add a note. Pin a sticky note to any page.</p>`}${typeof stickyHtml === "function" ? stickyHtml(b.id, i) : ""}<div class="card fs${P.size}">${paras}</div>${toolRow(key,false)}</div>
-    <div class="pfoot"><div class="grades two"><button class="grade" id="rprev" style="background:var(--surface);color:var(--ink);border:1px solid var(--line)" ${i===0?"disabled":""}>← Previous</button><button class="grade g2" id="rnext">${i+1<T.sections.length?"✓ Read · next":"✓ Finish"}</button></div></div></div></div>`;
+      ${S.dictUsed && hlEntries().length ? "" : `<p class="small muted" style="margin:0 0 8px">Tip: tap a word to look it up. Press and hold, then select words to highlight them or add a note. Pin a sticky note to any page.</p>`}${typeof stickyHtml === "function" ? stickyHtml(b.id, i) : ""}${P.book !== false
+      ? `<article class="paper ${READ_TURN ? "turn-" + READ_TURN : ""} fs${P.size}" aria-label="Page ${i+1} of ${T.sections.length}"><p class="pp-run">${esc(b.title)}${s.parent ? ` · <span class="${hasAr(s.parent) ? "ar" : ""}">${esc(s.parent)}</span>` : ""}</p>${paras}<p class="pp-num">${(i+1).toLocaleString()}</p></article>`
+      : `<div class="card fs${P.size}">${paras}</div>`}${toolRow(key,false)}</div>
+    ${P.book !== false ? `<div class="pfoot pbook"><input type="range" id="rslide" min="1" max="${T.sections.length}" value="${i+1}" aria-label="Go to page"><div class="pb-row">
+      <button class="pb-arrow" id="rprev" aria-label="Previous page" ${i===0?"disabled":""}><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <span class="pb-page" id="rpage">${i+1} / ${T.sections.length}</span>
+      <button class="pb-arrow" id="rnext" aria-label="${i+1<T.sections.length?"Mark read and go to the next page":"Finish the book"}"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button></div></div>`
+    : `<div class="pfoot"><div class="grades two"><button class="grade" id="rprev" style="background:var(--surface);color:var(--ink);border:1px solid var(--line)" ${i===0?"disabled":""}>← Previous</button><button class="grade g2" id="rnext">${i+1<T.sections.length?"✓ Read · next":"✓ Finish"}</button></div></div>`}</div></div>`;
 }
 /* ---- Dictionary: tap an Arabic word in the reader ----
    Lane's Lexicon (English, public domain) and a classical Arabic dictionary, fetched by the word's first two letters */
@@ -2113,7 +2169,9 @@ async function showLookup(word){
   if (classic) box.querySelectorAll("[data-classic]").forEach(b => { b.nextElementSibling.remove(); b.remove(); });
   box.querySelectorAll("[data-lane]").forEach(b => b.onclick = () => laneInto(b)); box.querySelectorAll("[data-classic]").forEach(b => b.onclick = () => classicInto(b));
 }
+let READ_TURN = "";
 function bindRead(b, i){
+  setTimeout(() => { READ_TURN = ""; }, 0);
   const T = TEXTS[b.file]; bindTools($("#app"), () => { $("#app").innerHTML = readView(b, i); bindRead(b, i); });
   $("#app").querySelectorAll(".ar-read").forEach(p => p.onclick = e => { if (String(getSelection()) || e.target.closest("mark.hl")) return; const w = wordAt(e.clientX, e.clientY); if (normAr(w).length >= 2) showLookup(w); });
   hlBind(b, i); if (typeof stickyBind === "function") stickyBind(b, i);
@@ -2127,10 +2185,18 @@ function bindRead(b, i){
   const rt = $("#rate"); if (rt) rt.onclick = () => { const r = [0.8,1,1.2,1.5]; S.readPrefs.rate = r[(r.indexOf(S.readPrefs.rate)+1) % r.length]; save(); redraw(); speakFrom(b, i, AUD.j); };
   $("#listen").onclick = () => { if (AUD.on) { stopAudio(); redraw(); } else { AUD.on = true; redraw(); speakFrom(b, i, 0); } };
   $("#rquit").onclick = () => { stopAudio(); if (!refBack()) go({ name:"book", id:b.id }); };
-  $("#rprev").onclick = () => { stopAudio(); if (i > 0) openRead(b.id, i-1); };
+  $("#rprev").onclick = () => { stopAudio(); READ_TURN = "back"; if (i > 0) openRead(b.id, i-1); };
+  const tbk = $("#tg-book"); if (tbk) tbk.onclick = () => { S.readPrefs.book = S.readPrefs.book === false; save(); redraw(); };
+  const sl = $("#rslide"); if (sl) { sl.oninput = () => { const pg = $("#rpage"); if (pg) pg.textContent = `${sl.value} / ${T.sections.length}`; };
+    sl.onchange = () => { stopAudio(); const j = +sl.value - 1; if (j !== i) { READ_TURN = j > i ? "fwd" : "back"; openRead(b.id, j); } }; }
+  // swipe the page to turn it, like a book
+  const pb = $(".pbody.reader"); if (pb && S.readPrefs.book !== false) { let x0 = null, y0 = null;
+    pb.addEventListener("touchstart", e => { if (e.touches.length !== 1 || e.target.closest("input,textarea,.sticky")) return; x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, { passive: true });
+    pb.addEventListener("touchend", e => { if (x0 == null || String(getSelection())) return; const dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0; x0 = null;
+      if (Math.abs(dx) > 70 && Math.abs(dx) > Math.abs(dy) * 1.6) { HAPTIC(); if (dx < 0) $("#rnext").click(); else if (i > 0) $("#rprev").click(); } }, { passive: true }); }
   $("#rnext").onclick = () => { const d = S.books[b.id] = S.books[b.id]||[]; const first = !d.includes(i); if (first) d.push(i); S.readDay = today();
     const adv = touchDay(first ? 2 : 0); if (adv) toast(`${S.streak} day streak! Keep going`);
-    stopAudio(); if (i+1 < T.sections.length) openRead(b.id, i+1); else { toast("Book finished, alhamdulillah"); go({ name:"book", id:b.id }); } };
+    stopAudio(); READ_TURN = "fwd"; if (i+1 < T.sections.length) openRead(b.id, i+1); else { toast("Book finished, alhamdulillah"); go({ name:"book", id:b.id }); } };
 }
 /* ---- Listen: device voices now; recorded audio (s.audio[j]) is used when a section has it ---- */
 const AUD = { on:false, j:0, el:null, token:0 };
@@ -3099,31 +3165,64 @@ const DHIKR = [
   ["hawqala", "لَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ", "La hawla wa la quwwata illa billah", "There is no power and no strength except by Allah"],
   ["free", "", "Any dhikr", "Count anything you like"],
 ];
+// ---- Tasbih: one big circle to tap, a count per dhikr, targets and reminders, and counters of your own
+const TB_DEF = { subhan: 33, hamd: 33, akbar: 34, tahlil: 100, istighfar: 100, salawat: 100, hawqala: 100, free: 0 };
+function tbState(){ const T = S.tasbih = S.tasbih || {}; T.d = T.d || "subhan"; T.c = T.c || {}; T.tot = T.tot || {}; T.custom = T.custom || []; T.tgt = T.tgt || {};
+  if (T.n && !T.c[T.d]) { T.c[T.d] = T.n; } delete T.n; return T; }
+function tbItems(T){ return [...DHIKR.map(x => ({ id: x[0], title: x[2], ar: x[1], en: x[3], target: T.tgt[x[0]] ?? TB_DEF[x[0]] ?? 0, marks: [] })),
+  ...T.custom.map(c => ({ id: c.id, title: c.title, ar: "", en: c.note || "", target: c.target || 0, marks: c.marks || [], custom: true }))]; }
 function tasbihView(){
-  const T = S.tasbih = S.tasbih || { d:"subhan", n:0, target:0, tot:{} }, d = DHIKR.find(x => x[0] === T.d) || DHIKR[0];
-  const inRound = T.target ? (T.n % T.target || (T.n ? T.target : 0)) : 0, pct = T.target ? inRound / T.target * 100 : 0, rounds = T.target ? Math.floor((T.n - 1) / T.target) : 0;
-  return shell(`<button class="back" data-go="tools">${ICON.back} Tools</button><h1 style="margin-bottom:8px">Tasbih counter</h1>${tlSwitch()}
-    <div class="tb-chips" role="group" aria-label="Choose a dhikr">${DHIKR.map(x => `<button class="dchip ${x[0] === T.d ? "on" : ""}" data-tbd="${x[0]}" aria-pressed="${x[0] === T.d}">${esc(x[2])}</button>`).join("")}</div>
-    <button class="tb-pad" id="tbtap" aria-label="Count one. ${T.n} so far">
-      ${d[1] ? `<span class="ar tb-ar" lang="ar">${esc(d[1])}</span>${tlOn() ? `<span class="tb-en" style="font-style:italic">${esc(translit(d[1]))}</span>` : ""}` : ""}<span class="tb-en">${esc(d[3])}</span>
-      <span class="tb-n" aria-live="polite">${T.n}</span>
-      ${T.target ? `<span class="tb-ring" style="--p:${pct}%"></span><span class="tb-of">${inRound} of ${T.target}${rounds > 0 ? ` · ${rounds} round${rounds > 1 ? "s" : ""} done` : ""}</span>` : `<span class="tb-of">Counting freely</span>`}
-      <span class="tb-hint">Tap anywhere here</span></button>
-    <div class="tb-row"><label class="small tb-goal">Your target <input id="tbt" type="number" inputmode="numeric" min="1" max="1000000" placeholder="None" value="${T.target || ""}" aria-describedby="tbt-h"></label>
-      <button class="btn ghost small-btn" id="tbundo" ${T.n ? "" : "disabled"}>Undo</button><button class="btn ghost small-btn" id="tbreset" ${T.n ? "" : "disabled"}>Reset</button></div>
-    <p class="small muted" id="tbt-h" style="margin:4px 0 8px">Type any number you like, or leave it empty to count freely. You'll feel a buzz when you reach it.</p>
-    <p class="small muted">All time: ${DHIKR.filter(x => (T.tot||{})[x[0]]).map(x => `${esc(x[2])} ${T.tot[x[0]].toLocaleString()}`).join(" · ") || "nothing yet"}.</p>
-    <details class="exbox"><summary><b>After each prayer</b></summary><p class="small" style="margin:8px 0 0">Subhan Allah 33, al-hamdu lillah 33, Allahu akbar 33 (or 34), then the tahlil once: "Whoever does this after every prayer, his sins are forgiven even if they are like the foam of the sea." Sahih Muslim (597), from Abu Hurayrah رَضِيَ اللَّهُ عَنْهُ.</p></details>`);
+  const T = tbState(), items = tbItems(T), d = items.find(x => x.id === T.d) || items[0], n = T.c[d.id] || 0, tg = d.target;
+  const inRound = tg ? (n % tg || (n ? tg : 0)) : n, rounds = tg && n ? Math.floor((n - 1) / tg) : 0;
+  return shell(`<div class="tb2">
+    <div class="tb2-top"><button class="tb2-ic" data-go="tools" aria-label="Back to Tools">${ICON.back}</button><h1>Tasbih</h1>
+      <button class="tb2-ic" id="tbadd" aria-label="New counter"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+      <button class="tb2-ic" id="tbmore" aria-label="Options for ${esc(d.title)}"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></button></div>
+    <div class="tb2-chips" role="group" aria-label="Choose a counter">${items.map(x => `<button class="${x.id === d.id ? "on" : ""}" data-tbd="${x.id}" aria-pressed="${x.id === d.id}">${esc(x.title)}${x.target ? ` ×${x.target}` : ""}</button>`).join("")}</div>
+    <div class="tb2-say">${d.ar ? `<p class="ar" lang="ar">${esc(d.ar)}</p>` : ""}<p>${esc(d.en)}</p></div>
+    <p class="tb2-n" aria-live="polite" id="tbn">${inRound.toLocaleString()}</p>
+    ${tg ? `<div class="tb2-bar"><i style="width:${inRound / tg * 100}%"></i></div><p class="tb2-of">of ${tg}${rounds ? ` · ${rounds} round${rounds > 1 ? "s" : ""} done` : ""}</p>` : `<p class="tb2-of">counting freely · ${n.toLocaleString()} in all</p>`}
+    <button class="tb2-pad" id="tbtap" aria-label="Count one ${esc(d.title)}"><span>Tap</span></button>
+    <div class="tb2-foot"><button id="tbundo" ${n ? "" : "disabled"}>Undo</button><button id="tbreset" class="rst" ${n ? "" : "disabled"}>Reset</button></div>
+    <p class="tb2-all">All time: ${(T.tot[d.id] || 0).toLocaleString()} ${esc(d.title)}</p>
+  </div>
+  <details class="exbox" style="margin-top:14px"><summary><b>After each prayer</b></summary><p class="small" style="margin:8px 0 0">Subhan Allah 33, al-hamdu lillah 33, Allahu akbar 34. The Prophet ﷺ said whoever says them after every prayer has his sins forgiven, even if they are like the foam of the sea (Sahih Muslim).</p></details>`);
+}
+function tbForm(x){
+  const isNew = !x; x = x || { title: "", start: 0, marks: [33, 66, 99], target: 99, note: "" };
+  modal(`<div class="tbf"><div class="tbf-top"><button class="x" id="tbfx" aria-label="Cancel">${ICON.x}</button><h2>${isNew ? "New counter" : "Edit counter"}</h2><button class="tbf-ok" id="tbfok" aria-label="Save">${ICON.check}</button></div>
+    <label>Title<input id="tbf-t" value="${esc(x.title)}" placeholder="e.g. Astaghfirullah, Surat al-Ikhlas" maxlength="60"></label>
+    <label>Start value<input id="tbf-s" type="number" inputmode="numeric" min="0" value="${x.start || 0}"></label>
+    <label>Reminders <span class="muted small">a buzz at each, e.g. 33, 66, 99</span><input id="tbf-m" value="${(x.marks || []).join(", ")}" inputmode="numeric"></label>
+    <label>Target<input id="tbf-g" type="number" inputmode="numeric" min="0" value="${x.target || ""}" placeholder="None"></label>
+    <label>Note<textarea id="tbf-n" rows="3" placeholder="Why you are reciting it, or its virtue">${esc(x.note || "")}</textarea></label>
+    ${isNew ? "" : `<button class="btn danger-ghost" id="tbfdel" style="margin-top:6px">Delete this counter</button>`}</div>`, (el, close) => {
+    el.querySelector("#tbfx").onclick = close;
+    el.querySelector("#tbfok").onclick = () => { const T = tbState(), t = el.querySelector("#tbf-t").value.trim(); if (!t) { el.querySelector("#tbf-t").focus(); return toast("Give the counter a title"); }
+      const c = { id: x.id || "c" + Date.now().toString(36), title: t, target: Math.max(0, Math.floor(+el.querySelector("#tbf-g").value || 0)),
+        marks: el.querySelector("#tbf-m").value.split(/[^0-9]+/).map(Number).filter(v => v > 0).slice(0, 20), note: el.querySelector("#tbf-n").value.trim(), start: Math.max(0, Math.floor(+el.querySelector("#tbf-s").value || 0)) };
+      const k = T.custom.findIndex(y => y.id === c.id); if (k >= 0) T.custom[k] = c; else { T.custom.push(c); T.c[c.id] = c.start; }
+      T.d = c.id; save(); close(); render(); };
+    const del = el.querySelector("#tbfdel"); if (del) del.onclick = () => { const T = tbState(); T.custom = T.custom.filter(y => y.id !== x.id); delete T.c[x.id]; T.d = "subhan"; save(); close(); render(); };
+  });
+  document.querySelector(".modal:last-of-type").classList.add("sheet");
 }
 function bindTasbih(){
-  const T = S.tasbih; const tap = $("#tbtap"); const on = document.querySelector(".tb-chips .on"); if (on) on.parentNode.scrollLeft = on.offsetLeft - 16;
-  if (tap) tap.onclick = () => { T.n++; T.tot = T.tot || {}; T.tot[T.d] = (T.tot[T.d] || 0) + 1; save();
-    const hit = T.target && T.n % T.target === 0; if (navigator.vibrate) navigator.vibrate(hit ? [60, 60, 60] : 8);
-    if (hit) toast(`${T.target} done. Alhamdulillah`); render(); };
-  document.querySelectorAll("[data-tbd]").forEach(b => b.onclick = () => { T.d = b.dataset.tbd; T.n = 0; save(); render(); });
-  const t = $("#tbt"); if (t) t.onchange = () => { const v = Math.floor(+t.value); T.target = v > 0 ? Math.min(v, 1000000) : 0; save(); render(); };
-  const u = $("#tbundo"); if (u) u.onclick = () => { if (T.n) { T.n--; T.tot[T.d] = Math.max(0, (T.tot[T.d]||1) - 1); save(); render(); } };
-  const r = $("#tbreset"); if (r) r.onclick = () => { T.n = 0; save(); render(); };
+  const T = tbState(), items = tbItems(T), d = items.find(x => x.id === T.d) || items[0];
+  const on = document.querySelector(".tb2-chips .on"); if (on) on.parentNode.scrollLeft = on.offsetLeft - 16;
+  const tap = $("#tbtap"); if (tap) tap.onclick = () => { const n = (T.c[d.id] || 0) + 1; T.c[d.id] = n; T.tot[d.id] = (T.tot[d.id] || 0) + 1; save();
+    const hit = d.target && n % d.target === 0, mark = d.marks.includes(n);
+    if (hit || mark) { HAPTIC(); setTimeout(() => HAPTIC(), 140); setTimeout(() => HAPTIC(), 280); } else HAPTIC();
+    if (hit) toast(`${d.target} done. Alhamdulillah`); else if (mark) toast(`${n} reached`);
+    tap.classList.remove("pulse"); void tap.offsetWidth; tap.classList.add("pulse"); setTimeout(render, 0); };
+  document.querySelectorAll("[data-tbd]").forEach(b => b.onclick = () => { T.d = b.dataset.tbd; save(); render(); });
+  const u = $("#tbundo"); if (u) u.onclick = () => { if (T.c[d.id]) { T.c[d.id]--; T.tot[d.id] = Math.max(0, (T.tot[d.id] || 1) - 1); save(); render(); } };
+  const r = $("#tbreset"); if (r) r.onclick = () => confirmBox(`Reset ${d.title} to ${d.custom ? (T.custom.find(c => c.id === d.id).start || 0) : 0}?`, () => { T.c[d.id] = d.custom ? (T.custom.find(c => c.id === d.id).start || 0) : 0; save(); render(); }, "Reset", "Keep counting");
+  const a = $("#tbadd"); if (a) a.onclick = () => tbForm();
+  const m = $("#tbmore"); if (m) m.onclick = () => { if (d.custom) return tbForm(T.custom.find(c => c.id === d.id));
+    modal(`<h2 style="margin-top:0">${esc(d.title)}</h2><label class="tbf">Target for this dhikr<input id="tbg" type="number" inputmode="numeric" min="0" value="${d.target || ""}" placeholder="None"></label>
+      <div class="btnrow" style="margin-top:12px"><button class="btn ghost" id="tbgx">Cancel</button><button class="btn" id="tbgok">Save</button></div>`, (el, close) => {
+      el.querySelector("#tbgx").onclick = close; el.querySelector("#tbgok").onclick = () => { T.tgt[d.id] = Math.max(0, Math.floor(+el.querySelector("#tbg").value || 0)); save(); close(); render(); }; }); };
 }
 function toolsRender(app){
   if (view.name === "dalail") { app.innerHTML = dalailView(view.n, view.x); return true; }
@@ -3741,7 +3840,7 @@ async function ensureAppIndex(){
   ch([...LINEAGE.agreed, ...LINEAGE.historians], "lineage", "The Prophet's ﷺ lineage");
   ch([...FAMILY.parents, ...FAMILY.wives, ...FAMILY.children, ...FAMILY.children.flatMap(c => c[3])], "family", "The family of the Prophet ﷺ");
   ch([...PROPHETS.quran, ...PROPHETS.hadith, ...PROPHETS.books, ...PROPHETS.differ], "prophets", "The Prophets عَلَيْهِمُ السَّلَامُ");
-  LIB().forEach(b => add("Book", b.title, `${b.ar || ""} ${b.author || ""} ${b.desc || ""}`, `Library · ${b.subject}`, "", { a: "book", id: b.id }));
+  LIB().forEach(b => add("Book", b.title, `${b.ar || ""} ${b.author || ""} ${b.sub || ""}`, `Library · ${b.subject}`, "", { a: "book", id: b.id }));
   APP_TOOLS.forEach(([t, v]) => add("Tool", t, "", "Tools", "", { a: "go", v }));
   return (APPIDX = A);
 }
@@ -4559,5 +4658,5 @@ const FAM_HON = (() => { const o = {}, f = ["Halimah al-Sa'diyyah", "Umm Ayman (
   f.forEach(n => o[n] = HON.f); m.forEach(n => o[n] = HON.m); return o; })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=c6ec8b531c");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=f2a0cb16ff");</script></body>
 </html>
