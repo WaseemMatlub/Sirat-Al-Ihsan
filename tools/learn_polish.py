@@ -812,6 +812,15 @@ def polish(courses):
         ls.insert(i + 1, les)
     return courses
 
+import learn_tilawah as TL
+_polish3c = polish
+def polish(courses):
+    courses = _polish3c(courses)
+    if not any(c["id"] == "tilawah" for c in courses):
+        i = next(k for k, c in enumerate(courses) if c["id"] == "fiqh")
+        courses.insert(i + 1, TL.COURSE)
+    return courses
+
 # ---- Qur'an verses on the lessons, then tappable references into the Library
 import learn_ayat as _AY, learn_refs as _RF
 _polish4 = polish

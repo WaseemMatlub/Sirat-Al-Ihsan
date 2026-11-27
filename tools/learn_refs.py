@@ -21,7 +21,7 @@ BOOKS = [
  ("riyad al-salihin", "t_riyad", "riyad"), ("sunan al-tirmidhi", "t_tirmidhi", "tirmidhi"), ("al-tirmidhi", "t_tirmidhi", "tirmidhi"),
  ("sunan abi dawud", "t_abudawud", "abudawud"), ("sunan ibn majah", "t_ibnmajah", "ibnmajah"),
  ("sunan al-nasa'i", "t_nasai", "nasai"), ("al-nawawi's forty", "t_arbain", "arbain"),
- ("qur'an", "t_jalalayn", "jalalayn"),
+ ("qur'an", "t_jalalayn", "jalalayn"), ("al-muqaddimah al-jazariyyah", "t_jazariyya", "jazariyya"),
 ]
 # Arabic chapter to open, per lesson and book, for texts without English to match against
 KEY = {
@@ -127,6 +127,13 @@ def resolve(src, text, lid):
             if not num: return None
             if m.group(3): return jal_ref(num, int(m.group(3)))
             return jal_ref(num, int(m.group(2)))
+        if f == "jazariyya":
+            JZ = {"points of articulation": 1, "qualities": 2, "tajweed": 3, "ra's": 5, "lams": 6, "doubled nun": 10, "nun sakinah": 11,
+                  "lengthening": 12, "stopping": 13, "conclusion": 18}
+            ch = next((v for k, v in JZ.items() if k in low), None)
+            if ch is None: return None
+            hit = by_english(f, text, None, None, "", [ch])
+            return {"b": lib, "i": ch, "j": hit[1] if hit and hit[0] == ch else 0}
         secs, paras = load(f)[:2]
         num = re.search(r"\((\d+)\)", s)
         if f in HADITH and num:

@@ -1247,7 +1247,7 @@ function bindReadLinks(root){ root.querySelectorAll("[data-read]").forEach(b => 
 let LEARN = null, LS = null;
 const LEARN_DECK = { aqeedah:["fard_aqeedah"], fiqh:["fard_tahara","fard_salah","fard_sawm","fard_zakat"] };
 const OLD_TOPIC = { belief:"aqeedah", purity:"fiqh", prayer:"fiqh", fasting:"fiqh", zakat:"fiqh", heart:"tazkiyah" };
-async function loadLearn(){ if (LEARN) return LEARN; try { LEARN = await fetch("data/learn.json?v=4b156b16").then(r => r.json()); } catch(e){ LEARN = []; } return LEARN; }
+async function loadLearn(){ if (LEARN) return LEARN; try { LEARN = await fetch("data/learn.json?v=a89bafc6").then(r => r.json()); } catch(e){ LEARN = []; } return LEARN; }
 const learnDone = id => !!(S.learn||{})[id];
 function nextLearn(){ for (const u of LEARN||[]) for (let k = 0; k < u.lessons.length; k++) if (!learnDone(u.lessons[k].id)) return { u, k }; return null; }
 function learnHome(){
@@ -1255,7 +1255,7 @@ function learnHome(){
   const nx = nextLearn(), u = LEARN.find(x => x.id === (OLD_TOPIC[S.topic] || S.topic)) || (nx && nx.u) || LEARN[0];
   const d = u.lessons.filter(l => learnDone(l.id)).length, n = u.lessons.length, pct = Math.round(d / n * 100);
   const head = `<button class="topic" id="topic-change" aria-haspopup="dialog" style="--uc:${u.color}">
-    <span class="tp-ico ar" aria-hidden="true">${({aqeedah:"ع",fiqh:"ف",halal:"ح",doubts:"ي",seerah:"س",quran:"ق",tazkiyah:"ت",sahabah:"ص",adab:"أ"})[u.id] || ""}</span>
+    <span class="tp-ico ar" aria-hidden="true">${({aqeedah:"ع",fiqh:"ف",halal:"ح",doubts:"ي",seerah:"س",quran:"ق",tazkiyah:"ت",sahabah:"ص",adab:"أ",tilawah:"ج"})[u.id] || ""}</span>
     <span class="tp-mid"><span class="tp-k">Course</span><span class="tp-t">${esc(u.title)}</span>
       <span class="tp-p"><span class="bar"><i style="width:${Math.max(2, pct)}%;background:${u.color}"></i></span><span class="tp-n">${d}/${n}</span></span></span>
     <span class="tp-ch">Change<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></button>
@@ -1374,7 +1374,7 @@ function renderSwipe(start){
   const cards = LS.l.cards, n = cards.length, steps = LS.steps.length;
   $("#app").innerHTML = `<div class="player"><div class="player-in"><div class="phead"><button class="x" id="quit" aria-label="Leave lesson">${ICON.x}</button><div class="bar"><i id="pbar" style="background:${LS.u.color}"></i></div></div>
     <div class="kicker swipe-k">${esc(LS.l.title)}</div>
-    <div class="swipe" id="swipe" style="--uc:${LS.u.color}" tabindex="0" aria-roledescription="carousel" aria-label="Lesson cards, swipe to move between them">${cards.map((c, j) => `<article class="card learncard sw-card" aria-roledescription="slide" aria-label="Card ${j+1} of ${n}"><h2>${esc(c.t)}</h2>${c.ar ? `<p class="ayah ar" lang="ar">${esc(c.ar)}</p><p class="ayah-en">‘${esc(c.x)}’</p>` : `<p>${esc(c.x)}</p>`}${srcLine(c, "From")}</article>`).join("")}</div>
+    <div class="swipe" id="swipe" style="--uc:${LS.u.color}" tabindex="0" aria-roledescription="carousel" aria-label="Lesson cards, swipe to move between them">${cards.map((c, j) => `<article class="card learncard sw-card" aria-roledescription="slide" aria-label="Card ${j+1} of ${n}"><h2>${esc(c.t)}</h2>${c.ar ? `<p class="ayah ar" lang="ar">${esc(c.ar)}</p><p class="ayah-en">${c.q ? `‘${esc(c.x)}’` : esc(c.x)}</p>` : `<p>${esc(c.x)}</p>`}${srcLine(c, "From")}</article>`).join("")}</div>
     <div class="dots" aria-hidden="true">${cards.map(() => `<i></i>`).join("")}</div>
     <div class="pfoot swipe-foot"><button class="btn ghost" id="prev" aria-label="Previous card">${ICON.back}</button><button class="btn" id="next"></button></div></div></div>`;
   const sw = $("#swipe"), dots = [...document.querySelectorAll(".dots i")], prev = $("#prev"), next = $("#next"), bar = $("#pbar");
@@ -3238,10 +3238,11 @@ function tlDecorate(root){
 /* ============================ STUDY: how a new student moves through the basics ============================
    Today's plan (one lesson, a short review, one practice), spaced review of questions from finished lessons,
    the full path through the basics, a final test per course, and a glossary of the words students meet. */
-const BASICS_ORDER = ["aqeedah", "fiqh", "adab", "seerah", "sahabah", "quran", "tazkiyah", "halal", "doubts"];
+const BASICS_ORDER = ["aqeedah", "fiqh", "tilawah", "adab", "seerah", "sahabah", "quran", "tazkiyah", "halal", "doubts"];
 const BASICS_WHY = {
   aqeedah:"First, because every other act rests on correct belief about Allah and His Messenger ﷺ.",
   fiqh:"Then how to purify yourself, pray, fast, give zakat and perform Hajj, the Hanafi way.",
+  tilawah:"Read the Arabic letters and recite al-Fatihah and the Qur'an correctly, with the basic rules of tajweed.",
   adab:"Living the Sunnah every day: waking, eating, greeting, sleeping, guarding the limbs, and passing knowledge on.",
   seerah:"Know the one you follow: the life of the Prophet ﷺ.",
   sahabah:"Know and love those who carried the religion to us: the Companions and the Prophet's family ﷺ.",
@@ -3549,6 +3550,21 @@ const GLOSS_MORE = [
  ["Suhur", "The pre-dawn meal before a fast."],
  ["I'tikaf", "Staying in the masjid with the intention of worship, especially the last ten nights of Ramadan."],
  ["Laylat al-Qadr", "The Night of Power in the last ten nights of Ramadan, better than a thousand months."],
+ ["Fathah", "The short vowel 'a', a small line above the letter."],
+ ["Kasrah", "The short vowel 'i', a small line below the letter."],
+ ["Dammah", "The short vowel 'u', a small waw above the letter."],
+ ["Sukun", "A small circle above a letter: it has no vowel."],
+ ["Shaddah", "A sign above a letter that doubles it."],
+ ["Tanween", "A doubled vowel sign at the end of a word, adding an 'n' sound: -an, -in, -un."],
+ ["Ghunnah", "The nasal sound from the nose, held about two counts, in nun and mim."],
+ ["Madd", "Lengthening a long vowel: two counts naturally, up to six in some cases."],
+ ["Qalqalah", "A slight bounce on the letters ق ط ب ج د when they have a sukun."],
+ ["Makhraj", "The point in the mouth or throat a letter comes from (plural makharij)."],
+ ["Izhar", "Saying the nun or mim clearly, without hiding or merging it."],
+ ["Idgham", "Merging one letter into the next."],
+ ["Iqlab", "Turning a nun sakinah or tanween into a hidden mim before ba'."],
+ ["Ikhfa'", "Hiding a letter: saying it lightly through the nose, between clear and merged."],
+ ["Hafs", "The narration of the Qur'an from Imam 'Asim through Hafs, the one most Muslims recite today."],
  ["Ruqyah", "Healing by reciting the Qur'an and prophetic du'as over someone."],
 ];
 const GLOSS_ALIAS = { "Istinja'":["istinja"], "Istibra'":["istibra"], "Rak'ah":["rak'ahs","rakah","rakat"], "Wudu":["wudu'","ablution"], "Sujud":["sajdah","prostration"],
@@ -3609,5 +3625,5 @@ document.addEventListener("click", e => { const b = e.target.closest(".gl-w"); i
   new MutationObserver(() => { if (q) return; q = requestAnimationFrame(() => { q = 0; glDecorate(app); }); }).observe(app, { childList:true, subtree:true }); })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=4615492e0c");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=47ab65121e");</script></body>
 </html>

@@ -1,8 +1,8 @@
-const V="ihsan-4615492e0c", D="ihsan-data", F="ihsan-fonts";
+const V="ihsan-47ab65121e", D="ihsan-data", F="ihsan-fonts";
 const CORE=["./","index.html","manifest.json","icon-192.png","icon-512.png","data/meta.json"];
 self.addEventListener("push",e=>{let d={};try{d=e.data.json()}catch(x){d={title:"Dār aṣ-Ṣiddīq",body:e.data?e.data.text():""}} e.waitUntil(self.registration.showNotification(d.title||"Dār aṣ-Ṣiddīq",{body:d.body||"",icon:"icon-192.png",badge:"icon-192.png",tag:"streak"}))});
 self.addEventListener("notificationclick",e=>{e.notification.close(); e.waitUntil(clients.matchAll({type:"window"}).then(ws=>{for(const w of ws){if("focus" in w) return w.focus()} return clients.openWindow("./")}))});
-self.addEventListener("install",e=>{e.waitUntil(caches.open(V).then(c=>c.addAll(CORE)).then(()=>caches.open(D)).then(c=>c.addAll(["data/learn.json?v=4b156b16","data/guides.json","data/salawat.json","data/duas.json","data/dalail.json","data/quotes.json","data/decks/fard_aqeedah.json","data/decks/fard_tahara.json","data/decks/fard_salah.json","data/decks/fard_sawm.json","data/decks/fard_zakat.json"]).catch(()=>{})).then(()=>self.skipWaiting()))});
+self.addEventListener("install",e=>{e.waitUntil(caches.open(V).then(c=>c.addAll(CORE)).then(()=>caches.open(D)).then(c=>c.addAll(["data/learn.json?v=a89bafc6","data/guides.json","data/salawat.json","data/duas.json","data/dalail.json","data/quotes.json","data/decks/fard_aqeedah.json","data/decks/fard_tahara.json","data/decks/fard_salah.json","data/decks/fard_sawm.json","data/decks/fard_zakat.json"]).catch(()=>{})).then(()=>self.skipWaiting()))});
 self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k.startsWith("ihsan-")&&![V,D,F].includes(k)).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
 /* Three stores: V = the app itself (replaced on each update), D = lessons, books and audio (kept across updates, refreshed in the background),
    F = fonts. So anything learnt or saved for offline stays available without internet. */
