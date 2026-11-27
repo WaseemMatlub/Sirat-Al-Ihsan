@@ -1286,8 +1286,8 @@ function tutorSheet(what){
     <button class="btn ghost" id="tut-x" style="margin-top:10px">Close</button>`, (el, close) => { el.querySelector("#tut-x").onclick = close; el.onclick = e => { if (e.target === el) close(); }; });
 }
 function topicSheet(){
-  const d = modal(`<h2 style="margin:4px 0 4px;text-align:center">Switch course</h2><p class="small muted" style="text-align:center;margin:0 0 14px">Every lesson is open. Each course follows a classical book, and every card has been checked against its source text.</p>
-    <div class="stack">${LEARN.map(u => { const dn = u.lessons.filter(l => learnDone(l.id)).length, on = (OLD_TOPIC[S.topic] || S.topic || (nextLearn()||{u:LEARN[0]}).u.id) === u.id;
+  const d = modal(`<h2 style="margin:4px 0 4px;text-align:center">Switch course</h2><p class="small muted" style="text-align:center;margin:0 0 14px">Every lesson is open. Each course follows a classical book, and every point names its source: tap it to read the book.</p>
+    <div class="stack">${(typeof basicsCourses === "function" ? basicsCourses() : LEARN).map(u => { const dn = u.lessons.filter(l => learnDone(l.id)).length, on = (OLD_TOPIC[S.topic] || S.topic || (nextLearn()||{u:LEARN[0]}).u.id) === u.id;
       return `<button class="item noico topic-i ${on ? "on" : ""}" data-topic="${u.id}" style="--uc:${u.color}"><span style="flex:1;min-width:0"><span class="t">${esc(u.title)}</span><br><span class="s">${esc(u.sub)}</span><br><span class="s src-l">Based on ${esc(u.book || "")}</span></span><span class="small muted">${dn}/${u.lessons.length}</span></button>`; }).join("")}</div>
     <button class="btn ghost" id="topic-x" style="margin-top:14px">Close</button>`, (el, close) => {
       el.querySelectorAll("[data-topic]").forEach(b => b.onclick = () => { S.topic = b.dataset.topic; save(); close(); render(); });
@@ -1301,7 +1301,7 @@ function fitLearnCards(){
   const k = u.lessons.findIndex(l => !learnDone(l.id));
   if (k > 0 && c.children[k]) { const to = c.scrollLeft + c.children[k].getBoundingClientRect().left - c.getBoundingClientRect().left - 16;
     c.style.scrollSnapType = "none"; c.scrollTo({ left: Math.max(0, to), behavior: "instant" }); requestAnimationFrame(() => { c.style.scrollSnapType = ""; }); }
-  const ch = $("#topic-change"); if (ch) ch.onclick = () => go({ name:"basics" });
+  const ch = $("#topic-change"); if (ch) ch.onclick = topicSheet;
 }
 function unitView(id){
   const u = (LEARN||[]).find(x => x.id === id); if (!u) { loadLearn().then(render); return shell(`<p class="muted">Loading…</p>`); }
@@ -3649,5 +3649,5 @@ document.addEventListener("click", e => { const b = e.target.closest(".gl-w"); i
   new MutationObserver(() => { if (q) return; q = requestAnimationFrame(() => { q = 0; glDecorate(app); }); }).observe(app, { childList:true, subtree:true }); })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=fb5f6a429b");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=ffe08f73d2");</script></body>
 </html>
