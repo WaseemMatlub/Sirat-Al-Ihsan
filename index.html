@@ -534,6 +534,9 @@ mark.hl.has-note{border-bottom:2px solid #8A6D00}
 .gloss{margin:14px 0 0}.gloss>div{padding:12px 0;border-top:1px solid var(--line)}.gloss dt{font-weight:700}.gloss dt.ar{font-size:1.25rem}.gloss dd{margin:3px 0 0;color:var(--ink-2,var(--ink));line-height:1.55}
 .recap details{flex:1;min-width:0}.recap summary{cursor:pointer;list-style:none;display:flex;flex-direction:column}.recap summary::-webkit-details-marker{display:none}
 .rc-tap{font-size:.8rem;color:var(--brand);font-weight:600;margin-top:2px}.recap details[open] .rc-tap{display:none}.recap .rc-x{margin:6px 0 0}
+.xp-plus{margin-left:auto;font-size:.78rem;font-weight:800;color:#8A6A12;background:#FBF1D6;border-radius:999px;padding:2px 8px}
+.xp-t{color:#8A6A12}.nsec{margin:0 0 18px}.nsec h2{font-size:1.05rem;margin:0 0 6px}.nsec p{margin:0 0 8px;line-height:1.6}
+@media print{.tabs,.top,.no-print,header{display:none!important}.nsec{break-inside:avoid}}
 
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--line);padding:4px;border-radius:14px}
 .seg button{border:0;background:transparent;border-radius:10px;padding:10px 6px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
@@ -1154,9 +1157,9 @@ function applyTheme(){ const t = S.theme || "auto", r = document.documentElement
 function go(v){ if (typeof stopAudio === "function" && AUD.on) stopAudio(); view = v; render(); window.scrollTo(0,0); }
 function shell(inner){
   return `<header class="topbar"><button class="brandmark" data-go="home" aria-label="Dār aṣ-Ṣiddīq, go to home">${ICON.logo}<span>Dār aṣ-Ṣiddīq</span></button>
-    <div class="stats"><button class="chip iconbtn" data-go="search" aria-label="Search">${ICON.search}</button><button class="chip iconbtn" data-go="settings" aria-label="Settings">${ICON.gear}</button><button class="chip mini" data-go="profile" aria-label="${S.streak} day streak">${ICON.flame.replace("<svg",'<svg width="14" height="14"')}${S.streak}</button><button class="chip mini xp" data-go="profile" aria-label="${S.xp} XP">${ICON.star.replace("<svg",'<svg width="14" height="14"').replace("var(--brand)","var(--gold)")}${S.xp >= 10000 ? (S.xp/1000).toFixed(0)+"k" : S.xp}</button></div></header>
+    <div class="stats"><button class="chip iconbtn" data-go="search" aria-label="Search">${ICON.search}</button><button class="chip iconbtn" data-go="settings" aria-label="Settings">${ICON.gear}</button><button class="chip mini" data-go="profile" aria-label="${S.streak} day streak">${ICON.flame.replace("<svg",'<svg width="14" height="14"')}${S.streak}</button><button class="chip mini xp" data-golb="1" aria-label="${S.xp} XP, open the leaderboard">${ICON.star.replace("<svg",'<svg width="14" height="14"').replace("var(--brand)","var(--gold)")}${S.xp >= 10000 ? (S.xp/1000).toFixed(0)+"k" : S.xp}</button></div></header>
     <main>${inner}</main>
-    <nav class="tabs"><div class="in"><button data-go="home" ${["home","unit","duas","salawat","dalail","basics","glossary","cards"].includes(view.name)?'aria-current="page"':""}>${ICON.home}Learn</button><button data-go="syllabus" ${["syllabus","year","spec","live"].includes(view.name)||(view.name==="book"&&!isLibBook())?'aria-current="page"':""}>${ICON.learn}Course</button><button data-go="library" ${view.name==="library"||isLibBook()?'aria-current="page"':""}>${ICON.shelf}Library</button><button data-go="tools" ${["tools","guide","qibla","qada","zakat","inherit"].includes(view.name)?'aria-current="page"':""}>${ICON.tools}Tools</button><button data-go="profile" ${view.name==="profile"?'aria-current="page"':""}>${ICON.user}Progress</button></div></nav>`;
+    <nav class="tabs"><div class="in"><button data-go="home" ${["home","unit","duas","salawat","dalail","basics","glossary","cards","notes"].includes(view.name)?'aria-current="page"':""}>${ICON.home}Learn</button><button data-go="syllabus" ${["syllabus","year","spec","live"].includes(view.name)||(view.name==="book"&&!isLibBook())?'aria-current="page"':""}>${ICON.learn}Course</button><button data-go="library" ${view.name==="library"||isLibBook()?'aria-current="page"':""}>${ICON.shelf}Library</button><button data-go="tools" ${["tools","guide","qibla","qada","zakat","inherit"].includes(view.name)?'aria-current="page"':""}>${ICON.tools}Tools</button><button data-go="profile" ${view.name==="profile"?'aria-current="page"':""}>${ICON.user}Progress</button></div></nav>`;
 }
 /* First visit: three short steps, then straight into learning */
 const ARCH = (w=170) => `<svg class="arch" viewBox="0 0 200 240" width="${w}" aria-hidden="true"><defs><pattern id="ob-p" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M10 1l2.6 6.4L19 10l-6.4 2.6L10 19l-2.6-6.4L1 10l6.4-2.6z" fill="none" stroke="#E2C27A" stroke-width=".7" opacity=".45"/></pattern></defs>
@@ -1233,7 +1236,7 @@ function bindReadLinks(root){ root.querySelectorAll("[data-read]").forEach(b => 
 let LEARN = null, LS = null;
 const LEARN_DECK = { aqeedah:["fard_aqeedah"], fiqh:["fard_tahara","fard_salah","fard_sawm","fard_zakat"] };
 const OLD_TOPIC = { belief:"aqeedah", purity:"fiqh", prayer:"fiqh", fasting:"fiqh", zakat:"fiqh", heart:"tazkiyah" };
-async function loadLearn(){ if (LEARN) return LEARN; try { LEARN = await fetch("data/learn.json?v=9e7709c8").then(r => r.json()); } catch(e){ LEARN = []; } return LEARN; }
+async function loadLearn(){ if (LEARN) return LEARN; try { LEARN = await fetch("data/learn.json?v=f26b387c").then(r => r.json()); } catch(e){ LEARN = []; } return LEARN; }
 const learnDone = id => !!(S.learn||{})[id];
 function nextLearn(){ for (const u of LEARN||[]) for (let k = 0; k < u.lessons.length; k++) if (!learnDone(u.lessons[k].id)) return { u, k }; return null; }
 function learnHome(){
@@ -1241,7 +1244,7 @@ function learnHome(){
   const nx = nextLearn(), u = LEARN.find(x => x.id === (OLD_TOPIC[S.topic] || S.topic)) || (nx && nx.u) || LEARN[0];
   const d = u.lessons.filter(l => learnDone(l.id)).length, n = u.lessons.length, pct = Math.round(d / n * 100);
   const head = `<button class="topic" id="topic-change" aria-haspopup="dialog" style="--uc:${u.color}">
-    <span class="tp-ico ar" aria-hidden="true">${({aqeedah:"ع",fiqh:"ف",halal:"ح",doubts:"ي",seerah:"س",quran:"ق",tazkiyah:"ت"})[u.id] || ""}</span>
+    <span class="tp-ico ar" aria-hidden="true">${({aqeedah:"ع",fiqh:"ف",halal:"ح",doubts:"ي",seerah:"س",quran:"ق",tazkiyah:"ت",sahabah:"ص",adab:"أ"})[u.id] || ""}</span>
     <span class="tp-mid"><span class="tp-k">Course</span><span class="tp-t">${esc(u.title)}</span>
       <span class="tp-p"><span class="bar"><i style="width:${Math.max(2, pct)}%;background:${u.color}"></i></span><span class="tp-n">${d}/${n}</span></span></span>
     <span class="tp-ch">Change<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span></button>
@@ -1320,7 +1323,7 @@ function renderLearn(){
         return `<button class="opt ${cls}" data-o="${i}" ${LS.answered ? "disabled" : ""}>${esc(o)}</button>`; }).join("")}</div>`;
     if (!LS.answered) foot = `<div class="pfoot"><button class="btn" id="check" ${LS.sel === null ? "disabled" : ""}>Check answer</button></div>`;
     else { const ok = st.options[LS.sel] === st.answer;
-      body += `<section class="explain-box ${ok ? "ok" : "bad"}" role="status"><p class="eb-h"><span>Explanation</span><span class="eb-tag">${ok ? ICON.check.replace("<svg",'<svg width="13" height="13"') + " Correct" : "✕ Incorrect"}</span></p>
+      body += `<section class="explain-box ${ok ? "ok" : "bad"}" role="status"><p class="eb-h"><span>Explanation</span><span class="eb-tag">${ok ? ICON.check.replace("<svg",'<svg width="13" height="13"') + " Correct" : "✕ Incorrect"}</span>${ok && st.gotXp ? `<span class="xp-plus">+2 XP</span>` : ""}</p>
         ${ok ? "" : `<p class="eb-a">The answer is: <b>${esc(st.answer)}</b></p>`}<p>${esc(st.why || "")}</p>${st.src ? `<p class="eb-src">Source: ${esc(st.src)}</p>` : ""}</section>`;
       foot = `<div class="pfoot"><button class="btn" id="next">Next</button></div>`; }
     }
@@ -1329,7 +1332,7 @@ function renderLearn(){
   document.querySelectorAll("[data-o]").forEach(x => x.onclick = () => { LS.sel = +x.dataset.o; renderLearn(); });
   const ck = $("#check"); if (ck) ck.onclick = () => { LS.answered = true;
     if (st.key && !st.retry) (LS.res = LS.res || {})[st.key] = st.options[LS.sel] === st.answer;
-    if (st.options[LS.sel] === st.answer) { if (!st.retry) LS.right++; }
+    if (st.options[LS.sel] === st.answer) { if (!st.retry) { LS.right++; LS.xp = (LS.xp || 0) + 2; st.gotXp = true; } }
     else { LS.fixed = (LS.fixed || 0) + (st.retry ? 0 : 1);   // wrong: it comes back before the recap, until it is answered right
       const r0 = LS.steps.findIndex(x => x.kind === "recap"), r = r0 < 0 ? LS.steps.length : r0; LS.steps.splice(r, 0, { ...st, retry:true, options:shuffle([...st.options]) }); }
     renderLearn(); };
@@ -1373,10 +1376,10 @@ function finishLearn(){
     $("#cont").onclick = () => { S.topic = u.id; save(); LS = null; go({ name:"home" }); };
     return;
   }
-  S.learn = { ...(S.learn||{}), [l.id]: Date.now() }; rvAddLesson(l); markToday("lesson"); const adv = touchDay(first ? 10 : 2); save();
+  S.learn = { ...(S.learn||{}), [l.id]: Date.now() }; rvAddLesson(l); markToday("lesson"); const earned = (first ? 10 : 2) + (LS.xp || 0), adv = touchDay(earned); save();
   const next = u.lessons[k+1];
   $("#app").innerHTML = `<div class="player"><div class="player-in"><div class="done-screen"><h2>Lesson complete</h2><p class="muted">${esc(l.title)}</p>
-    <div class="tiles"><div class="tile"><b>${Math.round(right / l.checks.length * 100)}%</b><span>Lesson score</span></div><div class="tile"><b>${S.streak}</b><span>Day streak</span></div></div>
+    <div class="tiles"><div class="tile"><b>${Math.round(right / l.checks.length * 100)}%</b><span>Lesson score</span></div><div class="tile"><b>${S.streak}</b><span>Day streak</span></div><div class="tile"><b class="xp-t">+${earned}</b><span>XP earned</span></div></div>
     ${LS.fixed ? `<p class="small muted" style="margin-top:14px">You went back over ${LS.fixed} question${LS.fixed > 1 ? "s" : ""} until you got ${LS.fixed > 1 ? "them" : "it"} right.</p>` : `<p class="small muted" style="margin-top:14px">Every answer right first time. Mā shā' Allāh.</p>`}</div>
     <div class="pfoot">${next ? `<button class="btn" id="nextl">Next: ${esc(next.title)}</button>` : ""}<button class="btn ${next ? "ghost" : ""}" id="cont">${next ? "Continue later" : "Done"}</button></div></div></div>`;
   if (adv) toast(`${S.streak} day streak! Keep going`);
@@ -2301,6 +2304,7 @@ function render(){ appBadge(); checkUnlock(); if (typeof hlHideBar === "function
   else if (view.name === "cards") { app.innerHTML = cardsView(); }
   else if (view.name === "basics") { app.innerHTML = basicsView(); }
   else if (view.name === "glossary") { app.innerHTML = glossaryView(); }
+  else if (view.name === "notes") { app.innerHTML = notesView(); }
   else if (view.name === "year") { const yy = yearOf(view.n);
     if (!loaded(yy)) { app.innerHTML = shell(`<p class="muted">Loading Year ${view.n}…</p>`); loadYear(view.n).then(() => { if (!S.unlocked.includes(view.n)) { S.unlocked.push(view.n); save(); } render(); }, () => toast("Could not load this year. Check your connection.")); return; }
     if (!S.unlocked.includes(view.n)) { S.unlocked.push(view.n); save(); }
@@ -2373,7 +2377,9 @@ function render(){ appBadge(); checkUnlock(); if (typeof hlHideBar === "function
       S.log = S.log.concat(Array(60).fill(1)); save(); go({ name:"year", n:y.n }); }); };
   const rs = $("#reset"); if (rs) rs.onclick = resetFlow;
 }
-if (S.harakat === false) { delete S.harakat; save(); }   // harakat are always shown now
+if (S.harakat === false) { delete S.harakat; save(); }
+document.addEventListener("click", e => { if (!e.target.closest("[data-golb]")) return; go({ name:"profile" });
+  let n = 0; const t = setInterval(() => { const el = document.getElementById("lb"); if ((el && !el.hidden) || ++n > 20) { clearInterval(t); if (el) el.scrollIntoView({ behavior:"smooth", block:"start" }); } }, 150); });   // harakat are always shown now
 document.addEventListener("click", e => { const b = e.target.closest("[data-golive]"); if (b) go({ name:"live", book:b.dataset.golive || null }); });
 applyTheme(); if (S.arSize) document.documentElement.style.setProperty("--arz", S.arSize);
 try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch(e){}   // ask the browser not to clear saved progress
@@ -3203,11 +3209,13 @@ function tlDecorate(root){
 /* ============================ STUDY: how a new student moves through the basics ============================
    Today's plan (one lesson, a short review, one practice), spaced review of questions from finished lessons,
    the full path through the basics, a final test per course, and a glossary of the words students meet. */
-const BASICS_ORDER = ["aqeedah", "fiqh", "seerah", "quran", "tazkiyah", "halal", "doubts"];
+const BASICS_ORDER = ["aqeedah", "fiqh", "adab", "seerah", "sahabah", "quran", "tazkiyah", "halal", "doubts"];
 const BASICS_WHY = {
   aqeedah:"First, because every other act rests on correct belief about Allah and His Messenger ﷺ.",
   fiqh:"Then how to purify yourself, pray, fast, give zakat and perform Hajj, the Hanafi way.",
+  adab:"Living the Sunnah every day: waking, eating, greeting, sleeping, guarding the limbs, and passing knowledge on.",
   seerah:"Know the one you follow: the life of the Prophet ﷺ.",
+  sahabah:"Know and love those who carried the religion to us: the Companions and the Prophet's family ﷺ.",
   quran:"How the Qur'an came down and was kept safe, word for word.",
   tazkiyah:"Purifying the heart: sincerity, humility and remembrance.",
   halal:"Earning, eating and dealing in what is lawful.",
@@ -3251,12 +3259,12 @@ function finishSpecial(){
   if (LS.review) {
     Object.entries(LS.res).forEach(([k, ok]) => { const v = S.rv[k] || { iv:1 };
       v.iv = ok ? Math.min(180, Math.max(3, Math.round(v.iv * 2.5))) : 1; v.d = today() + v.iv; S.rv[k] = v; });
-    markToday("review"); touchDay(2 * n); save();
-    endScreen("Review done", `${n} question${n > 1 ? "s" : ""} from your lessons`, [[`${Math.round(pct * 100)}%`, "Right first time"], [S.streak, "Day streak"]],
+    markToday("review"); const earned = LS.xp || 0; touchDay(earned); save();
+    endScreen("Review done", `${n} question${n > 1 ? "s" : ""} from your lessons`, [[`${Math.round(pct * 100)}%`, "Right first time"], [`+${earned}`, "XP earned"]],
       "Questions you knew come back in a few days, then weeks. Ones you missed come back tomorrow.", `<button class="btn" id="cont">Done</button>`);
   } else {
     const pass = pct >= 0.8, u = LS.u;
-    if (pass) { S.cert = { ...(S.cert||{}), [u.id]: Date.now() }; touchDay(50); save(); }
+    if (pass) { S.cert = { ...(S.cert||{}), [u.id]: Date.now() }; touchDay(50 + (LS.xp || 0)); save(); }
     endScreen(pass ? "Test passed" : "Not passed yet", esc(LS.l.title), [[`${Math.round(pct * 100)}%`, "Right first time"], ["80%", "Needed to pass"]],
       pass ? `Mā shā' Allāh. ${esc(u.title)} is marked complete on your Progress page.` : "Go back over the lessons you found hard, then take the test again. Every test picks different questions.",
       `${pass ? "" : `<button class="btn" id="again">Try again</button>`}<button class="btn ${pass ? "" : "ghost"}" id="cont">${pass ? "Done" : "Later"}</button>`);
@@ -3303,7 +3311,7 @@ function basicsView(){
             ${nxt < 0 ? `<button class="btn small-btn ${cert ? "ghost" : ""}" data-final="${u.id}">${cert ? "Retake the final test" : "Take the final test"}</button>` : ""}
             ${cert ? `<span class="pill ok">Passed</span>` : ""}</div>
           <details class="bp-ls"><summary>All ${n} lessons</summary><ol>${u.lessons.map((l, k) => `<li><button class="linkbtn" data-learn="${u.id}|${k}">${learnDone(l.id) ? "✓ " : ""}${esc(l.title)}</button></li>`).join("")}</ol></details>
-          <p class="small muted" style="margin:6px 0 0">Based on ${esc(u.book || "")}</p></div></li>`; }).join("")}</ol>
+          <p class="small muted" style="margin:6px 0 0">Based on ${esc(u.book || "")} · <button class="linkbtn small" data-notes="${u.id}">Course notes</button></p></div></li>`; }).join("")}</ol>
     <button class="item noico" data-go="glossary" style="margin-top:14px"><span style="flex:1"><span class="t">Words to know</span><br><span class="s">Wudu, fard, sunnah, najasah… every term from the lessons, explained simply</span></span><span class="pill">Open</span></button>
     <button class="item noico" data-go="syllabus" style="margin-top:8px"><span style="flex:1"><span class="t">After the basics: the Course</span><br><span class="s">The classical books year by year, for students of knowledge</span></span><span class="pill">Open</span></button>`);
 }
@@ -3416,6 +3424,18 @@ function basicsProgress(){
       <span class="bp-p" style="margin-top:6px"><span class="bar"><i style="width:${Math.max(2, d / n * 100)}%;background:${u.color}"></i></span><span class="small">${d}/${n}</span></span></span>${c ? `<span class="pill ok">Passed</span>` : ""}</button>`; }).join("")}</div>`;
 }
 
+// ---- course notes: every card of a course on one page, to revise from or teach from
+function notesView(){
+  if (!LEARN) { loadLearn().then(render); return shell(`<p class="muted">Loading…</p>`); }
+  const u = LEARN.find(x => x.id === view.id); if (!u) return shell(`<p class="muted">Not found.</p>`);
+  return shell(`<div class="no-print"><button class="back" data-go="basics">${ICON.back} The basics</button></div>
+    <h1 style="margin-bottom:4px">${esc(u.title)}: notes</h1>
+    <p class="muted" style="margin:0 0 6px">Every point from the ${u.lessons.length} lessons, in order. Use it to revise, or to teach your family and friends what you have learnt.</p>
+    <p class="small muted no-print" style="margin:0 0 14px">Based on ${esc(u.book || "")}. <button class="linkbtn small" id="nprint">Print or save as PDF</button></p>
+    ${u.lessons.map((l, k) => `<section class="nsec"><h2>${k + 1}. ${esc(l.title)}</h2>${l.cards.map(c => `<p><b>${esc(c.t)}.</b> ${esc(c.x)} <span class="small muted">(${esc(c.src)})</span></p>`).join("")}</section>`).join("")}`);
+}
+document.addEventListener("click", e => { const b = e.target.closest("[data-notes]"); if (b) go({ name:"notes", id:b.dataset.notes }); if (e.target.closest("#nprint")) window.print(); });
+
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=3c9a53f35b");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=001b503b50");</script></body>
 </html>

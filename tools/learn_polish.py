@@ -658,3 +658,25 @@ APPEND.update({
  "heart3": [("What is backbiting (ghibah)?", "Mentioning a person in a way they would dislike", ["Praising someone behind their back", "Giving advice privately", "Telling the truth in court"], "Even if it is true. If it is false, it is slander.", "Ihya' 'Ulum al-Din"),
             ("The Prophet ﷺ said whoever believes in Allah and the Last Day should…", "Speak good or stay silent", ["Speak often", "Never speak", "Only speak in Arabic"], "Narrated by al-Bukhari and Muslim.", "Sahih al-Bukhari")],
 })
+
+
+# ---- third pass: Companions and Ahl al-Bayt, daily adab, more Seerah (tools/learn_more.py)
+import learn_more3 as LM
+def _lesson(t):
+    lid, title, about, cards, checks = t
+    for q, a, w, y, src in checks: assert len(w) == 3 and a not in w, (lid, q)
+    return {"id": lid, "title": title, "about": about,
+            "cards": [{"t": a, "x": b, "src": c if ("," in c or c.startswith(("Qur'an", "Hadith"))) else f"{c}, {title}"} for a, b, c in cards],
+            "checks": [{"q": q, "a": a, "w": w, "why": y, "src": src} for q, a, w, y, src in checks]}
+_polish1 = polish
+def polish(courses):
+    courses = _polish1(courses)
+    sr = next(c for c in courses if c["id"] == "seerah")
+    for after, t in LM.SEERAH_MORE:
+        if any(l["id"] == t[0] for l in sr["lessons"]): continue
+        i = next(k for k, l in enumerate(sr["lessons"]) if l["id"] == after)
+        sr["lessons"].insert(i + 1, _lesson(t))
+    for C in (LM.SAHABAH, LM.ADAB):
+        if any(c["id"] == C["id"] for c in courses): continue
+        courses.append({**{k: v for k, v in C.items() if k != "lessons"}, "lessons": [_lesson(t) for t in C["lessons"]]})
+    return courses
