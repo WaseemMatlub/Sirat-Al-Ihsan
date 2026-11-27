@@ -646,6 +646,29 @@ button.td-row{cursor:pointer}button.td-row:active{opacity:.7}button.td-row:focus
 .chart-b:focus-visible{outline:2px solid var(--brand);outline-offset:2px}.chart-b:active{transform:scale(.99)}.chart-b>span:last-child{display:grid;gap:2px}
 .chart-ic{flex:none;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:color-mix(in srgb,var(--brand) 10%,var(--surface));color:var(--brand)}
 @media (prefers-reduced-motion: no-preference){.lineage.go .fam-g,.lineage.go .fam-top{animation:lnIn .45s ease both;animation-delay:calc(var(--d) * 55ms)}}
+.card-ill{display:block;flex:none;width:calc(100% + 40px);max-width:none;margin:-22px -20px 16px;aspect-ratio:2/1;max-height:180px;object-fit:cover;border-radius:0}
+.sw-card:has(.card-ill){justify-content:flex-start}
+.ln-hon{font-size:.92rem;font-weight:400;color:var(--muted);white-space:nowrap}
+/* salawat */
+.sal-quick{display:flex;align-items:center;gap:14px;padding:14px;border-radius:18px;background:#1F6B4A;color:#fff;margin:6px 0 12px}
+.sq-k{margin:0;font-size:.8rem;opacity:.85;font-weight:600}.sq-n{margin:0;font-size:2rem;font-weight:800;line-height:1.1;font-variant-numeric:tabular-nums}.sq-s{margin:0;opacity:.85}
+.sq-btn{all:unset;box-sizing:border-box;cursor:pointer;flex:1;display:grid;justify-items:center;gap:4px;padding:12px;border-radius:14px;background:#F3E6C4;color:#14402C;text-align:center;min-height:72px}
+.sq-btn .ar{font-size:1.3rem;line-height:1.6}.sq-t{font-size:.8rem;font-weight:700}.sq-btn:focus-visible,.sal-count:focus-visible,.td-quick:focus-visible{outline:3px solid #E9C46A;outline-offset:2px}
+.sal-why{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;margin:0 -16px 12px;padding:2px 16px 6px;scrollbar-width:none}.sal-why::-webkit-scrollbar{display:none}
+.sw-v{flex:0 0 78%;scroll-snap-align:start;display:grid;gap:4px;padding:12px 14px;border:1px solid var(--line);border-radius:14px;background:var(--surface);font-size:.9rem;line-height:1.45}.sw-s{font-size:.75rem;color:var(--muted)}
+.sal-tags{margin:0 0 12px}
+.sal-head{display:flex;align-items:flex-start;gap:12px;justify-content:space-between}.sal-name{margin:0;font-size:1.1rem;line-height:1.3}
+.sal-count{all:unset;box-sizing:border-box;cursor:pointer;flex:none;display:grid;justify-items:center;min-width:64px;padding:6px 10px;border-radius:14px;background:#1F6B4A;color:#fff}
+.sal-count b{font-size:1.05rem;font-variant-numeric:tabular-nums}.sal-count span{font-size:.72rem;font-weight:700;opacity:.9}
+.sal-story{margin:8px 0;padding:10px 12px;border-radius:12px;background:#FBF1D6}.sal-story summary{font-weight:700;cursor:pointer}.sal-story p{margin:8px 0 0;line-height:1.6}
+.td-sal{gap:8px}.td-main{all:unset;box-sizing:border-box;cursor:pointer;flex:1;min-width:0;display:flex;align-items:center;gap:12px}
+.td-quick{all:unset;box-sizing:border-box;cursor:pointer;flex:none;display:grid;justify-items:center;min-width:58px;padding:6px 8px;border-radius:14px;background:#1F6B4A;color:#fff}
+.td-quick .ar{font-size:1.2rem;line-height:1.3}.td-quick b{font-size:.85rem;font-variant-numeric:tabular-nums}
+@media (prefers-reduced-motion: no-preference){.pulse{animation:optPop .3s ease}}
+.ah-k{display:inline-block;font-size:.7rem;font-weight:700;color:var(--brand);background:color-mix(in srgb,var(--brand) 10%,var(--surface));border-radius:999px;padding:1px 8px;margin-bottom:3px}.ah-w{display:block;margin-top:3px;font-size:.76rem}
+.item.ah{grid-template-columns:1fr auto}
+.sal-tags .pb-chip{padding:7px 12px}.sal-tags .pb-chip.on{background:#1F6B4A;border-color:#1F6B4A;color:#fff}
+.td-list li .td-quick b,.td-list li.ok .td-quick b{color:#fff;opacity:1}.sw-v{align-content:start}
 
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--line);padding:4px;border-radius:14px}
 .seg button{border:0;background:transparent;border-radius:10px;padding:10px 6px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
@@ -1521,7 +1544,7 @@ function renderSwipe(start){
   const cards = LS.l.cards, n = cards.length, steps = LS.steps.length;
   $("#app").innerHTML = `<div class="player"><div class="player-in"><div class="phead"><button class="x" id="quit" aria-label="Leave lesson">${ICON.x}</button><div class="bar"><i id="pbar" style="background:${LS.u.color}"></i></div></div>
     <div class="kicker swipe-k">${esc(LS.l.title)}</div>
-    <div class="swipe" id="swipe" style="--uc:${LS.u.color}" tabindex="0" aria-roledescription="carousel" aria-label="Lesson cards, swipe to move between them">${cards.map((c, j) => `<article class="card learncard sw-card" aria-roledescription="slide" aria-label="Card ${j+1} of ${n}"><h2>${esc(c.t)}</h2>${c.ar ? `<p class="ayah ar" lang="ar">${esc(c.ar)}</p><p class="ayah-en">${c.q ? `‘${esc(c.x)}’` : esc(c.x)}</p>` : `<p>${esc(c.x)}</p>`}${listenRow(c)}${c.view ? `<button class="btn ghost ln-open" data-goview="${c.view}">${esc(c.btn || "Open")}</button>` : ""}${srcLine(c, "From")}</article>`).join("")}</div>
+    <div class="swipe" id="swipe" style="--uc:${LS.u.color}" tabindex="0" aria-roledescription="carousel" aria-label="Lesson cards, swipe to move between them">${cards.map((c, j) => `<article class="card learncard sw-card" aria-roledescription="slide" aria-label="Card ${j+1} of ${n}">${c.ar || c.view ? "" : cardImg(LS.u, LS.k ?? 0, c, j)}<h2>${esc(c.t)}</h2>${c.ar ? `<p class="ayah ar" lang="ar">${esc(c.ar)}</p><p class="ayah-en">${c.q ? `‘${esc(c.x)}’` : esc(c.x)}</p>` : `<p>${esc(c.x)}</p>`}${listenRow(c)}${c.view ? `<button class="btn ghost ln-open" data-goview="${c.view}">${esc(c.btn || "Open")}</button>` : ""}${srcLine(c, "From")}</article>`).join("")}</div>
     <div class="dots" aria-hidden="true">${cards.map(() => `<i></i>`).join("")}</div>
     <div class="pfoot swipe-foot"><button class="btn ghost" id="prev" aria-label="Previous card">${ICON.back}</button><button class="btn" id="next"></button></div></div></div>`;
   const sw = $("#swipe"), dots = [...document.querySelectorAll(".dots i")], prev = $("#prev"), next = $("#next"), bar = $("#pbar");
@@ -1828,14 +1851,14 @@ function buildIndex(){
 function searchResults(q){
   const n = norm(q).trim(); if (n.length < 2) return savedList();
   if (!INDEX) buildIndex();
-  const words = n.split(/\s+/), hits = INDEX.filter(x => words.every(w => x.k.includes(w))).slice(0, 60);
-  if (!hits.length) return `<p class="muted">No matches for “${esc(q)}”.</p>`;
-  return `<p class="label">${hits.length===60?"First 60":hits.length} results</p><div class="stack">${hits.map((h,j)=>`<button class="item" data-hit="${j}"><span class="ico art-ico">${artFor(h.src,36)}</span><span style="min-width:0">${h.a?`<span class="t ar" style="display:block;font-size:1.1rem">${esc(snip(h.a,70))}</span>`:""}<span class="s" style="display:block">${esc(snip(h.e.replace(/^ — /,""),110))}</span><span class="s">${esc(h.src.title)} · Year ${h.y}</span></span></button>`).join("")}</div>`;
+  const words = n.split(/\s+/), hits = INDEX.filter(x => words.every(w => x.k.includes(w))).slice(0, 60), app = typeof appResults === "function" ? appResults(q) : "";
+  if (!hits.length) return app || `<p class="muted">No matches for “${esc(q)}”. Try another spelling, e.g. wudu or wudoo, or search in Arabic.</p>`;
+  return `${app}<p class="label">In the books and flashcards (${hits.length===60?"first 60":hits.length})</p><div class="stack">${hits.map((h,j)=>`<button class="item" data-hit="${j}"><span class="ico art-ico">${artFor(h.src,36)}</span><span style="min-width:0">${h.a?`<span class="t ar" style="display:block;font-size:1.1rem">${esc(snip(h.a,70))}</span>`:""}<span class="s" style="display:block">${esc(snip(h.e.replace(/^ — /,""),110))}</span><span class="s">${esc(h.src.title)} · Year ${h.y}</span></span></button>`).join("")}</div>`;
 }
 function savedList(){
   const items = (S.saved||[]).map(k => ({ k, it:itemByKey(k) })).filter(x => x.it && x.it.kind !== "sec");
   const secs = (S.saved||[]).map(k => ({ k, it:itemByKey(k) })).filter(x => x.it && x.it.kind === "sec");
-  return `<p class="muted small">Type at least two letters, in English or Arabic. Searches every book and flashcard in the years you have opened.</p>
+  return `<p class="muted small">Type at least two letters, in English or Arabic.</p>
     <p class="label">${ICON.saved.replace("<svg",'<svg width="14" height="14" style="vertical-align:-2px"')} Saved (${items.length})</p>
     ${savedSecs() ? `<div class="stack" style="margin-bottom:8px">${savedSecs()}</div>` : ""}
     ${items.length ? `<div class="stack">${items.map(({k,it})=>{ const a = it.kind==="card" ? (it.c.fa?it.c.f:it.c.ba?it.c.b:"") : it.l.ar||"", e = it.kind==="card" ? (it.c.fa?"":it.c.f) : it.l.en;
@@ -1866,7 +1889,7 @@ function bindResults(){
     modal(`<div style="max-height:70vh;overflow:auto">${body}</div><div class="btnrow" style="margin-top:12px"><button class="btn" id="mok">Close</button></div>`, (d,c)=>d.querySelector("#mok").onclick=c); });
 }
 function searchView(){
-  return shell(`<h1>Search</h1><p class="muted" style="margin:0 0 12px">Find any line, hadith or flashcard you have unlocked.</p>
+  return shell(`<h1>Search</h1><p class="muted" style="margin:0 0 12px">Search everything: lessons, words, salawat, du'as, guides, the Prophets, and every book and flashcard. Each result shows where it comes from.</p>
     <input id="sq" class="search" type="search" placeholder="e.g. wudu, Dajjal, رحمة" value="${esc(view.q||"")}" autocomplete="off" aria-label="Search">
     ${LIB().every(b => TEXTS[b.file]) ? "" : `<button class="btn ghost" id="loadall" style="margin-top:10px">Also search the full books in the Library</button>`}
     <div id="sres" style="margin-top:12px">${searchResults(view.q||"")}</div>`);
@@ -2547,7 +2570,8 @@ function render(){ appBadge(); checkUnlock(); if (typeof hlHideBar === "function
   app.querySelectorAll("[data-place]").forEach(b => b.onclick = () => { const n = +b.dataset.place; b.disabled = true; b.textContent = "Preparing the test…"; loadYear(n).then(() => startTest(n, true), () => { toast("Could not load the test. Check your connection."); b.disabled = false; }); });
   app.querySelectorAll("[data-libsub]").forEach(c => c.onclick = () => { S.libSub = c.dataset.libsub; save(); render(); });
   const la = $("#loadall"); if (la) la.onclick = async () => { la.disabled = true; la.textContent = "Loading the books…"; try { await Promise.all(LIB().map(b => loadText(b.file))); } catch(e){ toast("Some books could not load"); } INDEX = null; render(); };
-  const sq = $("#sq"); if (sq){ sq.oninput = () => { view.q = sq.value; $("#sres").innerHTML = searchResults(sq.value); bindResults(); }; bindResults(); if (view.q !== undefined) { sq.focus(); sq.setSelectionRange(sq.value.length, sq.value.length); } }
+  const sq = $("#sq"); if (sq && typeof ensureAppIndex === "function" && !APPIDX) ensureAppIndex().then(() => { const x = $("#sq"); if (x && view.name === "search" && norm(x.value).trim().length >= 2) { $("#sres").innerHTML = searchResults(x.value); bindResults(); } });
+  if (sq){ sq.oninput = () => { view.q = sq.value; $("#sres").innerHTML = searchResults(sq.value); bindResults(); }; bindResults(); if (view.q !== undefined) { sq.focus(); sq.setSelectionRange(sq.value.length, sq.value.length); } }
   const sd = $("#sendall"); if (sd) sd.onclick = async () => { const ok = await sendReports(S.reports.filter(r=>!r.sent)); if (ok) { toast("Thank you, jazak Allahu khayran"); render(); } };
   ["en","ar"].forEach(l => { const sel = $(`#v-${l}`); if (sel) sel.onchange = () => { S.voices = S.voices||{}; S.voices[l] = sel.value; save(); }; });
   app.querySelectorAll("[data-vtest]").forEach(b => b.onclick = () => { if (!hasTTS()) return toast("This device can't read aloud"); const l = b.dataset.vtest; speechSynthesis.cancel(); AUD.token++;
@@ -2951,20 +2975,37 @@ function duaRows(){
     ${grow("", "rabbana", "", "The 40 Rabbana", "Du'as from the Qur'an that begin 'Our Lord'", GICO.rabbana)}
     ${grow("", "ghazali", "", "Imam al-Ghazali's du'as", "A day of worship from his Beginning of Guidance, with wudu step by step", GICO.ghazali)}</div>`;
 }
+// ---- Salawat: a quick counter at the top, then every salawat with its own counter beside its name
+const SAL_TAGS = [["all", "All"], ["short", "Short"], ["hadith", "From the hadith"], ["story", "With a story"], ["reward", "Great reward"], ["awliya", "Of the awliya'"]];
+const salToday = () => { const d = new Date().toDateString(), x = S.salDay || {}; return x.d === d ? x.n : 0; };
+function salAdd(id){ S.salCount = S.salCount || {}; S.salCount[id] = (S.salCount[id] || 0) + 1;
+  const d = new Date().toDateString(); S.salDay = { d, n: (S.salDay && S.salDay.d === d ? S.salDay.n : 0) + 1 }; S.salTotal = (S.salTotal || 0) + 1;
+  save(); if (typeof markToday === "function") markToday("practice"); if (typeof HAPTIC === "function") HAPTIC(); }
 function salawatView(){
   if (!SALAWAT) { loadSalawat().then(render); return shell(`<p class="muted">Loading…</p>`); }
-  const cnt = S.salCount || {};
-  return shell(`<button class="back" data-go="home">${ICON.back} Home</button><h1>Salawat on the Prophet ﷺ</h1>
-    <p class="muted" style="margin:0 0 6px">${esc(SALAWAT.intro)}</p><p class="small muted" style="margin:0 0 14px">${esc(SALAWAT.introSrc)}</p>${arSizeCtl()}
-    <button class="item dl-entry" data-go="dalail"><span class="dl-ico ar" aria-hidden="true">د</span><span style="flex:1;min-width:0"><span class="t">Dala'il al-Khayrat</span><br><span class="s">Imam al-Jazuli's salawat, one hizb a day</span></span><span aria-hidden="true">›</span></button>
-    ${SALAWAT.items.map(x => `<section class="card pad sal" id="sal-${x.id}"><h2 style="margin:0 0 2px">${esc(x.name)}</h2><p class="small muted" style="margin:0 0 10px">${esc(x.by)}</p>
+  const cnt = S.salCount || {}, f = SAL_TAGS.some(t => t[0] === S.salTag) ? S.salTag : "all";
+  const list = SALAWAT.items.filter(x => f === "all" || (x.tags || []).includes(f));
+  return shell(`<button class="back" data-go="home">${ICON.back} Home</button><h1 style="margin-bottom:6px">Salawat on the Prophet ﷺ</h1>
+    <section class="sal-quick" aria-label="Quick counter"><div><p class="sq-k">Today</p><p class="sq-n" id="sq-n">${salToday().toLocaleString()}</p><p class="sq-s small">${(S.salTotal || 0).toLocaleString()} in all</p></div>
+      <button class="sq-btn" data-sal="short" aria-label="Count one salawat: Allahumma salli 'ala Muhammad"><span class="ar" lang="ar">اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ</span><span class="sq-t">Tap to send salawat</span></button></section>
+    <div class="sal-why" tabindex="0" aria-label="Why send salawat: swipe for more">${(SALAWAT.virtues || []).map(v => `<div class="sw-v"><b>${esc(v.t)}</b><span>${esc(v.x)}</span><span class="sw-s">${esc(v.src)}</span></div>`).join("")}</div>
+    <div class="pb-chips sal-tags" role="tablist" aria-label="Show">${SAL_TAGS.map(([k, t]) => `<button class="pb-chip ${k === f ? "on" : ""}" role="tab" aria-selected="${k === f}" data-saltag="${k}">${t}</button>`).join("")}</div>
+    ${arSizeCtl()}
+    ${list.map(x => `<section class="card pad sal" id="sal-${x.id}"><div class="sal-head"><div style="min-width:0"><h2 class="sal-name">${esc(x.name)}</h2><p class="small muted" style="margin:2px 0 0">${esc(x.by)}</p></div>
+        <button class="sal-count" data-sal="${x.id}" aria-label="Count one: ${esc(x.name)}"><b data-salc="${x.id}">${(cnt[x.id] || 0).toLocaleString()}</b><span>+1</span></button></div>
       <p class="ar sal-ar" lang="ar" dir="rtl">${esc(x.ar)}</p>${tlLine(x.ar)}${x.en ? `<p class="sal-en">${esc(x.en)}</p>` : ""}
-      <div class="sal-src"><p><b>Source:</b> ${esc(x.src)}</p>${x.virtue ? `<p><b>Virtue:</b> ${esc(x.virtue)}</p>` : ""}${x.grade ? `<p class="small muted">${esc(x.grade)}</p>` : ""}</div>
-      <div class="sal-c"><button class="btn small-btn" data-sal="${x.id}">Count one</button><span class="small muted">${(cnt[x.id]||0).toLocaleString()} recited</span></div></section>`).join("")}
-    ${SALAWAT.pending ? `<p class="small muted">${esc(SALAWAT.pending.replace(/ and Dala'il al-Khayrat of Imam al-Jazuli رَحِمَهُ اللَّهُ/, ""))}</p>` : ""}`);
+      ${x.story ? `<details class="sal-story"><summary>The story</summary><p>${esc(x.story)}</p></details>` : ""}
+      <div class="sal-src">${x.virtue ? `<p><b>Virtue:</b> ${esc(x.virtue)}</p>` : ""}<p><b>Source:</b> ${esc(x.src)}</p>${x.grade ? `<p class="small muted">${esc(x.grade)}</p>` : ""}</div></section>`).join("")}
+    <button class="item dl-entry" data-go="dalail"><span class="dl-ico ar" aria-hidden="true">د</span><span style="flex:1;min-width:0"><span class="t">Dala'il al-Khayrat</span><br><span class="s">Imam al-Jazuli's salawat, one hizb a day</span></span><span aria-hidden="true">›</span></button>
+    ${SALAWAT.pending ? `<p class="small muted">${esc(SALAWAT.pending)}</p>` : ""}`);
 }
-function bindSalawat(){ document.querySelectorAll("[data-sal]").forEach(b => b.onclick = () => { S.salCount = S.salCount || {}; S.salCount[b.dataset.sal] = (S.salCount[b.dataset.sal]||0) + 1; save();
-  const s = b.nextElementSibling; if (s) s.textContent = S.salCount[b.dataset.sal].toLocaleString() + " recited"; if (navigator.vibrate) navigator.vibrate(8); }); }
+function bindSalawat(){
+  document.querySelectorAll("[data-sal]").forEach(b => b.onclick = () => { const id = b.dataset.sal; salAdd(id);
+    document.querySelectorAll(`[data-salc="${id}"]`).forEach(c => c.textContent = S.salCount[id].toLocaleString());
+    const n = document.getElementById("sq-n"); if (n) n.textContent = salToday().toLocaleString();
+    b.classList.remove("pulse"); void b.offsetWidth; b.classList.add("pulse"); });
+  document.querySelectorAll("[data-saltag]").forEach(b => b.onclick = () => { S.salTag = b.dataset.saltag; save(); render(); });
+}
 function bindSalCard(){ document.querySelectorAll(".salcard [data-sal]").forEach(b => b.onclick = () => { S.salCount = S.salCount || {}; const k = b.dataset.sal; S.salCount[k] = (S.salCount[k]||0) + 1; save();
   const c = document.querySelector(`[data-salc="${k}"]`); if (c) c.textContent = S.salCount[k].toLocaleString(); if (navigator.vibrate) navigator.vibrate(8); }); }
 
@@ -3507,10 +3548,15 @@ function todayCard(){
       ${row(t.review || (!due && t.lesson), "review", due ? `Review ${due} question${due > 1 ? "s" : ""}` : "Review",
           due ? "From lessons you finished. Coming back to them is what makes them stick." : (Object.keys(S.rv||{}).length ? "Nothing due today. Questions come back on later days." : "Questions from lessons you finish come back here on later days."),
           due ? `id="rvgo"` : "")}
-      ${row(t.practice, "salawat", "Send salawat upon the Prophet ﷺ", t.practice ? "Done today. For each one, Allah sends ten blessings upon you (Muslim)." : "A few minutes with the salawat or the tasbih counter", `data-go="salawat"`)}
+      <li class="${t.practice ? "ok" : ""}"><div class="td-row td-sal"><button class="td-main" data-go="salawat"><span class="td-ic" aria-hidden="true">${IC.salawat}${t.practice ? `<span class="td-tick">${tick}</span>` : ""}</span>
+        <span class="td-m"><b>Send salawat upon the Prophet ﷺ</b><span class="td-s">Tap the green button to send one, or open for many more</span></span></button>
+        <button class="td-quick" data-salq aria-label="Send one salawat. ${salToday()} today"><span class="ar" lang="ar">ﷺ</span><b id="td-salc">${salToday() || "+1"}</b></button></div></li>
     </ol></section>`;
 }
-document.addEventListener("click", e => { if (e.target.closest("#rvgo")) startReview(); });
+document.addEventListener("click", e => { if (e.target.closest("#rvgo")) startReview();
+  const q = e.target.closest("[data-salq]"); if (!q) return; salAdd("short"); const c = document.getElementById("td-salc"); if (c) c.textContent = salToday();
+  q.setAttribute("aria-label", `Send one salawat. ${salToday()} today`); q.classList.remove("pulse"); void q.offsetWidth; q.classList.add("pulse");
+  const li = q.closest("li"); if (li && !li.classList.contains("ok")) setTimeout(() => render(), 350); });
 
 // ---- the full path through the basics
 function basicsView(){
@@ -3674,6 +3720,53 @@ async function saveBasicsOffline(btn){
   if (failed) { st.textContent = `Saved most of it; ${failed} couldn't be fetched. Try again on Wi-Fi.`; return; }
   S.offlineBasics = Date.now(); save(); st.textContent = "Saved. Sources now open without internet."; btn.textContent = "Update";
 }
+
+// ---- Search across the whole app: lessons, questions, words, salawat, du'as, guides, charts, books and tools
+let APPIDX = null, APPHITS = [];
+const APP_TOOLS = [["Qibla finder", "qibla"], ["Tasbih counter", "tasbih"], ["Zakat calculator", "zakat"], ["Inheritance calculator", "inherit"], ["Qada' prayers", "qada"], ["Arabic dictionary", "dict"], ["Words to know (glossary)", "glossary"], ["Salawat on the Prophet ﷺ", "salawat"], ["Du'as", "duas"], ["The basics, the whole path", "basics"]];
+async function ensureAppIndex(){
+  if (APPIDX) return APPIDX;
+  await Promise.all([loadLearn(), loadSalawat(), loadDuas(), loadGuides()]);
+  const A = [], add = (kind, t, x, where, src, open) => A.push({ kind, t, x: x || "", where, src: src || "", open, kt: norm(t), k: norm(`${t} ${x || ""} ${where || ""} ${src || ""}`) });
+  (LEARN || []).forEach(u => u.lessons.forEach((l, k) => {
+    add("Lesson", l.title, l.about || "", u.title, "", { a: "learn", u: u.id, k, j: 0 });
+    l.cards.forEach((c, j) => add("Lesson card", c.t, c.x, `${u.title} · ${l.title}`, c.src, { a: "learn", u: u.id, k, j }));
+    l.checks.forEach(c => add("Question", c.q, `${c.a}. ${c.why || ""}`, `${u.title} · ${l.title}`, c.src, { a: "learn", u: u.id, k, j: 0 })); }));
+  glossAll().forEach(([t, d]) => add("Word", t, d, "Words to know", "", { a: "gloss", t }));
+  (SALAWAT && SALAWAT.items || []).forEach(x => add("Salawat", x.name, `${x.en || ""} ${x.ar} ${x.virtue || ""} ${x.story || ""}`, "Salawat on the Prophet ﷺ", x.src, { a: "sal", id: x.id }));
+  (DUAS && DUAS.sections || []).forEach(sc => sc.items.forEach(x => add("Du'a", x.t, `${x.en || ""} ${x.ar || ""}`, `Du'as · ${sc.title}`, x.src, { a: "dua", sec: sc.id })));
+  (GUIDES || []).forEach(g => { add("Guide", g.title, g.sub, "Tools", g.src, { a: "guide", id: g.id });
+    g.steps.forEach(st => add("Guide step", st.t, (st.do || []).join(" "), g.title, st.src, { a: "guide", id: g.id })); });
+  const ch = (list, v, where) => list.forEach(n => add("Chart", n[0], `${n[1]} ${n[2] || ""}`, where, "", { a: "chart", v }));
+  ch([...LINEAGE.agreed, ...LINEAGE.historians], "lineage", "The Prophet's ﷺ lineage");
+  ch([...FAMILY.parents, ...FAMILY.wives, ...FAMILY.children, ...FAMILY.children.flatMap(c => c[3])], "family", "The family of the Prophet ﷺ");
+  ch([...PROPHETS.quran, ...PROPHETS.hadith, ...PROPHETS.books, ...PROPHETS.differ], "prophets", "The Prophets عَلَيْهِمُ السَّلَامُ");
+  LIB().forEach(b => add("Book", b.title, `${b.ar || ""} ${b.author || ""} ${b.desc || ""}`, `Library · ${b.subject}`, "", { a: "book", id: b.id }));
+  APP_TOOLS.forEach(([t, v]) => add("Tool", t, "", "Tools", "", { a: "go", v }));
+  return (APPIDX = A);
+}
+function appResults(q){
+  const n = norm(q).trim(); if (n.length < 2 || !APPIDX) return "";
+  const words = n.split(/\s+/), hits = APPIDX.filter(x => words.every(w => x.k.includes(w)));
+  const score = x => (x.kt === n ? 0 : x.kt.startsWith(n) ? 1 : words.every(w => x.kt.includes(w)) ? 2 : 3) * 10 + ["Lesson", "Word", "Chart", "Tool", "Book", "Salawat", "Guide", "Lesson card", "Du'a", "Guide step", "Question"].indexOf(x.kind);
+  APPHITS = hits.sort((a, b) => score(a) - score(b)).slice(0, 40);
+  if (!APPHITS.length) return "";
+  return `<p class="label">In the app (${APPHITS.length === 40 ? "first 40" : APPHITS.length})</p><div class="stack">${APPHITS.map((h, i) => `<button class="item ah" data-ah="${i}">
+    <span style="min-width:0"><span class="ah-k">${esc(h.kind)}</span><span class="t" style="display:block">${esc(h.t)}</span>${h.x ? `<span class="s" style="display:block">${esc(snip(h.x, 120))}</span>` : ""}
+    <span class="s ah-w">${esc(h.where)}${h.src ? ` · Source: ${esc(h.src)}` : ""}</span></span><span aria-hidden="true">›</span></button>`).join("")}</div>`;
+}
+function openAppHit(h){
+  const o = h.open;
+  if (o.a === "learn") { startLearn(o.u, o.k); if (o.j && LS) { LS.i = o.j; renderLearn(); } return; }
+  if (o.a === "gloss") return glShow(o.t);
+  if (o.a === "sal") { S.salTag = "all"; save(); go({ name: "salawat" }); setTimeout(() => { const e = document.getElementById("sal-" + o.id); if (e) e.scrollIntoView({ block: "start" }); }, 120); return; }
+  if (o.a === "dua") return go({ name: "duas", sec: o.sec });
+  if (o.a === "guide") return go({ name: "guide", id: o.id });
+  if (o.a === "chart") { REF_BACK = { view: { ...view }, ls: null, y: window.scrollY }; return go({ name: o.v }); }
+  if (o.a === "book") return go({ name: "book", id: o.id });
+  if (o.a === "go") return go({ name: o.v });
+}
+document.addEventListener("click", e => { const b = e.target.closest("[data-ah]"); if (!b) return; const h = APPHITS[+b.dataset.ah]; if (h) openAppHit(h); });
 
 // ---- tappable words: any glossary term in lessons, questions, explanations and notes opens its meaning
 const GLOSS_MORE = [
@@ -4233,7 +4326,31 @@ const LILL = (() => {
 })();
 const lessonImg = (u, k, cls) => `<img class="${cls}" src="${LILL(u, k)}" alt="" aria-hidden="true" decoding="async" loading="lazy">`;
 
+// ---- a picture for each lesson card, chosen from what the card is about, in a time of day that changes card by card
+const CARD_MOTIF = [
+  [/\b(ka'bah|makkah|hajj|'umrah|tawaf|ihram|sa'y|zamzam|qiblah)\b/i, "kaaba"], [/\b(ramadan|fast|fasting|iftar|suhur|sawm)\b/i, "iftar"],
+  [/\b(zakat|money|riba|interest|loan|trade|wealth|gold|silver|sadaqah|charity|debt|nisab)\b/i, "coins"],
+  [/\b(water|wudu|ghusl|rain|wash|tayammum|purif|impur|najis)\b/i, "well"], [/\b(grave|death|dies|dying|funeral|janazah|burial|shroud)\b/i, "graves"],
+  [/\b(travel|journey|traveller|hijrah|caravan|desert|tents?)\b/i, "tents"], [/\b(sea|ship|storm|whale|ark|flood)\b/i, "sea"],
+  [/\b(cave|hira'|revelation|thawr)\b/i, "cave"], [/\b(night|stars?|moon|sun|heavens|unseen|angels?|paradise|hereafter)\b/i, "cosmos"],
+  [/\b(qur'an|recite|recitation|surah|verse|ayah|mushaf|tajweed)\b/i, "books"], [/\b(pray|prayer|salah|sujud|ruku'|imam|masjid|adhan|takbir)\b/i, "mihrab"],
+  [/\b(learn|knowledge|scholar|teacher|book|write|pen|student)\b/i, "inkpot"], [/\b(eat|food|drink|meal|slaughter|halal)\b/i, "table"],
+  [/\b(home|house|family|wife|husband|parents?|children|marriage|neighbou?r|door)\b/i, "door"], [/\b(madinah|city|battle|badr|uhud|army)\b/i, "skyline"],
+];
+const cardImg = (() => { const cache = {}, ORD = ["dawn", "day", "dusk", "night"];
+  return (u, k, c, j) => { const text = `${c.t} ${c.x || ""}`, M = self.__LM, P = self.__LPAL;
+    let m = (CARD_MOTIF.find(([rx]) => rx.test(text)) || [])[1];
+    if (!m || !M[m]) m = null;
+    const pal = m === "cosmos" ? "night" : m === "iftar" ? ["dusk", "night"][j % 2] : ORD[(j + k + u.id.length) % 4], key = `${m || "c_" + u.id}|${pal}`;
+    if (!cache[key]) { let svg;
+      if (!m) { const T = { dawn: ["#F2A273", .12], day: null, dusk: ["#C0603A", .15], night: ["#06132A", .42] }[pal]; svg = ILL(u.id).replace("</svg>", T ? `<rect width="360" height="200" fill="${T[0]}" opacity="${T[1]}"/></svg>` : "</svg>"); }
+      else svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 200" preserveAspectRatio="xMidYMid slice">${M[m]("cd" + key.replace(/\W/g, "") + "_", P[pal])}</svg>`;
+      cache[key] = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg); }
+    return `<img class="card-ill" src="${cache[key]}" alt="" aria-hidden="true" decoding="async" loading="lazy">`; };
+})();
+
 // ---- the Prophet's ﷺ lineage, from himself back to Adam عَلَيْهِ السَّلَامُ, drawn as a tree that traces itself
+const HON = { as: "عَلَيْهِ السَّلَامُ", asm: "عَلَيْهِمُ السَّلَامُ", m: "رَضِيَ اللَّهُ عَنْهُ", f: "رَضِيَ اللَّهُ عَنْهَا" };
 const LINEAGE = {
   agreed: [
     ["Muhammad ﷺ", "مُحَمَّدٌ ﷺ", "The Messenger of Allah ﷺ, born in Makkah in the Year of the Elephant.", 1],
@@ -4267,13 +4384,13 @@ function lineageView(){
   const node = (n, k, part) => { const [en, ar, note, prophet, join] = n;
     return `<li class="ln ${prophet ? "pro" : ""} ${k === 0 && part === "a" ? "first" : ""}" style="--d:${k}">
       <button class="ln-b" ${note ? `data-ln="${esc(note)}"` : "disabled"} aria-label="${esc(en)}${note ? ", tap for more" : ""}">
-        <span class="ln-dot" aria-hidden="true"></span><span class="ln-en">${esc(en)}</span><span class="ln-ar ar" lang="ar">${esc(ar)}</span>${note ? `<span class="ln-i" aria-hidden="true">i</span>` : ""}</button>
+        <span class="ln-dot" aria-hidden="true"></span><span class="ln-en">${esc(en)}${prophet && !/ﷺ/.test(en) ? ` <span class="ln-hon ar" lang="ar">${HON.as}</span>` : ""}</span><span class="ln-ar ar" lang="ar">${esc(ar)}</span>${note ? `<span class="ln-i" aria-hidden="true">i</span>` : ""}</button>
       ${join ? `<div class="ln-join"><span class="small">His mother's line joins here</span><span class="ar" lang="ar">آمِنَةُ بِنْتُ وَهْبِ بْنِ عَبْدِ مَنَافِ بْنِ زُهْرَةَ بْنِ كِلَابٍ</span></div>` : ""}</li>`; };
   const A = LINEAGE.agreed, H = LINEAGE.historians;
   return shell(`<button class="back" id="ln-back">${ICON.back} Back</button>
     <h1 style="margin-bottom:4px">The family tree of the Prophet ﷺ</h1>
     <p class="muted" style="margin:0 0 6px">From Muhammad ﷺ back to Adam عَلَيْهِ السَّلَامُ. Prophets are marked in gold. Tap a name with <b>i</b> to read more.</p>
-    <p class="small"><button class="linkbtn small" id="ln-replay">Trace the line again</button> · <button class="linkbtn small" data-golin="family">His family</button> · <button class="linkbtn small" data-ref="t_fusul|${LIN_REF.fusul}|">Read it in al-Fusul</button></p>
+    <p class="small"><button class="linkbtn small" data-golin="family">His family</button> · <button class="linkbtn small" data-ref="t_fusul|${LIN_REF.fusul}|">Read it in al-Fusul</button></p>
     <div class="lineage" id="lineage">
       <p class="ln-h">Agreed by all the scholars <span class="small muted">(${A.length - 1} forefathers)</span></p>
       <ol class="ln-list">${A.map((n, k) => node(n, k, "a")).join("")}</ol>
@@ -4289,7 +4406,6 @@ function lineageBind(){
   const play = () => { box.classList.remove("go"); void box.offsetWidth; box.classList.add("go"); };
   requestAnimationFrame(play);
   const bk = document.getElementById("ln-back"); if (bk) bk.onclick = () => { if (!refBack()) go({ name: "basics" }); };
-  const r = document.getElementById("ln-replay"); if (r) r.onclick = () => { window.scrollTo({ top: 0, behavior: "instant" }); play(); };
   box.querySelectorAll("[data-ln]").forEach(b => b.onclick = () => {
     const open = b.parentElement.querySelector(".ln-note"); box.querySelectorAll(".ln-note").forEach(n => n.remove()); box.querySelectorAll("[aria-expanded]").forEach(x => x.setAttribute("aria-expanded", "false"));
     if (open) return; const p = document.createElement("p"); p.className = "ln-note"; p.textContent = b.dataset.ln; b.after(p); b.setAttribute("aria-expanded", "true"); });
@@ -4336,13 +4452,13 @@ const FAMILY = {
   ],
 };
 function familyView(){
-  const nb = (n, k, cls = "") => { const [en, ar, note] = n;
-    return `<li class="ln ${cls}" style="--d:${k}"><button class="ln-b" data-ln="${esc(note)}" aria-label="${esc(en)}, tap for more"><span class="ln-dot" aria-hidden="true"></span><span class="ln-en">${esc(en)}</span><span class="ln-ar ar" lang="ar">${esc(ar)}</span><span class="ln-i" aria-hidden="true">i</span></button></li>`; };
+  const nb = (n, k, cls = "") => { const [en, ar, note] = n, h = FAM_HON[en];
+    return `<li class="ln ${cls}" style="--d:${k}"><button class="ln-b" data-ln="${esc(note.replace(/^(رَضِيَ اللَّهُ عَنْ(هُ|هَا|هُمَا))\s*/, ""))}" aria-label="${esc(en)}, tap for more"><span class="ln-dot" aria-hidden="true"></span><span class="ln-en">${esc(en)}${h ? ` <span class="ln-hon ar" lang="ar">${h}</span>` : ""}</span><span class="ln-ar ar" lang="ar">${esc(ar)}</span><span class="ln-i" aria-hidden="true">i</span></button></li>`; };
   let d = 0;
   return shell(`<button class="back" id="ln-back">${ICON.back} Back</button>
     <h1 style="margin-bottom:4px">The family of the Prophet ﷺ</h1>
     <p class="muted" style="margin:0 0 6px">His parents, his wives, the Mothers of the Believers, his children and grandchildren. Tap a name to read more.</p>
-    <p class="small"><button class="linkbtn small" id="ln-replay">Play again</button> · <button class="linkbtn small" data-golin="lineage">His lineage back to Adam</button></p>
+    <p class="small"><button class="linkbtn small" data-golin="lineage">His lineage back to Adam ${HON.as}</button> · <button class="linkbtn small" data-golin="prophets">The Prophets ${HON.asm}</button></p>
     <div class="lineage fam" id="lineage">
       <div class="fam-top ln" style="--d:0"><span class="fam-me">Muhammad ﷺ</span><span class="ar" lang="ar">مُحَمَّدٌ رَسُولُ اللَّهِ ﷺ</span></div>
       <p class="ln-h">Parents and those who raised him</p><ol class="ln-list">${FAMILY.parents.map(n => nb(n, ++d)).join("")}</ol>
@@ -4405,12 +4521,12 @@ const PROPHETS = {
 function prophetsView(){
   let d = 0;
   const nb = (n, cls = "") => { const [en, ar, note, where] = n;
-    return `<li class="ln ${cls}" style="--d:${++d}"><button class="ln-b" data-ln="${esc(note + (where ? "  ·  " + where : ""))}" aria-label="${esc(en)}, tap for more"><span class="ln-dot" aria-hidden="true"></span><span class="ln-en">${esc(en)}</span><span class="ln-ar ar" lang="ar">${esc(ar)}</span><span class="ln-i" aria-hidden="true">i</span></button></li>`; };
+    return `<li class="ln ${cls}" style="--d:${++d}"><button class="ln-b" data-ln="${esc(note + (where ? "  ·  " + where : ""))}" aria-label="${esc(en)}, tap for more"><span class="ln-dot" aria-hidden="true"></span><span class="ln-en">${esc(en)}${/ﷺ/.test(en) || /Qarnayn/.test(en) ? "" : ` <span class="ln-hon ar" lang="ar">${HON.as}</span>`}</span><span class="ln-ar ar" lang="ar">${esc(ar)}</span><span class="ln-i" aria-hidden="true">i</span></button></li>`; };
   const P = PROPHETS, firm = ["Nuh", "Ibrahim", "Musa", "'Isa", "Muhammad ﷺ"];
   return shell(`<button class="back" id="ln-back">${ICON.back} Back</button>
     <h1 style="margin-bottom:4px">The Prophets عَلَيْهِمُ السَّلَامُ</h1>
     <p class="muted" style="margin:0 0 6px">We believe in every Prophet Allah sent, without making a difference between them. The five of firm resolve are marked in gold. Tap a name to read more.</p>
-    <p class="small"><button class="linkbtn small" id="ln-replay">Play again</button></p>
+    <p class="small"><button class="linkbtn small" data-golin="family">The family of the Prophet ﷺ</button></p>
     <div class="lineage" id="lineage">
       <p class="ln-h">The twenty-five named in the Qur'an <span class="small muted">(in their historical order)</span></p>
       <p class="small muted" style="margin:-4px 0 8px">The scholars of creed say every Muslim should know these twenty-five by name, and believe in all the others in general.</p>
@@ -4437,6 +4553,11 @@ const CHART_IC = {
   prophets: `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 3l2.4 5 5.6.6-4.2 3.8 1.2 5.6L12 15.2 7 18l1.2-5.6L4 8.6 9.6 8z"/></svg>`,
 };
 
+// honorifics shown beside each name in the family chart
+const FAM_HON = (() => { const o = {}, f = ["Halimah al-Sa'diyyah", "Umm Ayman (Barakah)", "Khadijah bint Khuwaylid", "Sawdah bint Zam'ah", "'A'ishah bint Abi Bakr", "Hafsah bint 'Umar", "Zaynab bint Khuzaymah", "Umm Salamah (Hind)", "Zaynab bint Jahsh", "Juwayriyah bint al-Harith", "Umm Habibah (Ramlah)", "Safiyyah bint Huyayy", "Maymunah bint al-Harith", "Zaynab", "Ruqayyah", "Umm Kulthum", "Fatimah al-Zahra'", "Umamah bint Abi al-'As", "Zaynab bint 'Ali", "Umm Kulthum bint 'Ali"],
+  m = ["al-Qasim", "'Ali ibn Abi al-'As", "'Abdullah ibn 'Uthman", "al-Hasan", "al-Husayn", "Muhsin", "'Abdullah (al-Tayyib, al-Tahir)", "Ibrahim"];
+  f.forEach(n => o[n] = HON.f); m.forEach(n => o[n] = HON.m); return o; })();
+
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=ebdfe7b997");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=c6ec8b531c");</script></body>
 </html>
