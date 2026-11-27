@@ -797,3 +797,25 @@ def polish(courses):
         i = next(k for k, l in enumerate(fq["lessons"]) if l["id"] == "f_how2")
         fq["lessons"].insert(i + 1, _lesson(NEW_LESSON2))
     return courses
+
+# ---- 27 Nov: the lessons that complete the basics
+import learn_more4 as M4
+_polish3b = polish
+def polish(courses):
+    courses = _polish3b(courses)
+    have = {l["id"] for c in courses for l in c["lessons"]}
+    for cid, after, t in M4.PLACE:
+        les = M4.texts_lesson() if t == "TEXTS" else _lesson(t)
+        if les["id"] in have: continue
+        ls = next(c for c in courses if c["id"] == cid)["lessons"]
+        i = next((k for k, l in enumerate(ls) if l["id"] == after), len(ls) - 1) if after else len(ls) - 1
+        ls.insert(i + 1, les)
+    return courses
+
+# ---- Qur'an verses on the lessons, then tappable references into the Library
+import learn_ayat as _AY, learn_refs as _RF
+_polish4 = polish
+def polish(courses):
+    courses = _polish4(courses)
+    courses = _AY.add_ayat(courses, _RF.jal_ref)
+    return _RF.add_refs(courses)

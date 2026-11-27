@@ -542,6 +542,12 @@ mark.hl.has-note{border-bottom:2px solid #8A6D00}
 .gl-sheet{position:fixed;inset:0;background:rgba(0,0,0,.35);display:flex;align-items:flex-end;justify-content:center;z-index:200}
 .gl-in{background:var(--card,#fff);color:var(--ink);width:100%;max-width:560px;border-radius:18px 18px 0 0;padding:16px 18px calc(18px + env(safe-area-inset-bottom))}
 .gl-top{display:flex;align-items:center;justify-content:space-between;gap:10px}.gl-top h2{margin:0;font-size:1.15rem}.gl-in p{line-height:1.6;margin:8px 0 12px}
+.ayah{font-size:1.45rem;line-height:2.1;margin:6px 0 4px;text-align:right;color:var(--ink)}
+.ayah-en{font-size:1rem;line-height:1.6;margin:0 0 6px}
+.src-link{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:5px;color:var(--brand,#1F6B4A);font-weight:600;text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+.src-link span{font-weight:600}.src-link:focus-visible{outline:2px solid var(--brand,#1F6B4A);outline-offset:2px;border-radius:4px}
+.para.ref-hit{background:#FBF1D6;border-radius:10px;box-shadow:0 0 0 6px #FBF1D6}
+.nsrc{margin:-4px 0 10px}
 
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--line);padding:4px;border-radius:14px}
 .seg button{border:0;background:transparent;border-radius:10px;padding:10px 6px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
@@ -1241,7 +1247,7 @@ function bindReadLinks(root){ root.querySelectorAll("[data-read]").forEach(b => 
 let LEARN = null, LS = null;
 const LEARN_DECK = { aqeedah:["fard_aqeedah"], fiqh:["fard_tahara","fard_salah","fard_sawm","fard_zakat"] };
 const OLD_TOPIC = { belief:"aqeedah", purity:"fiqh", prayer:"fiqh", fasting:"fiqh", zakat:"fiqh", heart:"tazkiyah" };
-async function loadLearn(){ if (LEARN) return LEARN; try { LEARN = await fetch("data/learn.json?v=9ce0b0a5").then(r => r.json()); } catch(e){ LEARN = []; } return LEARN; }
+async function loadLearn(){ if (LEARN) return LEARN; try { LEARN = await fetch("data/learn.json?v=4b156b16").then(r => r.json()); } catch(e){ LEARN = []; } return LEARN; }
 const learnDone = id => !!(S.learn||{})[id];
 function nextLearn(){ for (const u of LEARN||[]) for (let k = 0; k < u.lessons.length; k++) if (!learnDone(u.lessons[k].id)) return { u, k }; return null; }
 function learnHome(){
@@ -1303,9 +1309,27 @@ function unitView(id){
       <span style="flex:1;min-width:0"><span class="t">${esc(l.title)}</span><br><span class="s">${l.cards.length} cards, ${l.checks.length} questions</span></span>${learnDone(l.id) ? `<span class="pill ok">Done</span>` : ""}</button>`).join("")}</div>
     ${deck ? `<p class="label">Keep it fresh</p>${itemDeck(deck, true)}` : ""}`);
 }
+// a source line; when the book is in the Library it opens at that place, and closing the reader comes back here
+function srcLine(c, lead, cls = "src"){
+  if (!c.ref) return `<p class="${cls}">${lead} ${esc(c.src)}</p>`;
+  return `<p class="${cls}"><button class="src-link" data-ref="${c.ref.b}|${c.ref.i}|${c.ref.j ?? ""}" aria-label="${esc(lead + " " + c.src)}, open in the book">${lead} <span>${esc(c.src)}</span> ${ICON.shelf.replace("<svg",'<svg width="14" height="14" aria-hidden="true"')}</button></p>`;
+}
+let REF_BACK = null;
+document.addEventListener("click", async e => {
+  const b = e.target.closest("[data-ref]"); if (!b) return; e.preventDefault(); e.stopPropagation();
+  const [id, i, j] = b.dataset.ref.split("|"); REF_BACK = { view: { ...view }, ls: LS && $(".player") ? LS : null, y: window.scrollY };
+  await openRead(id, +i);
+  const p = j !== "" && document.querySelector(`.para[data-pj="${j}"]`);
+  if (p) { p.classList.add("ref-hit"); p.scrollIntoView({ block:"start" }); }
+}, true);
+function refBack(){
+  const r = REF_BACK; REF_BACK = null; if (!r) return false;
+  if (r.ls) { LS = r.ls; view = r.view; renderLearn(); return true; }
+  go(r.view); setTimeout(() => window.scrollTo(0, r.y), 50); return true;
+}
 function startLearn(uid, k){
   const u = LEARN.find(x => x.id === uid), l = u.lessons[k];
-  const checks = shuffle(l.checks.map(c => ({ kind:"mcq", q:c.q, answer:c.a, why:c.why, src:c.src, options:shuffle([c.a, ...c.w]) })));
+  const checks = shuffle(l.checks.map(c => ({ kind:"mcq", q:c.q, answer:c.a, why:c.why, src:c.src, ref:c.ref, options:shuffle([c.a, ...c.w]) })));
   LS = { u, k, l, steps:[...l.cards.map((c, j) => ({ kind:"card", c, j })), ...checks, { kind:"recap" }], i:0, sel:null, answered:false, right:0 };
   renderLearn();
 }
@@ -1329,7 +1353,7 @@ function renderLearn(){
     if (!LS.answered) foot = `<div class="pfoot"><button class="btn" id="check" ${LS.sel === null ? "disabled" : ""}>Check answer</button></div>`;
     else { const ok = st.options[LS.sel] === st.answer;
       body += `<section class="explain-box ${ok ? "ok" : "bad"}" role="status"><p class="eb-h"><span>Explanation</span><span class="eb-tag">${ok ? ICON.check.replace("<svg",'<svg width="13" height="13"') + " Correct" : "✕ Incorrect"}</span>${ok && st.gotXp ? `<span class="xp-plus">+2 XP</span>` : ""}</p>
-        ${ok ? "" : `<p class="eb-a">The answer is: <b>${esc(st.answer)}</b></p>`}<p>${esc(st.why || "")}</p>${st.src ? `<p class="eb-src">Source: ${esc(st.src)}</p>` : ""}</section>`;
+        ${ok ? "" : `<p class="eb-a">The answer is: <b>${esc(st.answer)}</b></p>`}<p>${esc(st.why || "")}</p>${st.src ? srcLine(st, "Source:", "eb-src") : ""}</section>`;
       foot = `<div class="pfoot"><button class="btn" id="next">Next</button></div>`; }
     }
   }
@@ -1350,7 +1374,7 @@ function renderSwipe(start){
   const cards = LS.l.cards, n = cards.length, steps = LS.steps.length;
   $("#app").innerHTML = `<div class="player"><div class="player-in"><div class="phead"><button class="x" id="quit" aria-label="Leave lesson">${ICON.x}</button><div class="bar"><i id="pbar" style="background:${LS.u.color}"></i></div></div>
     <div class="kicker swipe-k">${esc(LS.l.title)}</div>
-    <div class="swipe" id="swipe" style="--uc:${LS.u.color}" tabindex="0" aria-roledescription="carousel" aria-label="Lesson cards, swipe to move between them">${cards.map((c, j) => `<article class="card learncard sw-card" aria-roledescription="slide" aria-label="Card ${j+1} of ${n}"><h2>${esc(c.t)}</h2><p>${esc(c.x)}</p><p class="src">From ${esc(c.src)}</p></article>`).join("")}</div>
+    <div class="swipe" id="swipe" style="--uc:${LS.u.color}" tabindex="0" aria-roledescription="carousel" aria-label="Lesson cards, swipe to move between them">${cards.map((c, j) => `<article class="card learncard sw-card" aria-roledescription="slide" aria-label="Card ${j+1} of ${n}"><h2>${esc(c.t)}</h2>${c.ar ? `<p class="ayah ar" lang="ar">${esc(c.ar)}</p><p class="ayah-en">‘${esc(c.x)}’</p>` : `<p>${esc(c.x)}</p>`}${srcLine(c, "From")}</article>`).join("")}</div>
     <div class="dots" aria-hidden="true">${cards.map(() => `<i></i>`).join("")}</div>
     <div class="pfoot swipe-foot"><button class="btn ghost" id="prev" aria-label="Previous card">${ICON.back}</button><button class="btn" id="next"></button></div></div></div>`;
   const sw = $("#swipe"), dots = [...document.querySelectorAll(".dots i")], prev = $("#prev"), next = $("#next"), bar = $("#pbar");
@@ -1911,7 +1935,7 @@ function bindRead(b, i){
   $("#fsup").onclick = () => { S.readPrefs.size = Math.min(5, S.readPrefs.size+1); save(); redraw(); };
   const rt = $("#rate"); if (rt) rt.onclick = () => { const r = [0.8,1,1.2,1.5]; S.readPrefs.rate = r[(r.indexOf(S.readPrefs.rate)+1) % r.length]; save(); redraw(); speakFrom(b, i, AUD.j); };
   $("#listen").onclick = () => { if (AUD.on) { stopAudio(); redraw(); } else { AUD.on = true; redraw(); speakFrom(b, i, 0); } };
-  $("#rquit").onclick = () => { stopAudio(); go({ name:"book", id:b.id }); };
+  $("#rquit").onclick = () => { stopAudio(); if (!refBack()) go({ name:"book", id:b.id }); };
   $("#rprev").onclick = () => { stopAudio(); if (i > 0) openRead(b.id, i-1); };
   $("#rnext").onclick = () => { const d = S.books[b.id] = S.books[b.id]||[]; const first = !d.includes(i); if (first) d.push(i); S.readDay = today();
     const adv = touchDay(first ? 2 : 0); if (adv) toast(`${S.streak} day streak! Keep going`);
@@ -1958,7 +1982,7 @@ async function speakFrom(b, i, j0){
 }
 if (hasTTS()) { speechSynthesis.getVoices(); speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices(); }
 async function openRead(id, i){
-  const b = bookById(id); if (!TEXTS[b.file] || !TEXTS[b.file].sections[i].p) { $("#app").innerHTML = `<div class="done-screen" style="min-height:60vh"><p class="muted">Loading ${esc(b.title)}…</p></div>`; try { await loadSection(b.file, i); } catch(e){ toast(navigator.onLine ? "Couldn't open this book. Please try again." : "This book isn't saved on this phone yet. Open it once with internet, or save its year in Settings."); return go({name:"library"}); } }
+  const b = bookById(id) || LIBRARY.find(x => x.id === id); if (!TEXTS[b.file] || !TEXTS[b.file].sections[i].p) { $("#app").innerHTML = `<div class="done-screen" style="min-height:60vh"><p class="muted">Loading ${esc(b.title)}…</p></div>`; try { await loadSection(b.file, i); } catch(e){ toast(navigator.onLine ? "Couldn't open this book. Please try again." : "This book isn't saved on this phone yet. Open it once with internet, or save its year in Settings."); return go({name:"library"}); } }
   view = { name:"read", id, i }; S.lastRead = { id, i }; save(); $("#app").innerHTML = readView(b, i); bindRead(b, i); window.scrollTo(0,0); const pb = document.querySelector(".pbody"); if (pb) pb.scrollTop = 0;
 }
 
@@ -3241,7 +3265,7 @@ function rvDue(){
   const byId = {}; LEARN.forEach(u => u.lessons.forEach(l => byId[l.id] = { u, l }));
   return Object.entries(S.rv).filter(([k, v]) => v.d <= today()).map(([k]) => { const [lid, j] = k.split("|"), x = byId[lid]; return x && x.l.checks[+j] ? { k, u:x.u, l:x.l, c:x.l.checks[+j] } : null; }).filter(Boolean);
 }
-function mcqOf(c, extra){ return { kind:"mcq", q:c.q, answer:c.a, why:c.why, src:c.src, options:shuffle([c.a, ...c.w]), ...extra }; }
+function mcqOf(c, extra){ return { kind:"mcq", q:c.q, answer:c.a, why:c.why, src:c.src, ref:c.ref, options:shuffle([c.a, ...c.w]), ...extra }; }
 function startReview(){
   const due = shuffle(rvDue()).slice(0, 15); if (!due.length) return toast("Nothing to review right now");
   const l = { id:"review", title:"Review", cards:[], checks:due.map(x => x.c) };
@@ -3437,7 +3461,7 @@ function notesView(){
     <h1 style="margin-bottom:4px">${esc(u.title)}: notes</h1>
     <p class="muted" style="margin:0 0 6px">Every point from the ${u.lessons.length} lessons, in order. Use it to revise, or to teach your family and friends what you have learnt.</p>
     <p class="small muted no-print" style="margin:0 0 14px">Based on ${esc(u.book || "")}. <button class="linkbtn small" id="nprint">Print or save as PDF</button></p>
-    ${u.lessons.map((l, k) => `<section class="nsec"><h2>${k + 1}. ${esc(l.title)}</h2>${l.cards.map(c => `<p><b>${esc(c.t)}.</b> ${esc(c.x)} <span class="small muted">(${esc(c.src)})</span></p>`).join("")}</section>`).join("")}`);
+    ${u.lessons.map((l, k) => `<section class="nsec"><h2>${k + 1}. ${esc(l.title)}</h2>${l.cards.map(c => `${c.ar ? `<p class="ayah ar" lang="ar">${esc(c.ar)}</p>` : ""}<p><b>${esc(c.t)}.</b> ${esc(c.x)}</p>${srcLine(c, "", "small muted nsrc")}`).join("")}</section>`).join("")}`);
 }
 document.addEventListener("click", e => { const b = e.target.closest("[data-notes]"); if (b) go({ name:"notes", id:b.dataset.notes }); if (e.target.closest("#nprint")) window.print(); });
 
@@ -3585,5 +3609,5 @@ document.addEventListener("click", e => { const b = e.target.closest(".gl-w"); i
   new MutationObserver(() => { if (q) return; q = requestAnimationFrame(() => { q = 0; glDecorate(app); }); }).observe(app, { childList:true, subtree:true }); })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=413527cdad");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=4615492e0c");</script></body>
 </html>
