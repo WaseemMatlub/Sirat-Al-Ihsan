@@ -140,7 +140,7 @@ meta['textsAi']={_o.path.basename(f)[:-5]:bool(json.load(open(f)).get('ai')) for
 meta['textsEn']={_o.path.basename(f)[:-5]:(lambda d: bool(d.get('bilingual') or d.get('ai') or any(x.get('en') for x in d['sections'])))(json.load(open(f))) for f in _g.glob('data/texts/*.json')}
 import hashlib
 LV=hashlib.md5(open('data/learn.json','rb').read()).hexdigest()[:8]
-js=(open('app3.js').read()+'\n'+open('tools3.js').read()+'\n'+open('notes3.js').read()+'\n'+open('live3.js').read()+'\n'+open('translit3.js').read()).replace('/*META*/',json.dumps(meta)).replace('__LEARNV__',LV)
+js=(open('app3.js').read()+'\n'+open('tools3.js').read()+'\n'+open('notes3.js').read()+'\n'+open('live3.js').read()+'\n'+open('translit3.js').read()+'\n'+open('study3.js').read()).replace('/*META*/',json.dumps(meta)).replace('__LEARNV__',LV)
 open('index.html','w').write(head+'<script>\n'+js+'\n</script>\n</body>\n</html>\n')
 print('ok',len(head)+len(js))
 

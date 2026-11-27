@@ -520,6 +520,18 @@ mark.hl.has-note{border-bottom:2px solid #8A6D00}
 .item.noico{display:flex;align-items:center;gap:12px}
 .item.noico>span:first-child{flex:1;min-width:0}
 .tb-goal{display:flex;align-items:center;gap:6px}.tb-goal input{width:6.5em;font:inherit;padding:7px 9px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.today{padding:16px 16px 6px;margin:6px 0 18px}.td-head{display:flex;align-items:baseline;justify-content:space-between}.td-head h2{margin:0;font-size:1.2rem}.td-n{font-size:.85rem;color:var(--muted);font-weight:600}
+.td-bar{margin:8px 0 6px}.td-list{list-style:none;margin:0;padding:0}.td-list li{display:flex;align-items:center;gap:12px;padding:11px 0;border-top:1px solid var(--line)}.td-list li:first-child{border-top:0}
+.td-c{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:.85rem;border:2px solid var(--line);color:var(--muted)}
+.td-list li.ok .td-c{background:var(--brand);border-color:var(--brand);color:#fff}.td-list li.ok b{color:var(--muted)}
+.td-m{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}.td-m b{font-size:.98rem}
+.sec-row{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.bpath{list-style:none;margin:0;padding:0;position:relative}.bpath:before{content:"";position:absolute;left:17px;top:20px;bottom:20px;width:2px;background:var(--line)}
+.bp{display:flex;gap:14px;padding:10px 0;position:relative}.bp-n{flex:none;width:36px;height:36px;border-radius:50%;display:grid;place-items:center;background:var(--surface);border:2px solid var(--uc);color:var(--uc);font-weight:800;z-index:1}
+.bp.cert .bp-n{background:var(--uc);color:#fff}.bp-b{flex:1;min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px}
+.bp-b h2{margin:0 0 2px;font-size:1.08rem}.bp-b p{margin:0}.bp-p{display:flex;align-items:center;gap:8px;margin-top:8px}.bp-p .bar{flex:1}
+.bp-ls{margin-top:8px}.bp-ls summary{cursor:pointer;font-size:.9rem;font-weight:600;color:var(--brand)}.bp-ls ol{margin:8px 0 0;padding-left:20px;line-height:1.9}
+.gloss{margin:14px 0 0}.gloss>div{padding:12px 0;border-top:1px solid var(--line)}.gloss dt{font-weight:700}.gloss dt.ar{font-size:1.25rem}.gloss dd{margin:3px 0 0;color:var(--ink-2,var(--ink));line-height:1.55}
 
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--line);padding:4px;border-radius:14px}
 .seg button{border:0;background:transparent;border-radius:10px;padding:10px 6px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
@@ -1142,7 +1154,7 @@ function shell(inner){
   return `<header class="topbar"><button class="brandmark" data-go="home" aria-label="Dār aṣ-Ṣiddīq, go to home">${ICON.logo}<span>Dār aṣ-Ṣiddīq</span></button>
     <div class="stats"><button class="chip iconbtn" data-go="search" aria-label="Search">${ICON.search}</button><button class="chip iconbtn" data-go="settings" aria-label="Settings">${ICON.gear}</button><button class="chip mini" data-go="profile" aria-label="${S.streak} day streak">${ICON.flame.replace("<svg",'<svg width="14" height="14"')}${S.streak}</button><button class="chip mini xp" data-go="profile" aria-label="${S.xp} XP">${ICON.star.replace("<svg",'<svg width="14" height="14"').replace("var(--brand)","var(--gold)")}${S.xp >= 10000 ? (S.xp/1000).toFixed(0)+"k" : S.xp}</button></div></header>
     <main>${inner}</main>
-    <nav class="tabs"><div class="in"><button data-go="home" ${["home","unit","duas","salawat","dalail"].includes(view.name)?'aria-current="page"':""}>${ICON.home}Learn</button><button data-go="syllabus" ${["syllabus","year","spec","live"].includes(view.name)||(view.name==="book"&&!isLibBook())?'aria-current="page"':""}>${ICON.learn}Course</button><button data-go="library" ${view.name==="library"||isLibBook()?'aria-current="page"':""}>${ICON.shelf}Library</button><button data-go="tools" ${["tools","guide","qibla","qada","zakat","inherit"].includes(view.name)?'aria-current="page"':""}>${ICON.tools}Tools</button><button data-go="profile" ${view.name==="profile"?'aria-current="page"':""}>${ICON.user}Progress</button></div></nav>`;
+    <nav class="tabs"><div class="in"><button data-go="home" ${["home","unit","duas","salawat","dalail","basics","glossary","cards"].includes(view.name)?'aria-current="page"':""}>${ICON.home}Learn</button><button data-go="syllabus" ${["syllabus","year","spec","live"].includes(view.name)||(view.name==="book"&&!isLibBook())?'aria-current="page"':""}>${ICON.learn}Course</button><button data-go="library" ${view.name==="library"||isLibBook()?'aria-current="page"':""}>${ICON.shelf}Library</button><button data-go="tools" ${["tools","guide","qibla","qada","zakat","inherit"].includes(view.name)?'aria-current="page"':""}>${ICON.tools}Tools</button><button data-go="profile" ${view.name==="profile"?'aria-current="page"':""}>${ICON.user}Progress</button></div></nav>`;
 }
 /* First visit: three short steps, then straight into learning */
 const ARCH = (w=170) => `<svg class="arch" viewBox="0 0 200 240" width="${w}" aria-hidden="true"><defs><pattern id="ob-p" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M10 1l2.6 6.4L19 10l-6.4 2.6L10 19l-2.6-6.4L1 10l6.4-2.6z" fill="none" stroke="#E2C27A" stroke-width=".7" opacity=".45"/></pattern></defs>
@@ -1270,7 +1282,7 @@ function fitLearnCards(){
   const k = u.lessons.findIndex(l => !learnDone(l.id));
   if (k > 0 && c.children[k]) { const to = c.scrollLeft + c.children[k].getBoundingClientRect().left - c.getBoundingClientRect().left - 16;
     c.style.scrollSnapType = "none"; c.scrollTo({ left: Math.max(0, to), behavior: "instant" }); requestAnimationFrame(() => { c.style.scrollSnapType = ""; }); }
-  const ch = $("#topic-change"); if (ch) ch.onclick = topicSheet;
+  const ch = $("#topic-change"); if (ch) ch.onclick = () => go({ name:"basics" });
 }
 function unitView(id){
   const u = (LEARN||[]).find(x => x.id === id); if (!u) { loadLearn().then(render); return shell(`<p class="muted">Loading…</p>`); }
@@ -1301,7 +1313,7 @@ function renderLearn(){
       foot = `<div class="pfoot"><button class="btn" id="next">Finish lesson</button></div>`;
     } else {
     const q = LS.steps.slice(0, LS.i).filter(x => x.kind === "mcq" && !x.retry).length + 1, nq = LS.l.checks.length;
-    body = `<div class="kicker">${st.retry ? "Let's try this one again" : `Question ${q} of ${nq}`}</div><p class="q" style="font-size:1.1rem">${esc(st.q)}</p>
+    body = `<div class="kicker">${st.retry ? "Let's try this one again" : `Question ${q} of ${nq}`}${st.from ? ` · <span style="font-weight:500">from ${esc(st.from)}</span>` : ""}</div><p class="q" style="font-size:1.1rem">${esc(st.q)}</p>
       <div class="opts">${st.options.map((o, i) => { let cls = ""; if (LS.answered) { if (o === st.answer) cls = "right"; else if (i === LS.sel) cls = "wrong"; } else if (i === LS.sel) cls = "sel";
         return `<button class="opt ${cls}" data-o="${i}" ${LS.answered ? "disabled" : ""}>${esc(o)}</button>`; }).join("")}</div>`;
     if (!LS.answered) foot = `<div class="pfoot"><button class="btn" id="check" ${LS.sel === null ? "disabled" : ""}>Check answer</button></div>`;
@@ -1314,9 +1326,10 @@ function renderLearn(){
   $("#app").innerHTML = `<div class="player"><div class="player-in"><div class="phead"><button class="x" id="quit" aria-label="Leave lesson">${ICON.x}</button><div class="bar"><i style="width:${LS.i/LS.steps.length*100}%;background:${LS.u.color}"></i></div></div><div class="pbody">${body}</div>${foot}</div></div>`;
   document.querySelectorAll("[data-o]").forEach(x => x.onclick = () => { LS.sel = +x.dataset.o; renderLearn(); });
   const ck = $("#check"); if (ck) ck.onclick = () => { LS.answered = true;
+    if (st.key && !st.retry) (LS.res = LS.res || {})[st.key] = st.options[LS.sel] === st.answer;
     if (st.options[LS.sel] === st.answer) { if (!st.retry) LS.right++; }
     else { LS.fixed = (LS.fixed || 0) + (st.retry ? 0 : 1);   // wrong: it comes back before the recap, until it is answered right
-      const r = LS.steps.findIndex(x => x.kind === "recap"); LS.steps.splice(r, 0, { ...st, retry:true, options:shuffle([...st.options]) }); }
+      const r0 = LS.steps.findIndex(x => x.kind === "recap"), r = r0 < 0 ? LS.steps.length : r0; LS.steps.splice(r, 0, { ...st, retry:true, options:shuffle([...st.options]) }); }
     renderLearn(); };
   const eb = document.querySelector(".explain-box"); if (eb) eb.scrollIntoView({ block:"nearest", behavior: matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
   const nx = $("#next"); if (nx) nx.onclick = () => { LS.i++; LS.sel = null; LS.answered = false; renderLearn(); window.scrollTo(0,0); };
@@ -1347,6 +1360,7 @@ function renderSwipe(start){
 }
 const LEARN_PASS = 0.7;   // share of questions to get right first time for a lesson to count as done
 function finishLearn(){
+  if (LS.review || LS.test) return finishSpecial();
   const { u, k, l, right } = LS, first = !learnDone(l.id), pct = right / l.checks.length;
   if (pct < LEARN_PASS) {   // not passed: nothing is marked done, no points; go over the cards and try again
     $("#app").innerHTML = `<div class="player"><div class="player-in"><div class="done-screen"><h2>Not passed yet</h2><p class="muted">${esc(l.title)}</p>
@@ -1357,7 +1371,7 @@ function finishLearn(){
     $("#cont").onclick = () => { S.topic = u.id; save(); LS = null; go({ name:"home" }); };
     return;
   }
-  S.learn = { ...(S.learn||{}), [l.id]: Date.now() }; const adv = touchDay(first ? 10 : 2); save();
+  S.learn = { ...(S.learn||{}), [l.id]: Date.now() }; rvAddLesson(l); markToday("lesson"); const adv = touchDay(first ? 10 : 2); save();
   const next = u.lessons[k+1];
   $("#app").innerHTML = `<div class="player"><div class="player-in"><div class="done-screen"><h2>Lesson complete</h2><p class="muted">${esc(l.title)}</p>
     <div class="tiles"><div class="tile"><b>${Math.round(right / l.checks.length * 100)}%</b><span>Lesson score</span></div><div class="tile"><b>${S.streak}</b><span>Day streak</span></div></div>
@@ -1386,12 +1400,13 @@ function homeView(){
   const more = `${secH("More to explore", "Extra courses and short books to read.")}<div class="stack">${tj ? itemDeck(tj, true) : ""}${signs ? itemBook(signs, true) : ""}
       ${ayy ? `<button class="item" data-read="t_ayyuha|0"><span class="libthumb">${cover(ayy, 34)}</span><span style="flex:1;min-width:0"><span class="t">Ayyuha al-Walad</span><br><span class="s">Imam al-Ghazali's رَحِمَهُ اللَّهُ letter of advice to a student</span></span><span class="pill">Read</span></button>` : ""}</div>`;
   const decksHtml = learnDecks();
-  const tile = (attr, ico, t, sub) => `<button class="hm-tile" ${attr}${sub ? ` aria-label="${t}, ${sub}"` : ""}><span class="hm-ico" aria-hidden="true">${ico}${sub && /review/.test(sub) ? `<i class="hm-badge">${cards}</i>` : ""}</span><span class="hm-t">${t}</span></button>`;
+  const tile = (attr, ico, t, sub) => `<button class="hm-tile" ${attr}${sub ? ` aria-label="${t}, ${sub}"` : ""}><span class="hm-ico" aria-hidden="true">${ico}${sub && /review/.test(sub) && due ? `<i class="hm-badge">${due}</i>` : ""}</span><span class="hm-t">${t}</span></button>`;
   const G = typeof GICO !== "undefined" ? GICO : {};
   return shell(`
     <h1 class="hello">Salaam${S.name ? `, ${esc(S.name)}` : ""}</h1>
     ${streakCard}
-    <div class="sec-row"><h2 class="sec-h">Learn the basics</h2></div>
+    ${todayCard()}
+    <div class="sec-row"><h2 class="sec-h">Learn the basics</h2><button class="linkbtn small" data-go="basics">See the whole path</button></div>
     ${learnHome()}
     <section class="card hotd" id="hotd" hidden></section>
     <h2 class="sec-h">Daily practice</h2>
@@ -1456,7 +1471,8 @@ function fardAynCard(){                     // Fard al-'Ayn: optional, for anyon
 function syllabusView(){
   const rec = recYear(), doneY = y => loaded(y) && y.prepared && yearStatus(y).open;
   const node = (cls, attr, badge, t, sub, right) => `<li class="tr-node ${cls}"><button class="tr-btn" ${attr}><span class="tr-dot">${badge}</span><span class="tr-txt"><b>${t}</b><span class="small muted">${sub}</span></span>${right || ""}</button></li>`;
-  const fard = node(S.start === "fard" || !S.start ? "" : "", 'data-go="home"', ICON.check.replace("<svg",'<svg width="14" height="14"'), "Fard al-'Ayn", "The essentials for every Muslim. Start here if you are new.", `<span class="pill">Learn tab</span>`);
+  const fardDone = LEARN && LEARN.length && LEARN.every(u => u.lessons.every(l => learnDone(l.id)));
+  const fard = node("", 'data-go="basics"', fardDone ? ICON.check.replace("<svg",'<svg width="14" height="14"') : `<span aria-hidden="true" style="font-weight:800">0</span>`, "The basics (Fard al-'Ayn)", "What every Muslim must know. Start here if you are new.", `<span class="pill">${fardDone ? "Done" : "Start here"}</span>`);
   const years = YEARS.map(y => { const dn = doneY(y), cur = y.n === rec;
     return node(dn ? "done" : cur ? "cur" : "", `data-year="${y.n}"`, dn ? ICON.check.replace("<svg",'<svg width="14" height="14"') : y.n, `Year ${y.n}`, esc(y.title),
       dn ? `<span class="pill ok">Done</span>` : cur ? `<span class="pill gold">Recommended</span>` : y.prepared ? `<span class="pill">Open</span>` : `<span class="pill">Soon</span>`); }).join("");
@@ -1572,7 +1588,7 @@ function profileView(){
   const ret = retention(), seen = Object.keys(S.cards).length, cy = Math.max(...S.unlocked), th = S.theme || "auto";
   const row = (id, label, hint, control) => `<div class="setrow"><label for="${id}"><b>${label}</b>${hint?`<span>${hint}</span>`:""}</label>${control}</div>`;
   const toggle = (id, on) => `<input type="checkbox" class="switch" id="${id}" ${on?"checked":""}>`;
-  return shell(`<h1>Progress</h1>
+  return shell(`<h1>Progress</h1>${basicsProgress()}
     <div class="tiles" style="max-width:none;margin-top:12px"><div class="tile"><b>${S.streak}</b><span>Day streak</span></div><div class="tile"><b>${S.xp}</b><span>Total XP</span></div>
     <div class="tile"><b>${seen.toLocaleString()}</b><span>Cards started</span></div><div class="tile"><b>${ret===null?"–":pct(ret)}</b><span>Recall rate</span></div></div>
     ${weekStrip()}
@@ -2281,6 +2297,8 @@ function render(){ appBadge(); checkUnlock(); if (typeof hlHideBar === "function
   if (view.name === "home") app.innerHTML = homeView();
   else if (view.name === "live") { app.innerHTML = liveView(); }
   else if (view.name === "cards") { app.innerHTML = cardsView(); }
+  else if (view.name === "basics") { app.innerHTML = basicsView(); }
+  else if (view.name === "glossary") { app.innerHTML = glossaryView(); }
   else if (view.name === "year") { const yy = yearOf(view.n);
     if (!loaded(yy)) { app.innerHTML = shell(`<p class="muted">Loading Year ${view.n}…</p>`); loadYear(view.n).then(() => { if (!S.unlocked.includes(view.n)) { S.unlocked.push(view.n); save(); } render(); }, () => toast("Could not load this year. Check your connection.")); return; }
     if (!S.unlocked.includes(view.n)) { S.unlocked.push(view.n); save(); }
@@ -2391,7 +2409,8 @@ function toolsView(){
       ${row('data-guide="salah"', "pray", "How to pray", "Every position and what to say")}
       ${row('data-guide="qada"', "qada", "Making up missed prayers", "The quickest valid way, from the classical books")}</div>
     <p class="label">Arabic</p><div class="stack">
-      ${row('data-go="dict"', "book", "Arabic dictionary", "Search by root, Arabic word or English, with every verb form")}</div>
+      ${row('data-go="dict"', "book", "Arabic dictionary", "Search by root, Arabic word or English, with every verb form")}
+      ${row('data-go="glossary"', "book", "Words to know", "Every term from the lessons, explained simply")}</div>
     <p class="label">Dhikr</p><div class="stack">
       ${row('data-go="tasbih"', "beads", "Tasbih counter", "Tap to count your dhikr, with a target and a gentle buzz")}</div>
     <p class="label">Prayer</p><div class="stack">
@@ -3179,6 +3198,222 @@ function tlDecorate(root){
 (() => { let q = 0; const app = document.getElementById("app"); if (!app || typeof MutationObserver === "undefined") return;
   new MutationObserver(() => { if (q) return; q = requestAnimationFrame(() => { q = 0; tlDecorate(app); }); }).observe(app, { childList:true, subtree:true }); })();
 
+/* ============================ STUDY: how a new student moves through the basics ============================
+   Today's plan (one lesson, a short review, one practice), spaced review of questions from finished lessons,
+   the full path through the basics, a final test per course, and a glossary of the words students meet. */
+const BASICS_ORDER = ["aqeedah", "fiqh", "seerah", "quran", "tazkiyah", "halal", "doubts"];
+const BASICS_WHY = {
+  aqeedah:"First, because every other act rests on correct belief about Allah and His Messenger ﷺ.",
+  fiqh:"Then how to purify yourself, pray, fast, give zakat and perform Hajj, the Hanafi way.",
+  seerah:"Know the one you follow: the life of the Prophet ﷺ.",
+  quran:"How the Qur'an came down and was kept safe, word for word.",
+  tazkiyah:"Purifying the heart: sincerity, humility and remembrance.",
+  halal:"Earning, eating and dealing in what is lawful.",
+  doubts:"How to answer doubts calmly, with Imam al-Ghazali رَحِمَهُ اللَّهُ as a guide."
+};
+const basicsCourses = () => BASICS_ORDER.map(id => (LEARN||[]).find(u => u.id === id)).filter(Boolean).concat((LEARN||[]).filter(u => !BASICS_ORDER.includes(u.id)));
+
+// ---- today's plan
+function tday(){ if (!S.td || S.td.day !== today()) S.td = { day:today(), lesson:false, review:false, practice:false }; return S.td; }
+function markToday(k){ const t = tday(); if (!t[k]) { t[k] = true; save(); } }
+document.addEventListener("click", e => { if (e.target.closest("[data-sal], #tbtap, .salbtn")) markToday("practice"); }, true);
+
+// ---- spaced review of lesson questions. Each question you have passed comes back after 1, 3, 7, 18… days
+const rvKey = (lid, j) => `${lid}|${j}`;
+function rvAddLesson(l){ S.rv = S.rv || {}; l.checks.forEach((c, j) => { const k = rvKey(l.id, j); if (!S.rv[k]) S.rv[k] = { d:today() + 1, iv:1 }; }); }
+function rvDue(){
+  if (!LEARN || !S.rv) return [];
+  const byId = {}; LEARN.forEach(u => u.lessons.forEach(l => byId[l.id] = { u, l }));
+  return Object.entries(S.rv).filter(([k, v]) => v.d <= today()).map(([k]) => { const [lid, j] = k.split("|"), x = byId[lid]; return x && x.l.checks[+j] ? { k, u:x.u, l:x.l, c:x.l.checks[+j] } : null; }).filter(Boolean);
+}
+function mcqOf(c, extra){ return { kind:"mcq", q:c.q, answer:c.a, why:c.why, src:c.src, options:shuffle([c.a, ...c.w]), ...extra }; }
+function startReview(){
+  const due = shuffle(rvDue()).slice(0, 15); if (!due.length) return toast("Nothing to review right now");
+  const l = { id:"review", title:"Review", cards:[], checks:due.map(x => x.c) };
+  LS = { review:true, u:{ id:"review", lessons:[l] }, k:0, l, steps:due.map(x => mcqOf(x.c, { key:x.k, from:x.l.title })), i:0, sel:null, answered:false, right:0, res:{} };
+  renderLearn();
+}
+function startFinal(uid){
+  const u = LEARN.find(x => x.id === uid), all = u.lessons.flatMap(l => l.checks.map(c => ({ c, l })));
+  const pick = shuffle(all).slice(0, Math.min(15, all.length)), l = { id:"test-" + uid, title:`${u.title}: final test`, cards:[], checks:pick.map(x => x.c) };
+  LS = { test:true, u, k:0, l, steps:pick.map(x => mcqOf(x.c, { from:x.l.title })), i:0, sel:null, answered:false, right:0, res:{} };
+  renderLearn();
+}
+function endScreen(title, sub, tiles, note, buttons){
+  $("#app").innerHTML = `<div class="player"><div class="player-in"><div class="done-screen"><h2>${title}</h2><p class="muted">${sub}</p>
+    <div class="tiles">${tiles.map(([b, s]) => `<div class="tile"><b>${b}</b><span>${s}</span></div>`).join("")}</div>
+    <p class="small muted" style="margin-top:14px">${note}</p></div><div class="pfoot">${buttons}</div></div></div>`;
+}
+function finishSpecial(){
+  const n = LS.l.checks.length, pct = LS.right / n;
+  if (LS.review) {
+    Object.entries(LS.res).forEach(([k, ok]) => { const v = S.rv[k] || { iv:1 };
+      v.iv = ok ? Math.min(180, Math.max(3, Math.round(v.iv * 2.5))) : 1; v.d = today() + v.iv; S.rv[k] = v; });
+    markToday("review"); touchDay(2 * n); save();
+    endScreen("Review done", `${n} question${n > 1 ? "s" : ""} from your lessons`, [[`${Math.round(pct * 100)}%`, "Right first time"], [S.streak, "Day streak"]],
+      "Questions you knew come back in a few days, then weeks. Ones you missed come back tomorrow.", `<button class="btn" id="cont">Done</button>`);
+  } else {
+    const pass = pct >= 0.8, u = LS.u;
+    if (pass) { S.cert = { ...(S.cert||{}), [u.id]: Date.now() }; touchDay(50); save(); }
+    endScreen(pass ? "Test passed" : "Not passed yet", esc(LS.l.title), [[`${Math.round(pct * 100)}%`, "Right first time"], ["80%", "Needed to pass"]],
+      pass ? `Mā shā' Allāh. ${esc(u.title)} is marked complete on your Progress page.` : "Go back over the lessons you found hard, then take the test again. Every test picks different questions.",
+      `${pass ? "" : `<button class="btn" id="again">Try again</button>`}<button class="btn ${pass ? "" : "ghost"}" id="cont">${pass ? "Done" : "Later"}</button>`);
+    const a = $("#again"); if (a) a.onclick = () => startFinal(u.id);
+  }
+  const back = LS.test ? "basics" : "home"; $("#cont").onclick = () => { LS = null; go({ name:back }); };
+}
+
+// ---- the Today card at the top of Home
+function todayCard(){
+  if (!LEARN) return "";
+  const t = tday(), cur = LEARN.find(x => x.id === (OLD_TOPIC[S.topic] || S.topic));
+  let u = cur && cur.lessons.some(l => !learnDone(l.id)) ? cur : null, k;
+  if (!u) { const nx = nextLearn(); if (nx) { u = nx.u; k = nx.k; } } else k = u.lessons.findIndex(l => !learnDone(l.id));
+  const l = u && u.lessons[k], due = rvDue().length, done = [t.lesson, t.review || (!due && t.lesson), t.practice].filter(Boolean).length;
+  const row = (ok, n, title, sub, btn) => `<li class="${ok ? "ok" : ""}"><span class="td-c" aria-hidden="true">${ok ? ICON.check.replace("<svg",'<svg width="14" height="14"') : n}</span>
+    <span class="td-m"><b>${title}</b><span class="small muted">${sub}</span></span>${btn}<span class="sr-only">${ok ? "Done" : "Not done yet"}</span></li>`;
+  return `<section class="card today" aria-labelledby="td-h"><div class="td-head"><h2 id="td-h">Today</h2><span class="td-n">${done} of 3 done</span></div>
+    <div class="bar td-bar"><i style="width:${Math.max(3, done / 3 * 100)}%"></i></div>
+    <ol class="td-list">
+      ${l ? row(t.lesson, 1, `Learn: ${esc(l.title)}`, `${esc(u.title)}, lesson ${k + 1} of ${u.lessons.length} · about 5 min`, `<button class="btn small-btn ${t.lesson ? "ghost" : ""}" data-learn="${u.id}|${k}">${t.lesson ? "Another" : "Start"}</button>`)
+          : row(true, 1, "All the basics are done", "Mā shā' Allāh. Keep reviewing, or move on to the Course.", `<button class="btn small-btn ghost" data-go="syllabus">Course</button>`)}
+      ${row(t.review || (!due && t.lesson), 2, due ? `Review: ${due} question${due > 1 ? "s" : ""}` : "Review",
+          due ? "From lessons you finished. Coming back to them on later days is what makes them stick." : (Object.keys(S.rv||{}).length ? "Nothing due today. Your next questions come back on a later day." : "Questions from each lesson you finish come back here on later days."),
+          due ? `<button class="btn small-btn" id="rvgo">Review</button>` : "")}
+      ${row(t.practice, 3, "Practice: send salawat", "Even ten upon the Prophet ﷺ. Or use the tasbih.", `<button class="btn small-btn ${t.practice ? "ghost" : ""}" data-go="salawat">Open</button>`)}
+    </ol></section>`;
+}
+document.addEventListener("click", e => { if (e.target.closest("#rvgo")) startReview(); });
+
+// ---- the full path through the basics
+function basicsView(){
+  if (!LEARN) { loadLearn().then(() => { if (view.name === "basics") render(); }); return shell(`<p class="muted">Loading…</p>`); }
+  const cs = basicsCourses(), cur = cs.findIndex(u => u.lessons.some(l => !learnDone(l.id))), all = cs.reduce((n, u) => n + u.lessons.length, 0), dn = cs.reduce((n, u) => n + u.lessons.filter(l => learnDone(l.id)).length, 0);
+  return shell(`<button class="back" data-go="home">${ICON.back} Home</button>
+    <h1 style="margin-bottom:4px">The basics</h1>
+    <p class="muted" style="margin:0 0 6px">Fard al-'Ayn: what every Muslim must know. Go through the courses in this order. Everything is open, so you can start anywhere.</p>
+    <div class="bar" style="margin:10px 0 4px"><i style="width:${Math.max(2, dn / all * 100)}%"></i></div><p class="small muted" style="margin:0 0 14px">${dn} of ${all} lessons done${Object.keys(S.cert||{}).length ? ` · ${Object.keys(S.cert).length} course${Object.keys(S.cert).length > 1 ? "s" : ""} passed` : ""}</p>
+    <ol class="bpath">${cs.map((u, i) => { const d = u.lessons.filter(l => learnDone(l.id)).length, n = u.lessons.length, nxt = u.lessons.findIndex(l => !learnDone(l.id)), cert = (S.cert||{})[u.id];
+      return `<li class="bp ${cert ? "cert" : ""}" style="--uc:${u.color}"><span class="bp-n" aria-hidden="true">${cert ? ICON.check.replace("<svg",'<svg width="15" height="15"') : i + 1}</span>
+        <div class="bp-b"><h2>${esc(u.title)}</h2><p class="small muted">${esc(BASICS_WHY[u.id] || u.sub || "")}</p>
+          <div class="bp-p"><span class="bar"><i style="width:${Math.max(2, d / n * 100)}%;background:${u.color}"></i></span><span class="small">${d}/${n}</span></div>
+          <div class="btnrow" style="margin-top:8px">${nxt >= 0 ? `<button class="btn small-btn ${i === cur ? "" : "ghost"}" data-learn="${u.id}|${nxt}">${d ? "Continue" : "Start"}</button>` : ""}
+            ${nxt < 0 ? `<button class="btn small-btn ${cert ? "ghost" : ""}" data-final="${u.id}">${cert ? "Retake the final test" : "Take the final test"}</button>` : ""}
+            ${cert ? `<span class="pill ok">Passed</span>` : ""}</div>
+          <details class="bp-ls"><summary>All ${n} lessons</summary><ol>${u.lessons.map((l, k) => `<li><button class="linkbtn" data-learn="${u.id}|${k}">${learnDone(l.id) ? "✓ " : ""}${esc(l.title)}</button></li>`).join("")}</ol></details>
+          <p class="small muted" style="margin:6px 0 0">Based on ${esc(u.book || "")}</p></div></li>`; }).join("")}</ol>
+    <button class="item noico" data-go="glossary" style="margin-top:14px"><span style="flex:1"><span class="t">Words to know</span><br><span class="s">Wudu, fard, sunnah, najasah… every term from the lessons, explained simply</span></span><span class="pill">Open</span></button>
+    <button class="item noico" data-go="syllabus" style="margin-top:8px"><span style="flex:1"><span class="t">After the basics: the Course</span><br><span class="s">The classical books year by year, for students of knowledge</span></span><span class="pill">Open</span></button>`);
+}
+document.addEventListener("click", e => { const b = e.target.closest("[data-final]"); if (b) startFinal(b.dataset.final); });
+
+// ---- glossary
+const GLOSSARY = [
+ ["Allah", "The name of God in Arabic: the One who created everything and has no partner."],
+ ["Aqeedah", "Belief: what a Muslim holds to be true in the heart about Allah, His Messengers and the unseen."],
+ ["Ahl al-Sunnah wa al-Jama'ah", "The main body of Muslims who follow the Sunnah and the Companions. In belief: the Ash'ari and Maturidi schools."],
+ ["Ash'ari", "The school of belief of Imam Abu al-Hasan al-Ash'ari رَحِمَهُ اللَّهُ, followed by most Shafi'is and Malikis."],
+ ["Maturidi", "The school of belief of Imam Abu Mansur al-Maturidi رَحِمَهُ اللَّهُ, followed by most Hanafis."],
+ ["Hanafi", "The school of fiqh of Imam Abu Hanifah رَحِمَهُ اللَّهُ. The lessons follow it."],
+ ["Madhhab", "A school of fiqh, a tried way of understanding the rulings, such as the Hanafi school."],
+ ["Fiqh", "The rulings of worship and daily life: how to pray, fast, and so on."],
+ ["Fard", "Obligatory, proven beyond doubt. Leaving it is a major sin; denying it is disbelief."],
+ ["Fard al-'Ayn", "What every single Muslim must know and do, like the basics of belief, prayer and purity."],
+ ["Wajib", "Necessary, but proven with a little less certainty than fard. Leaving it is a sin."],
+ ["Sunnah", "The way of the Prophet ﷺ. As a ruling: something he did regularly; rewarded, and leaving it without excuse is blameworthy."],
+ ["Mustahabb", "Recommended: rewarded if done, no sin if left."],
+ ["Makruh", "Disliked. Makruh tahriman is close to forbidden; makruh tanzihan is better left."],
+ ["Haram", "Forbidden. Doing it is a sin."],
+ ["Halal", "Lawful, permitted."],
+ ["Mubah", "Simply allowed, with no reward or sin either way."],
+ ["Taharah", "Purity: being clean of impurity and in a state fit for prayer."],
+ ["Najasah", "Impurity, such as urine, faeces or flowing blood. It must be washed off the body, clothes and place of prayer."],
+ ["Dirham (as a measure)", "For liquid impurity, the size of the hollow of the palm (about 3 cm across). For solid impurity, a weight of a few grams."],
+ ["Istinja'", "Cleaning the private parts after using the toilet, with water or with stones or tissue."],
+ ["Istibra'", "A man making sure the urine has completely stopped before cleaning himself."],
+ ["Wudu", "The washing before prayer: face, arms to the elbows, wiping the head, and feet to the ankles."],
+ ["Ghusl", "Washing the whole body, needed after janabah, menstruation and post-natal bleeding."],
+ ["Janabah", "The state after intercourse or a release of semen, which needs ghusl."],
+ ["Tayammum", "Purifying with clean earth when water cannot be used."],
+ ["Khuffs", "Leather socks covering the ankles, which may be wiped over in wudu for a set time."],
+ ["Hayd", "Menstruation: the monthly period. In the Hanafi school, 3 to 10 days."],
+ ["Nifas", "The bleeding after giving birth. At most 40 days."],
+ ["Istihadah", "Bleeding outside the normal times of hayd and nifas. It does not stop prayer."],
+ ["Salah", "The prayer: the five daily prayers, with set times and actions."],
+ ["Rak'ah", "One unit of the prayer: standing, reciting, bowing and two prostrations."],
+ ["Ruku'", "Bowing in prayer, with hands on the knees."],
+ ["Sujud", "Prostration: forehead, nose, hands, knees and toes on the ground."],
+ ["Qiblah", "The direction of the Ka'bah in Makkah, which Muslims face in prayer."],
+ ["'Awrah", "The part of the body that must be covered. In prayer, for a man from the navel to below the knees; for a woman all but the face, hands and feet."],
+ ["Adhan", "The call to prayer."],
+ ["Iqamah", "The second call, said just before the prayer begins."],
+ ["Takbir", "Saying 'Allahu akbar', Allah is the Greatest. The first takbir begins the prayer."],
+ ["Tashahhud", "The words recited while sitting in prayer, bearing witness to Allah's Oneness and the Messenger ﷺ."],
+ ["Witr", "The odd-numbered prayer after 'Isha'. Wajib in the Hanafi school: three rak'ahs."],
+ ["Qunut", "The du'a said in the third rak'ah of witr, before bowing."],
+ ["Sajdat al-sahw", "Two prostrations at the end of the prayer that repair a forgotten wajib."],
+ ["Qada'", "Making up a prayer or fast that was missed."],
+ ["Qasr", "Shortening the four-rak'ah prayers to two when travelling."],
+ ["Jumu'ah", "The Friday prayer, two rak'ahs with a sermon, in place of Zuhr."],
+ ["Janazah", "The funeral prayer, said standing, with four takbirs."],
+ ["Sawm", "Fasting: no food, drink or intercourse from true dawn until sunset."],
+ ["Suhur", "The meal before dawn on a fasting day. A sunnah."],
+ ["Iftar", "Breaking the fast at sunset."],
+ ["Kaffarah", "An expiation for a serious wrong, such as breaking a Ramadan fast on purpose: 60 days of fasting in a row."],
+ ["Fidyah", "A payment of food for each fast someone cannot make up, such as the very old."],
+ ["Zakat", "The yearly alms: 2.5% of wealth above the nisab, owned for a lunar year."],
+ ["Nisab", "The minimum wealth on which zakat is due: about 87.5 g of gold or 612 g of silver, or the same value."],
+ ["Zakat al-Fitr", "A small charity given before the Eid prayer at the end of Ramadan."],
+ ["Hajj", "The pilgrimage to Makkah, fard once in a lifetime for those able."],
+ ["'Umrah", "The lesser pilgrimage, which can be done at any time."],
+ ["Ihram", "The state of a pilgrim, entered with the intention and the talbiyah; also the two white sheets men wear."],
+ ["Miqat", "The boundary where pilgrims must enter ihram."],
+ ["Tawaf", "Walking around the Ka'bah seven times."],
+ ["Sa'y", "Walking between Safa and Marwah seven times."],
+ ["Tawhid", "The Oneness of Allah: in His Self, His attributes and His actions."],
+ ["Shirk", "Associating partners with Allah. The one sin Allah does not forgive if a person dies upon it."],
+ ["Iman", "Faith: believing in the heart and declaring with the tongue."],
+ ["Ihsan", "Worshipping Allah as if you see Him; and if you do not see Him, He sees you."],
+ ["Qadr", "The decree: Allah knew, wrote and wills everything that happens."],
+ ["Wali (plural awliya')", "A close friend of Allah: a believer who is God-fearing."],
+ ["Karamah", "A wonder Allah does at the hands of one of His friends."],
+ ["Mu'jizah", "A miracle given to a Prophet to prove his prophethood."],
+ ["Sahabah", "The Companions: Muslims who met the Prophet ﷺ and died as Muslims."],
+ ["Seerah", "The life of the Prophet ﷺ."],
+ ["Hadith", "A report of what the Prophet ﷺ said, did or approved."],
+ ["Tafsir", "Explanation of the meanings of the Qur'an."],
+ ["Tajweed", "The rules for reciting the Qur'an correctly."],
+ ["Tazkiyah", "Purifying the heart of bad qualities and adorning it with good ones."],
+ ["Ikhlas", "Sincerity: doing a deed for Allah alone."],
+ ["Riya'", "Showing off: doing a deed to be seen by people."],
+ ["Dhikr", "Remembrance of Allah, with the tongue and the heart."],
+ ["Du'a", "Calling upon Allah, asking Him."],
+ ["Tawbah", "Repentance: regret, stopping the sin, and resolving not to return."],
+ ["Salawat", "Sending blessings upon the Prophet ﷺ."],
+ ["Ummah", "The community of Muslims."],
+ ["ﷺ", "Short for 'sallallahu 'alayhi wa sallam': may Allah bless him and grant him peace. Said after the Prophet's name."],
+ ["رَضِيَ اللَّهُ عَنْهُ", "'May Allah be pleased with him.' Said after a Companion's name (عَنْهَا for a woman)."],
+ ["رَحِمَهُ اللَّهُ", "'May Allah have mercy on him.' Said after the name of a scholar or righteous person who has died."],
+ ["عَلَيْهِ السَّلَامُ", "'Peace be upon him.' Said after the name of a Prophet or an angel."],
+];
+function glossaryView(){
+  const q = (view.q || "").toLowerCase().trim(), list = GLOSSARY.filter(([t, d]) => !q || t.toLowerCase().includes(q) || d.toLowerCase().includes(q));
+  return shell(`<button class="back" data-go="basics">${ICON.back} The basics</button><h1 style="margin-bottom:4px">Words to know</h1>
+    <p class="muted" style="margin:0 0 12px">The words you'll meet in the lessons, explained simply.</p>
+    <form class="dsearch" id="gform" role="search"><input id="gq" type="search" placeholder="Search, e.g. wudu" aria-label="Search the words" value="${esc(view.q || "")}"></form>
+    <dl class="gloss">${list.map(([t, d]) => `<div><dt ${/[؀-ۿ]/.test(t) ? 'lang="ar" class="ar"' : ""}>${esc(t)}</dt><dd>${esc(d)}</dd></div>`).join("") || `<p class="muted">No word matches. Try another spelling.</p>`}</dl>`);
+}
+document.addEventListener("input", e => { if (e.target.id === "gq") { const v = e.target.value; view.q = v; const pos = e.target.selectionStart; render(); const n = $("#gq"); if (n) { n.focus(); n.setSelectionRange(pos, pos); } } });
+document.addEventListener("submit", e => { if (e.target.id === "gform") e.preventDefault(); });
+
+// ---- the basics on the Progress page
+function basicsProgress(){
+  if (!LEARN) return "";
+  return `<h2 class="sec-h" style="margin-top:6px">The basics</h2><div class="stack">${basicsCourses().map(u => { const d = u.lessons.filter(l => learnDone(l.id)).length, n = u.lessons.length, c = (S.cert||{})[u.id];
+    return `<button class="item noico" data-go="basics"><span style="flex:1;min-width:0"><span class="t">${esc(u.title)}</span>
+      <span class="bp-p" style="margin-top:6px"><span class="bar"><i style="width:${Math.max(2, d / n * 100)}%;background:${u.color}"></i></span><span class="small">${d}/${n}</span></span></span>${c ? `<span class="pill ok">Passed</span>` : ""}</button>`; }).join("")}</div>`;
+}
+
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=3e7ec204db");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=9aa3ddcc25");</script></body>
 </html>
