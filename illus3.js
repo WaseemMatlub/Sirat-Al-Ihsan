@@ -174,3 +174,167 @@ const ILL = (() => {
 const _illU = {};
 const illUrl = id => _illU[id] || (_illU[id] = ILL(id) ? "data:image/svg+xml;charset=utf-8," + encodeURIComponent(ILL(id)) : "");
 const illImg = (id, cls) => illUrl(id) ? `<img class="${cls}" src="${illUrl(id)}" alt="" aria-hidden="true" decoding="async">` : "";
+
+// ---- a scene for every lesson: 26 motifs × times of day, matched to the topic
+const LILL = (() => {
+  const f = v => +(+v).toFixed(2);
+  const rnd = seed => () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const G = (id, stops, x2 = 0, y2 = 1) => `<linearGradient id="${id}" x1="0" y1="0" x2="${x2}" y2="${y2}">${stops.map(([o, c, a]) => `<stop offset="${o}" stop-color="${c}"${a != null ? ` stop-opacity="${a}"` : ""}/>`).join("")}</linearGradient>`;
+  const R = (id, cx, cy, r, stops) => `<radialGradient id="${id}" cx="${cx}" cy="${cy}" r="${r}">${stops.map(([o, c, a]) => `<stop offset="${o}" stop-color="${c}"${a != null ? ` stop-opacity="${a}"` : ""}/>`).join("")}</radialGradient>`;
+  const archD = (x, y, w, k = .8, foot = 0) => { const r = w * k, h = Math.sqrt(r * r - (r - w / 2) ** 2);
+    return `M${f(x)} ${f(y + foot)}V${f(y)}A${f(r)} ${f(r)} 0 0 1 ${f(x + w / 2)} ${f(y - h)}A${f(r)} ${f(r)} 0 0 1 ${f(x + w)} ${f(y)}V${f(y + foot)}Z`; };
+  const khatam = (cx, cy, r, fill) => { let p = ""; for (let i = 0; i < 16; i++) { const a = Math.PI / 8 * i - Math.PI / 2, rr = i % 2 ? r * .62 : r; p += `${i ? "L" : "M"}${f(cx + Math.cos(a) * rr)} ${f(cy + Math.sin(a) * rr)}`; } return `<path d="${p}Z" fill="${fill}"/>`; };
+  const domeD = (cx, base, w, h) => `M${f(cx - w / 2)} ${f(base)}C${f(cx - w / 2)} ${f(base - h * .55)} ${f(cx - w * .32)} ${f(base - h * .82)} ${f(cx)} ${f(base - h)}C${f(cx + w * .32)} ${f(base - h * .82)} ${f(cx + w / 2)} ${f(base - h * .55)} ${f(cx + w / 2)} ${f(base)}Z`;
+  const halfDome = (cx, base, w) => `M${f(cx - w / 2)} ${f(base)}A${f(w / 2)} ${f(w / 2)} 0 0 1 ${f(cx + w / 2)} ${f(base)}Z`;
+  const minaretS = (cx, base, w, h, fill) => `<rect x="${f(cx - w / 2)}" y="${f(base - h)}" width="${f(w)}" height="${f(h)}" fill="${fill}"/><rect x="${f(cx - w * .8)}" y="${f(base - h * .72)}" width="${f(w * 1.6)}" height="${f(w * .4)}" fill="${fill}"/><path d="M${f(cx - w * .6)} ${f(base - h)}L${f(cx)} ${f(base - h - w * 2.4)}L${f(cx + w * .6)} ${f(base - h)}Z" fill="${fill}"/>`;
+  const palmS = (x, base, h, fill, lean = 0) => { const tx = x + lean, ty = base - h, L = h * .42;
+    let s = `<path d="M${f(x - 2.2)} ${f(base)}Q${f(x + lean * .4 - 1.5)} ${f(base - h * .5)} ${f(tx - 1.1)} ${f(ty)}L${f(tx + 1.1)} ${f(ty)}Q${f(x + lean * .4 + 1.5)} ${f(base - h * .5)} ${f(x + 2.2)} ${f(base)}Z" fill="${fill}"/>`;
+    [-160, -130, -100, -75, -50, -20, 10, 40].forEach(a0 => { const a = a0 * Math.PI / 180, ex = tx + Math.cos(a) * L, ey = ty + Math.sin(a) * L + L * .32, mx = tx + Math.cos(a) * L * .55, my = ty + Math.sin(a) * L * .55 - L * .12, nx = -Math.sin(a) * L * .09, ny = Math.cos(a) * L * .09;
+      s += `<path d="M${f(tx)} ${f(ty)}Q${f(mx + nx)} ${f(my + ny)} ${f(ex)} ${f(ey)}Q${f(mx - nx)} ${f(my - ny)} ${f(tx)} ${f(ty)}Z" fill="${fill}"/>`; }); return s; };
+  const cypress = (x, base, h, fill) => `<path d="M${x} ${base - h}C${x - 7} ${base - h * .7} ${x - 9} ${base - h * .25} ${x - 6} ${base}H${x + 6}C${x + 9} ${base - h * .25} ${x + 7} ${base - h * .7} ${x} ${base - h}Z" fill="${fill}"/>`;
+  const lamp = (x, y, s = 1, glow = true) => `<g transform="translate(${x} ${y}) scale(${s})">${glow ? `<circle cx="0" cy="40" r="26" fill="#FFE3A3" opacity=".22"/>` : ""}<path d="M0 0V16" stroke="#C9A24A" stroke-width="1.4"/><path d="M-11 28Q0 13 11 28Z" fill="#E9C46A"/><path d="M-10 28H10L12 52H-12Z" fill="#FFE3A3" opacity=".35"/><path d="M-10 28H10L12 52H-12Z" fill="none" stroke="#E9C46A" stroke-width="2"/><ellipse cx="0" cy="41" rx="4" ry="6" fill="#FFF3CF"/><path d="M-14 52H14L10 58H-10Z" fill="#E9C46A"/></g>`;
+  const PAL = {
+    dawn:  { s: ["#F2A97E", "#F7D3AE", "#FCEAD2"], orb: "#FFE7B5", oy: 150, night: 0, tint: ["#E89A6A", .10], g: ["#D9A36D", "#A8723F"] },
+    day:   { s: ["#7FC3E4", "#BFE2F1", "#EAF5F3"], orb: "#FFF6D2", oy: 44, night: 0, tint: null, g: ["#E0B67A", "#B8874D"] },
+    dusk:  { s: ["#33496F", "#C77C5E", "#F1BD87"], orb: "#FFD79B", oy: 120, night: 0, tint: ["#A9532E", .14], g: ["#B97B4E", "#7C4D2C"] },
+    night: { s: ["#06192B", "#123A4E", "#2D5866"], orb: "#FFEFC2", oy: 46, night: 1, tint: ["#061528", .34], g: ["#6B5A45", "#3D3224"] },
+  };
+  const sky = (p, P, ox = 292) => `<rect width="360" height="200" fill="url(#${p}sky)"/>` + (P.night ? (() => { const r = rnd(ox * 7 + 3); let s = ""; for (let i = 0; i < 44; i++) s += `<circle cx="${f(r() * 360)}" cy="${f(r() * 120)}" r="${f(.5 + r())}" fill="#FFF6DD" opacity="${f(.4 + r() * .6)}"/>`;
+      return s + `<path d="M${ox} ${P.oy - 16}a19 19 0 1 0 14 31.6a15 15 0 1 1 -14 -31.6z" fill="${P.orb}"/>`; })()
+    : `<circle cx="${ox}" cy="${P.oy}" r="34" fill="${P.orb}" opacity=".35"/><circle cx="${ox}" cy="${P.oy}" r="20" fill="${P.orb}"/>`);
+  const defs = (p, P, extra = "") => `<defs>${G(p + "sky", [[0, P.s[0]], [.6, P.s[1]], [1, P.s[2]]])}${G(p + "gr", [[0, P.g[0]], [1, P.g[1]]])}${extra}</defs>`;
+  const tint = P => P.tint ? `<rect width="360" height="200" fill="${P.tint[0]}" opacity="${P.tint[1]}"/>` : "";
+
+  const M = {
+    kaaba: (p, P) => defs(p, P, G(p + "fl", [[0, "#F3EFE7"], [1, "#D9D3C8"]])) + sky(p, P, 60) +
+      `<g fill="#E7DCC6">${[0, 1, 2, 3, 4, 5, 6, 7].map(i => `<path d="${archD(8 + i * 44, 104, 30, .8, 30)}"/>`).join("")}<rect x="0" y="96" width="360" height="10"/></g>
+      ${minaretS(30, 96, 7, 46, "#E7DCC6")}${minaretS(330, 96, 7, 46, "#E7DCC6")}<rect x="0" y="132" width="360" height="68" fill="url(#${p}fl)"/>
+      <ellipse cx="180" cy="168" rx="150" ry="26" fill="none" stroke="#CFC7B7" stroke-width="1.2"/><ellipse cx="180" cy="168" rx="110" ry="18" fill="none" stroke="#CFC7B7" stroke-width="1.2"/>
+      <path d="M150 86H206V160H150Z" fill="#151515"/><path d="M206 86L228 92V154L206 160Z" fill="#262626"/><path d="M150 96H206V104H150Z" fill="#C9A24A"/><path d="M206 96L228 101V109L206 104Z" fill="#A8862E"/>
+      <rect x="170" y="122" width="14" height="30" fill="#C9A24A"/><path d="M150 86L172 80L228 86L206 86Z" fill="#2E2E2E"/><ellipse cx="190" cy="164" rx="52" ry="5" fill="#000" opacity=".12"/>` + tint(P),
+    mihrab: (p, P) => `<defs>${G(p + "w", [[0, "#F1E4C8"], [1, "#DCC596"]])}${G(p + "n", [[0, "#2F5D5C"], [1, "#1D3E3D"]])}${G(p + "rug", [[0, "#8E2F2B"], [1, "#6A1F1C"]])}</defs>
+      <rect width="360" height="200" fill="url(#${p}w)"/><g opacity=".25">${[0, 1, 2, 3, 4, 5, 6].map(i => khatam(20 + i * 54, 24, 9, "#B08A4E")).join("")}</g>
+      <path d="${archD(122, 92, 116, .78, 82)}" fill="#C9A46A"/><path d="${archD(132, 96, 96, .78, 78)}" fill="url(#${p}n)"/>
+      <path d="${archD(140, 100, 80, .78, 0)}" fill="none" stroke="#E9C46A" stroke-width="1.2" opacity=".55"/>
+      ${lamp(180, 52, .9)}<path d="M96 200L130 168H230L264 200Z" fill="url(#${p}rug)"/><path d="M106 198L134 172H226L254 198Z" fill="none" stroke="#E9C46A" stroke-width="1.6"/>
+      <path d="M160 172Q180 158 200 172" fill="none" stroke="#E9C46A" stroke-width="1.6"/><rect x="0" y="164" width="360" height="4" fill="#B08A4E" opacity=".5"/>` + (P.night ? `<rect width="360" height="200" fill="#0A1A2A" opacity=".22"/>` : ""),
+    iftar: (p, P) => defs(p, P, G(p + "tb", [[0, "#8A5A34"], [1, "#5E3A1F"]]) + G(p + "gl", [[0, "#E8F6FA", .9], [1, "#BFE3EE", .7]])) + sky(p, P, 270) +
+      `<path d="M0 132L28 118L52 126L80 108L108 122L140 112L176 124L210 104L246 118L280 110L320 124L360 114V160H0Z" fill="#2D3C4E" opacity=".55"/>
+      <g fill="#2D3C4E" opacity=".7">${minaretS(90, 140, 5, 34, "#2D3C4E")}<path d="${domeD(120, 140, 30, 24)}"/><rect x="100" y="138" width="40" height="10"/></g>
+      <rect x="0" y="150" width="360" height="50" fill="url(#${p}tb)"/><rect x="0" y="146" width="360" height="6" fill="#A8774A"/>
+      <ellipse cx="150" cy="160" rx="40" ry="9" fill="#E9DAB7"/><path d="M110 156Q150 186 190 156Z" fill="#E9DAB7"/><path d="M114 156H186" stroke="#C9A46A" stroke-width="1.5"/>
+      ${[[128, 152], [140, 149], [152, 152], [164, 149], [176, 152], [134, 145], [158, 145]].map(([x, y]) => `<ellipse cx="${x}" cy="${y}" rx="7" ry="4.4" fill="#5B2416"/><ellipse cx="${x - 2}" cy="${y - 1.5}" rx="2.5" ry="1.2" fill="#8A3E26"/>`).join("")}
+      <path d="M222 120H250L246 166H226Z" fill="url(#${p}gl)"/><path d="M224 132H248L245 164H227Z" fill="#9FD4E4" opacity=".6"/><path d="M228 124V160" stroke="#fff" stroke-width="1.6" opacity=".7"/>` + tint(P),
+    coins: (p, P) => `<defs>${G(p + "w", [[0, "#1F4E4A"], [1, "#143533"]])}${G(p + "c", [[0, "#F3D27A"], [1, "#C9962E"]])}${G(p + "t", [[0, "#7A5434"], [1, "#4F341E"]])}</defs>
+      <rect width="360" height="200" fill="url(#${p}w)"/><g opacity=".18">${[0, 1, 2, 3, 4, 5, 6].map(i => khatam(20 + i * 54, 40, 12, "#E9C46A")).join("")}</g>${lamp(300, 6, .8)}
+      <rect x="0" y="150" width="360" height="50" fill="url(#${p}t)"/>
+      ${[[110, 8], [150, 12], [190, 6], [232, 10]].map(([x, n]) => [...Array(n)].map((_, i) => `<ellipse cx="${x}" cy="${f(152 - i * 5)}" rx="16" ry="5" fill="url(#${p}c)"/><ellipse cx="${x}" cy="${f(150 - i * 5)}" rx="16" ry="5" fill="#F7DE95"/>`).join("") + `<ellipse cx="${x}" cy="${f(150 - (n - 1) * 5)}" rx="10" ry="2.8" fill="none" stroke="#C9962E"/>`).join("")}
+      <path d="M44 156L84 146L96 170L56 180Z" fill="#E9DAB7"/><path d="M52 160L84 152M54 166L86 158M56 172L88 164" stroke="#B49A6A" stroke-width="1"/>`,
+    tents: (p, P) => defs(p, P) + sky(p, P, 70) + `<path d="M0 110L40 84L80 96L130 70L170 90L220 76L270 96L320 80L360 98V140H0Z" fill="#8E6A4E" opacity=".75"/>
+      <rect x="0" y="126" width="360" height="74" fill="url(#${p}gr)"/>
+      ${[0, 1, 2].map(row => { const y = 132 + row * 22, w = 24 + row * 10, gap = w * 1.75; let s = ""; for (let x = -12 + row * w * .8; x < 370; x += gap) s += `<path d="M${f(x)} ${y + 14 + row * 3}L${f(x + w / 2)} ${y}L${f(x + w)} ${y + 14 + row * 3}Z" fill="#F7F3EA"/><path d="M${f(x + w / 2)} ${y}L${f(x + w)} ${y + 14 + row * 3}H${f(x + w * .62)}Z" fill="#DCD4C2"/>`; return s; }).join("")}` + tint(P),
+    sea: (p, P) => defs(p, P, G(p + "sea", [[0, P.night ? "#16384A" : "#4D9BB5"], [1, P.night ? "#0B2231" : "#1F5F7A"]])) + sky(p, P, 180) +
+      `<path d="M0 116L30 108L60 112L90 100L130 110L170 104L200 112V118H0Z" fill="#4E6670" opacity=".55"/><rect x="0" y="116" width="360" height="84" fill="url(#${p}sea)"/>
+      <path d="M180 118L170 200H190Z" fill="${P.orb}" opacity=".35"/>${[0, 1, 2, 3, 4, 5].map(i => `<path d="M${20 + (i * 53) % 300} ${130 + i * 11}h${30 + i * 4}" stroke="#E8F4F6" stroke-width="1.3" opacity=".45" stroke-linecap="round"/>`).join("")}
+      <path d="M260 200C268 176 290 166 320 164S360 170 360 176V200Z" fill="#2E2A26"/>` + tint(P),
+    well: (p, P) => defs(p, P, G(p + "st", [[0, "#CDB894"], [1, "#9C8562"]], 1, 0)) + sky(p, P, 280) +
+      `<path d="M0 140C80 126 160 136 240 130S330 126 360 132V200H0Z" fill="url(#${p}gr)"/>${palmS(40, 150, 56, "#2F4A2E", -4)}${palmS(300, 146, 62, "#2F4A2E", 6)}
+      <path d="M150 128H210V168Q180 176 150 168Z" fill="url(#${p}st)"/><ellipse cx="180" cy="128" rx="30" ry="8" fill="#B49E78"/><ellipse cx="180" cy="128" rx="24" ry="5" fill="#2A2018"/>
+      <rect x="154" y="82" width="5" height="48" fill="#6B4A2C"/><rect x="201" y="82" width="5" height="48" fill="#6B4A2C"/><rect x="150" y="80" width="60" height="5" rx="2" fill="#7E5834"/>
+      <path d="M180 85V108" stroke="#8A6A44" stroke-width="1.3"/><path d="M173 108H187L185 118H175Z" fill="#7E5834"/>
+      ${[0, 1, 2].map(i => `<path d="M150 ${140 + i * 10}Q180 ${146 + i * 10} 210 ${140 + i * 10}" stroke="#8D7756" stroke-width=".8" fill="none"/>`).join("")}` + tint(P),
+    cave: (p, P) => defs(p, P, G(p + "rk", [[0, "#5A4A3E"], [1, "#2E241D"]])) + sky(p, P, 90) +
+      `<path d="M0 200L0 150L60 120L110 84L160 66L210 80L260 70L320 110L360 128V200Z" fill="url(#${p}rk)"/>
+      <path d="M160 66L130 96L120 140L136 142L150 100Z" fill="#7A6658" opacity=".45"/>
+      <path d="M190 132Q206 106 228 118Q240 134 232 150H192Z" fill="#120E0B"/><path d="M196 122L230 146M200 140L226 118M213 112V150M194 131H232" stroke="#D9D2C6" stroke-width=".6" opacity=".55"/>
+      <path d="M0 200L40 176L100 186L160 170L230 184L300 172L360 182V200Z" fill="#241C16"/>` + tint(P),
+    inkpot: (p, P) => `<defs>${G(p + "d", [[0, "#7A5434"], [1, "#4E331C"]])}${G(p + "pp", [[0, "#FFF9EC"], [1, "#EEDFC0"]])}${R(p + "l", .7, .2, .6, [[0, "#FFE3A3", .4], [1, "#FFE3A3", 0]])}</defs>
+      <rect width="360" height="200" fill="#1F3A3A"/><rect width="360" height="200" fill="url(#${p}l)"/><rect x="0" y="96" width="360" height="104" fill="url(#${p}d)"/>
+      <path d="M60 118L232 104L254 186L72 198Z" fill="url(#${p}pp)"/>${[0, 1, 2, 3, 4, 5].map(i => `<path d="M${84 + i * 1.8} ${f(130 + i * 11)}L${f(226 + i * 3.6)} ${f(118 + i * 11)}" stroke="#B49A6A" stroke-width="1.1" opacity=".7"/>`).join("")}
+      <path d="M96 140Q130 128 160 138" fill="none" stroke="#2A2A2A" stroke-width="2" stroke-linecap="round"/><path d="M168 134Q186 124 204 132" fill="none" stroke="#2A2A2A" stroke-width="2" stroke-linecap="round"/>
+      <ellipse cx="292" cy="150" rx="26" ry="8" fill="#141414"/><path d="M266 150V126Q292 116 318 126V150Z" fill="#202020"/><ellipse cx="292" cy="126" rx="26" ry="8" fill="#303030"/><ellipse cx="292" cy="126" rx="12" ry="4" fill="#0A0A0A"/>
+      <path d="M292 126L222 54" stroke="#C99B5E" stroke-width="5" stroke-linecap="round"/><path d="M226 58L216 46" stroke="#8A6A44" stroke-width="5" stroke-linecap="round"/>`,
+    skyline: (p, P) => { const fill = P.night ? "#17293A" : "#3A4F63";
+      return defs(p, P, G(p + "wt", [[0, P.s[2]], [1, P.s[0]]])) + sky(p, P, 300) +
+      `<g fill="${fill}">${minaretS(70, 128, 6, 62, fill)}${minaretS(112, 128, 6, 70, fill)}${minaretS(248, 128, 6, 70, fill)}${minaretS(290, 128, 6, 62, fill)}
+      <rect x="120" y="100" width="120" height="30"/><path d="${domeD(180, 102, 76, 52)}"/><path d="${halfDome(140, 104, 40)}"/><path d="${halfDome(220, 104, 40)}"/>
+      <path d="${domeD(96, 116, 30, 22)}"/><path d="${domeD(264, 116, 30, 22)}"/><rect x="70" y="114" width="220" height="16"/><rect x="179" y="34" width="2" height="16"/></g>
+      <rect x="0" y="128" width="360" height="72" fill="url(#${p}wt)" opacity=".85"/><g opacity=".25" transform="translate(0 256) scale(1 -1)"><rect x="120" y="100" width="120" height="28" fill="${fill}"/><path d="${domeD(180, 102, 76, 30)}" fill="${fill}"/></g>
+      ${[0, 1, 2, 3].map(i => `<path d="M${40 + i * 80} ${146 + i * 12}h40" stroke="#fff" opacity=".35" stroke-width="1.2" stroke-linecap="round"/>`).join("")}` + tint(P); },
+    books: (p, P) => `<defs>${G(p + "w", [[0, "#2B2622"], [1, "#1A1714"]])}${R(p + "l", .78, .55, .5, [[0, "#FFD98A", .5], [1, "#FFD98A", 0]])}</defs>
+      <rect width="360" height="200" fill="url(#${p}w)"/><rect width="360" height="200" fill="url(#${p}l)"/>
+      ${[52, 120].map(y => `<rect x="20" y="${y + 58}" width="240" height="6" fill="#6B4A2C"/>` + [...Array(13)].map((_, i) => { const h = 44 + (i * 7) % 14, w = 14 + (i * 5) % 6, x = 26 + i * 17.6, c = ["#6E2B24", "#1F4E4A", "#2E3E6A", "#7A5A1F", "#4A2E52"][i % 5];
+        return `<rect x="${f(x)}" y="${y + 58 - h}" width="${w}" height="${h}" fill="${c}"/><rect x="${f(x)}" y="${y + 58 - h + 6}" width="${w}" height="2" fill="#E9C46A" opacity=".8"/><rect x="${f(x)}" y="${y + 58 - 10}" width="${w}" height="2" fill="#E9C46A" opacity=".8"/>`; }).join("")).join("")}
+      <path d="M262 178H330V184H262Z" fill="#6B4A2C"/><path d="M276 178Q296 158 316 178Z" fill="#C9A24A"/><path d="M288 168Q296 150 304 168" fill="#E9C46A"/><ellipse cx="296" cy="150" rx="5" ry="10" fill="#FFE7A6"/><ellipse cx="296" cy="153" rx="2.2" ry="5" fill="#fff"/>`,
+    cosmos: (p) => { const P = PAL.night, r = rnd(91); let st = ""; for (let i = 0; i < 120; i++) st += `<circle cx="${f(r() * 360)}" cy="${f(r() * 170)}" r="${f(.3 + r() * 1.1)}" fill="#FFF6DD" opacity="${f(.3 + r() * .7)}"/>`;
+      return `<defs>${G(p + "s", [[0, "#050B1E"], [1, "#1B2350"]])}${G(p + "mw", [[0, "#9FB4FF", 0], [.5, "#C9B8FF", .22], [1, "#9FB4FF", 0]], 1, 1)}</defs><rect width="360" height="200" fill="url(#${p}s)"/>
+        <path d="M-20 160L380 20L380 70L-20 210Z" fill="url(#${p}mw)"/>${st}<ellipse cx="180" cy="96" rx="120" ry="34" fill="none" stroke="#CFC6FF" opacity=".25"/><ellipse cx="180" cy="96" rx="80" ry="22" fill="none" stroke="#CFC6FF" opacity=".3"/>
+        <circle cx="180" cy="96" r="12" fill="#FFE7AE"/><circle cx="180" cy="96" r="22" fill="#FFE7AE" opacity=".2"/><circle cx="292" cy="80" r="5" fill="#9AC4E8"/><circle cx="102" cy="112" r="4" fill="#E8B49A"/>
+        <path d="M0 200L0 176Q90 164 180 172T360 168V200Z" fill="#0B1022"/>`; },
+    rain: (p, P) => { const cloud = (x, y, s) => `<g transform="translate(${x} ${y}) scale(${s})" fill="${P.night ? "#41506A" : "#F3F5F7"}"><circle cx="0" cy="0" r="14"/><circle cx="16" cy="-6" r="18"/><circle cx="36" cy="0" r="14"/><rect x="0" y="0" width="36" height="14"/></g>`;
+      const P2 = { ...P, s: P.night ? P.s : ["#9DB6C6", "#C9D8DF", "#E6EEF0"] };
+      return defs(p, P2) + `<rect width="360" height="200" fill="url(#${p}sky)"/>${cloud(60, 40, 1.4)}${cloud(220, 30, 1.7)}${cloud(160, 60, 1)}
+        ${[...Array(40)].map((_, i) => { const x = (i * 37) % 360, y = 70 + (i * 23) % 60; return `<path d="M${x} ${y}l-4 10" stroke="#8FB4C8" stroke-width="1.2" opacity=".7" stroke-linecap="round"/>`; }).join("")}
+        <path d="M0 140C60 120 120 132 180 124S300 116 360 128V200H0Z" fill="#5E8F5A"/><path d="M0 162C80 150 180 160 260 152S340 150 360 154V200H0Z" fill="#4A7A49"/>
+        <path d="M100 200C130 180 170 172 220 166S300 162 360 166V176C300 172 240 178 200 186S140 196 130 200Z" fill="#7FB8D0"/>` + (P.night ? tint(P) : ""); },
+    graves: (p, P) => defs(p, P) + sky(p, P, 300) + `<path d="M0 132C70 122 140 128 210 122S320 118 360 124V200H0Z" fill="#5C7A55"/><path d="M0 160C90 150 200 160 360 150V200H0Z" fill="#4C6A46"/>
+      ${cypress(46, 140, 70, "#26402C")}${cypress(70, 142, 54, "#2D4A33")}${cypress(312, 138, 66, "#26402C")}
+      ${[[130, 158], [170, 162], [210, 156], [250, 160], [150, 178], [200, 180], [240, 176]].map(([x, y]) => `<path d="M${x - 5} ${y}V${y - 14}Q${x} ${y - 20} ${x + 5} ${y - 14}V${y}Z" fill="#E4DCCB"/><rect x="${x - 12}" y="${y}" width="24" height="3" rx="1.5" fill="#B7AC94" opacity=".7"/>`).join("")}` + tint(P),
+    door: (p, P) => defs(p, P, G(p + "wl", [[0, "#EDE0C6"], [1, "#D6C29C"]]) + G(p + "dr", [[0, "#6E4426"], [1, "#4C2D18"]])) + sky(p, P, 320) +
+      `<rect x="0" y="34" width="360" height="166" fill="url(#${p}wl)"/><rect x="0" y="30" width="360" height="6" fill="#B08A4E"/>
+      <path d="${archD(130, 96, 100, .78, 104)}" fill="#2F5D5C"/><path d="${archD(138, 100, 84, .78, 100)}" fill="url(#${p}dr)"/><path d="M180 ${f(100 - Math.sqrt((84 * .78) ** 2 - (84 * .78 - 42) ** 2))}V200" stroke="#3A2212" stroke-width="2"/>
+      ${[0, 1, 2, 3].map(r => [0, 1, 2, 3].map(c => `<circle cx="${146 + c * 22}" cy="${116 + r * 22}" r="1.8" fill="#C9A24A"/>`).join("")).join("")}<circle cx="172" cy="150" r="3" fill="#E9C46A"/><circle cx="188" cy="150" r="3" fill="#E9C46A"/>
+      ${lamp(92, 40, .8)}${lamp(268, 40, .8)}<g transform="translate(70 168)"><path d="M-12 32h24l-4-18h-16z" fill="#B5673E"/><path d="M0 14C-10 4-14-4-16-18C-4-10 0 2 0 14Z" fill="#4C8758"/><path d="M0 14C10 2 14-6 18-16C6-10 2 2 0 14Z" fill="#5E9C6A"/></g>
+      <g transform="translate(290 168)"><path d="M-12 32h24l-4-18h-16z" fill="#B5673E"/><path d="M0 14C-10 4-14-4-16-18C-4-10 0 2 0 14Z" fill="#5E9C6A"/><path d="M0 14C10 2 14-6 18-16C6-10 2 2 0 14Z" fill="#4C8758"/></g>` + (P.night ? `<rect width="360" height="200" fill="#061528" opacity=".28"/>` : ""),
+    table: (p, P) => `<defs>${G(p + "w", [[0, "#F1E4C8"], [1, "#DCC596"]])}${G(p + "cl", [[0, "#F7F1E3"], [1, "#E2D6BC"]])}${G(p + "j", [[0, "#3F7C8C"], [1, "#245766"]])}</defs>
+      <rect width="360" height="200" fill="url(#${p}w)"/><path d="${archD(40, 70, 90, .78, 70)}" fill="#E6D2A9"/><path d="${archD(230, 70, 90, .78, 70)}" fill="#E6D2A9"/>
+      <path d="M30 140H330L350 200H10Z" fill="url(#${p}cl)"/><path d="M30 140H330" stroke="#C9A46A" stroke-width="2"/><path d="M42 150H318M24 186H336" stroke="#C9A46A" stroke-width="1" opacity=".6"/>
+      <ellipse cx="110" cy="160" rx="34" ry="10" fill="#C98A4B"/><ellipse cx="110" cy="156" rx="30" ry="8" fill="#E0A865"/><path d="M90 154h40M94 158h32" stroke="#B07038" stroke-width="1" opacity=".6"/>
+      <ellipse cx="182" cy="166" rx="28" ry="8" fill="#E9DAB7"/>${[[170, 160], [180, 158], [190, 160], [176, 154], [188, 154]].map(([x, y]) => `<ellipse cx="${x}" cy="${y}" rx="6" ry="3.8" fill="#5B2416"/>`).join("")}
+      <path d="M244 116Q244 100 254 96V88H266V96Q276 100 276 116V156Q260 164 244 156Z" fill="url(#${p}j)"/><path d="M276 112Q290 116 284 132" stroke="#245766" stroke-width="3" fill="none"/><ellipse cx="260" cy="88" rx="8" ry="2.5" fill="#1C4652"/>`,
+  };
+  // course scenes count as motifs too
+  ["aqeedah", "fiqh", "tilawah", "adab", "seerah", "sahabah", "quran", "tazkiyah", "halal", "doubts"].forEach(id => { M["c_" + id] = null; });
+  const INDOOR = new Set(["mihrab", "coins", "inkpot", "books", "table"]);
+  // lesson → motif (explicit for the key ones, then a rotation per course)
+  const PICK = {
+    purity1: "rain", purity2: "c_fiqh", purity3: "mihrab", purity4: "c_aqeedah", purity5: "sea", f_najasa: "rain", purity6: "well", fiqh_khuff: "c_sahabah", fiqh_hayd: "c_tazkiyah", f_madhur: "c_adab", f_istinja: "door", fiqh0: "books",
+    f_times: "skyline", f_adhan: "skyline", prayer1: "kaaba", prayer2: "mihrab", prayer3: "c_aqeedah", f_how1: "mihrab", f_how2: "c_fiqh", f_rakahs: "skyline", f_texts: "c_tilawah", f_sunan: "c_adab", f_sahw: "c_doubts",
+    prayer4: "c_fiqh", prayer5: "c_doubts", f_sunnahs: "c_aqeedah", f_jamaah: "skyline", f_travel: "well", f_qada: "c_doubts", f_jumuah: "skyline", f_janazah: "graves", f_death: "graves", f_eid: "skyline",
+    f_sawm0: "iftar", fasting1: "iftar", fasting2: "iftar", fasting3: "iftar", zakat1: "coins", zakat2: "coins", zakat3: "c_halal", f_fitr: "table", f_udhiyah: "tents",
+    hj1: "kaaba", hj2: "well", hj3: "tents", hj4: "kaaba", hj9: "kaaba", hj5: "kaaba", hj6: "c_sahabah", hj7: "tents", hj8: "kaaba",
+    hh1: "c_halal", hh_kabair: "c_doubts", hh_parents: "door", f_nikah: "door", hh2: "c_tazkiyah", hh3: "table", hh4: "c_adab", hh5: "c_adab", hh6: "coins", f_money: "coins", hh7: "c_halal",
+    belief1: "books", aq_islam: "kaaba", aq_proof: "sea", belief2: "sea", belief3: "c_aqeedah", belief4: "rain", aq_twenty: "c_quran", aq_speech: "c_tilawah", aq_jaiz: "sea", belief5: "c_quran", aq_nabi: "c_seerah",
+    aq_kutub: "books", aq_shahada: "skyline", belief6: "c_aqeedah", aq_sins: "c_doubts", aq_riddah: "c_doubts", aq_shirk: "c_halal", aq_akhira: "graves", aq_ruya: "c_tazkiyah", aq_qadr: "inkpot", aq_signs: "cosmos", aq_awliya: "c_tazkiyah", aq_jamaa: "skyline",
+    sr1: "c_aqeedah", sr1b: "well", sr2: "c_quran", sr3: "tents", sr_sorrow: "graves", sr_aqabah: "c_sahabah", sr4: "cave", sr_madinah: "c_seerah", sr5: "well", sr_hudaybiyah: "tents", sr6: "kaaba", sr_farewell: "c_sahabah", sr_passing: "c_seerah", sr_family: "door", sr7: "c_tazkiyah",
+    qr0: "c_tilawah", qr1: "c_quran", qr2: "cosmos", qr3: "inkpot", qr4: "books", qr5: "mihrab",
+    heart1: "c_tazkiyah", heart2: "rain", heart3: "c_adab", heart4: "c_doubts", heart5: "books", tz_dhikr: "c_doubts", tz_tawakkul: "c_sahabah", tz_sabr: "sea", tz_path: "c_seerah",
+    sh_who: "c_sahabah", sh_abubakr: "cave", sh_umar: "skyline", sh_uthman: "inkpot", sh_ali: "door", sh_ten: "c_seerah", sh_mothers: "c_tazkiyah", sh_bayt: "door", sh_love: "c_sahabah",
+    ad_wake: "c_adab", ad_adhkar: "c_doubts", ad_afterprayer: "mihrab", ad_salam: "door", ad_eat: "table", ad_dress: "door", ad_home: "door", ad_social: "skyline", ad_sleep: "c_adab", ad_limbs: "c_tazkiyah", ad_teach: "books",
+    dd1: "c_doubts", dd2: "c_tazkiyah", dd3: "books", dd4: "c_quran", dd5: "sea", dd6: "cosmos",
+    tl_letters1: "inkpot", tl_letters2: "books", tl_harakat: "c_tilawah", tl_makharij: "mihrab", tl_nun: "mihrab", tl_meem: "c_tilawah", tl_madd: "skyline", tl_more: "c_quran", tl_fatihah: "c_tilawah",
+  };
+  if (typeof self !== "undefined") { self.__LM = M; self.__LPAL = PAL; }
+  const ORDER = ["dawn", "day", "dusk", "night"];
+  const cache = {};
+  const plan = {};
+  // choose a time of day for each card so that, as far as the scenes allow, no picture repeats in a course
+  const keyFor = (u, k) => {
+    if (!plan[u.id]) { const used = new Set(); plan[u.id] = u.lessons.map((l, j) => { const m = PICK[l.id] || "c_" + u.id;
+      const vk = pl => m + "|" + (INDOOR.has(m) ? (pl === "night" ? "n" : "d") : pl);
+      const opts = m === "cosmos" ? ["night"] : m === "iftar" ? ["dusk", "night", "dawn"] : [0, 1, 2, 3].map(n => ORDER[(j + u.id.length + n) % 4]);
+      const pal = opts.find(o => !used.has(vk(o))) || opts.find(o => j === 0 || vk(o) !== [...used].pop()) || opts[0];
+      used.add(vk(pal)); return { m, pal, key: vk(pal) }; }); }
+    return plan[u.id][k];
+  };
+  const TINT = { dawn: ["#F2A273", .12], day: null, dusk: ["#C0603A", .15], night: ["#06132A", .42] };
+  return (u, k) => {
+    const { m, pal, key } = keyFor(u, k);
+    if (cache[key]) return cache[key];
+    let svg;
+    if (m.startsWith("c_")) { const t = TINT[pal]; svg = ILL(m.slice(2)).replace("</svg>", t ? `<rect width="360" height="200" fill="${t[0]}" opacity="${t[1]}"/></svg>` : "</svg>"); }
+    else { const p = "ls" + key.replace(/\W/g, "") + "_"; svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 200" preserveAspectRatio="xMidYMid slice">${M[m](p, PAL[pal])}</svg>`; }
+    return cache[key] = "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+  };
+})();
+const lessonImg = (u, k, cls) => `<img class="${cls}" src="${LILL(u, k)}" alt="" aria-hidden="true" decoding="async" loading="lazy">`;
