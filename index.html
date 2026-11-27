@@ -534,7 +534,7 @@ mark.hl.has-note{border-bottom:2px solid #8A6D00}
 .gloss{margin:14px 0 0}.gloss>div{padding:12px 0;border-top:1px solid var(--line)}.gloss dt{font-weight:700}.gloss dt.ar{font-size:1.25rem}.gloss dd{margin:3px 0 0;color:var(--ink-2,var(--ink));line-height:1.55}
 .recap details{flex:1;min-width:0}.recap summary{cursor:pointer;list-style:none;display:flex;flex-direction:column}.recap summary::-webkit-details-marker{display:none}
 .rc-tap{font-size:.8rem;color:var(--brand);font-weight:600;margin-top:2px}.recap details[open] .rc-tap{display:none}.recap .rc-x{margin:6px 0 0}
-.xp-plus{margin-left:auto;font-size:.78rem;font-weight:800;color:#8A6A12;background:#FBF1D6;border-radius:999px;padding:2px 8px}
+.xp-plus{margin-left:auto;font-size:.78rem;font-weight:800;color:#6E520C;background:#FBF1D6;border-radius:999px;padding:2px 8px}
 .xp-t{color:#8A6A12}.nsec{margin:0 0 18px}.nsec h2{font-size:1.05rem;margin:0 0 6px}.nsec p{margin:0 0 8px;line-height:1.6}
 @media print{.tabs,.top,.no-print,header{display:none!important}.nsec{break-inside:avoid}}
 .gl-w{all:unset;cursor:pointer;color:inherit;text-decoration:underline dotted 1.5px;text-decoration-color:var(--brand,#1F6B4A);text-underline-offset:3px}
@@ -1342,7 +1342,7 @@ function bindReadLinks(root){ root.querySelectorAll("[data-read]").forEach(b => 
 let LEARN = null, LS = null;
 const LEARN_DECK = { aqeedah:["fard_aqeedah"], fiqh:["fard_tahara","fard_salah","fard_sawm","fard_zakat"] };
 const OLD_TOPIC = { belief:"aqeedah", purity:"fiqh", prayer:"fiqh", fasting:"fiqh", zakat:"fiqh", heart:"tazkiyah" };
-async function loadLearn(){ if (LEARN) return LEARN; try { LEARN = await fetch("data/learn.json?v=0a1e3658").then(r => r.json()); } catch(e){ LEARN = []; } return LEARN; }
+async function loadLearn(){ if (LEARN) return LEARN; try { LEARN = await fetch("data/learn.json?v=3e1b9266").then(r => r.json()); } catch(e){ LEARN = []; } return LEARN; }
 const learnDone = id => !!(S.learn||{})[id];
 function nextLearn(){ for (const u of LEARN||[]) for (let k = 0; k < u.lessons.length; k++) if (!learnDone(u.lessons[k].id)) return { u, k }; return null; }
 function learnHome(){
@@ -1494,7 +1494,7 @@ function renderLearn(){
       foot = `<div class="pfoot"><button class="btn" id="next">Next</button></div>`; }
     }
   }
-  $("#app").innerHTML = `<div class="player"><div class="player-in"><div class="phead"><button class="x" id="quit" aria-label="Leave lesson">${ICON.x}</button><div class="bar"><i style="width:${LS.i/LS.steps.length*100}%;background:${LS.u.color}"></i></div></div><div class="pbody">${body}</div>${foot}</div></div>`;
+  $("#app").innerHTML = `<div class="player"><div class="player-in"><div class="phead"><button class="x" id="quit" aria-label="Leave lesson">${ICON.x}</button><div class="bar"><i style="width:${LS.i/LS.steps.length*100}%;background:${LS.u.color}"></i></div></div><div class="pbody" tabindex="0" aria-label="Question">${body}</div>${foot}</div></div>`;
   document.querySelectorAll("[data-o]").forEach(x => x.onclick = () => { LS.sel = +x.dataset.o; renderLearn(); });
   const ck = $("#check"); if (ck) ck.onclick = () => { LS.answered = true;
     if (st.options[LS.sel] === st.answer) HAPTIC(); else { HAPTIC(14); setTimeout(() => HAPTIC(14), 120); }
@@ -3660,6 +3660,19 @@ async function saveBasicsOffline(btn){
 
 // ---- tappable words: any glossary term in lessons, questions, explanations and notes opens its meaning
 const GLOSS_MORE = [
+ ["Madhy", "A thin, clear fluid that comes out with arousal, without spurts. It breaks wudu and must be washed off, but does not need ghusl."],
+ ["Wadi", "A thick white fluid that can come out after urinating. It breaks wudu like urine and is washed off."],
+ ["Mani", "Sexual fluid, which comes out with desire and in spurts. Its coming out with desire makes ghusl fard."],
+ ["Nadhr", "A vow: promising Allah an act of worship, such as a fast or charity. A valid vow must be fulfilled."],
+ ["Ghamus", "The false oath: swearing by Allah about the past while knowing it is a lie. A major sin with no expiation but repentance."],
+ ["Khalwah", "A man and a non-mahram woman being alone together where no one else can come in. It is forbidden."],
+ ["Ima'", "Gesturing: praying the ruku' and sujud by bending the head, for someone too ill to make them, with sujud lower than ruku'."],
+ ["Sajdat al-tilawah", "The prostration of recitation: one prostration, wajib on whoever recites or hears one of the fourteen verses of prostration."],
+ ["Ma'azif", "Musical instruments. Playing and choosing to listen to them is haram in the Hanafi school; the daff is allowed at weddings and on Eid."],
+ ["Daff", "A simple frame drum, allowed to announce a wedding and on the days of Eid."],
+ ["Ta'wiz", "A written charm. One with only Qur'an, Allah's names or known du'as, believing that only Allah protects, is allowed by Hanafi scholars; charms believed to protect by themselves are shirk."],
+ ["Sihr", "Magic. It is real and harms only by Allah's permission; practising it is one of the seven destroying sins."],
+ ["Kahin", "A soothsayer or fortune-teller who claims to know the unseen. Going to one is forbidden."],
  ["Makruh tahriman", "Prohibitively disliked (makruh tahrimi): close to haram. Doing it is a sin and deserves punishment, though less than haram, and whoever does it should repent. Its proof is not definitive, like wajib's. Examples: delaying 'Asr until the sun turns yellow, or praying while badly needing the toilet."],
  ["Makruh tanzihan", "Mildly disliked (makruh tanzihi): better to leave. There is no sin in doing it, but leaving it is rewarded. Examples: yawning in prayer without covering the mouth, or praying bareheaded out of laziness."],
  ["Fard kifayah", "A communal obligation: if some Muslims do it, the rest are free of it; if nobody does it, everyone who could have is sinful. Example: the funeral prayer."],
@@ -4173,6 +4186,7 @@ const LILL = (() => {
     sh_who: "c_sahabah", sh_abubakr: "cave", sh_umar: "skyline", sh_uthman: "inkpot", sh_ali: "door", sh_ten: "c_seerah", sh_mothers: "c_tazkiyah", sh_bayt: "door", sh_love: "c_sahabah",
     ad_wake: "c_adab", ad_adhkar: "c_doubts", ad_afterprayer: "mihrab", ad_salam: "door", ad_eat: "table", ad_dress: "door", ad_home: "door", ad_social: "skyline", ad_sleep: "c_adab", ad_limbs: "c_tazkiyah", ad_teach: "books",
     fm_before: "c_family", f_nikah: "skyline", fm_mahram: "c_tazkiyah", fm_wife: "door", fm_husband: "c_adab", fm_together: "c_family", fm_divorce: "rain", hh_parents: "table", fm_children: "c_seerah", fm_kin: "door",
+    f_tilawah: "books", f_sick: "door", f_discharge: "well", hh_oaths: "inkpot", hh_cover: "door", hh_music: "skyline", aq_ghayb: "cosmos",
     tw_what: "c_tazkiyah", tw_roots: "c_quran", tw_fear: "sea", tw_stations: "rain", tw_ikhlas: "mihrab", tw_tariqah: "skyline", tw_shaykh: "books", tw_states: "cosmos", tw_question: "c_doubts", aq_mawlid: "c_seerah",
     dd1: "c_doubts", dd2: "c_tazkiyah", dd3: "books", dd4: "c_quran", dd5: "sea", dd6: "cosmos",
     tl_letters1: "inkpot", tl_letters2: "books", tl_harakat: "c_tilawah", tl_makharij: "mihrab", tl_nun: "mihrab", tl_meem: "c_tilawah", tl_madd: "skyline", tl_more: "c_quran", tl_fatihah: "c_tilawah",
@@ -4265,5 +4279,5 @@ function lineageBind(){
 }
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=ccbd78b2d3");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=c803ad6a1c");</script></body>
 </html>
