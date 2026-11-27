@@ -560,6 +560,9 @@ mark.hl.has-note{border-bottom:2px solid #8A6D00}
 .notes-ill{display:block;width:100%;aspect-ratio:18/7;object-fit:cover;border-radius:18px;margin:6px 0 14px}
 @media print{.notes-ill{display:none}}
 .tiles:has(> .tile:nth-child(3)){grid-template-columns:repeat(3,1fr);max-width:420px}.tiles:has(> .tile:nth-child(3)) .tile b{font-size:1.5rem}
+.chip.mini.streak.on{background:#FFF1E6;border-color:#F6C9A6;color:#B3420F}.chip.mini.streak.on svg path{fill:#E8590C}
+.chip.mini.streak.off{color:#6B7280}.chip.mini.streak.off svg path{fill:#A0A6AE}
+.chip.mini.xp{background:#EAF2FD;border-color:#BCD4F4;color:#1D4F91}.chip.mini.xp svg path{fill:#2B6CC4}
 
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--line);padding:4px;border-radius:14px}
 .seg button{border:0;background:transparent;border-radius:10px;padding:10px 6px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
@@ -999,6 +1002,9 @@ async function saveOffline(n, btn){
 function touchDay(xp){ if (S.lb && S.lb.on) S.lb.pending = (S.lb.pending||0) + xp; setTimeout(() => lbSubmit(), 1500);
  const t = today(), adv = S.lastDay !== t; if (adv) S.streak = (S.lastDay === t-1) ? S.streak + 1 : 1; S.lastDay = t; S.xp += xp; S.days[t] = (S.days[t]||0) + xp; save(); if (adv) remindProgress(); return adv; }
 if (S.lastDay !== null && today() - S.lastDay > 1) { S.streak = 0; save(); }
+// a streak only lives while you study every day: miss a whole day and it is back to 0, even if the app stayed open
+const liveStreak = () => (S.lastDay !== null && today() - S.lastDay <= 1) ? S.streak : 0;
+const streakToday = () => S.lastDay === today();
 
 /* ======================= SPACED REPETITION ======================= */
 function schedule(st, g){
@@ -1180,7 +1186,7 @@ function applyTheme(){ const t = S.theme || "auto", r = document.documentElement
 function go(v){ if (typeof stopAudio === "function" && AUD.on) stopAudio(); view = v; render(); window.scrollTo(0,0); }
 function shell(inner){
   return `<header class="topbar"><button class="brandmark" data-go="home" aria-label="Dār aṣ-Ṣiddīq, go to home">${ICON.logo}<span>Dār aṣ-Ṣiddīq</span></button>
-    <div class="stats"><button class="chip iconbtn" data-go="search" aria-label="Search">${ICON.search}</button><button class="chip iconbtn" data-go="settings" aria-label="Settings">${ICON.gear}</button><button class="chip mini" data-go="profile" aria-label="${S.streak} day streak">${ICON.flame.replace("<svg",'<svg width="14" height="14"')}${S.streak}</button><button class="chip mini xp" data-golb="1" aria-label="${S.xp} XP, open the leaderboard">${ICON.star.replace("<svg",'<svg width="14" height="14"').replace("var(--brand)","var(--gold)")}${S.xp >= 10000 ? (S.xp/1000).toFixed(0)+"k" : S.xp}</button></div></header>
+    <div class="stats"><button class="chip iconbtn" data-go="search" aria-label="Search">${ICON.search}</button><button class="chip iconbtn" data-go="settings" aria-label="Settings">${ICON.gear}</button><button class="chip mini streak ${streakToday() ? "on" : "off"}" data-go="profile" aria-label="${liveStreak()} day streak${streakToday() ? ", done today" : ", not done yet today"}">${ICON.flame.replace("<svg",'<svg width="14" height="14"')}${liveStreak()}</button><button class="chip mini xp" data-golb="1" aria-label="${S.xp} XP, open the leaderboard">${ICON.star.replace("<svg",'<svg width="14" height="14"')}${S.xp >= 10000 ? (S.xp/1000).toFixed(0)+"k" : S.xp}</button></div></header>
     <main>${inner}</main>
     <nav class="tabs"><div class="in"><button data-go="home" ${["home","unit","duas","salawat","dalail","basics","glossary","cards","notes"].includes(view.name)?'aria-current="page"':""}>${ICON.home}Learn</button><button data-go="syllabus" ${["syllabus","year","spec","live"].includes(view.name)||(view.name==="book"&&!isLibBook())?'aria-current="page"':""}>${ICON.learn}Course</button><button data-go="library" ${view.name==="library"||isLibBook()?'aria-current="page"':""}>${ICON.shelf}Library</button><button data-go="tools" ${["tools","guide","qibla","qada","zakat","inherit"].includes(view.name)?'aria-current="page"':""}>${ICON.tools}Tools</button><button data-go="profile" ${view.name==="profile"?'aria-current="page"':""}>${ICON.user}Progress</button></div></nav>`;
 }
@@ -1656,7 +1662,7 @@ function profileView(){
   const row = (id, label, hint, control) => `<div class="setrow"><label for="${id}"><b>${label}</b>${hint?`<span>${hint}</span>`:""}</label>${control}</div>`;
   const toggle = (id, on) => `<input type="checkbox" class="switch" id="${id}" ${on?"checked":""}>`;
   return shell(`<h1>Progress</h1>${basicsProgress()}
-    <div class="tiles" style="max-width:none;margin-top:12px"><div class="tile"><b>${S.streak}</b><span>Day streak</span></div><div class="tile"><b>${S.xp}</b><span>Total XP</span></div>
+    <div class="tiles" style="max-width:none;margin-top:12px"><div class="tile"><b>${liveStreak()}</b><span>Day streak</span></div><div class="tile"><b>${S.xp}</b><span>Total XP</span></div>
     <div class="tile"><b>${seen.toLocaleString()}</b><span>Cards started</span></div><div class="tile"><b>${ret===null?"–":pct(ret)}</b><span>Recall rate</span></div></div>
     ${weekStrip()}
     <section class="card lb" id="lb" hidden></section>
@@ -4001,5 +4007,5 @@ const LILL = (() => {
 const lessonImg = (u, k, cls) => `<img class="${cls}" src="${LILL(u, k)}" alt="" aria-hidden="true" decoding="async" loading="lazy">`;
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=ecd800c9e2");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=83c9535ea6");</script></body>
 </html>
