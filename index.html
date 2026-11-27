@@ -564,6 +564,41 @@ mark.hl.has-note{border-bottom:2px solid #8A6D00}
 .chip.mini.streak.off{color:#6B7280}.chip.mini.streak.off svg path{fill:#A0A6AE}
 .chip.mini.xp{background:#EAF2FD;border-color:#BCD4F4;color:#1D4F91}.chip.mini.xp svg path{fill:#2B6CC4}
 .xp-l{font-size:.68rem;font-weight:800;letter-spacing:.02em;margin-left:1px;color:#2B6CC4}
+/* family tree */
+.lineage{position:relative;margin-top:8px}.ln-h{font-weight:800;margin:14px 0 8px}.ln-list{list-style:none;margin:0;padding:0 0 0 6px;position:relative}
+.ln-list::before{content:"";position:absolute;left:17px;top:14px;bottom:14px;width:3px;border-radius:2px;background:linear-gradient(#C9A24A,#1F6B4A);transform-origin:top;transform:scaleY(1)}
+.ln{position:relative;margin:0 0 6px}.ln-b{all:unset;box-sizing:border-box;display:flex;align-items:center;gap:10px;width:100%;min-height:44px;padding:6px 10px 6px 0;cursor:pointer;border-radius:12px}
+.ln-b:disabled{cursor:default}.ln-b:focus-visible{outline:2px solid var(--brand);outline-offset:2px}
+.ln-dot{flex:none;width:24px;height:24px;border-radius:50%;background:var(--surface);border:3px solid #1F6B4A;position:relative;z-index:1}
+.ln.pro .ln-dot{background:#E9C46A;border-color:#B68A2E;box-shadow:0 0 0 4px rgba(233,196,106,.28)}.ln.first .ln-dot{width:30px;height:30px;margin-left:-3px;background:#1F6B4A;border-color:#E9C46A}
+.ln-en{font-weight:700}.ln.pro .ln-en,.ln.first .ln-en{color:#8A6A12}.ln-ar{margin-left:auto;font-size:1.15rem;color:var(--muted)}
+.ln-i{flex:none;width:20px;height:20px;border-radius:50%;display:grid;place-items:center;font:700 .72rem/1 serif;font-style:italic;color:var(--brand);border:1.5px solid var(--brand)}
+.ln-note{margin:2px 0 8px 36px;padding:10px 12px;background:#FBF1D6;border-radius:12px;line-height:1.55}
+.ln-join{margin:2px 0 8px 36px;padding:8px 12px;border-left:3px dashed #8A3B5C;display:grid;gap:2px}.ln-join .ar{font-size:1.05rem}
+.ln-gap{margin:10px 0 6px 6px;padding:12px 14px;border:2px dashed #B9A27A;border-radius:14px;display:grid;gap:4px;background:rgba(233,196,106,.08)}
+.ln-open{margin:8px 0 4px;width:100%}
+@media (prefers-reduced-motion: no-preference){
+  .lineage.go .ln-list::before{animation:lnDraw 2.4s cubic-bezier(.4,0,.2,1) both}
+  .lineage.go .ln{animation:lnIn .45s ease both;animation-delay:calc(var(--d) * 55ms)}
+  .lineage.go .ln-gap{animation:lnIn .45s ease both;animation-delay:calc(var(--d) * 55ms)}
+  @keyframes lnDraw{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+  @keyframes lnIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  /* answering */
+  .opt.right{animation:optPop .35s ease}.opt.wrong{animation:optShake .4s ease}
+  @keyframes optPop{0%{transform:scale(1)}40%{transform:scale(1.03)}100%{transform:scale(1)}}
+  @keyframes optShake{0%,100%{transform:none}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+  .xp-plus{animation:xpUp .7s ease both}@keyframes xpUp{from{opacity:0;transform:translateY(8px) scale(.9)}to{opacity:1;transform:none}}
+  .explain-box{animation:lnIn .3s ease both}
+  /* lesson complete */
+  .done-ill{animation:doneIn .7s cubic-bezier(.2,.8,.2,1) both}@keyframes doneIn{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:none}}
+  .done-screen .tile{animation:lnIn .45s ease both}.done-screen .tile:nth-child(2){animation-delay:.12s}.done-screen .tile:nth-child(3){animation-delay:.24s}
+  /* progress bars fill in */
+  .bp-p .bar i,.lc-bar i{animation:barFill 1s cubic-bezier(.2,.8,.2,1) both}@keyframes barFill{from{width:0}}
+  /* the streak lights up when today is done */
+  .chip.streak.on svg{animation:flameLit .8s ease 1 both;transform-origin:50% 90%}@keyframes flameLit{0%{transform:scale(.6)}60%{transform:scale(1.18)}100%{transform:scale(1)}}
+  /* lesson card scenes drift very gently into place */
+  .lc-ill{animation:sceneIn 1.2s ease both}@keyframes sceneIn{from{transform:scale(1.06)}to{transform:scale(1)}}
+}
 
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--line);padding:4px;border-radius:14px}
 .seg button{border:0;background:transparent;border-radius:10px;padding:10px 6px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
@@ -1189,7 +1224,7 @@ function shell(inner){
   return `<header class="topbar"><button class="brandmark" data-go="home" aria-label="Dār aṣ-Ṣiddīq, go to home">${ICON.logo}<span>Dār aṣ-Ṣiddīq</span></button>
     <div class="stats"><button class="chip iconbtn" data-go="search" aria-label="Search">${ICON.search}</button><button class="chip iconbtn" data-go="settings" aria-label="Settings">${ICON.gear}</button><button class="chip mini streak ${streakToday() ? "on" : "off"}" data-go="profile" aria-label="${liveStreak()} day streak${streakToday() ? ", done today" : ", not done yet today"}">${ICON.flame.replace("<svg",'<svg width="14" height="14"')}${liveStreak()}</button><button class="chip mini xp" data-golb="1" aria-label="${S.xp} XP, open the leaderboard">${S.xp >= 10000 ? (S.xp/1000).toFixed(0)+"k" : S.xp}<span class="xp-l" aria-hidden="true">XP</span></button></div></header>
     <main>${inner}</main>
-    <nav class="tabs"><div class="in"><button data-go="home" ${["home","unit","duas","salawat","dalail","basics","glossary","cards","notes"].includes(view.name)?'aria-current="page"':""}>${ICON.home}Learn</button><button data-go="syllabus" ${["syllabus","year","spec","live"].includes(view.name)||(view.name==="book"&&!isLibBook())?'aria-current="page"':""}>${ICON.learn}Course</button><button data-go="library" ${view.name==="library"||isLibBook()?'aria-current="page"':""}>${ICON.shelf}Library</button><button data-go="tools" ${["tools","guide","qibla","qada","zakat","inherit"].includes(view.name)?'aria-current="page"':""}>${ICON.tools}Tools</button><button data-go="profile" ${view.name==="profile"?'aria-current="page"':""}>${ICON.user}Progress</button></div></nav>`;
+    <nav class="tabs"><div class="in"><button data-go="home" ${["home","unit","duas","salawat","dalail","basics","glossary","cards","notes","lineage"].includes(view.name)?'aria-current="page"':""}>${ICON.home}Learn</button><button data-go="syllabus" ${["syllabus","year","spec","live"].includes(view.name)||(view.name==="book"&&!isLibBook())?'aria-current="page"':""}>${ICON.learn}Course</button><button data-go="library" ${view.name==="library"||isLibBook()?'aria-current="page"':""}>${ICON.shelf}Library</button><button data-go="tools" ${["tools","guide","qibla","qada","zakat","inherit"].includes(view.name)?'aria-current="page"':""}>${ICON.tools}Tools</button><button data-go="profile" ${view.name==="profile"?'aria-current="page"':""}>${ICON.user}Progress</button></div></nav>`;
 }
 /* First visit: three short steps, then straight into learning */
 const ARCH = (w=170) => `<svg class="arch" viewBox="0 0 200 240" width="${w}" aria-hidden="true"><defs><pattern id="ob-p" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M10 1l2.6 6.4L19 10l-6.4 2.6L10 19l-2.6-6.4L1 10l6.4-2.6z" fill="none" stroke="#E2C27A" stroke-width=".7" opacity=".45"/></pattern></defs>
@@ -1266,7 +1301,7 @@ function bindReadLinks(root){ root.querySelectorAll("[data-read]").forEach(b => 
 let LEARN = null, LS = null;
 const LEARN_DECK = { aqeedah:["fard_aqeedah"], fiqh:["fard_tahara","fard_salah","fard_sawm","fard_zakat"] };
 const OLD_TOPIC = { belief:"aqeedah", purity:"fiqh", prayer:"fiqh", fasting:"fiqh", zakat:"fiqh", heart:"tazkiyah" };
-async function loadLearn(){ if (LEARN) return LEARN; try { LEARN = await fetch("data/learn.json?v=57b6edc7").then(r => r.json()); } catch(e){ LEARN = []; } return LEARN; }
+async function loadLearn(){ if (LEARN) return LEARN; try { LEARN = await fetch("data/learn.json?v=0a1e3658").then(r => r.json()); } catch(e){ LEARN = []; } return LEARN; }
 const learnDone = id => !!(S.learn||{})[id];
 function nextLearn(){ for (const u of LEARN||[]) for (let k = 0; k < u.lessons.length; k++) if (!learnDone(u.lessons[k].id)) return { u, k }; return null; }
 function learnHome(){
@@ -1353,6 +1388,8 @@ function qPlay(btn){
   load();
 }
 document.addEventListener("click", e => { const b = e.target.closest(".lbtn"); if (b) { e.preventDefault(); e.stopPropagation(); qPlay(b); } }, true);
+document.addEventListener("click", e => { const b = e.target.closest("[data-goview]"); if (!b) return; e.preventDefault();
+  REF_BACK = { view: { ...view }, ls: LS && $(".player") ? LS : null, y: window.scrollY }; go({ name: b.dataset.goview }); });
 let REF_BACK = null;
 document.addEventListener("click", async e => {
   const b = e.target.closest("[data-ref]"); if (!b) return; e.preventDefault(); e.stopPropagation();
@@ -1414,7 +1451,7 @@ function renderSwipe(start){
   const cards = LS.l.cards, n = cards.length, steps = LS.steps.length;
   $("#app").innerHTML = `<div class="player"><div class="player-in"><div class="phead"><button class="x" id="quit" aria-label="Leave lesson">${ICON.x}</button><div class="bar"><i id="pbar" style="background:${LS.u.color}"></i></div></div>
     <div class="kicker swipe-k">${esc(LS.l.title)}</div>
-    <div class="swipe" id="swipe" style="--uc:${LS.u.color}" tabindex="0" aria-roledescription="carousel" aria-label="Lesson cards, swipe to move between them">${cards.map((c, j) => `<article class="card learncard sw-card" aria-roledescription="slide" aria-label="Card ${j+1} of ${n}"><h2>${esc(c.t)}</h2>${c.ar ? `<p class="ayah ar" lang="ar">${esc(c.ar)}</p><p class="ayah-en">${c.q ? `‘${esc(c.x)}’` : esc(c.x)}</p>` : `<p>${esc(c.x)}</p>`}${listenRow(c)}${srcLine(c, "From")}</article>`).join("")}</div>
+    <div class="swipe" id="swipe" style="--uc:${LS.u.color}" tabindex="0" aria-roledescription="carousel" aria-label="Lesson cards, swipe to move between them">${cards.map((c, j) => `<article class="card learncard sw-card" aria-roledescription="slide" aria-label="Card ${j+1} of ${n}"><h2>${esc(c.t)}</h2>${c.ar ? `<p class="ayah ar" lang="ar">${esc(c.ar)}</p><p class="ayah-en">${c.q ? `‘${esc(c.x)}’` : esc(c.x)}</p>` : `<p>${esc(c.x)}</p>`}${listenRow(c)}${c.view ? `<button class="btn ghost ln-open" data-goview="${c.view}">${esc(c.btn || "Open")}</button>` : ""}${srcLine(c, "From")}</article>`).join("")}</div>
     <div class="dots" aria-hidden="true">${cards.map(() => `<i></i>`).join("")}</div>
     <div class="pfoot swipe-foot"><button class="btn ghost" id="prev" aria-label="Previous card">${ICON.back}</button><button class="btn" id="next"></button></div></div></div>`;
   const sw = $("#swipe"), dots = [...document.querySelectorAll(".dots i")], prev = $("#prev"), next = $("#next"), bar = $("#pbar");
@@ -1687,7 +1724,8 @@ function settingsView(){
     </div>
     <p class="label">Use without internet</p>
     <div class="setlist"><p class="small muted" style="margin:4px 2px 10px">Anything you open is kept on this phone. Save a whole year to study with no connection.</p>
-      ${S.unlocked.filter(n => n <= YEARS.length).map(n => row(`off-${n}`, `Year ${n}: ${esc(yearOf(n).title)}`, `<span id="offst-${n}">${(S.offline||{})[n] ? `Saved ${new Date(S.offline[n]).toLocaleDateString()}` : "Not saved yet"}</span>`, `<button class="btn ghost small-btn" id="off-${n}" data-off="${n}" style="width:auto">${(S.offline||{})[n] ? "Update" : "Save"}</button>`)).join("")}</div>
+      ${S.unlocked.filter(n => n <= YEARS.length).map(n => row(`off-${n}`, `Year ${n}: ${esc(yearOf(n).title)}`, `<span id="offst-${n}">${(S.offline||{})[n] ? `Saved ${new Date(S.offline[n]).toLocaleDateString()}` : "Not saved yet"}</span>`, `<button class="btn ghost small-btn" id="off-${n}" data-off="${n}" style="width:auto">${(S.offline||{})[n] ? "Update" : "Save"}</button>`)).join("")}${row("off-basics", "Learn the basics: the books its sources open", "About 45 MB. The lessons themselves already work offline.", `<span id="offst-basics" class="small muted" style="margin-right:8px">${S.offlineBasics ? `Saved ${new Date(S.offlineBasics).toLocaleDateString()}` : "Not saved yet"}</span><button class="btn ghost small-btn" id="off-basics-btn">${S.offlineBasics ? "Update" : "Save"}</button>`)}
+</div>
     <details class="setgroup"><summary>Listening</summary><div class="setlist">
       ${row("arvoice","Read Arabic with the device voice","Recorded narration is always used when a book has it", toggle("arvoice", S.arVoice!==false))}
       ${["en","ar"].map(l => row(`v-${l}`, l==="en"?"English voice":"Arabic voice", "", `<span style="display:flex;gap:6px;min-width:0;flex:1;justify-content:flex-end"><select id="v-${l}" style="max-width:150px">${voicesFor(l).length ? voicesFor(l).map(v => `<option ${voiceFor(l)&&voiceFor(l).name===v.name?"selected":""}>${esc(v.name)}</option>`).join("") : `<option>None found</option>`}</select><button class="tool" data-vtest="${l}" aria-label="Test voice">${ICON.play}</button></span>`)).join("")}
@@ -2374,6 +2412,7 @@ function render(){ appBadge(); checkUnlock(); if (typeof hlHideBar === "function
   else if (view.name === "basics") { app.innerHTML = basicsView(); }
   else if (view.name === "glossary") { app.innerHTML = glossaryView(); }
   else if (view.name === "notes") { app.innerHTML = notesView(); }
+  else if (view.name === "lineage") { app.innerHTML = lineageView(); lineageBind(); }
   else if (view.name === "year") { const yy = yearOf(view.n);
     if (!loaded(yy)) { app.innerHTML = shell(`<p class="muted">Loading Year ${view.n}…</p>`); loadYear(view.n).then(() => { if (!S.unlocked.includes(view.n)) { S.unlocked.push(view.n); save(); } render(); }, () => toast("Could not load this year. Check your connection.")); return; }
     if (!S.unlocked.includes(view.n)) { S.unlocked.push(view.n); save(); }
@@ -2429,6 +2468,7 @@ function render(){ appBadge(); checkUnlock(); if (typeof hlHideBar === "function
   fillLeaderboard();
   const mk = $("#markread"); if (mk) mk.onclick = () => confirmBox("Mark the whole book as read? This counts towards opening the next year.", () => { const b = bookById(mk.dataset.mark), n = lessonsOf(b); S.books[b.id] = [...Array(n).keys()]; save(); toast("Marked as read"); render(); });
   app.querySelectorAll("[data-off]").forEach(b => b.onclick = () => saveOffline(+b.dataset.off, b));
+  const ob = document.getElementById("off-basics-btn"); if (ob) ob.onclick = () => saveBasicsOffline(ob);
   const rm = $("#remind"); if (rm) rm.onchange = async () => { rm.disabled = true;
     if (rm.checked) { const err = await remindOn(); if (err) { rm.checked = false; toast(err); } else toast("Reminder on: 8pm, if you haven't studied yet"); }
     else { await remindOff(); toast("Reminder off"); } rm.disabled = false; };
@@ -3507,6 +3547,28 @@ function notesView(){
 }
 document.addEventListener("click", e => { const b = e.target.closest("[data-notes]"); if (b) go({ name:"notes", id:b.dataset.notes }); if (e.target.closest("#nprint")) window.print(); });
 
+// ---- save every book page that Learn the basics links to, so tapping a source works with no connection
+async function saveBasicsOffline(btn){
+  if (!("caches" in window)) return toast("This browser can't save for offline use");
+  const st = document.getElementById("offst-basics"); btn.disabled = true; st.textContent = "Getting ready…";
+  try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch(e){}
+  if (!LEARN) await loadLearn();
+  const urls = new Set(["data/guides.json", "data/duas.json", "data/salawat.json"]), refs = [];
+  LEARN.forEach(u => u.lessons.forEach(l => [...l.cards, ...l.checks].forEach(c => c.ref && refs.push(c.ref))));
+  const files = {};
+  for (const r of refs) { const b = LIBRARY.find(x => x.id === r.b); if (!b) continue; (files[b.file] = files[b.file] || new Set()).add(r.i); }
+  for (const [f, set] of Object.entries(files)) { urls.add(`data/texts/${f}.json`);
+    try { const T = await loadText(f); if (T.split) set.forEach(i => urls.add(`data/texts/${f}/${Math.floor(i / T.split)}.json`)); } catch(e){} }
+  const c = await caches.open("ihsan-data"), list = [...urls]; let done = 0, failed = 0;
+  const one = async u => { const key = new URL(u, location.href); key.search = "";
+    try { if (!(await c.match(key.href))) { const r = await fetch(u); if (r.ok) await c.put(key.href, r); else failed++; } } catch(e){ failed++; }
+    done++; if (done % 4 === 0 || done === list.length) st.textContent = `Saving… ${Math.round(done / list.length * 100)}%`; };
+  for (let i = 0; i < list.length; i += 6) await Promise.all(list.slice(i, i + 6).map(one));
+  btn.disabled = false;
+  if (failed) { st.textContent = `Saved most of it; ${failed} couldn't be fetched. Try again on Wi-Fi.`; return; }
+  S.offlineBasics = Date.now(); save(); st.textContent = "Saved. Sources now open without internet."; btn.textContent = "Update";
+}
+
 // ---- tappable words: any glossary term in lessons, questions, explanations and notes opens its meaning
 const GLOSS_MORE = [
  ["Makruh tahriman", "Prohibitively disliked (makruh tahrimi): close to haram. Doing it is a sin and deserves punishment, though less than haram, and whoever does it should repent. Its proof is not definitive, like wajib's. Examples: delaying 'Asr until the sun turns yellow, or praying while badly needing the toilet."],
@@ -4051,6 +4113,68 @@ const LILL = (() => {
 })();
 const lessonImg = (u, k, cls) => `<img class="${cls}" src="${LILL(u, k)}" alt="" aria-hidden="true" decoding="async" loading="lazy">`;
 
+// ---- the Prophet's ﷺ lineage, from himself back to Adam عَلَيْهِ السَّلَامُ, drawn as a tree that traces itself
+const LINEAGE = {
+  agreed: [
+    ["Muhammad ﷺ", "مُحَمَّدٌ ﷺ", "The Messenger of Allah ﷺ, born in Makkah in the Year of the Elephant.", 1],
+    ["'Abdullah", "عَبْدُ اللَّهِ", "His father. He died in Madinah before the Prophet ﷺ was born."],
+    ["'Abd al-Muttalib", "عَبْدُ الْمُطَّلِبِ", "His grandfather, chief of Quraysh, who dug the well of Zamzam again and raised him ﷺ until he was eight."],
+    ["Hashim", "هَاشِمٌ", "Banu Hashim, the Prophet's clan ﷺ, are named after him. He began Quraysh's winter and summer caravan journeys."],
+    ["'Abd Manaf", "عَبْدُ مَنَافٍ"],
+    ["Qusayy", "قُصَيٌّ", "He gathered Quraysh in Makkah and took charge of the Ka'bah."],
+    ["Kilab", "كِلَابٌ", "Here his mother's line joins his father's: Aminah bint Wahb ibn 'Abd Manaf ibn Zuhrah ibn Kilab.", 0, 1],
+    ["Murrah", "مُرَّةُ"], ["Ka'b", "كَعْبٌ"], ["Lu'ayy", "لُؤَيٌّ"], ["Ghalib", "غَالِبٌ"],
+    ["Fihr", "فِهْرٌ", "Known as Quraysh: all of Quraysh descend from him."],
+    ["Malik", "مَالِكٌ"], ["al-Nadr", "النَّضْرُ"],
+    ["Kinanah", "كِنَانَةُ", "The Prophet ﷺ said: Allah chose Kinanah from the children of Isma'il, Quraysh from Kinanah, Banu Hashim from Quraysh, and chose me from Banu Hashim (Muslim)."],
+    ["Khuzaymah", "خُزَيْمَةُ"], ["Mudrikah", "مُدْرِكَةُ"], ["Ilyas", "إِلْيَاسُ"], ["Mudar", "مُضَرُ"], ["Nizar", "نِزَارٌ"], ["Ma'add", "مَعَدٌّ"],
+    ["'Adnan", "عَدْنَانُ", "The scholars agree on the line up to 'Adnan, a descendant of Isma'il عَلَيْهِ السَّلَامُ."],
+  ],
+  historians: [
+    ["Isma'il", "إِسْمَاعِيلُ", "A Prophet عَلَيْهِ السَّلَامُ. He built the Ka'bah with his father and settled in Makkah, where the Arabs of the north descend from him.", 1],
+    ["Ibrahim", "إِبْرَاهِيمُ", "The Friend of Allah عَلَيْهِ السَّلَامُ, father of the Prophets after him.", 1],
+    ["Azar (Tarikh)", "آزَرُ"], ["Nahur", "نَاحُورُ"], ["Sarugh", "سَارُوغُ"], ["Ra'u", "رَاعُو"], ["Falikh", "فَالِخُ"], ["'Abir", "عَابِرُ"], ["Shalikh", "شَالِخُ"],
+    ["Arfakhshad", "أَرْفَخْشَذُ"], ["Sam", "سَامُ", "Son of Nuh عَلَيْهِ السَّلَامُ, through whom the Arabs and many peoples descend."],
+    ["Nuh", "نُوحٌ", "A Prophet and one of the five of firm resolve عَلَيْهِ السَّلَامُ. All people after the Flood descend from him.", 1],
+    ["Lamak", "لَامَكُ"], ["Mattushalakh", "مَتُّوشَلَخُ"],
+    ["Idris (Akhnukh)", "إِدْرِيسُ", "A Prophet عَلَيْهِ السَّلَامُ: 'We raised him to a high station.' (Maryam 57)", 1],
+    ["Yarid", "يَرْدُ"], ["Mahla'il", "مَهْلَائِيلُ"], ["Qaynan", "قَيْنَانُ"], ["Anush", "أَنُوشُ"],
+    ["Shith", "شِيثُ", "A Prophet عَلَيْهِ السَّلَامُ, the son of Adam.", 1],
+    ["Adam", "آدَمُ", "The first human and the first Prophet عَلَيْهِ السَّلَامُ, created by Allah with His own hands.", 1],
+  ],
+};
+function lineageView(){
+  const node = (n, k, part) => { const [en, ar, note, prophet, join] = n;
+    return `<li class="ln ${prophet ? "pro" : ""} ${k === 0 && part === "a" ? "first" : ""}" style="--d:${k}">
+      <button class="ln-b" ${note ? `data-ln="${esc(note)}"` : "disabled"} aria-label="${esc(en)}${note ? ", tap for more" : ""}">
+        <span class="ln-dot" aria-hidden="true"></span><span class="ln-en">${esc(en)}</span><span class="ln-ar ar" lang="ar">${esc(ar)}</span>${note ? `<span class="ln-i" aria-hidden="true">i</span>` : ""}</button>
+      ${join ? `<div class="ln-join"><span class="small">His mother's line joins here</span><span class="ar" lang="ar">آمِنَةُ بِنْتُ وَهْبِ بْنِ عَبْدِ مَنَافِ بْنِ زُهْرَةَ بْنِ كِلَابٍ</span></div>` : ""}</li>`; };
+  const A = LINEAGE.agreed, H = LINEAGE.historians;
+  return shell(`<button class="back" id="ln-back">${ICON.back} Back</button>
+    <h1 style="margin-bottom:4px">The family tree of the Prophet ﷺ</h1>
+    <p class="muted" style="margin:0 0 6px">From Muhammad ﷺ back to Adam عَلَيْهِ السَّلَامُ. Prophets are marked in gold. Tap a name with <b>i</b> to read more.</p>
+    <p class="small"><button class="linkbtn small" id="ln-replay">Trace the line again</button> · <button class="linkbtn small" data-ref="t_fusul|${LIN_REF.fusul}|">Read his lineage in al-Fusul</button></p>
+    <div class="lineage" id="lineage">
+      <p class="ln-h">Agreed by all the scholars <span class="small muted">(${A.length - 1} forefathers)</span></p>
+      <ol class="ln-list">${A.map((n, k) => node(n, k, "a")).join("")}</ol>
+      <div class="ln-gap" style="--d:${A.length}"><b>Between 'Adnan and Isma'il</b><span class="small">The number of generations here is not known for certain, and the scholars differ. The Prophet ﷺ himself traced his line to 'Adnan.</span></div>
+      <p class="ln-h">As given by the historians <span class="small muted">(Ibn Ishaq and others; names and order differ between sources)</span></p>
+      <ol class="ln-list">${H.map((n, k) => node(n, k + A.length + 1, "h")).join("")}</ol>
+    </div>
+    <p class="small muted" style="margin-top:14px">Sources: Sahih al-Bukhari, Book of the Merits of the Ansar (the line to 'Adnan); Ibn Hisham, al-Sirah al-Nabawiyyah, and Ibn Kathir, al-Fusul fi Sirat al-Rasul ﷺ (beyond 'Adnan).</p>`);
+}
+const LIN_REF = { fusul: 0 };
+function lineageBind(){
+  const box = document.getElementById("lineage"); if (!box) return;
+  const play = () => { box.classList.remove("go"); void box.offsetWidth; box.classList.add("go"); };
+  requestAnimationFrame(play);
+  const bk = document.getElementById("ln-back"); if (bk) bk.onclick = () => { if (!refBack()) go({ name: "basics" }); };
+  const r = document.getElementById("ln-replay"); if (r) r.onclick = () => { window.scrollTo({ top: 0, behavior: "instant" }); play(); };
+  box.querySelectorAll("[data-ln]").forEach(b => b.onclick = () => {
+    const open = b.parentElement.querySelector(".ln-note"); box.querySelectorAll(".ln-note").forEach(n => n.remove()); box.querySelectorAll("[aria-expanded]").forEach(x => x.setAttribute("aria-expanded", "false"));
+    if (open) return; const p = document.createElement("p"); p.className = "ln-note"; p.textContent = b.dataset.ln; b.after(p); b.setAttribute("aria-expanded", "true"); });
+}
+
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=e88ab8aa15");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=d4cde51b9b");</script></body>
 </html>
