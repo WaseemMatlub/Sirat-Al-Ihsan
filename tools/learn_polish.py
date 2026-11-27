@@ -275,7 +275,7 @@ def polish(courses):
         for after, L in items:
             if L["id"] in by_id: continue
             lesson = {"id": L["id"], "title": L["title"], "about": L["about"],
-                      "cards": [{"t": t, "x": x, "src": s} for t, x, s in L["cards"]],
+                      "cards": [{"t": t, "x": x, "src": s if ("," in s or s.startswith(("Qur'an", "Hadith"))) else f"{s}, {L['title']}"} for t, x, s in L["cards"]],
                       "checks": [{"q": q, "a": a, "w": w, "why": y, "src": s} for q, a, w, y, s in L["checks"]]}
             i = next((k for k, l in enumerate(c["lessons"]) if l["id"] == after), len(c["lessons"]) - 1)
             c["lessons"].insert(i + 1, lesson); by_id[lesson["id"]] = lesson
@@ -486,4 +486,175 @@ DISTRACT.update({
  ("sr1b", 2): ("Twenty-five", ["Forty", "Twenty", "Thirty-five"]),
  ("sr2", 2): ("Khadijah رضي الله عنها", ["Abu Bakr رضي الله عنه", "Abu Talib, his uncle", "Fatimah رضي الله عنها"]),
  ("sr_family", 0): ("Fatimah رضي الله عنها", ["Zaynab رضي الله عنها", "Ibrahim, his youngest", "Umm Kulthum رضي الله عنها"]),
+})
+
+# ================================================================= second review: filling the gaps in Fard al-'Ayn
+MQ = "Maraqi al-Falah"
+CARDS.update({
+ ("fiqh0", "+"): ("The other rulings", "Sunnah mu'akkadah: done regularly by the Prophet ﷺ; leaving it habitually is blameworthy. Mustahabb: rewarded, no blame for leaving. Mubah: simply allowed. Makruh tanzihan: better left. Makruh tahriman: close to haram; doing it is a sin. Haram: forbidden by a definitive proof."),
+ ("purity5", "+"): ("The sunnah way", "Wash the hands, wash off any impurity and the private parts, make wudu, then pour water over the head three times, the right side three times and the left side three times, rubbing the body."),
+ ("fiqh_hayd", "+"): ("Other bleeding", "Bleeding shorter than three days, longer than ten, or beyond forty after birth is istihadah (irregular bleeding). It does not stop prayer or fasting: she makes wudu for each prayer time and prays."),
+ ("f_fitr", 1): ("How much", "Half a sa' of wheat or wheat flour (about 1.6–2 kg), or a full sa' of dates, raisins or barley (about 3.2–4 kg), or the value of it in money, which is what most people give today. A sa' is a measure of volume from the time of the Prophet ﷺ, so the weight in kg is an estimate."),
+})
+
+APPEND.update({
+ "fiqh0": [("Which ruling is closest to haram, so doing it is a sin?", "Makruh tahriman", ["Makruh tanzihan", "Mubah", "Mustahabb"], "Makruh tahriman is prohibitively disliked: close to haram. Makruh tanzihan is only better left.", NI)],
+ "purity1": [("Rose water or fruit juice: can they be used for wudu?", "No, they are no longer plain water", ["Yes, they are pure", "Yes, if nothing else is available", "Only rose water"], "Wudu needs plain water. Something whose name is no longer 'water' cannot be used.", NI)],
+ "purity2": [("In wudu, how much of the head must be wiped at least?", "A quarter of the head", ["The whole head", "Three hairs", "Only the forehead"], "Wiping a quarter is fard; wiping all of it once is the sunnah.", NI)],
+ "purity4": [("Does touching your private part break wudu in the Hanafi school?", "No", ["Yes, always", "Only with desire", "Only for women"], "Nur al-Idah lists it among things that do not break wudu.", NI)],
+ "f_times": [("When does the time of Maghrib end?", "When the red twilight disappears", ["An hour after sunset", "At midnight", "When the stars appear"], "Maghrib lasts from sunset until the redness in the sky has gone; then 'Isha' begins.", NI)],
+ "prayer3": [("Which of these is wajib in prayer, not a pillar?", "Reciting al-Fatihah", ["Bowing (ruku')", "Prostrating (sujud)", "Standing"], "In the Hanafi school reciting is a pillar, but al-Fatihah in particular is wajib.", NI)],
+ "f_how1": [("Where does a man place his hands while standing in prayer?", "Right over left, below the navel", ["Right over left, on the chest", "By his sides", "Left over right, on the chest"], "A man places them below the navel; a woman places them on her chest.", NI)],
+ "f_how2": [("What is said three times in sujud?", "'Subhana rabbiya al-a'la'", ["'Subhana rabbiya al-'azim'", "'Sami' Allahu li-man hamidah'", "'Allahu akbar'"], "'Subhana rabbiya al-a'la' (glory to my Lord, the Most High) in sujud; 'al-'azim' (the Magnificent) is said in ruku'.", NI)],
+ "prayer4": [("You forget you are praying and say a few words. Is the prayer broken?", "Yes, speaking breaks it even by mistake", ["No, because it was by mistake", "Only if it was a long sentence", "Only in a fard prayer"], "In the Hanafi school speech breaks the prayer whether deliberate or by mistake.", NI)],
+ "prayer5": [("How many rak'ahs is witr, and how many salams?", "Three rak'ahs, one salam", ["One rak'ah, one salam", "Three rak'ahs, two salams", "Two rak'ahs, one salam"], "Witr is three rak'ahs with one salam at the end, and a sitting after the second.", NI)],
+ "f_jamaah": [("Does the follower recite al-Fatihah behind the imam in the Hanafi school?", "No, he listens or stays silent", ["Yes, in every prayer", "Only in silent prayers", "Only the first rak'ah"], "The imam's recitation counts for the follower.", NI)],
+ "f_jumuah": [("Who must attend Jumu'ah?", "A free, resident, healthy adult Muslim man", ["Every Muslim, men and women", "Only those living near a masjid", "Travellers as well as residents"], "Women, travellers and the ill are excused; if they attend, it counts in place of Zuhr.", NI)],
+ "f_janazah": [("How many takbirs are in the funeral prayer?", "Four", ["Three", "Five", "Seven"], "Four takbirs, standing, with no ruku' or sujud, ending with salam.", NI)],
+ "f_sawm0": [("Until when can you make the intention for a Ramadan fast?", "Before the middle of the day", ["Only before dawn", "Until sunset", "Until 'Asr"], "The middle of the day here is halfway between true dawn and sunset, not the clock's midday.", NI)],
+ "fasting1": [("You eat by mistake, forgetting you are fasting. What happens?", "The fast is not broken; carry on fasting", ["The fast is broken; make it up", "You owe the expiation", "Your fast is broken but no make-up is due"], "Forgetting does not break the fast. Stop as soon as you remember.", NI)],
+ "fasting2": [("What is the expiation (kaffarah) for breaking a Ramadan fast on purpose?", "Fasting two months in a row", ["Fasting three days", "Feeding ten people", "Paying zakat twice"], "If you truly cannot fast, feed sixty poor people. A make-up day is also owed.", NI)],
+ "fasting3": [("A person is too old to fast and won't become able. What do they do?", "Give a fidyah for each day", ["Fast later in the year", "Nothing at all", "Pray extra prayers instead"], "The fidyah is about the same as zakat al-fitr, for each day missed.", NI)],
+ "zakat2": [("What is the rate of zakat on money and trade goods?", "2.5% (a fortieth)", ["10% (a tenth)", "5% (a twentieth)", "20% (a fifth)"], "A fortieth of the wealth, once a lunar year has passed on the nisab.", QD)],
+ "zakat3": [("May you give your zakat to your own mother?", "No, not to parents, children or spouse", ["Yes, she is family", "Only if she is poor", "Only half of it"], "Help them from your other wealth; zakat goes to others.", QD)],
+ "f_fitr": [("About how much wheat is half a sa' for zakat al-Fitr?", "About 1.6–2 kg", ["About 200 g", "About 10 kg", "About 500 g"], "Half a sa' of wheat is roughly 1.6–2 kg; most people give its value in money.", QD)],
+ "hj1": [("May a woman travel for Hajj without a mahram or her husband?", "No, if Makkah is three days' journey or more", ["Yes, in a group of women", "Yes, if she has the money", "Only for 'umrah"], "Al-Quduri makes a mahram or husband a condition for her, from that distance.", QD)],
+ "hj2": [("When do you actually enter ihram?", "With the intention and the talbiyah", ["When you put on the two sheets", "When you reach Makkah", "When you first see the Ka'bah"], "The sheets, ghusl and two rak'ahs prepare you; the intention with the talbiyah makes you muhrim.", QD)],
+ "hj6": [("What is the heart of Hajj, without which it is missed?", "Standing at 'Arafah", ["Stoning the jamarat", "The farewell tawaf", "Staying in Mina"], "'Hajj is 'Arafah.' Whoever is there between midday on the 9th and dawn on the 10th has caught it.", QD)],
+})
+
+NEW_LESSONS["aqeedah"] += [
+ ("belief1", {"id":"aq_islam", "title":"Islam, Iman and Ihsan", "about":"The famous hadith of Jibril: the three levels of the religion.",
+  "cards":[
+   ("The hadith of Jibril", "Jibril عَلَيْهِ السَّلَامُ came in the form of a man and asked the Prophet ﷺ about Islam, Iman, Ihsan and the Hour, so the Companions could learn their religion. Muslim narrated it from 'Umar رَضِيَ اللَّهُ عَنْهُ.", "Sahih Muslim, Book of Faith"),
+   ("Islam: five pillars", "To bear witness that there is no god but Allah and that Muhammad is the Messenger of Allah, to establish the prayer, pay zakat, fast Ramadan, and perform Hajj if you are able.", "Sahih Muslim, Book of Faith"),
+   ("Iman: six articles", "To believe in Allah, His angels, His books, His messengers, the Last Day, and the decree, its good and its bad.", "Sahih Muslim, Book of Faith"),
+   ("Ihsan", "To worship Allah as though you see Him; and though you do not see Him, He sees you.", "Sahih Muslim, Book of Faith"),
+  ],
+  "checks":[
+   ("In the hadith of Jibril, how many pillars of Islam are there?", "Five", ["Six", "Four", "Seven"], "The two testimonies, prayer, zakat, fasting Ramadan and Hajj for those able.", "Sahih Muslim"),
+   ("Which of these is one of the six articles of Iman, not a pillar of Islam?", "Belief in the angels", ["Fasting Ramadan", "Paying zakat", "Performing Hajj"], "Islam is the outward pillars; Iman is what is believed in the heart.", "Sahih Muslim"),
+   ("What is Ihsan?", "Worshipping Allah as though you see Him", ["Giving more charity than zakat", "Praying in the first row", "Memorising the whole Qur'an"], "And though you do not see Him, He sees you. It is the highest level of the religion.", "Sahih Muslim"),
+   ("Who came asking the Prophet ﷺ these questions?", "Jibril عَلَيْهِ السَّلَامُ, in the form of a man", ["Abu Bakr رَضِيَ اللَّهُ عَنْهُ", "A Bedouin from Najd", "An angel no one could see"], "The Prophet ﷺ said afterwards: that was Jibril, who came to teach you your religion.", "Sahih Muslim"),
+  ]}),
+ ("belief5", {"id":"aq_nabi", "title":"Our Prophet Muhammad ﷺ", "about":"Who he is, his rank, and what we owe him.",
+  "cards":[
+   ("The Seal", "Muhammad ﷺ son of 'Abdullah is the last Prophet and Messenger. There is no prophet after him. He was sent to all of mankind and jinn, until the end of time.", TH),
+   ("The best of creation", "He ﷺ is the master of the children of Adam and the best of all creation, the beloved of the Lord of the worlds. His greatest miracle is the Qur'an, which remains until the end of time.", TH),
+   ("The prophets", "Allah sent many prophets; we believe in them all. Twenty-five are named in the Qur'an, among them Adam, Nuh, Ibrahim, Musa, 'Isa and Muhammad عَلَيْهِمُ السَّلَامُ. The greatest of them are called the 'Ulu al-'Azm: Nuh, Ibrahim, Musa, 'Isa and Muhammad.", "al-Fiqh al-Akbar"),
+   ("What we owe him", "To believe him, obey him, follow his Sunnah, love him more than ourselves, our parents and children, honour him, and send blessings upon him whenever he is mentioned.", "Sahih al-Bukhari, Book of Faith"),
+  ],
+  "checks":[
+   ("After the Prophet Muhammad ﷺ, will any new prophet come?", "No, he is the Seal of the Prophets", ["Yes, one more before the end", "Yes, 'Isa عَلَيْهِ السَّلَامُ as a new prophet with a new law", "Only a prophet for the Arabs"], "'Isa عَلَيْهِ السَّلَامُ will return, but following the law of Muhammad ﷺ.", TH),
+   ("To whom was the Prophet ﷺ sent?", "To all mankind and jinn", ["To the Arabs only", "To the people of Makkah and Madinah", "To the Jews and Christians only"], "Earlier prophets were sent to their own people; he ﷺ was sent to all.", TH),
+   ("What is the greatest miracle of the Prophet ﷺ, which remains today?", "The Qur'an", ["The splitting of the moon", "Water flowing from his fingers", "The Night Journey"], "His other miracles were seen by those present; the Qur'an remains for every generation.", TH),
+   ("The Prophet ﷺ said none of you truly believes until he loves him more than…", "His father, his child and all people", ["His wealth only", "His teachers", "Other prophets"], "Al-Bukhari narrated it in the Book of Faith.", "Sahih al-Bukhari"),
+   ("How many prophets are named in the Qur'an?", "Twenty-five", ["Seven", "Forty", "Three hundred and thirteen"], "Twenty-five are named; we believe in all the prophets, named or not.", "al-Fiqh al-Akbar"),
+  ]}),
+ ("aq_sins", {"id":"aq_riddah", "title":"What takes a person out of Islam", "about":"Guarding your faith: what is disbelief, and how to return.",
+  "cards":[
+   ("Faith is precious", "Iman can be lost. The scholars teach every Muslim what takes a person out of Islam, so they can guard their faith, just as they guard their prayer.", "al-Fiqh al-Akbar"),
+   ("In belief", "Doubting Allah, the Prophet ﷺ or the Qur'an; believing Allah has a partner, a body or a child; or denying something every Muslim knows is part of the religion, such as the prayer being fard or alcohol being haram.", "al-Fiqh al-Akbar"),
+   ("In words and deeds", "Mocking Allah, His Messenger ﷺ, the Qur'an or the religion, even as a joke; and deeds that only mean disbelief, such as prostrating to an idol or throwing the Qur'an in filth.", "al-Fiqh al-Akbar"),
+   ("Returning", "Whoever falls into this must repent at once and say the Shahadah again sincerely. Allah accepts the one who returns. But we do not call any Muslim a disbeliever ourselves; that is for qualified scholars, with great caution.", TH),
+  ],
+  "checks":[
+   ("Someone mocks the prayer as a joke. What is the ruling?", "It is disbelief, even as a joke", ["It is only disliked", "It is a minor sin", "It is fine if no one was offended"], "Mocking any part of the religion, even jokingly, takes a person out of Islam. Repent and renew the Shahadah.", "al-Fiqh al-Akbar"),
+   ("A Muslim drinks alcohol but believes it is haram. Is he a disbeliever?", "No, he is a sinful believer", ["Yes, he has left Islam", "Yes, unless he drinks only a little", "Only if he does it in public"], "Committing a sin is not disbelief. Claiming it is lawful would be.", TH),
+   ("Someone realises they said words of disbelief. What should they do?", "Repent at once and say the Shahadah again", ["Nothing, words don't matter", "Wait until Ramadan to repent", "Give charity only"], "Return immediately and sincerely; Allah accepts the one who turns back.", "al-Fiqh al-Akbar"),
+   ("May an ordinary Muslim declare another Muslim a disbeliever?", "No; it is for qualified scholars, with great caution", ["Yes, if he sins publicly", "Yes, if he disagrees with us", "Yes, if he misses a prayer"], "Al-Tahawi: we do not call anyone of the qiblah a disbeliever for a sin.", TH),
+  ]}),
+ ("aq_riddah", {"id":"aq_shirk", "title":"Shirk: the sin Allah does not forgive", "about":"What shirk is, the hidden kind, and how to stay clear of it.",
+  "cards":[
+   ("What shirk is", "Shirk is believing anyone shares in Allah's divinity: that another creates, deserves worship, or has power of its own besides Him. Allah forgives everything except dying upon shirk.", "Qur'an, al-Nisa' 48"),
+   ("The hidden shirk", "Riya', doing good deeds to be seen by people, is called the lesser or hidden shirk. It does not take you out of Islam, but it spoils the deed.", "Ihya' 'Ulum al-Din, Book of Sincerity"),
+   ("Superstition", "Believing that charms, stars, unlucky numbers or days bring good or harm by themselves contradicts tawhid. Everything happens only by Allah's will.", TH),
+  ],
+  "checks":[
+   ("Which sin does Allah not forgive if a person dies upon it?", "Shirk: associating partners with Allah", ["Missing prayers", "Lying", "Backbiting"], "'Allah does not forgive that partners be associated with Him, but forgives anything less than that for whom He wills.' (al-Nisa' 48)", "Qur'an"),
+   ("Praying so that people praise you is called…", "Riya', the hidden shirk", ["Ikhlas", "Tawakkul", "Ihsan"], "It spoils the deed but does not take you out of Islam. Fix your intention.", "Ihya' 'Ulum al-Din"),
+   ("Someone believes a lucky charm protects them by its own power. What does it contradict?", "Tawhid: only Allah brings benefit and harm", ["Nothing, it is harmless", "Only good manners", "The sunnah of eating"], "Benefit and harm come only from Allah.", TH),
+  ]}),
+]
+NEW_LESSONS["fiqh"] = [
+ ("f_how2", {"id":"f_sunan", "title":"Sunnahs and dislikes of prayer", "about":"What perfects the prayer, and what spoils its beauty.",
+  "cards":[
+   ("Some sunnahs", "Raising the hands at the opening takbir, the opening praise (thana'), seeking refuge, bismillah, 'amin', the takbirs when moving, the glorifications in ruku' and sujud, and blessings on the Prophet ﷺ in the last sitting.", NI),
+   ("Disliked (makruh)", "Playing with clothes or body, cracking the fingers, looking around, hands on the hips, yawning without covering the mouth, closing the eyes without need, and praying while needing the toilet.", NI),
+   ("Where you pray", "It is disliked to pray facing a picture of a living being, on a path, in a bathroom, or with someone's face turned towards you.", NI),
+  ],
+  "checks":[
+   ("Which of these is a sunnah of prayer?", "Saying 'amin' quietly after al-Fatihah", ["Reciting al-Fatihah", "The final sitting", "Facing the qiblah"], "Al-Fatihah is wajib, the final sitting is fard, facing the qiblah is a condition; 'amin' is sunnah.", NI),
+   ("You need the toilet badly as the prayer starts. What is best?", "Use the toilet first, then pray", ["Pray quickly", "Pray, it makes no difference", "Skip the prayer"], "Praying while holding it in is disliked, as it takes away humility.", NI),
+   ("Which of these is disliked in prayer?", "Looking around", ["Looking at the place of sujud", "Keeping the feet apart a little", "Saying the takbirs"], "The eyes stay on the place of sujud while standing.", NI),
+   ("Is it disliked to pray facing a picture of a living being?", "Yes", ["No, if it is small", "Only in a masjid", "Only if it is a photo"], "Nur al-Idah lists it among what is disliked.", NI),
+  ]}),
+ ("prayer5", {"id":"f_sunnahs", "title":"The regular sunnah prayers", "about":"The sunnahs the Prophet ﷺ kept with the five prayers, and tarawih.",
+  "cards":[
+   ("The stressed ones", "Two rak'ahs before Fajr (the most important), four before Zuhr and two after, two after Maghrib, two after 'Isha', and four before Jumu'ah and four after it.", NI),
+   ("The others", "Four before 'Asr, four before 'Isha' and six after Maghrib are recommended, not stressed.", NI),
+   ("Tarawih", "In Ramadan, twenty rak'ahs after 'Isha', in sets of two, is a stressed sunnah for men and women. Praying it in congregation is a sunnah too.", NI),
+  ],
+  "checks":[
+   ("Which is the most important sunnah prayer?", "The two rak'ahs before Fajr", ["Four before 'Asr", "Six after Maghrib", "Two after 'Isha'"], "The Prophet ﷺ never left them, even when travelling.", NI),
+   ("How many stressed sunnah rak'ahs are there before Zuhr?", "Four", ["Two", "Six", "None"], "Four before Zuhr and two after.", NI),
+   ("How many rak'ahs is tarawih in the Hanafi school?", "Twenty", ["Eight", "Eleven", "Thirty-six"], "Twenty rak'ahs, as the Companions prayed in the time of 'Umar رَضِيَ اللَّهُ عَنْهُ.", NI),
+   ("Which sunnah comes after Maghrib?", "Two rak'ahs", ["Four rak'ahs", "None", "One rak'ah"], "Two stressed rak'ahs after Maghrib.", NI),
+  ]}),
+ ("f_janazah", {"id":"f_eid", "title":"The two Eid prayers", "about":"Eid al-Fitr and Eid al-Adha: how the prayer is done.",
+  "cards":[
+   ("Its ruling", "The Eid prayer is wajib on those for whom Jumu'ah is fard. It is two rak'ahs, prayed after sunrise until midday, with the khutbah after the prayer.", NI),
+   ("The extra takbirs", "In the first rak'ah, after the opening praise, say three extra takbirs raising the hands, then recite. In the second, recite, then say three extra takbirs before going into ruku'.", NI),
+   ("Its sunnahs", "Ghusl, wearing your best clothes, perfume, and saying the takbir. Eat something sweet, like dates, before Eid al-Fitr; on Eid al-Adha, delay eating until after the prayer.", NI),
+  ],
+  "checks":[
+   ("What is the ruling of the Eid prayer in the Hanafi school?", "Wajib", ["Fard", "Only recommended", "Fard kifayah"], "Wajib on those for whom Jumu'ah is fard.", NI),
+   ("How many extra takbirs are in each rak'ah of the Eid prayer?", "Three", ["Seven", "One", "Five"], "Three in the first before reciting, three in the second before ruku'.", NI),
+   ("Is the Eid khutbah before or after the prayer?", "After", ["Before, like Jumu'ah", "There is none", "Between the two rak'ahs"], "Unlike Jumu'ah, the Eid khutbah comes after the prayer.", NI),
+   ("What is sunnah before going out on Eid al-Fitr?", "Eating something sweet, like dates", ["Fasting until after the prayer", "Giving the sacrifice", "Praying four rak'ahs"], "On Eid al-Adha, eating is delayed until after the prayer.", NI),
+  ]}),
+ ("f_fitr", {"id":"f_udhiyah", "title":"Qurbani (udhiyah)", "about":"The sacrifice of Eid al-Adha: who must give it, and how.",
+  "cards":[
+   ("Who must give it", "In the Hanafi school, the qurbani is wajib on a free, resident Muslim who owns the nisab beyond their basic needs on the days of sacrifice. It is for oneself, not for one's children.", QD),
+   ("When", "From after the Eid prayer on the 10th of Dhu al-Hijjah until sunset on the 12th. Where there is no Eid prayer, from dawn on the 10th.", QD),
+   ("Which animals", "A sheep or goat of at least one year counts for one person. A cow (two years) or a camel (five years) counts for up to seven people, each with a full share. It must be free of major defects.", QD),
+   ("The meat", "It is recommended to divide it into thirds: for your family, for relatives and friends, and for the poor. The skin may be given away but not sold.", QD),
+  ],
+  "checks":[
+   ("In the Hanafi school, what is the ruling of qurbani for someone who owns the nisab?", "Wajib", ["Only recommended", "Fard", "Only for pilgrims"], "Wajib on the free, resident Muslim who owns the nisab on the days of sacrifice.", QD),
+   ("How many people can share one cow for qurbani?", "Up to seven", ["One", "Three", "Ten"], "A cow or camel counts for up to seven; a sheep or goat for one.", QD),
+   ("When may the qurbani be slaughtered?", "After the Eid prayer on the 10th until sunset on the 12th", ["Any day in Dhu al-Hijjah", "Before the Eid prayer", "Only on the day of 'Arafah"], "Slaughtering before the Eid prayer, where it is held, does not count.", QD),
+   ("How old must a goat be for qurbani?", "At least one year", ["Six months", "Two years", "Any age"], "A sheep of six months that looks like a yearling is also accepted.", QD),
+  ]}),
+]
+NEW_LESSONS["halal"] = [
+ ("hh1", {"id":"hh_kabair", "title":"The major sins", "about":"What every Muslim must avoid.",
+  "cards":[
+   ("What they are", "Major sins (kaba'ir) are those Allah threatened with the Fire, curse or a set punishment. Avoiding them is fard; Allah promises to forgive the minor sins of those who avoid the major ones.", "Qur'an, al-Nisa' 31"),
+   ("Some of them", "Shirk, killing unjustly, magic, leaving the prayer, withholding zakat, disobeying parents, zina, drinking alcohol, riba, consuming an orphan's wealth, false witness, slandering chaste people, and fleeing the battlefield.", "Sahih al-Bukhari, Book of Wills"),
+   ("Of the tongue", "Backbiting (saying what a person would dislike, even if true), carrying tales, and lying are major sins too. They are easy on the tongue and heavy on the Scale.", "Ihya' 'Ulum al-Din, Book of the Banes of the Tongue"),
+  ],
+  "checks":[
+   ("What does Allah promise those who avoid the major sins?", "To forgive their minor sins", ["That they will never be tested", "Wealth in this world", "Nothing at all"], "'If you avoid the major sins you are forbidden, We will remove your lesser sins.' (al-Nisa' 31)", "Qur'an"),
+   ("Saying something true about a person that they would dislike is…", "Backbiting (ghibah)", ["Allowed, because it is true", "Slander only if false", "Good advice"], "If it is true it is backbiting; if false it is slander, which is worse.", "Ihya' 'Ulum al-Din"),
+   ("Which of these is a major sin?", "Disobeying one's parents", ["Eating with the left hand by mistake", "Missing a voluntary fast", "Sleeping after Fajr"], "The Prophet ﷺ counted disobeying parents among the greatest sins.", "Sahih al-Bukhari"),
+   ("Leaving the prayer out of laziness is…", "A major sin", ["A minor sin", "Disliked only", "Allowed when busy"], "It is among the gravest sins; make it up and repent.", NI),
+  ]}),
+ ("hh_kabair", {"id":"hh_parents", "title":"Rights of parents and family", "about":"Kindness to parents and keeping ties of kinship.",
+  "cards":[
+   ("Your parents", "Allah joined thanks to Him with thanks to parents. Obey them in everything that is not sin, speak to them gently, never say even 'uff', serve them, and pray for them, in life and after death.", "Qur'an, al-Isra' 23–24"),
+   ("Your mother", "A man asked who most deserves his good company. The Prophet ﷺ said: your mother, your mother, your mother, then your father.", "Sahih al-Bukhari, Book of Manners"),
+   ("Kinship", "Keeping ties with relatives (silat al-rahim) is wajib, and cutting them is a major sin. Visit, help and keep in touch with them, even if they do not do the same.", "Sahih al-Bukhari, Book of Manners"),
+  ],
+  "checks":[
+   ("Your parents tell you to do something sinful. What do you do?", "Refuse gently, and keep being kind to them", ["Obey them in everything", "Cut them off", "Argue loudly with them"], "No obedience to anyone in disobeying Allah, but you stay kind and respectful.", "Qur'an, Luqman 15"),
+   ("Who did the Prophet ﷺ name three times as most deserving of good company?", "Your mother", ["Your father", "Your teacher", "Your spouse"], "Your mother, your mother, your mother, then your father.", "Sahih al-Bukhari"),
+   ("What is the ruling of keeping ties with relatives?", "Wajib, and cutting them is a major sin", ["Only recommended", "Only with those who are kind to you", "Not required after marriage"], "Keep ties even with those who cut you off.", "Sahih al-Bukhari"),
+  ]}),
+]
+APPEND.update({
+ "heart1": [("Which deeds are accepted by Allah?", "Those done sincerely for Him", ["Those that people see", "Only the largest deeds", "Any deed, whatever the intention"], "'Actions are only by intentions.' Sincerity is the soul of every deed.", "Sahih al-Bukhari"),
+            ("You notice you want praise for a good deed. What should you do?", "Correct your intention and keep doing it for Allah", ["Stop doing good deeds", "Do it more publicly", "Ignore your intention"], "Don't leave good deeds for fear of riya'; purify the intention.", "Ihya' 'Ulum al-Din")],
+ "heart3": [("What is backbiting (ghibah)?", "Mentioning a person in a way they would dislike", ["Praising someone behind their back", "Giving advice privately", "Telling the truth in court"], "Even if it is true. If it is false, it is slander.", "Ihya' 'Ulum al-Din"),
+            ("The Prophet ﷺ said whoever believes in Allah and the Last Day should…", "Speak good or stay silent", ["Speak often", "Never speak", "Only speak in Arabic"], "Narrated by al-Bukhari and Muslim.", "Sahih al-Bukhari")],
 })

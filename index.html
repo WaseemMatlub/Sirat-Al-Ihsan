@@ -532,6 +532,8 @@ mark.hl.has-note{border-bottom:2px solid #8A6D00}
 .bp-b h2{margin:0 0 2px;font-size:1.08rem}.bp-b p{margin:0}.bp-p{display:flex;align-items:center;gap:8px;margin-top:8px}.bp-p .bar{flex:1}
 .bp-ls{margin-top:8px}.bp-ls summary{cursor:pointer;font-size:.9rem;font-weight:600;color:var(--brand)}.bp-ls ol{margin:8px 0 0;padding-left:20px;line-height:1.9}
 .gloss{margin:14px 0 0}.gloss>div{padding:12px 0;border-top:1px solid var(--line)}.gloss dt{font-weight:700}.gloss dt.ar{font-size:1.25rem}.gloss dd{margin:3px 0 0;color:var(--ink-2,var(--ink));line-height:1.55}
+.recap details{flex:1;min-width:0}.recap summary{cursor:pointer;list-style:none;display:flex;flex-direction:column}.recap summary::-webkit-details-marker{display:none}
+.rc-tap{font-size:.8rem;color:var(--brand);font-weight:600;margin-top:2px}.recap details[open] .rc-tap{display:none}.recap .rc-x{margin:6px 0 0}
 
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--line);padding:4px;border-radius:14px}
 .seg button{border:0;background:transparent;border-radius:10px;padding:10px 6px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
@@ -1231,7 +1233,7 @@ function bindReadLinks(root){ root.querySelectorAll("[data-read]").forEach(b => 
 let LEARN = null, LS = null;
 const LEARN_DECK = { aqeedah:["fard_aqeedah"], fiqh:["fard_tahara","fard_salah","fard_sawm","fard_zakat"] };
 const OLD_TOPIC = { belief:"aqeedah", purity:"fiqh", prayer:"fiqh", fasting:"fiqh", zakat:"fiqh", heart:"tazkiyah" };
-async function loadLearn(){ if (LEARN) return LEARN; try { LEARN = await fetch("data/learn.json?v=22c5c177").then(r => r.json()); } catch(e){ LEARN = []; } return LEARN; }
+async function loadLearn(){ if (LEARN) return LEARN; try { LEARN = await fetch("data/learn.json?v=9e7709c8").then(r => r.json()); } catch(e){ LEARN = []; } return LEARN; }
 const learnDone = id => !!(S.learn||{})[id];
 function nextLearn(){ for (const u of LEARN||[]) for (let k = 0; k < u.lessons.length; k++) if (!learnDone(u.lessons[k].id)) return { u, k }; return null; }
 function learnHome(){
@@ -1307,7 +1309,7 @@ function renderLearn(){
     if (st.kind === "recap") {
       const nxt = LS.u.lessons[LS.k + 1];
       body = `<div class="kicker">To recap</div><h2 style="margin:4px 0 12px">${esc(LS.l.title)}</h2>
-        <ol class="recap">${LS.l.cards.map(c => `<li><span><b>${esc(c.t)}</b><span class="rc-x">${esc(c.x)}</span></span></li>`).join("")}</ol>
+        <ol class="recap">${LS.l.cards.map(c => `<li><details><summary><b>${esc(c.t)}</b><span class="rc-tap">Tap to read again</span></summary><p class="rc-x">${esc(c.x)}</p></details></li>`).join("")}</ol>
         <p class="small muted" style="margin:10px 0 0">From ${esc([...new Set(LS.l.cards.map(c => c.src.split(",")[0]))].join(" and "))}</p>
         ${nxt ? `<p class="muted" style="margin-top:16px">Next time: ${esc(nxt.title)}.</p>` : ""}`;
       foot = `<div class="pfoot"><button class="btn" id="next">Finish lesson</button></div>`;
@@ -3415,5 +3417,5 @@ function basicsProgress(){
 }
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=9aa3ddcc25");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=3c9a53f35b");</script></body>
 </html>
