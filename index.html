@@ -828,6 +828,41 @@ bdi.saw{white-space:nowrap}
 .hme-r.dragging .hme-grip{cursor:grabbing;color:var(--brand)}
 .hme-r.off .hme-pic{opacity:.55}
 
+/* Stories */
+.st-lib{display:flex;align-items:center;gap:12px;width:100%;margin:8px 0 12px;padding:10px 12px 10px 10px;border:1px solid var(--line);border-radius:16px;background:var(--surface);color:var(--ink);font:inherit;text-align:left;cursor:pointer}
+.st-lib-img{width:64px;height:64px;border-radius:12px;object-fit:cover;flex:0 0 64px}
+.st-lib-txt{flex:1;display:flex;flex-direction:column;gap:2px;min-width:0}.st-lib .t{font-weight:700}.st-lib .s{font-size:.82rem;color:var(--muted);line-height:1.35}
+.st-day{display:block;position:relative;width:100%;padding:0;border:0;border-radius:18px;overflow:hidden;cursor:pointer;margin:0 0 16px;text-align:left;font:inherit;background:#1d2a24}
+.st-day-img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
+.st-day-txt{position:absolute;inset:auto 0 0 0;padding:28px 16px 14px;display:flex;flex-direction:column;gap:2px;background:linear-gradient(transparent,rgba(0,0,0,.72));color:#fff}
+.st-day-k{font-size:.74rem;font-weight:700;opacity:.9}.st-day-t{font-size:1.15rem;font-weight:800;line-height:1.25}.st-day-p{font-size:.84rem;opacity:.92}
+.st-seg{margin-bottom:10px}
+.st-themes{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:0 0 14px}
+.st-themes .chip,.st-links .chip{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:99px;padding:6px 12px;font:inherit;font-size:.8rem;cursor:pointer}
+.st-themes .chip.on{background:var(--brand);color:var(--brand-ink);border-color:var(--brand)}
+.st-colh{display:flex;align-items:center;gap:12px;margin:18px 0 8px}.st-colh .t{font-weight:800;font-size:1.02rem}.st-colh .s{font-size:.8rem;color:var(--muted)}
+.st-colimg{width:44px;height:44px;border-radius:12px;object-fit:cover}
+.st-row .st-thumb{width:48px;height:48px;border-radius:10px;overflow:hidden;flex:0 0 48px}.st-row .st-thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.st-read{color:var(--brand)}
+.story{max-width:640px}
+.st-hero{margin:0 -16px 14px;overflow:hidden}.st-hero-img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover}
+@media (min-width:640px){.st-hero{margin:0 0 14px;border-radius:18px}}
+.st-k{margin:0;font-size:.8rem;font-weight:700;color:var(--muted)}.st-h{margin:4px 0 12px;font-size:1.55rem;line-height:1.25}
+.st-p{font-size:1.04rem;line-height:1.75;margin:0 0 14px}
+.st-ar{margin:6px 0 16px;padding:14px 16px;border-radius:14px;background:color-mix(in srgb,var(--gold) 9%,var(--surface));border:1px solid color-mix(in srgb,var(--gold) 30%,var(--line))}
+.st-ar .ar{margin:0;font-size:1.45rem;line-height:2;text-align:center}.st-ar figcaption{text-align:center;margin-top:6px}
+.st-lesson{padding:14px 16px;border-radius:14px;background:color-mix(in srgb,var(--brand) 8%,var(--surface));border-left:4px solid var(--brand);margin:0 0 14px}
+.st-lesson h2{font-size:.95rem;margin:0 0 4px;color:var(--brand)}.st-lesson p{margin:0;line-height:1.6}
+.st-src{margin:0 0 8px;line-height:1.5}.st-src .linkbtn{text-align:left;padding:0}
+.st-rev{color:#8a5a00;background:color-mix(in srgb,var(--gold) 12%,var(--surface));padding:8px 10px;border-radius:10px}
+.st-links{display:flex;flex-wrap:wrap;gap:6px}
+.st-themes-line{margin-top:14px}
+.st-nav{display:flex;justify-content:space-between;gap:10px;margin:20px 0 8px}.st-nav .btn{flex:1}
+.st-row-day{display:flex;align-items:center;gap:12px;width:100%;padding:8px 12px 8px 8px;border:1px solid var(--line);border-radius:16px;background:var(--surface);color:var(--ink);font:inherit;text-align:left;cursor:pointer;margin-bottom:14px}
+.st-rd-img{width:72px;height:54px;border-radius:10px;object-fit:cover;flex:0 0 72px}
+.st-rd-txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}.st-rd-txt .t{font-weight:700;line-height:1.25}.st-rd-txt .s{font-size:.8rem;color:var(--muted)}
+.st-hemi{display:block}.st-vgap{display:block;height:10px}
+
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--line);padding:4px;border-radius:14px}
 .seg button{border:0;background:transparent;border-radius:10px;padding:10px 6px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
 .seg button.on{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
@@ -1779,6 +1814,7 @@ function homeView(){
         const pic = homeArt(id) || `<span class="hm-fallback">${ico()}</span>`;
         return `<button class="hm-tile hm-art" ${attr} aria-label="${esc(t.replace(/ﷺ/g, ""))}${sub ? `, ${esc(sub)}` : ""}"><span class="hm-pic" aria-hidden="true">${pic}${n ? `<i class="hm-badge">${n}</i>` : ""}</span><span class="hm-txt"><span class="hm-t">${t}</span>${sub ? `<span class="hm-s">${sub}</span>` : ""}</span></button>`; }).join("")}
     </div>
+    <div id="stday"></div>
     ${course.replace('class="card simple-row"', 'class="card simple-row slim"')}${readRow.replace('class="card simple-row"', 'class="card simple-row slim"')}
     ${installCard()}`);
 }
@@ -2103,7 +2139,7 @@ function libraryView(){
     if (x === "Aqeedah" && bs.length) return `<p class="label" style="margin-top:18px">Aqeedah</p>${aqeedah(bs)}`;
     return !bs.length ? "" : f ? `<p class="label">${esc(x)} <span class="muted small">${bs.length} books</span></p><div class="shelf">${bs.map(bookCard).join("")}</div>`
       : `<div class="shelf-h"><p class="label">${esc(x)}</p><button class="linkbtn" data-libsub="${esc(x)}">See all ${bs.length}</button></div><div class="shelf row">${bs.map(bookCard).join("")}</div>`; }).join("");
-  return shell(`<h1>Library</h1><p class="muted" style="margin:0 0 12px">${books.length} complete books, from the first texts to Sahih al-Bukhari. Free to read, bab by bab.</p>${hlEntries().length ? `<button class="item notesrow" data-go="notes"><span class="hlsw hl-y" aria-hidden="true"></span><span style="flex:1;min-width:0"><span class="t">Your notes</span><br><span class="s">${hlEntries().length} highlights and notes</span></span><span aria-hidden="true">›</span></button>` : ""}${typeof myWordsCard === "function" ? myWordsCard() : ""}
+  return shell(`<h1>Library</h1><p class="muted" style="margin:0 0 12px">${books.length} complete books, from the first texts to Sahih al-Bukhari. Free to read, bab by bab.</p>${hlEntries().length ? `<button class="item notesrow" data-go="notes"><span class="hlsw hl-y" aria-hidden="true"></span><span style="flex:1;min-width:0"><span class="t">Your notes</span><br><span class="s">${hlEntries().length} highlights and notes</span></span><span aria-hidden="true">›</span></button>` : ""}${typeof myWordsCard === "function" ? myWordsCard() : ""}<button class="st-lib" data-go="stories"><img src="${artURI(["desert", "palmMasjid", "gold", 0])}" alt="" class="st-lib-img"><span class="st-lib-txt"><span class="t">Stories</span><span class="s">The Prophet ﷺ, the Prophets عليهم السلام and the awliya, from the classical books</span></span><span aria-hidden="true">›</span></button>
     <div class="lib-search"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
       <input id="libq" type="search" placeholder="Search books, authors, subjects" value="${esc(S.libQ || "")}" aria-label="Search the Library" autocomplete="off"></div>
     <div id="libres">${S.libQ ? libSearch(S.libQ) : `${cont}${chips}${shelves}`}</div>
@@ -2829,6 +2865,7 @@ function toolsView(){
       ${row('data-go="dalail"', "book", "Dala'il al-Khayrat", "Imam al-Jazuli's daily portion of salawat")}
       ${row('data-go="tasbih"', "beads", "Tasbih counter", "Tap to count your dhikr, with a target and a gentle buzz")}</div>
     <p class="label">Study</p><div class="stack">
+      ${row('data-go="stories"', "book", "Stories", "The Prophet ﷺ, the Prophets and the awliya, from the classical books")}
       ${row('data-go="mycards"', "book", "My flashcards", "Make your own decks and study them")}
       ${row('data-go="cards"', "book", "Flashcard review", "The cards from your lessons and courses")}</div>
     <p class="label">Step-by-step guides</p><div class="stack">
@@ -3416,6 +3453,8 @@ function toolsRender(app){
   else if (view.name === "dict") app.innerHTML = dictView();
   else if (view.name === "mywords") app.innerHTML = myWordsView();
   else if (view.name === "mycards") app.innerHTML = myCardsView();
+  else if (view.name === "stories") app.innerHTML = storiesView();
+  else if (view.name === "story") app.innerHTML = STORIES ? storyView(view.id) : storiesView();
   else return false;
   return true;
 }
@@ -3431,7 +3470,7 @@ function toolsBind(app){
     const k = d.indexOf(i); if (k >= 0) d.splice(k, 1); else d.push(i); save(); const y = window.scrollY; render(); window.scrollTo(0, y); });
   const gr = $("#greset"); if (gr) gr.onclick = () => confirmBox("Clear all ticks for this guide?", () => { S.guides[view.id] = []; save(); render(); });
   if (view.name === "qibla") bindQibla(); if (view.name === "qada") bindQada(); if (view.name === "zakat") bindZakat();
-  if (view.name === "inherit") bindInherit(); if (view.name === "salawat") bindSalawat(); if (view.name === "tasbih") bindTasbih(); if (view.name === "dict") bindDict(); if (view.name === "home") bindSalCard(); if (view.name === "mywords") bindMyWords(app); if (view.name === "mycards") bindMyCards(app);
+  if (view.name === "inherit") bindInherit(); if (view.name === "salawat") bindSalawat(); if (view.name === "tasbih") bindTasbih(); if (view.name === "dict") bindDict(); if (view.name === "home") { bindSalCard(); loadStories().then(() => { const el = $("#stday"), d = stOfDay(); if (!el || !d || view.name !== "home") return; el.innerHTML = `<div class="sec-row"><h2 class="sec-h">Story of the day</h2><button class="linkbtn small" data-go="stories">All stories</button></div><button class="st-row-day" data-story="${d.id}"><img src="${artURI(d.art)}" alt="" class="st-rd-img"><span class="st-rd-txt"><span class="t">${esc(d.title)}</span><span class="s">${esc(d.person)}</span></span><span aria-hidden="true">›</span></button>`; bindStories(el); }); } if (view.name === "mywords") bindMyWords(app); if (view.name === "mycards") bindMyCards(app); if (view.name === "stories" || view.name === "story") bindStories(app);
 }
 /* ---- My words: Arabic words saved while reading, with their own spaced review ---- */
 const MW = () => (S.myWords = S.myWords || []);
@@ -3497,6 +3536,7 @@ const HOME_TOOLS = [
   ["tasbih", 'data-go="tasbih"', () => typeof ICON_BEADS !== "undefined" ? ICON_BEADS : TOOL_ICON.beads, "Tasbih counter", () => "Count your dhikr"],
   ["cards", 'data-go="cards"', () => ICON.flame.replace("<svg", '<svg width="22" height="22"'), "Flashcard review", n => n ? `${n} card${n === 1 ? "" : "s"} due today` : "All done for today"],
   ["mycards", 'data-go="mycards"', () => TOOL_ICON.book, "My flashcards", () => { const n = typeof mdCount === "function" ? mdCount() : 0, d = typeof mdAllDue === "function" ? mdAllDue() : 0; return n ? `${n} card${n === 1 ? "" : "s"}${d ? `, ${d} due` : ""}` : "Make and study your own"; }],
+  ["stories", 'data-go="stories"', () => TOOL_ICON.book, "Stories", () => "Prophets and awliya"],
   ["tools", 'data-go="tools"', () => ICON.tools.replace("<svg", '<svg width="22" height="22"'), "Tools and guides", () => "Qibla, zakat, wudu and more"],
   ["mywords", 'data-go="mywords"', () => `<span class="ar">ع</span>`, "My words", () => `${MW().length} saved from your reading`],
   ["qibla", 'data-go="qibla"', () => TOOL_ICON.qibla, "Qibla direction", () => "Find the direction of the Ka'bah"],
@@ -3512,7 +3552,7 @@ const HOME_TOOLS = [
   ["prophets", 'data-golin="prophets"', () => TOOL_ICON.star, "The Prophets", () => "From Adam to Muhammad ﷺ"],
 ];
 const HOME_ART = { salawat: ["oasis", "dome", "gold", 0], dalail: ["study", "mushafClosed", "day", 0], duas: ["masjid", "mishkat", "night", 0], tasbih: ["home", "beadsHook", "day", 0],
-  cards: ["study", "scrollsTied", "day", 0], tools: ["study", "map", "day", 0], mywords: ["study", "inkpot", "day", 0], mycards: ["study", "lawh", "dusk", 1], qibla: ["masjid", "compass", "day", 0], qada: ["home", "calendar", "day", 0],
+  cards: ["study", "scrollsTied", "day", 0], tools: ["study", "map", "day", 0], mywords: ["study", "inkpot", "day", 0], mycards: ["study", "lawh", "dusk", 1], stories: ["desert", "palmMasjid", "gold", 0], qibla: ["masjid", "compass", "day", 0], qada: ["home", "calendar", "day", 0],
   zakat: ["market", "coins", "day", 0], inherit: ["study", "scale", "day", 0], dict: ["home", "bookcase", "day", 0], glossary: ["study", "bookStack", "day", 0], wudu: ["masjid", "ewer", "day", 0],
   salah: ["masjid", "rug", "day", 0], umrah: ["hijaz", "kaaba", "dusk", 0], family: ["garden", "tree", "day", 0], prophets: ["sea", "ark", "gold", 0] };
 const homeArt = id => HOME_ART[id] && typeof artURI === "function" ? `<img class="hm-img" src="${artURI(HOME_ART[id])}" alt="" decoding="async">` : "";
@@ -3632,6 +3672,56 @@ function bindMdReview(app){
     const c = k[0] === "mw" ? MW().find(y => y.k === k[1]) : (mdDeck(k[0]) || { cards: [] }).cards.find(y => y.id === k[1]);
     if (c) { if (ok) { c.iv = c.iv ? Math.min(120, Math.round(c.iv * 2.5)) : 1; c.due = Date.now() + c.iv * D - 36e5; MDQ.done++; } else { c.iv = 0; c.due = Date.now(); MDQ.q.push(k); } save(); }
     MDQ.show = false; HAPTIC(); render(); });
+}
+
+/* ---- Stories: the Prophet ﷺ, the Prophets عليهم السلام and the awliya, retold from the classical books ---- */
+let STORIES = null;
+const loadStories = async () => STORIES || (STORIES = await fetch("data/stories.json").then(r => r.json()).catch(() => null));
+const stRead = () => (S.storiesRead = S.storiesRead || []);
+const stOfDay = () => { if (!STORIES) return null; const L = STORIES.stories, d = Math.floor((Date.now() - new Date().getTimezoneOffset() * 6e4) / 864e5); return L[(d * 7) % L.length]; };
+const stPic = (s, cls) => `<img class="${cls}" src="${artURI(s.art)}" alt="" decoding="async">`;
+const stThemes = () => { const c = {}; STORIES.stories.forEach(s => s.themes.forEach(t => c[t] = (c[t] || 0) + 1)); return Object.entries(c).filter(([, n]) => n > 1).sort((a, b) => b[1] - a[1]).map(([t]) => t); };
+const stCap = t => t[0].toUpperCase() + t.slice(1);
+function stRow(s){ const r = stRead().includes(s.id);
+  return `<button class="item st-row" data-story="${s.id}"><span class="st-thumb" aria-hidden="true">${stPic(s, "")}</span><span style="flex:1;min-width:0"><span class="t">${esc(s.title)}</span><br><span class="s">${esc(s.person)}</span></span>${r ? `<span class="st-read" aria-label="Read">${ICON.check.replace("<svg", '<svg width="16" height="16"')}</span>` : `<span aria-hidden="true">›</span>`}</button>`; }
+function storiesView(){
+  if (!STORIES) { loadStories().then(() => { if (view.name === "stories" || view.name === "story") render(); }); return shell(`<p class="muted">Loading…</p>`); }
+  const col = view.col || "all", th = view.theme || "", L = STORIES.stories.filter(s => (col === "all" || s.col === col) && (!th || s.themes.includes(th)));
+  const d = stOfDay(), nRead = stRead().length, tot = STORIES.stories.length;
+  const segs = [["all", "All"], ...STORIES.cols.map(c => [c.id, c.id === "prophet" ? "The Prophet ﷺ" : c.id === "anbiya" ? "Prophets" : "Awliya"])];
+  const groups = col === "all" && !th ? STORIES.cols.map(c => [c, L.filter(s => s.col === c.id)]) : [[null, L]];
+  return shell(`<button class="back" data-go="library">${ICON.back} Library</button><h1 style="margin-bottom:4px">Stories</h1>
+    <p class="muted" style="margin:0 0 14px">The Prophet ﷺ, the Prophets عليهم السلام and the friends of Allah, retold from the classical books, with the lesson in each and where it comes from. ${nRead ? `You have read ${nRead} of ${tot}.` : ""}</p>
+    ${d && col === "all" && !th ? `<button class="st-day" data-story="${d.id}">${stPic(d, "st-day-img")}<span class="st-day-txt"><span class="st-day-k">Story of the day</span><span class="st-day-t">${esc(d.title)}</span><span class="st-day-p">${esc(d.person)}</span></span></button>` : ""}
+    <div class="dseg st-seg" role="tablist" aria-label="Collections">${segs.map(([id, t]) => `<button role="tab" aria-selected="${id === col}" class="${id === col ? "on" : ""}" data-stcol="${id}">${t}</button>`).join("")}</div>
+    <div class="st-themes" aria-label="Themes"><span class="small muted">Theme:</span>${stThemes().map(t => `<button class="chip ${t === th ? "on" : ""}" data-sttheme="${esc(t)}" aria-pressed="${t === th}">${esc(stCap(t))}</button>`).join("")}</div>
+    ${groups.map(([c, xs]) => xs.length ? `${c ? `<div class="st-colh"><img src="${artURI(c.art)}" alt="" class="st-colimg"><span><span class="t">${c.title}</span><br><span class="s">${esc(c.sub)}</span></span></div>` : ""}<div class="stack">${xs.map(stRow).join("")}</div>` : "").join("")}
+    ${!L.length ? `<p class="muted">No stories with this theme here yet.</p>` : ""}
+    <p class="small muted" style="margin-top:18px">More stories are added in batches, each checked by our teachers. ${esc(STORIES.credit || "")}</p>`);
+}
+function storyView(id){
+  if (!STORIES) return storiesView();
+  const L = STORIES.stories, k = L.findIndex(s => s.id === id), s = L[k]; if (!s) return shell(`<button class="back" data-go="stories">${ICON.back} Stories</button><p>Story not found.</p>`);
+  const sib = L.filter(x => x.col === s.col), j = sib.indexOf(s), prev = sib[j - 1], next = sib[j + 1], col = STORIES.cols.find(c => c.id === s.col);
+  if (!stRead().includes(s.id)) { stRead().push(s.id); save(); }
+  return shell(`<button class="back" data-go="stories">${ICON.back} Stories</button>
+    <article class="story"><div class="st-hero">${stPic(s, "st-hero-img")}</div>
+      <p class="st-k">${esc(col.title)} · ${esc(s.person)}</p><h1 class="st-h">${esc(s.title)}</h1>
+      ${s.text.map(p => `<p class="st-p">${esc(p)}</p>`).join("")}
+      ${s.ar ? `<figure class="st-ar"><p class="ar" lang="ar" dir="rtl">${esc(s.ar).split("\n").map(v => v.split(" ... ").map(h => `<span class="st-hemi">${h}</span>`).join("")).join('<span class="st-vgap"></span>')}</p>${s.arsrc ? `<figcaption class="small muted">${esc(s.arsrc)}</figcaption>` : ""}</figure>` : ""}
+      <section class="st-lesson"><h2>The lesson</h2><p>${esc(s.lesson)}</p></section>
+      <p class="st-src"><span class="small muted">Source</span><br>${s.ref ? `<button class="linkbtn" data-ref="${s.ref}">${esc(s.src)}</button>` : esc(s.src)}</p>
+      ${s.review ? `<p class="small st-rev">${esc(s.review)}</p>` : ""}
+      ${s.links && s.links.length ? `<p class="label" style="margin-top:16px">Related lessons</p><div class="st-links">${s.links.map(x => { const [u, i, t] = x.split("|"); return `<button class="chip" data-learn="${u}|${i}">${esc(t)}</button>`; }).join("")}</div>` : ""}
+      <p class="small muted st-themes-line">${s.themes.map(t => `<button class="linkbtn small" data-sttheme="${esc(t)}">${esc(stCap(t))}</button>`).join(" · ")}</p>
+    </article>
+    <div class="st-nav">${prev ? `<button class="btn ghost" data-story="${prev.id}">${ICON.back} Previous</button>` : "<span></span>"}${next ? `<button class="btn" data-story="${next.id}">Next story</button>` : `<button class="btn" data-go="stories">All stories</button>`}</div>`);
+}
+function bindStories(app){
+  app.querySelectorAll(".st-links [data-learn]").forEach(b => b.onclick = async () => { const [u, k] = b.dataset.learn.split("|"); await loadLearn(); startLearn(u, +k); });
+  app.querySelectorAll("[data-story]").forEach(b => b.onclick = () => { go({ name:"story", id:b.dataset.story }); window.scrollTo(0, 0); });
+  app.querySelectorAll("[data-stcol]").forEach(b => b.onclick = () => { go({ name:"stories", col:b.dataset.stcol, theme:view.theme }); });
+  app.querySelectorAll("[data-sttheme]").forEach(b => b.onclick = () => { const t = b.dataset.sttheme; go({ name:"stories", col: view.name === "story" ? "all" : view.col, theme: view.theme === t && view.name === "stories" ? "" : t }); window.scrollTo(0, 0); });
 }
 
 /* ============================ Highlights and notes in the reader (Kindle-style) ============================
@@ -4201,7 +4291,7 @@ async function saveBasicsOffline(btn){
   const st = document.getElementById("offst-basics"); btn.disabled = true; st.textContent = "Getting ready…";
   try { if (navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch(e){}
   if (!LEARN) await loadLearn();
-  const urls = new Set(["data/guides.json", "data/duas.json", "data/salawat.json"]), refs = [];
+  const urls = new Set(["data/guides.json", "data/duas.json", "data/salawat.json", "data/stories.json"]), refs = [];
   LEARN.forEach(u => u.lessons.forEach(l => [...l.cards, ...l.checks].forEach(c => c.ref && refs.push(c.ref))));
   const files = {};
   for (const r of refs) { const b = LIBRARY.find(x => x.id === r.b); if (!b) continue; (files[b.file] = files[b.file] || new Set()).add(r.i); }
@@ -5983,5 +6073,5 @@ const FAM_HON = (() => { const o = {}, f = ["Halimah al-Sa'diyyah", "Umm Ayman (
   f.forEach(n => o[n] = HON.f); m.forEach(n => o[n] = HON.m); return o; })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=7be34777a5");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=5ce04eeaeb");</script></body>
 </html>
