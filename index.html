@@ -945,6 +945,23 @@ input,select,textarea{font-size:max(16px,1rem)}
 .dua-src .linkbtn{padding:0;text-align:left}
 .ds-n{display:inline-block;margin-left:6px;padding:1px 8px;border-radius:999px;background:var(--soft);color:var(--brand);font-size:.8rem;font-weight:700;vertical-align:1px}
 .ds-src{margin:2px 0 0}
+.yr-plan{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:14px 16px;margin:0 0 14px}
+.yr-out{margin:6px 0 10px;padding-left:20px}.yr-out li{margin:4px 0;line-height:1.45}
+.yr-time{margin:0 0 10px}.yr-time b{color:var(--ink)}
+.yr-prog .bar{margin-top:6px}
+.stepsec.term .stack{margin-top:10px}
+.stepsec.term.done .s3n{background:var(--ok);color:#fff}
+.term-test{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line)}
+.yr-extra{margin-top:14px}
+.term-test .btn{white-space:nowrap;flex:none}
+.ar-read .uk{text-decoration:underline dotted color-mix(in srgb,var(--brand) 70%,transparent);text-decoration-thickness:2px;text-underline-offset:6px;cursor:pointer}
+.ar-read .uk.learning{text-decoration-style:solid;text-decoration-color:color-mix(in srgb,var(--gold) 80%,transparent)}
+.kw-box{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:14px 0 4px;padding-top:12px;border-top:1px solid var(--line)}
+.bw-meter{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+.bw-bar{display:flex;height:10px;margin-top:10px}.bw-bar i{display:block;height:100%;background:var(--brand)}.bw-bar i.l{background:var(--gold);opacity:.75}
+.bw-chips{display:flex;flex-wrap:wrap;gap:8px}.bw-chip{display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:4px 12px}.bw-chip .ar{font-size:1.15rem}
+.bw-btns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:14px}
+.bw-entry{margin:6px 0 10px}
 
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--line);padding:4px;border-radius:14px}
 .seg button{border:0;background:transparent;border-radius:10px;padding:10px 6px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
@@ -1077,58 +1094,79 @@ nav.tabs .in{grid-template-columns:repeat(4,1fr)}
 <script>
 "use strict";
 /* ============================ SYLLABUS ============================ */
-const META = {"decks": {"hidaya1": 6454, "burda": 336, "proofs": 228, "nuqaya": 2519, "qatr": 1875, "poetry": 4971, "ajr": 150, "hidaya3": 6490, "roots": 1000, "themed": 6012, "iqtisad": 1413, "mufradat": 1630, "msa2": 3372, "ghawth": 232, "mercy": 770, "quran": 500, "fard_aqeedah": 57, "jalalayn_amma": 527, "fard_zakat": 92, "hidaya2": 5901, "qushayri": 578, "msa1": 3400, "fard_halal": 50, "verbs1": 700, "tajwid": 80, "fard_salah": 432, "mughni": 751, "quduri": 2441, "seerah1": 74, "qasaid": 4090, "jalalayn": 6121, "philosophy": 3699, "izzi": 471, "alfiyya": 1257, "bina": 241, "naqsh": 1391, "fard_tahara": 206, "kanz": 1433, "verbs2": 700, "nur": 1083, "history": 52, "hidaya4": 6376, "fuqaha": 3548, "shamail_qa": 49, "ithaf": 311, "sharhizzi": 2488, "nasafiyyah": 1401, "sirr": 536, "fard_sawm": 74}, "lines": {"irab": 78, "tahawiyya": 108, "jazariyya": 108, "signs2": 179, "arbain": 137, "signs": 83, "jawhara": 142, "juz_amma": 527, "majalla": 99, "bayquniyya": 34, "umm": 57}, "texts": {"tahawiyya_full": 11, "mukhtar": 154, "ayyuha": 5, "burda": 17, "bidaya": 48, "nuzha": 72, "shamail": 58, "fusul": 95, "ghunya": 400, "qatr": 92, "ibnmajah": 1424, "ihya": 997, "abudawud": 1882, "mabsut": 2650, "milal": 259, "kafiya": 103, "riyad": 373, "adhkar": 365, "fiqh_akbar": 27, "maraqi": 92, "muwatta": 703, "nawawi_seerah": 17, "iqtisad": 63, "usul_sarakhsi": 242, "azhari": 33, "jazariyya": 19, "miatamil": 61, "tuhfa": 217, "nuryaqin": 246, "nasafi": 561, "risala": 105, "maqamat": 60, "tirmidhi": 2265, "maqayis": 206, "arbain": 45, "tawdih": 117, "ajurrumiyya": 25, "shifa": 185, "mughni": 138, "quduri": 119, "manar": 4, "jalalayn": 252, "muslim": 758, "alfiyya": 82, "jawhara": 12, "tamhid": 49, "hikam": 19, "qut": 492, "qisas": 173, "hidayatnahw": 325, "tabyin": 885, "kanz": 200, "mukhtasar_maani": 73, "baydawi": 3458, "mizan_usul": 148, "hidaya": 456, "tarikh_khulafa": 190, "nihaya_fitan": 431, "nahwmir": 144, "sharh_maani": 597, "nasai": 2514, "taarruf": 60, "nur_idah": 263, "usul_shashi": 103, "fitan": 131, "badai": 1738, "majalla": 74, "ikhtiyar": 1049, "bayquniyya": 1, "tadhkira": 356, "shatibiyya": 77, "tajrid": 243, "tibyan": 25, "umm": 6, "bukhari": 780, "munqidh": 16, "ibnhisham": 2164}, "textsAudio": {"tahawiyya_full": false, "mukhtar": false, "ayyuha": false, "burda": false, "bidaya": false, "nuzha": false, "shamail": false, "fusul": false, "ghunya": false, "qatr": false, "ibnmajah": false, "ihya": false, "abudawud": false, "mabsut": false, "milal": false, "kafiya": false, "riyad": false, "adhkar": false, "fiqh_akbar": true, "maraqi": false, "muwatta": false, "nawawi_seerah": false, "iqtisad": false, "usul_sarakhsi": false, "azhari": false, "jazariyya": true, "miatamil": false, "tuhfa": false, "nuryaqin": false, "nasafi": false, "risala": false, "maqamat": false, "tirmidhi": false, "maqayis": false, "arbain": true, "tawdih": false, "ajurrumiyya": true, "shifa": false, "mughni": false, "quduri": false, "manar": false, "jalalayn": false, "muslim": false, "alfiyya": false, "jawhara": false, "tamhid": false, "hikam": false, "qut": false, "qisas": false, "hidayatnahw": false, "tabyin": false, "kanz": false, "mukhtasar_maani": false, "baydawi": false, "mizan_usul": false, "hidaya": false, "tarikh_khulafa": false, "nihaya_fitan": false, "nahwmir": false, "sharh_maani": false, "nasai": false, "taarruf": false, "nur_idah": false, "usul_shashi": false, "fitan": false, "badai": false, "majalla": false, "ikhtiyar": false, "bayquniyya": false, "tadhkira": false, "shatibiyya": false, "tajrid": false, "tibyan": false, "umm": false, "bukhari": false, "munqidh": false, "ibnhisham": false}, "textsAi": {"tahawiyya_full": false, "mukhtar": false, "ayyuha": false, "burda": false, "bidaya": false, "nuzha": false, "shamail": false, "fusul": false, "ghunya": false, "qatr": false, "ibnmajah": false, "ihya": false, "abudawud": false, "mabsut": false, "milal": false, "kafiya": false, "riyad": false, "adhkar": false, "fiqh_akbar": true, "maraqi": false, "muwatta": false, "nawawi_seerah": false, "iqtisad": false, "usul_sarakhsi": false, "azhari": false, "jazariyya": true, "miatamil": false, "tuhfa": false, "nuryaqin": false, "nasafi": false, "risala": false, "maqamat": false, "tirmidhi": false, "maqayis": false, "arbain": true, "tawdih": false, "ajurrumiyya": true, "shifa": false, "mughni": false, "quduri": false, "manar": false, "jalalayn": false, "muslim": false, "alfiyya": false, "jawhara": false, "tamhid": false, "hikam": false, "qut": false, "qisas": false, "hidayatnahw": false, "tabyin": false, "kanz": false, "mukhtasar_maani": false, "baydawi": false, "mizan_usul": false, "hidaya": false, "tarikh_khulafa": false, "nihaya_fitan": false, "nahwmir": false, "sharh_maani": false, "nasai": false, "taarruf": false, "nur_idah": true, "usul_shashi": false, "fitan": false, "badai": false, "majalla": false, "ikhtiyar": false, "bayquniyya": false, "tadhkira": false, "shatibiyya": false, "tajrid": false, "tibyan": false, "umm": false, "bukhari": false, "munqidh": false, "ibnhisham": false}, "textsEn": {"tahawiyya_full": true, "mukhtar": false, "ayyuha": false, "burda": true, "bidaya": false, "nuzha": false, "shamail": false, "fusul": false, "ghunya": false, "qatr": false, "ibnmajah": false, "ihya": false, "abudawud": false, "mabsut": false, "milal": false, "kafiya": false, "riyad": false, "adhkar": false, "fiqh_akbar": true, "maraqi": false, "muwatta": false, "nawawi_seerah": false, "iqtisad": false, "usul_sarakhsi": false, "azhari": false, "jazariyya": true, "miatamil": false, "tuhfa": false, "nuryaqin": false, "nasafi": false, "risala": false, "maqamat": false, "tirmidhi": false, "maqayis": false, "arbain": true, "tawdih": false, "ajurrumiyya": true, "shifa": false, "mughni": false, "quduri": false, "manar": false, "jalalayn": false, "muslim": true, "alfiyya": false, "jawhara": true, "tamhid": false, "hikam": false, "qut": false, "qisas": false, "hidayatnahw": false, "tabyin": false, "kanz": false, "mukhtasar_maani": false, "baydawi": false, "mizan_usul": false, "hidaya": false, "tarikh_khulafa": false, "nihaya_fitan": false, "nahwmir": false, "sharh_maani": false, "nasai": false, "taarruf": false, "nur_idah": true, "usul_shashi": false, "fitan": false, "badai": false, "majalla": false, "ikhtiyar": false, "bayquniyya": true, "tadhkira": false, "shatibiyya": false, "tajrid": false, "tibyan": false, "umm": true, "bukhari": true, "munqidh": false, "ibnhisham": false}};
-const YEARS = [   // THE COURSE PLAN. To move or add something, edit this list only: decks are in data/decks/<id>.json, lesson books in data/lines/<id>.json, full texts are LIBRARY ids (read:[...]).
- { n:1, title:"Foundations", desc:"The most common words of the Qur'an, the first books of sarf and nahw, the life of the Prophet ﷺ, and Nur al-Idah.",
+const META = {"decks": {"hidaya1": 6454, "burda": 336, "proofs": 228, "nuqaya": 2519, "qatr": 1875, "poetry": 4971, "ajr": 150, "hidaya3": 6490, "roots": 1000, "themed": 6012, "iqtisad": 1413, "mufradat": 1630, "msa2": 3372, "ghawth": 232, "mercy": 770, "quran": 500, "fard_aqeedah": 57, "jalalayn_amma": 527, "fard_zakat": 92, "hidaya2": 5901, "qushayri": 578, "msa1": 3400, "fard_halal": 50, "verbs1": 700, "tajwid": 80, "fard_salah": 432, "mughni": 751, "quduri": 2441, "seerah1": 74, "qasaid": 4090, "jalalayn": 6121, "philosophy": 3699, "izzi": 471, "alfiyya": 1257, "bina": 241, "naqsh": 1391, "fard_tahara": 206, "mantiq": 54, "kanz": 1433, "verbs2": 700, "nur": 1083, "history": 52, "hidaya4": 6376, "fuqaha": 3548, "shamail_qa": 49, "ithaf": 311, "sharhizzi": 2488, "nasafiyyah": 1401, "sirr": 536, "fard_sawm": 74}, "lines": {"irab": 78, "tahawiyya": 108, "jazariyya": 108, "signs2": 179, "arbain": 137, "signs": 83, "jawhara": 142, "juz_amma": 527, "majalla": 99, "bayquniyya": 34, "umm": 57}, "texts": {"tahawiyya_full": 11, "mukhtar": 154, "ayyuha": 5, "lubb": 32, "burda": 17, "bidaya": 48, "nuzha": 72, "shamail": 58, "fusul": 95, "ghunya": 400, "qatr": 92, "ibnmajah": 1424, "ihya": 997, "abudawud": 1882, "mabsut": 2650, "milal": 256, "kafiya": 103, "riyad": 373, "adhkar": 365, "fiqh_akbar": 27, "maraqi": 92, "muwatta": 703, "nawawi_seerah": 17, "iqtisad": 63, "usul_sarakhsi": 242, "azhari": 33, "jazariyya": 19, "miatamil": 61, "tuhfa": 217, "nuryaqin": 246, "nasafi": 561, "risala": 105, "maqamat": 60, "tirmidhi": 2265, "maqayis": 206, "arbain": 45, "tawdih": 117, "ajurrumiyya": 25, "shifa": 185, "mughni": 138, "quduri": 119, "manar": 4, "jalalayn": 252, "muslim": 758, "tarifat": 59, "alfiyya": 82, "talkhis": 33, "jawhara": 12, "tamhid": 49, "hikam": 19, "qut": 492, "qisas": 173, "hidayatnahw": 325, "tabyin": 885, "kanz": 200, "mukhtasar_maani": 73, "baydawi": 3458, "mizan_usul": 148, "hidaya": 456, "tarikh_khulafa": 190, "nihaya_fitan": 431, "nahwmir": 144, "sharh_maani": 597, "nasai": 2514, "mishkat": 847, "taarruf": 60, "nur_idah": 263, "usul_shashi": 103, "fitan": 131, "badai": 1738, "majalla": 74, "ikhtiyar": 1049, "bayquniyya": 1, "tadhkira": 356, "shatibiyya": 77, "tajrid": 243, "tibyan": 25, "umm": 6, "bukhari": 780, "munqidh": 16, "ibnhisham": 2164}, "textsAudio": {"tahawiyya_full": false, "mukhtar": false, "ayyuha": false, "lubb": false, "burda": false, "bidaya": false, "nuzha": false, "shamail": false, "fusul": false, "ghunya": false, "qatr": false, "ibnmajah": false, "ihya": false, "abudawud": false, "mabsut": false, "milal": false, "kafiya": false, "riyad": false, "adhkar": false, "fiqh_akbar": true, "maraqi": false, "muwatta": false, "nawawi_seerah": false, "iqtisad": false, "usul_sarakhsi": false, "azhari": false, "jazariyya": true, "miatamil": false, "tuhfa": false, "nuryaqin": false, "nasafi": false, "risala": false, "maqamat": false, "tirmidhi": false, "maqayis": false, "arbain": true, "tawdih": false, "ajurrumiyya": true, "shifa": false, "mughni": false, "quduri": false, "manar": false, "jalalayn": false, "muslim": false, "tarifat": false, "alfiyya": false, "talkhis": false, "jawhara": false, "tamhid": false, "hikam": false, "qut": false, "qisas": false, "hidayatnahw": false, "tabyin": false, "kanz": false, "mukhtasar_maani": false, "baydawi": false, "mizan_usul": false, "hidaya": false, "tarikh_khulafa": false, "nihaya_fitan": false, "nahwmir": false, "sharh_maani": false, "nasai": false, "mishkat": false, "taarruf": false, "nur_idah": false, "usul_shashi": false, "fitan": false, "badai": false, "majalla": false, "ikhtiyar": false, "bayquniyya": false, "tadhkira": false, "shatibiyya": false, "tajrid": false, "tibyan": false, "umm": false, "bukhari": false, "munqidh": false, "ibnhisham": false}, "textsAi": {"tahawiyya_full": false, "mukhtar": false, "ayyuha": false, "lubb": false, "burda": false, "bidaya": false, "nuzha": false, "shamail": false, "fusul": false, "ghunya": false, "qatr": false, "ibnmajah": false, "ihya": false, "abudawud": false, "mabsut": false, "milal": false, "kafiya": false, "riyad": false, "adhkar": false, "fiqh_akbar": true, "maraqi": false, "muwatta": false, "nawawi_seerah": false, "iqtisad": false, "usul_sarakhsi": false, "azhari": false, "jazariyya": true, "miatamil": false, "tuhfa": false, "nuryaqin": false, "nasafi": false, "risala": false, "maqamat": false, "tirmidhi": false, "maqayis": false, "arbain": true, "tawdih": false, "ajurrumiyya": true, "shifa": false, "mughni": false, "quduri": false, "manar": false, "jalalayn": false, "muslim": false, "tarifat": false, "alfiyya": false, "talkhis": false, "jawhara": false, "tamhid": false, "hikam": false, "qut": false, "qisas": false, "hidayatnahw": false, "tabyin": false, "kanz": false, "mukhtasar_maani": false, "baydawi": false, "mizan_usul": false, "hidaya": false, "tarikh_khulafa": false, "nihaya_fitan": false, "nahwmir": false, "sharh_maani": false, "nasai": false, "mishkat": false, "taarruf": false, "nur_idah": true, "usul_shashi": false, "fitan": false, "badai": false, "majalla": false, "ikhtiyar": false, "bayquniyya": false, "tadhkira": false, "shatibiyya": false, "tajrid": false, "tibyan": false, "umm": false, "bukhari": false, "munqidh": false, "ibnhisham": false}, "textsEn": {"tahawiyya_full": true, "mukhtar": false, "ayyuha": false, "lubb": false, "burda": true, "bidaya": false, "nuzha": false, "shamail": false, "fusul": false, "ghunya": false, "qatr": false, "ibnmajah": false, "ihya": false, "abudawud": false, "mabsut": false, "milal": false, "kafiya": false, "riyad": false, "adhkar": false, "fiqh_akbar": true, "maraqi": false, "muwatta": false, "nawawi_seerah": false, "iqtisad": false, "usul_sarakhsi": false, "azhari": false, "jazariyya": true, "miatamil": false, "tuhfa": false, "nuryaqin": false, "nasafi": false, "risala": false, "maqamat": false, "tirmidhi": false, "maqayis": false, "arbain": true, "tawdih": false, "ajurrumiyya": true, "shifa": false, "mughni": false, "quduri": false, "manar": false, "jalalayn": false, "muslim": true, "tarifat": false, "alfiyya": false, "talkhis": false, "jawhara": true, "tamhid": false, "hikam": false, "qut": false, "qisas": false, "hidayatnahw": false, "tabyin": false, "kanz": false, "mukhtasar_maani": false, "baydawi": false, "mizan_usul": false, "hidaya": false, "tarikh_khulafa": false, "nihaya_fitan": false, "nahwmir": false, "sharh_maani": false, "nasai": false, "mishkat": false, "taarruf": false, "nur_idah": true, "usul_shashi": false, "fitan": false, "badai": false, "majalla": false, "ikhtiyar": false, "bayquniyya": true, "tadhkira": false, "shatibiyya": false, "tajrid": false, "tibyan": false, "umm": true, "bukhari": true, "munqidh": false, "ibnhisham": false}};
+const YEARS = [   // THE COURSE PLAN, in the order of the Dars-e-Nizami. To move or add something, edit this list only: decks are in data/decks/<id>.json, lesson books in data/lines/<id>.json, full texts are LIBRARY ids (read:[...]). term: 1-3. opt: optional, never gates a year.
+ { n:1, hours:95, title:"Foundations", ar:"الأُولَى", desc:"Reading the Qur'an's words, how Arabic verbs are built, the first book of nahw, the life of the Prophet ﷺ, and the fiqh of purification and prayer.",
+   outcomes:["Know the 500 most common words of the Qur'an (about 86% of its text)", "Build any regular verb in its past, present and verbal-noun forms", "Parse a simple sentence: subject, predicate and the three cases", "Know the fiqh of wudu, ghusl, the prayer and fasting from Nur al-Idah", "Tell the life of the Prophet ﷺ from his ﷺ birth to his ﷺ passing"],
    books:[
-     { id:"w_quran", type:"words", deck:"quran", per:5, title:"Qur'an words", sub:"The most common words of the Qur'an, five at a time", glyph:"", color:"#B5651D", subject:"Arabic" },
-     { id:"w_verbs1", type:"words", deck:"verbs1", per:5, title:"Verb drills", sub:"Sarf drilling: the most used verbs, five at a time, with their forms", glyph:"", color:"#B5651D", subject:"Arabic" },
+     { id:"w_quran", type:"words", deck:"quran", per:5, term:1, title:"Qur'an words", sub:"The most common words of the Qur'an, five at a time", glyph:"", color:"#B5651D", subject:"Arabic" },
+     { id:"arbain", type:"lines", per:4, term:3, title:"The Forty Hadith", sub:"Imam al-Nawawi's رحمه الله forty, in Arabic and English", glyph:"", color:"#7A5230", subject:"Hadith" },
      { id:"signs", fard:true, type:"hadith", per:3, title:"Signs of the Hour", sub:"An introduction, from Kitab al-Fitan of Imam al-Bukhari رحمه الله", glyph:"س", color:"#8C3B3B", subject:"Signs of the Hour" } ],
    decks:[
-     { id:"quran", title:"Qur'an words: top 500", sub:"Vocabulary: about 86% of the Qur'an's text", glyph:"ق", color:"#8A4FA3", subject:"Arabic" },
-     { id:"bina", simple:true, title:"Bina' al-Af'al", sub:"Sarf: how Arabic verbs are built", glyph:"", color:"#B5651D", subject:"Arabic" },
-     { id:"verbs1", title:"Arabic verbs: 1–700", sub:"Sarf drilling: past, present and verbal noun", glyph:"ف", color:"#B5651D", subject:"Arabic" },
-     { id:"ajr", simple:true, title:"al-Ajurrumiyyah", sub:"Nahw: the first text, question by question", glyph:"", color:"#B5651D", subject:"Arabic" },
-     { id:"seerah1", simple:true, title:"Seerah essentials", sub:"The life of the Prophet ﷺ from birth to his ﷺ passing", glyph:"", color:"#9A6A1F", subject:"Seerah" },
-     { id:"nur", simple:true, title:"Nur al-Idah", sub:"Imam al-Shurunbulali رحمه الله: purification, prayer, fasting", glyph:"ن", color:"#2F6E8F", subject:"Fiqh" },
+     { id:"quran", term:1, title:"Qur'an words: top 500", sub:"Vocabulary: about 86% of the Qur'an's text", glyph:"ق", color:"#8A4FA3", subject:"Arabic" },
+     { id:"bina", simple:true, term:1, title:"Bina' al-Af'al", sub:"Sarf: how Arabic verbs are built", glyph:"", color:"#B5651D", subject:"Arabic" },
+     { id:"seerah1", simple:true, term:1, title:"Seerah essentials", sub:"The life of the Prophet ﷺ from birth to his ﷺ passing", glyph:"", color:"#9A6A1F", subject:"Seerah" },
+     { id:"ajr", simple:true, term:2, title:"al-Ajurrumiyyah", sub:"Nahw: the first text, question by question", glyph:"", color:"#B5651D", subject:"Arabic" },
+     { id:"nur", simple:true, term:2, title:"Nur al-Idah", sub:"Imam al-Shurunbulali رحمه الله: purification, prayer, fasting", glyph:"ن", color:"#2F6E8F", subject:"Fiqh" },
      { id:"themed", opt:true, title:"Vocabulary list", sub:"Everyday Arabic words grouped by topic: the body, home, food, travel and more", glyph:"", color:"#B5651D", subject:"Arabic" } ],
-   read:["t_azhari", "t_nawawi_seerah", "t_nur"] },
- { n:2, title:"The Arabic of the Qur'an", desc:"Qur'anic vocabulary, Qatr al-Nada with i'rab practice, and al-Suyuti's works of the day and night.",
+   read:[["t_ayyuha",1], ["t_nawawi_seerah",1], ["t_nahwmir",2], ["t_nur",3], ["t_fiqhakbar",3]] },
+ { n:2, hours:175, title:"Sarf, nahw and al-Quduri", ar:"الثَّانِيَةُ", desc:"The verb patterns of al-'Izzi, Mi'at 'Amil and Hidayat al-Nahw, the tajweed poem of Ibn al-Jazari, Mukhtasar al-Quduri and the Tahawiyyah.",
+   outcomes:["Recognise the ten verb forms and the weak verbs, and derive any word's pattern", "Explain the hundred governing words ('awamil) and parse a full sentence", "Recite with the rules of the Jazariyyah: makharij, sifat and madd", "Know the Hanafi rulings of worship and dealings from al-Quduri", "State the creed of Ahl al-Sunnah point by point from al-Tahawi"],
    books:[
-     { id:"juz_amma", type:"lines", per:5, title:"Translating Juz' 'Amma", sub:"The meaning of each ayah, from al-Nas back to al-Naba'", glyph:"", color:"#1F6F78", subject:"Tafsir", ask:"What does this ayah mean?", askTitle:"The ayah" },
-     { id:"irab", type:"lines", per:6, title:"I'rab practice", sub:"Al-Fatihah and five short surahs, word by word", glyph:"", color:"#B5651D", subject:"Arabic", ask:"What is the i'rab of this word?", askTitle:"Its i'rab" } ],
+     { id:"w_verbs1", type:"words", deck:"verbs1", per:5, term:1, title:"Verb drills", sub:"Sarf drilling: the most used verbs, five at a time, with their forms", glyph:"", color:"#B5651D", subject:"Arabic" },
+     { id:"jazariyya", type:"lines", per:4, term:1, title:"al-Muqaddimah al-Jazariyyah", sub:"Ibn al-Jazari's رحمه الله poem on tajweed, line by line", glyph:"", color:"#8A4FA3", subject:"Tajweed" },
+     { id:"tahawiyya", type:"lines", per:8, term:3, title:"Al-'Aqidah al-Tahawiyyah", sub:"The creed of Imam al-Tahawi رحمه الله, line by line", glyph:"ط", color:"#0E5A43", subject:"Aqeedah" } ],
    decks:[
-     { id:"roots", title:"Qur'an roots: top 1,000", sub:"Qur'an dictionary: the roots, ranked by how often they occur", glyph:"ج", color:"#8A4FA3", subject:"Arabic" },
-     { id:"mufradat", title:"Mufradat al-Qur'an", sub:"Qur'an dictionary: Imam al-Raghib's رحمه الله root meanings, in Arabic and English", glyph:"", color:"#B5651D", subject:"Arabic" },
-     { id:"qatr", simple:true, title:"Sharh Qatr al-Nada", sub:"Nahw: Ibn Hisham's رحمه الله text, question by question", glyph:"", color:"#B5651D", subject:"Arabic" } ],
-   read:["t_qatr", "t_adhkar"] },
- { n:3, title:"Core texts", desc:"The Tahawiyyah, al-Quduri, the Forty Hadith, the Shama'il, Bidayat al-Hidayah, the End Times and Usul al-Shashi.",
+     { id:"verbs1", term:1, title:"Arabic verbs: 1–700", sub:"Sarf drilling: past, present and verbal noun", glyph:"ف", color:"#B5651D", subject:"Arabic" },
+     { id:"izzi", simple:true, term:1, title:"Matn al-'Izzi", sub:"Sarf: the verb patterns, question by question", glyph:"", color:"#B5651D", subject:"Arabic" },
+     { id:"quduri", simple:true, term:2, title:"Mukhtasar al-Quduri", sub:"Imam al-Quduri's رحمه الله Hanafi primer, question by question", glyph:"ق", color:"#2F6E8F", subject:"Fiqh" },
+     { id:"sharhizzi", opt:true, simple:true, title:"Sharh al-'Izzi", sub:"Sarf: al-Taftazani's رحمه الله commentary, question by question", glyph:"", color:"#B5651D", subject:"Arabic" },
+     { id:"verbs2", opt:true, title:"Arabic verbs: 701–1,400", sub:"More sarf drilling: past, present and verbal noun", glyph:"", color:"#B5651D", subject:"Arabic" } ],
+   read:[["t_miatamil",1], ["t_hidayatnahw",2], ["t_bidaya",2], ["t_fusul",3]] },
+ { n:3, hours:245, title:"The Arabic of the Qur'an, Kanz and Usul", ar:"الثَّالِثَةُ", desc:"Translating Juz' 'Amma with i'rab, Sharh Qatr al-Nada and al-Kafiyah, Kanz al-Daqa'iq, Usul al-Shashi, al-Bayquniyyah, the first book of balaghah, and the basics of mantiq.",
+   outcomes:["Translate Juz' 'Amma and give the i'rab of any word in it", "Read an unvoweled classical text with the grammar of Qatr al-Nada and al-Kafiyah", "Know the principles of Hanafi usul: the Book, the Sunnah, ijma' and qiyas", "Classify a hadith with the terms of al-Bayquniyyah", "Name the parts of balaghah, and the basic terms of logic: concept, assent, the five universals and the syllogism"],
    books:[
-     { id:"tahawiyya", type:"lines", per:8, title:"Al-'Aqidah al-Tahawiyyah", sub:"The creed of Imam al-Tahawi رحمه الله, line by line", glyph:"ط", color:"#0E5A43", subject:"Aqeedah" },
-     { id:"arbain", type:"lines", per:4, title:"The Forty Hadith", sub:"Imam al-Nawawi's رحمه الله forty, in Arabic and English", glyph:"", color:"#7A5230", subject:"Hadith" } ],
+     { id:"juz_amma", type:"lines", per:5, term:1, title:"Translating Juz' 'Amma", sub:"The meaning of each ayah, from al-Nas back to al-Naba'", glyph:"", color:"#1F6F78", subject:"Tafsir", ask:"What does this ayah mean?", askTitle:"The ayah" },
+     { id:"irab", type:"lines", per:6, term:1, title:"I'rab practice", sub:"Al-Fatihah and five short surahs, word by word", glyph:"", color:"#B5651D", subject:"Arabic", ask:"What is the i'rab of this word?", askTitle:"Its i'rab" },
+     { id:"bayquniyya", type:"lines", per:4, term:3, title:"al-Bayquniyyah", sub:"The 34 verses on the terms of hadith, with their meaning", glyph:"", color:"#7A5230", subject:"Hadith" } ],
    decks:[
-     { id:"quduri", simple:true, title:"Mukhtasar al-Quduri", sub:"Imam al-Quduri's رحمه الله Hanafi primer, question by question", glyph:"ق", color:"#2F6E8F", subject:"Fiqh" },
-     { id:"shamail_qa", simple:true, title:"al-Shama'il, question by question", sub:"How the Prophet ﷺ looked, lived, ate, slept and prayed, from Imam al-Tirmidhi's رحمه الله collection", glyph:"", color:"#9A6A1F", subject:"Seerah" } ],
-   read:["t_tahawiyya", "t_quduri", "t_shamail", "t_bidaya", "t_nihaya_fitan", "t_shashi"] },
- { n:4, title:"Higher texts", desc:"Al-Hidayah volume 1, Riyad al-Salihin, the sciences of hadith, and Sirr al-Asrar.",
-   books:[
-     { id:"bayquniyya", type:"lines", per:4, title:"al-Bayquniyyah", sub:"The 34 verses on the terms of hadith, with their meaning", glyph:"", color:"#7A5230", subject:"Hadith" } ],
-   decks:[
-     { id:"hidaya1", simple:true, title:"al-Hidayah, part 1", sub:"Volume 1: Imam al-Marghinani's رحمه الله Hanafi fiqh with its proofs", glyph:"", color:"#2F6E8F", subject:"Fiqh" },
-     { id:"hidaya2", simple:true, title:"al-Hidayah, part 2", sub:"Volume 1, continued", glyph:"", color:"#2F6E8F", subject:"Fiqh" },
-     { id:"sirr", simple:true, title:"Sirr al-Asrar", sub:"Shaykh 'Abd al-Qadir al-Jilani قدس سره on the secret of secrets", glyph:"", color:"#5C6B2E", subject:"Tasawwuf" } ],
-   read:["t_hidaya", "t_riyad", "t_nuzha", "t_bayquniyya"],
-   coming:[["al-'Aqa'id al-Nasafiyyah","Aqeedah"],["al-Balaghah al-Wadihah","Arabic"]] },
- { n:5, title:"Dawrah", desc:"Tafsir al-Jalalayn on Juz' 'Amma, al-Taftazani on al-'Aqa'id al-Nasafiyyah, al-Hidayah volume 2, and Mukhtasar al-Bukhari.",
+     { id:"qatr", simple:true, term:1, title:"Sharh Qatr al-Nada", sub:"Nahw: Ibn Hisham's رحمه الله text, question by question", glyph:"", color:"#B5651D", subject:"Arabic" },
+     { id:"shamail_qa", simple:true, term:2, title:"al-Shama'il, question by question", sub:"How the Prophet ﷺ looked, lived, ate, slept and prayed, from Imam al-Tirmidhi's رحمه الله collection", glyph:"", color:"#9A6A1F", subject:"Seerah" },
+     { id:"mantiq", simple:true, term:3, title:"Mantiq essentials", sub:"Logic: concept and assent, the five universals, propositions and the syllogism, with al-Jurjani's definitions", glyph:"", color:"#5A5A78", subject:"Mantiq" },
+     { id:"kanz", opt:true, simple:true, title:"Kanz al-Daqa'iq, question by question", sub:"Imam al-Nasafi's رحمه الله advanced Hanafi manual", glyph:"", color:"#2F6E8F", subject:"Fiqh" },
+     { id:"roots", opt:true, title:"Qur'an roots: top 1,000", sub:"Qur'an dictionary: the roots, ranked by how often they occur", glyph:"ج", color:"#8A4FA3", subject:"Arabic" },
+     { id:"mufradat", opt:true, title:"Mufradat al-Qur'an", sub:"Qur'an dictionary: Imam al-Raghib's رحمه الله root meanings, in Arabic and English", glyph:"", color:"#B5651D", subject:"Arabic" } ],
+   read:[["t_kafiya",1], ["t_shashi",2], ["t_kanz",2], ["t_riyad",3], ["t_lubb",3]] },
+ { n:4, hours:360, title:"Sharh al-Wiqayah, al-Manar and the creed", ar:"الرَّابِعَةُ", desc:"Al-Nuqayah (Mukhtasar al-Wiqayah), al-Manar in usul, al-Taftazani on al-'Aqa'id al-Nasafiyyah, Talkhis al-Miftah, Nuzhat al-Nazar, al-Risalah al-Qushayriyyah and the signs of the Hour.",
+   outcomes:["Know the rulings of the whole of fiqh in the order of al-Wiqayah", "Explain the Hanafi principles of language and proof in al-Manar", "Give the proofs of the creed against the other sects, with al-Taftazani", "Explain the three sciences of balaghah: ma'ani, bayan and badi'", "Grade a hadith with the terms of Ibn Hajar's Nukhbah"],
    books:[],
    decks:[
-     { id:"jalalayn_amma", title:"Tafsir al-Jalalayn: Juz' 'Amma", sub:"Ayah by ayah, from al-Naba' to al-Nas", glyph:"", color:"#1F6F78", subject:"Tafsir" },
-     { id:"nasafiyyah", simple:true, title:"Sharh al-'Aqa'id al-Nasafiyyah", sub:"The commentary of al-Taftazani رحمه الله, question by question", glyph:"ع", color:"#0E5A43", subject:"Aqeedah" },
-     { id:"hidaya3", simple:true, title:"al-Hidayah, part 3", sub:"Volume 2: Imam al-Marghinani's رحمه الله Hanafi fiqh with its proofs", glyph:"", color:"#2F6E8F", subject:"Fiqh" },
-     { id:"hidaya4", simple:true, title:"al-Hidayah, part 4", sub:"Volume 2, continued", glyph:"", color:"#2F6E8F", subject:"Fiqh" } ],
-   read:["t_jalalayn", "t_tajrid"],
-   coming:[["Isaghuji (mantiq)","Mantiq"],["al-Fawz al-Kabir fi Usul al-Tafsir","Tafsir"]] },
+     { id:"nuqaya", simple:true, term:1, title:"al-Nuqayah", sub:"Fiqh: Sadr al-Shari'ah's رحمه الله summary of al-Wiqayah, question by question, in Arabic", glyph:"", color:"#2F6E8F", subject:"Fiqh" },
+     { id:"nasafiyyah", simple:true, term:2, title:"Sharh al-'Aqa'id al-Nasafiyyah", sub:"The commentary of al-Taftazani رحمه الله, question by question", glyph:"ع", color:"#0E5A43", subject:"Aqeedah" },
+     { id:"mughni", opt:true, simple:true, title:"Mughni al-Labib, question by question", sub:"Ibn Hisham's رحمه الله advanced grammar of particles and sentences", glyph:"", color:"#B5651D", subject:"Arabic" } ],
+   read:[["t_manar",1], ["t_talkhis",2], ["t_nuzha",2], ["t_risala",3], ["t_nihaya_fitan",3]] },
+ { n:5, hours:380, title:"Tafsir, balaghah and usul", ar:"الْخَامِسَةُ", desc:"Tafsir al-Jalalayn of the whole Qur'an, Mukhtasar al-Ma'ani, al-Tawdih in usul, and al-Hikam of Ibn 'Ata'illah.",
+   outcomes:["Read the tafsir of the whole Qur'an with al-Jalalayn", "Apply balaghah to the Qur'an with al-Taftazani's Mukhtasar al-Ma'ani", "Follow the advanced Hanafi usul of al-Tawdih", "Know Ibn 'Ata'illah's aphorisms on the states of the heart"],
+   books:[],
+   decks:[
+     { id:"jalalayn_amma", simple:true, term:1, title:"Tafsir al-Jalalayn: Juz' 'Amma", sub:"Ayah by ayah, from al-Naba' to al-Nas", glyph:"", color:"#1F6F78", subject:"Tafsir" },
+     { id:"iqtisad", opt:true, simple:true, title:"al-Iqtisad fi'l-I'tiqad, question by question", sub:"Imam al-Ghazali's رحمه الله creed with its rational proofs", glyph:"", color:"#0E5A43", subject:"Aqeedah" },
+     { id:"hidaya1", opt:true, simple:true, title:"al-Hidayah, part 1", sub:"Volume 1: Imam al-Marghinani's رحمه الله Hanafi fiqh with its proofs", glyph:"", color:"#2F6E8F", subject:"Fiqh" },
+     { id:"hidaya2", opt:true, simple:true, title:"al-Hidayah, part 2", sub:"Volume 1, continued", glyph:"", color:"#2F6E8F", subject:"Fiqh" } ],
+   read:[["t_jalalayn",1], ["t_mukhtasar",2], ["t_tawdih",3], ["t_hikam",3]] },
+ { n:6, hours:550, title:"Al-Hidayah and Mishkat", ar:"السَّادِسَةُ", desc:"Al-Hidayah of al-Marghinani, Mishkat al-Masabih of al-Tabrizi, and al-Ta'arruf of al-Kalabadhi: the year before the Dawrah.",
+   outcomes:["Know Hanafi fiqh with its proofs from the Qur'an, Sunnah and reason, with al-Hidayah", "Read and explain the hadith of Mishkat al-Masabih, chapter by chapter, with their sources", "Know the beliefs and states of the early Sufis from al-Ta'arruf"],
+   books:[],
+   decks:[
+     { id:"hidaya3", opt:true, simple:true, title:"al-Hidayah, part 3", sub:"Volume 2: Imam al-Marghinani's رحمه الله Hanafi fiqh with its proofs", glyph:"", color:"#2F6E8F", subject:"Fiqh" },
+     { id:"hidaya4", opt:true, simple:true, title:"al-Hidayah, part 4", sub:"Volume 2, continued", glyph:"", color:"#2F6E8F", subject:"Fiqh" } ],
+   read:[["t_hidaya",1], ["t_mishkat",2], ["t_taarruf",3]] },
+ { n:7, hours:1060, title:"Dawrat al-Hadith", ar:"دَوْرَةُ الْحَدِيثِ", desc:"The six books, al-Muwatta', al-Tahawi's Sharh Ma'ani al-Athar and al-Shama'il: the final year of the 'alimiyyah.",
+   outcomes:["Read the six books, al-Muwatta' and Sharh Ma'ani al-Athar from beginning to end", "Know where the Hanafi school takes each ruling from in the hadith, with al-Tahawi", "Complete the 'alimiyyah course"],
+   books:[], decks:[],
+   read:[["t_bukhari",1], ["t_muslim",1], ["t_shamail",1], ["t_abudawud",2], ["t_tirmidhi",2], ["t_muwatta",2], ["t_nasai",3], ["t_ibnmajah",3], ["t_sharhmaani",3]] },
 ];
+YEARS.forEach(y => { y.readTerm = {}; y.read = y.read.map(r => Array.isArray(r) ? (y.readTerm[r[0]] = r[1], r[0]) : r); });
 /* The Library: complete books, by year. Covers are drawn from these fields. */
 const LIBRARY = [
   [1,"t_tahawiyya","tahawiyya_full","Aqeedah","The Creed of Imam al-Tahawi","الْعَقِيدَةُ الطَّحَاوِيَّةُ","Imam Abu Ja'far al-Tahawi","الْإِمَامُ أَبُو جَعْفَرٍ الطَّحَاوِيُّ","d. 321 AH","The creed of Ahl al-Sunnah, point by point"],
@@ -1207,13 +1245,17 @@ const LIBRARY = [
   [5,"t_tirmidhi","tirmidhi","Hadith","Jami' al-Tirmidhi","جَامِعُ التِّرْمِذِيِّ","Imam Abu 'Isa al-Tirmidhi","الْإِمَامُ أَبُو عِيسَى التِّرْمِذِيُّ","d. 279 AH","Hadith with their grading and the views of the jurists"],
   [5,"t_nasai","nasai","Hadith","Sunan al-Nasa'i","سُنَنُ النَّسَائِيّ","Imam Ahmad ibn Shu'ayb al-Nasa'i","الْإِمَامِ أَحْمَدُ بْنِ شُعَيْبٍ النَّسَائِيّ","d. 303 AH","al-Mujtaba, the shorter Sunan"],
   [5,"t_ibnmajah","ibnmajah","Hadith","Sunan Ibn Majah","سُنَنٌ ابْنِ مَاجَهْ","Imam Ibn Majah al-Qazwini","الْإِمَامُ ابْنُ مَاجَهْ الْقَزْوِينِيُّ","d. 273 AH","The sixth of the six books"],
+  [4,"t_talkhis","talkhis","Arabic","Talkhis al-Miftah","تَلْخِيصُ الْمِفْتَاحِ","Imam Jalal al-Din al-Qazwini","الْإِمَامُ جَلَالُ الدِّينِ الْقَزْوِينِيُّ","d. 739 AH","Balaghah: the standard text of ma'ani, bayan and badi'"],
+  [3,"t_lubb","lubb","Arabic","al-Lubb al-Masun","اللُّبُّ الْمَصُونُ شَرْحُ الْجَوْهَرِ الْمَكْنُونِ","Imam Ahmad al-Damanhuri","الْإِمَامُ أَحْمَدُ الدَّمَنْهُورِيُّ","d. 1192 AH","Balaghah for beginners: al-Akhdari's poem al-Jawhar al-Maknun, explained"],
+  [4,"t_tarifat","tarifat","Mantiq","al-Ta'rifat","التَّعْرِيفَاتُ","al-Sayyid al-Sharif al-Jurjani","السَّيِّدُ الشَّرِيفُ الْجُرْجَانِيُّ","d. 816 AH","The definitions of the terms of logic, kalam, usul, fiqh and tasawwuf"],
+  [6,"t_mishkat","mishkat","Hadith","Mishkat al-Masabih","مِشْكَاةُ الْمَصَابِيحِ","Imam Wali al-Din al-Khatib al-Tabrizi","الْإِمَامُ وَلِيُّ الدِّينِ الْخَطِيبُ التِّبْرِيزِيُّ","d. 741 AH","The hadith of every chapter of the religion, from the six books and others"],
   [5,"t_sharhmaani","sharh_maani","Hadith","Sharh Ma'ani al-Athar","شَرْحُ مَعَانِي الْآثَارِ","Imam Abu Ja'far al-Tahawi","الْإِمَامُ أَبُو جَعْفَرٍ الطَّحَاوِيُّ","d. 321 AH","Hadith that seem to differ, reconciled with Hanafi reasoning"],
 ].map(([y,id,file,subject,title,ar,author,authorAr,when,sub]) => ({ y, id, file, subject, title, ar, author, authorAr, when, sub, type:"text", per:1, glyph:"",
   honor: author.startsWith("The Ottoman") ? "" : author.startsWith("Imams") ? "رحمهما الله" : "رحمه الله" }));
 YEARS.forEach(y => (y.read||[]).forEach(id => { const b = LIBRARY.find(x => x.id === id); if (b) b.y = y.n; }));
 LIBRARY.forEach(b => { if (b.y >= 1) YEARS[b.y-1].books.push(b); });   // Fard al-'Ayn books live in the Library only
-/* After Year 5: one year of further study in a module the student chooses */
-const SPEC_YEAR = 6;
+/* After the Dawrah: one year of further study in a module the student chooses */
+const SPEC_YEAR = 8;
 /* Each year's syllabus is made of these modules */
 const MODULES = [
   { name:"Aqeedah", art:"light", color:"#0E5A43", about:"What a Muslim believes, in the Ash'ari and Maturidi tradition." },
@@ -1267,8 +1309,8 @@ async function loadSection(file, i){
   (await r.json()).forEach((s, j) => Object.assign(T.sections[k*T.split + j], s)); return T; }
 const secLen = s => s.p ? s.p.length : s.n || 0;
 const bookById = id => YEARS.flatMap(y=>y.books).find(x=>x.id===id);
-const lessonBooks = y => y.books.filter(b => b.type !== "text" && !b.fard);
-YEARS.forEach(y => { y.prepared = lessonBooks(y).filter(b => b.type !== "words").length + y.decks.length > 0; y.books.forEach(b => b.year = y.n); y.decks.forEach(d => d.year = y.n); });
+const lessonBooks = y => y.books.filter(b => b.type !== "text" && !b.fard && !b.opt);
+YEARS.forEach(y => { y.prepared = lessonBooks(y).filter(b => b.type !== "words").length + y.decks.length + (y.read || []).length > 0; y.books.forEach(b => b.year = y.n); y.decks.forEach(d => d.year = y.n); });
 const deckSize = d => d.cards ? d.cards.length : (META.decks||{})[d.id] || 0;
 const core = decks => decks.filter(d => !d.opt);
 /* What each text is, in plain English: shown first, with the classical title under it */
@@ -1293,6 +1335,11 @@ function fresh(){ return { welcomed:false, xp:0, streak:0, lastDay:null, days:{}
 function load(){ try{ const s = JSON.parse(localStorage.getItem(KEY)); return s && s.cards ? Object.assign(fresh(), s) : fresh(); }catch(e){ return fresh(); } }
 function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
 let S = load();
+if ((S.courseV || 1) < 2) {             // the course became seven years (Dars-e-Nizami): move each student to the matching year
+  const M = { 1:1, 2:2, 3:3, 4:4, 5:5 }, top = Math.max(1, ...(S.unlocked || [1]).map(n => M[n] || 1));
+  S.unlocked = Array.from({ length:top }, (_, k) => k + 1); if (S.recYear) S.recYear = M[S.recYear] || 1;
+  S.testsV1 = S.tests; S.tests = {}; S.courseV = 2; try { localStorage.setItem(KEY, JSON.stringify(S)); } catch(e){}
+}
 const today = () => Math.floor((Date.now() - new Date().getTimezoneOffset()*60000) / 864e5) + S.offset;
 /* ---- Global leaderboard (opt-in). Needs data/config.json {url, key} for a Supabase project; hidden until then. ---- */
 let SBC = null;
@@ -1959,8 +2006,8 @@ function syllabusView(){
     return node(dn ? "done" : cur ? "cur" : "", `data-year="${y.n}"`, dn ? ICON.check.replace("<svg",'<svg width="14" height="14"') : y.n, `Year ${y.n}`, esc(y.title),
       dn ? `<span class="pill ok">Done</span>` : cur ? `<span class="pill gold">Recommended</span>` : y.prepared ? `<span class="pill">Open</span>` : `<span class="pill">Soon</span>`); }).join("");
   const m = MODULES.find(x => x.name === S.spec);
-  const spec = node(m ? "done" : "", 'data-spec="1"', ICON.star.replace("<svg",'<svg width="14" height="14"'), "Specialisation", m ? esc(m.name) : "One subject in depth, after Year 5", `<span class="pill">${m ? "Chosen" : "Open"}</span>`);
-  return shell(`<h1>Course</h1><p class="muted" style="margin:0 0 14px">For students of knowledge: the classical books, year by year. Follow the path below. Nothing is locked: the path is a recommendation, and you are free to study any year or book if you're determined.</p>
+  const spec = node(m ? "done" : "", 'data-spec="1"', ICON.star.replace("<svg",'<svg width="14" height="14"'), "Specialisation", m ? esc(m.name) : "One subject in depth, after the Dawrah", `<span class="pill">${m ? "Chosen" : "Open"}</span>`);
+  return shell(`<h1>Course</h1><p class="muted" style="margin:0 0 14px">The 'alimiyyah course in the order of the Dars-e-Nizami: six years of the classical texts and a final year of hadith, the Dawrah. Each year has three terms, a test at the end of each, and a plan of what you will know by the end. Study at your own pace. Nothing is locked: the path is a recommendation, and you are free to study any year or book.</p>
     <ol class="tree">${fard}${years}${spec}</ol>
     ${liveBox("", "the classical books")}
     <p class="label">Extra study</p>${historyCard()}
@@ -1973,12 +2020,14 @@ const BOOK_PATHS = [
   ["Aqeedah (Ash'ari)", ["t_umm","t_jawhara","t_iqtisad","t_milal"]],
   ["Hanafi Fiqh", ["t_nur","t_maraqi","t_quduri","t_kanz","t_ikhtiyar","t_majalla","t_hidaya","t_tabyin","t_badai","t_mabsut"]],
   ["Usul al-Fiqh", ["t_shashi","t_manar","t_mizan_usul","t_tawdih","t_usul_sarakhsi"]],
-  ["Hadith", ["t_arbain","t_riyad","t_bayquniyya","t_nuzha","t_shamail","t_muwatta","t_bukhari","t_muslim","t_abudawud","t_tirmidhi","t_nasai","t_ibnmajah","t_sharhmaani"]],
+  ["Hadith", ["t_arbain","t_riyad","t_bayquniyya","t_nuzha","t_mishkat","t_shamail","t_muwatta","t_bukhari","t_muslim","t_abudawud","t_tirmidhi","t_nasai","t_ibnmajah","t_sharhmaani"]],
   ["Tafsir", ["t_jalalayn","t_baydawi"]],
   ["Tajweed", ["t_tuhfa","t_jazariyya","t_shatibiyya"]],
   ["Arabic", ["t_ajurrum","t_nahwmir","t_miatamil","t_hidayatnahw","t_qatr","t_kafiya","t_alfiyya","t_maqamat"]],
   ["Tasawwuf", ["t_ayyuha","t_bidaya","t_adhkar","t_munqidh","t_hikam","t_risala","t_taarruf","t_qut","t_ghunya","t_ihya"]],
   ["Seerah", ["t_nawawi_seerah","t_nuryaqin","t_shamail","t_ibnhisham","t_shifa"]],
+  ["Balaghah", ["t_lubb","t_talkhis","t_mukhtasar"]],
+  ["Mantiq", ["t_tarifat"]],
   ["Signs of the Hour", ["t_nihaya_fitan","t_fitan"]],
 ];
 function bookPath(id){ for (const [sub, ids] of BOOK_PATHS) { const L = ids.filter(bookById), i = L.indexOf(id); if (i >= 0) return { sub, before:L.slice(0, i).map(bookById), after:L[i+1] ? bookById(L[i+1]) : null, i, n:L.length }; } return null; }
@@ -2019,37 +2068,44 @@ function itemDeck(d, open){
     ${open?`<span class="bar" style="display:block;margin-top:6px"><i style="width:${s.mastered/s.total*100}%;background:${d.color}"></i></span>`:""}</span>
     ${!open?ICON.lock:avail?`<span class="pill brand">${avail} to study</span>`:`<span class="pill ok">Done today</span>`}${d.opt && !d.fard?`<span class="pill" style="margin-left:4px">Optional</span>`:""}</button>`;
 }
+function studyTime(h){ const m = (pace) => { const w = h / pace; return w < 9 ? `${Math.max(1, Math.round(w))} weeks` : w < 104 ? `${Math.round(w / 4.3)} months` : `${(w / 52).toFixed(1).replace(/\.0$/, "")} years`; };
+  return `About <b>${h.toLocaleString()} hours</b> of study: ${m(5)} at 5 hours a week, ${m(10)} at 10, or ${m(20)} at 20.`; }
+const termOf = (y, x) => x.term || (y.readTerm || {})[x.id] || 1;
 function yearView(n){
   const y = yearOf(n), open = loaded(y), st = yearStatus(y);
-  const ord = s => MODULES.findIndex(m => m.name === s);
-  const lessons = lessonBooks(y).sort((p,q) => ord(p.subject) - ord(q.subject));
-  const reads = (y.read||[]).map(id => bookById(id)).filter(Boolean);
-  const decks = core(y.decks).filter(d => !d.opt), extra = y.decks.filter(d => d.opt), ready = open ? decks.filter(d=>d.cards).reduce((s,d)=>s+deckStats(d).due,0) + newAvail(decks.filter(d=>d.cards)) : 0;
-  const head = (k, t, sub, right) => `<div class="stephead"><span class="s3n">${k}</span><div style="flex:1"><h2>${t}</h2><p class="small muted">${sub}</p></div>${right||""}</div>`;
+  const lessons = lessonBooks(y), reads = (y.read||[]).map(id => bookById(id)).filter(Boolean);
+  const decks = core(y.decks), extra = [...y.decks.filter(d => d.opt), ...y.books.filter(b => b.opt)], ready = open ? decks.filter(d=>d.cards).reduce((s,d)=>s+deckStats(d).due,0) + newAvail(decks.filter(d=>d.cards)) : 0;
   const lessonRow = b => { const L = lessonsOf(b), d = bookDone(b); return `<button class="item" ${open?`data-book="${b.id}"`:"disabled"}><span class="ico art-ico">${artFor(b,36)}</span>
-      <span style="flex:1;min-width:0"><span class="kicker" style="margin:0">${esc(b.subject)}</span><span class="t" style="display:block">${esc(nameOf(b))}</span></span>
+      <span style="flex:1;min-width:0"><span class="kicker" style="margin:0">${esc(b.subject)} · Lessons</span><span class="t" style="display:block">${esc(nameOf(b))}</span></span>
       ${!open?ICON.lock:d>=L?`<span class="pill ok">Done</span>`:`<span class="pill">${d}/${L}</span>`}</button>`; };
+  const readRow = b => { const L = lessonsOf(b), d = bookDone(b), nxt = Math.min(d, L-1);
+    return `<button class="item" ${open?`data-read="${b.id}|${S.lastRead && S.lastRead.id === b.id ? S.lastRead.i : nxt}"`:"disabled"}><span class="libthumb">${cover(b, 34)}</span>
+      <span style="flex:1;min-width:0"><span class="kicker" style="margin:0">${esc(libSubject(b))} · Read</span><span class="t" style="display:block">${esc(b.title)}</span></span>${!open?ICON.lock:d>=L?`<span class="pill ok">Read</span>`:`<span class="pill">${Math.round(d/L*100)}%</span>`}</button>`; };
+  const terms = [1, 2, 3].map(t => {
+    const ls = lessons.filter(b => termOf(y, b) === t), ds = decks.filter(d => termOf(y, d) === t), rs = reads.filter(b => termOf(y, b) === t);
+    if (!ls.length && !ds.length && !rs.length) return "";
+    const done = ls.every(b => bookDone(b) >= lessonsOf(b)) && rs.every(b => bookDone(b) >= lessonsOf(b)), tt = (S.termTests || {})[`${n}.${t}`];
+    const canTest = ls.some(b => b.type !== "text") || ds.length;
+    return `<section class="stepsec term ${done ? "done" : ""}"><div class="stephead"><span class="s3n">${done ? ICON.check.replace("<svg",'<svg width="13" height="13"') : t}</span><div style="flex:1"><h2>Term ${t}</h2><p class="small muted">${[ls.length && `${ls.length} lesson book${ls.length>1?"s":""}`, ds.length && `${ds.length} flashcard set${ds.length>1?"s":""}`, rs.length && `${rs.length} book${rs.length>1?"s":""} to read`].filter(Boolean).join(", ")}</p></div></div>
+      <div class="stack">${ls.map(lessonRow).join("")}${ds.map(d => itemDeck(d, open)).join("")}${rs.map(readRow).join("")}</div>
+      ${canTest && open ? `<div class="term-test"><span class="small muted">${tt ? `End-of-term test: best <b>${pct(tt.best)}</b>${tt.passed ? " · passed" : ""}` : "End-of-term test: 20 questions on this term's lessons and flashcards."}</span><button class="btn ghost small-btn" data-ttest="${n}.${t}">${tt ? "Retake" : "Take the test"}</button></div>` : ""}</section>`; }).join("");
   return shell(`<button class="back" data-go="syllabus">${ICON.back} Course</button>
-    <h1 style="margin-bottom:4px">Year ${n}: ${esc(y.title)}</h1>
+    <p class="kicker" style="margin:0">Year ${n}${y.ar ? ` · <span lang="ar" dir="rtl">${y.ar}</span>` : ""}</p>
+    <h1 style="margin:2px 0 6px">${esc(y.title)}</h1><p class="muted" style="margin:0 0 12px">${esc(y.desc)}</p>
     ${n > recYear() ? `<div class="notice"><span>We recommend finishing Year ${recYear()} first, but every year is open. Go ahead if you're ready.</span></div>` : ""}
+    <section class="yr-plan"><p class="ab-h">By the end of this year you will</p><ul class="yr-out">${(y.outcomes||[]).map(o => `<li>${esc(o)}</li>`).join("")}</ul>
+      ${y.hours ? `<p class="small muted yr-time">${studyTime(y.hours)}${n === YEARS.length ? " In a madrasa the Dawrah is a full-time year." : ""}</p>` : ""}
+      <div class="yr-prog"><span class="small muted">${st.ld + st.rd} of ${st.lt + st.rt} lessons and sections done</span><div class="bar"><i style="width:${(st.lt + st.rt) ? (st.ld + st.rd) / (st.lt + st.rt) * 100 : 0}%"></i></div></div></section>
     ${liveBox("", `the Year ${n} books`)}
-    ${open && !y.prepared ? `<div class="notice"><span>The books for Year ${n} are still being prepared.</span></div>` : ""}
-    <section class="stepsec">${head(1, "Lessons", "Short lessons from this year's books.", `<span class="small muted">${st.ld} of ${st.lt}</span>`)}
-      <div class="stack">${lessons.length ? lessons.map(lessonRow).join("") : `<p class="small muted" style="margin:0">No short lessons this year.</p>`}</div></section>
-    <section class="stepsec">${head(2, "Read the books", "Read each one to the end, or mark it finished from its page.", `<span class="small muted">${st.rt ? Math.round(st.reads*100) + "%" : ""}</span>`)}
-      ${reads.length ? `<div class="stack">${reads.map(b => { const L = lessonsOf(b), d = bookDone(b), nxt = Math.min(d, L-1);
-        return `<button class="item" ${open?`data-read="${b.id}|${S.lastRead && S.lastRead.id === b.id ? S.lastRead.i : nxt}"`:"disabled"}><span class="libthumb">${cover(b, 34)}</span>
-        <span style="flex:1;min-width:0"><span class="kicker" style="margin:0">${esc(b.subject)}</span><span class="t" style="display:block">${esc(b.title)}</span></span>${!open?ICON.lock:d>=L?`<span class="pill ok">Read</span>`:`<span class="pill">${Math.round(d/L*100)}%</span>`}</button>`; }).join("")}</div>` : `<p class="small muted" style="margin:0">No books to read this year.</p>`}
-      ${(y.coming||[]).length ? `<p class="sublabel">Coming soon</p><div class="stack">${y.coming.map(([t,s]) => `<div class="item noico soon"><span style="flex:1;min-width:0"><span class="kicker" style="margin:0">${esc(s)}</span><span class="t" style="display:block">${esc(t)}</span></span></div>`).join("")}</div>` : ""}</section>
-    <p class="small muted" style="margin:14px 2px 0">${n < YEARS.length ? `When steps 1 and 2 are done, Year ${n+1} is recommended next.` : "When steps 1 and 2 are done, the course is complete."}</p>
-    <p class="label" style="margin-top:26px">Practice (optional)</p>
-    <section class="stepsec" style="margin-top:6px"><div class="stephead"><div style="flex:1"><h2>Flashcards</h2><p class="small muted">Questions from this year's books. Review a few each day.</p></div><span class="small muted">${st.cm.toLocaleString()} of ${st.ct.toLocaleString()}</span></div>
-      ${open ? `<button class="btn" data-study="all" ${ready?"":"disabled"}>${ready ? `Review flashcards (${ready})` : "All done for today"}</button>` : ""}
-      <details class="more"><summary>See all flashcard sets</summary><div class="stack" style="margin-top:8px">${decks.map(d => itemDeck(d, open)).join("")}
-        ${extra.length ? `<p class="sublabel">Extra (optional)</p>${extra.map(d => itemDeck(d, open)).join("")}` : ""}</div></details></section>
-    <section class="stepsec"><div class="stephead"><div style="flex:1"><h2>Practice test</h2><p class="small muted">${TEST_LEN} questions from this year, to see how much has stayed with you.</p></div></div>
+    ${terms}
+    ${extra.length ? `<details class="more yr-extra"><summary>Go further (optional)</summary><p class="small muted" style="margin:8px 0">For students who want more. These never hold up the year.</p><div class="stack">${extra.map(d => d.type === "lines" || d.type === "words" ? lessonRow(d) : itemDeck(d, open)).join("")}</div></details>` : ""}
+    <p class="small muted" style="margin:14px 2px 0">${n < YEARS.length ? `When every term is done, Year ${n+1} is recommended next.` : "When every term is done, the course is complete."}</p>
+    <p class="label" style="margin-top:22px">Revision</p>
+    <section class="stepsec" style="margin-top:6px"><div class="stephead"><div style="flex:1"><h2>Flashcards</h2><p class="small muted">Today's reviews from all of this year's sets.</p></div><span class="small muted">${st.cm.toLocaleString()} of ${st.ct.toLocaleString()} learnt</span></div>
+      ${open ? `<button class="btn" data-study="all" ${ready?"":"disabled"}>${ready ? `Review flashcards (${ready})` : "All done for today"}</button>` : ""}</section>
+    <section class="stepsec"><div class="stephead"><div style="flex:1"><h2>End-of-year test</h2><p class="small muted">${TEST_LEN} questions from the whole year.</p></div></div>
       ${st.best!==null?`<p class="small muted" style="margin:0 0 10px">Best so far: <b>${pct(st.best)}</b></p>`:""}
-      <button class="btn ghost" data-test="${n}" ${open?"":"disabled"}>${st.best!==null?"Try it again":"Take the practice test"}</button></section>
+      <button class="btn ghost" data-test="${n}" ${open?"":"disabled"}>${st.best!==null?"Try it again":"Take the test"}</button></section>
 `);
 }
 function bookView(id){
@@ -2233,30 +2289,52 @@ function searchView(){
 
 /* ---- Library: every full text, open to all ---- */
 const LIB = () => YEARS.flatMap(y => y.books.filter(b => b.type === "text"));
+const LIB_ORDER = {};   // a book's place on its shelf, so neighbouring covers take different layouts
+LIBRARY.slice().sort((a, c) => (a.y || 9) - (c.y || 9)).reduce((m, b) => { const k = b.subject === "Comparative Aqeedah" ? "Aqeedah" : b.subject; m[k] = (m[k] || 0); LIB_ORDER[b.id] = m[k]++; return m; }, {});
 const hasAr = t => /[\u0621-\u064A]/.test(t||"");
 /* Book covers: original designs drawn in SVG (cloth colour by subject, gold frame, arch panel, Arabic title, author) */
 const CLOTH = { History:"#4A3423", Aqeedah:"#14463A", Fiqh:"#1D3557", Hadith:"#5E1F2B", Arabic:"#5B3418", Tafsir:"#0F4A52", Seerah:"#4A2444", "Usul al-Fiqh":"#2E3B4E", Tasawwuf:"#3B4520", "Signs of the Hour":"#4B2323", "Comparative Aqeedah":"#3A2F55", Mantiq:"#3D3D55", Tajweed:"#1E4D3B" };
 let COVER_N = 0;
-function wrapAr(t, max){ const w = t.split(" "), out = [""]; for (const x of w){ const l = out[out.length-1]; if (l && (l+" "+x).length > max) out.push(x); else out[out.length-1] = l ? l+" "+x : x; } return out; }
+const arLen = t => t.replace(/[\u064B-\u065F\u0670]/g, "").length;   // harakat take no width
+function wrapAr(t, max){ const w = t.split(" "), out = [""]; for (const x of w){ const l = out[out.length-1]; if (l && arLen(l+" "+x) > max) out.push(x); else out[out.length-1] = l ? l+" "+x : x; } return out; }
+function shade(hex, k){ const n = parseInt(hex.slice(1), 16), f = c => Math.max(0, Math.min(255, Math.round(k < 0 ? c * (1 + k) : c + (255 - c) * k)));
+  return "#" + [n >> 16, (n >> 8) & 255, n & 255].map(f).map(c => c.toString(16).padStart(2, "0")).join(""); }
+// Fit the Arabic title into a box: the largest size at which it wraps into the box's width and height
+function fitAr(t, wd, ht, sizes){ for (const fs of sizes){ const L = wrapAr(t, Math.max(4, Math.floor(wd / (fs * .62)))); if (L.length * fs * 1.22 <= ht && L.every(l => arLen(l) * fs * .62 <= wd)) return { L, fs }; }
+  const fs = sizes[sizes.length - 1]; return { L: wrapAr(t, Math.floor(wd / (fs * .62))).slice(0, Math.floor(ht / (fs * 1.22))), fs }; }
+function titleBlock(t, au, cx, top, bot, wd, gold, sizes){
+  const { L, fs } = fitAr(t, wd, (bot - top) * .68, sizes || [30, 26, 22, 19, 16, 14]), A = wrapAr(au || "", Math.floor(wd / 6.6)).slice(0, 2);
+  const th = L.length * fs * 1.22, ah = A.length ? 14 + A.length * 15 : 0, y = top + (bot - top - th - ah) / 2 + fs * .9;
+  const rule = y + (L.length - 1) * fs * 1.22 + fs * .45 + 8;
+  return L.map((l, k) => `<text x="${cx}" y="${(y + k * fs * 1.22).toFixed(1)}" text-anchor="middle" font-family="Amiri, serif" font-weight="700" font-size="${fs}" fill="${gold}" direction="rtl">${esc(l)}</text>`).join("")
+    + (A.length ? `<path d="M${cx - 24} ${rule}h48" stroke="${gold}" stroke-width=".8"/><circle cx="${cx}" cy="${rule}" r="2.2" fill="${gold}"/>`
+      + A.map((l, k) => `<text x="${cx}" y="${(rule + 19 + k * 15).toFixed(1)}" text-anchor="middle" font-family="Amiri, serif" font-size="12" fill="${gold}" fill-opacity=".88" direction="rtl">${esc(l)}</text>`).join("") : "");
+}
+/* Book covers: original designs drawn in SVG. Cloth colour by subject, shaded per book; four classic binding layouts, chosen per book,
+   so no two neighbours on a shelf look alike: an arch, a central shamsa medallion, a lattice border with a cartouche, and a leather spine. */
 function cover(b, w=120){
-  const id = "cv" + (++COVER_N), base = CLOTH[b.subject] || "#2B3A4A", gold = "#E2C27A", h = Math.round(w*1.45);
-  const hash = [...b.id].reduce((s,c)=>s+c.charCodeAt(0),0), pat = hash % 3;
-  const tl = wrapAr(b.ar || b.title, 11), fs = tl.length === 1 ? (tl[0].length > 8 ? 24 : 30) : tl.length === 2 ? 21 : 17, y0 = 132 - (tl.length-1)*fs*0.62;
-  const al = wrapAr(b.authorAr || "", 20).slice(0,2);
-  const motif = pat === 0 ? `<path d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3z" fill="none" stroke="${gold}" stroke-width=".7"/>`
-    : pat === 1 ? `<rect x="6" y="6" width="12" height="12" transform="rotate(45 12 12)" fill="none" stroke="${gold}" stroke-width=".7"/><circle cx="12" cy="12" r="2" fill="${gold}"/>`
-    : `<path d="M0 12h24M12 0v24" stroke="${gold}" stroke-width=".5"/><circle cx="12" cy="12" r="5" fill="none" stroke="${gold}" stroke-width=".7"/>`;
+  const id = "cv" + (++COVER_N), hash = [...b.id].reduce((s, c) => (s * 31 + c.charCodeAt(0)) >>> 0, 7), h = Math.round(w * 1.45);
+  const base = shade(CLOTH[b.subject] || "#2B3A4A", [0, .1, -.18, .2, -.08, .05][hash % 6]), gold = ["#E2C27A", "#D9B96A", "#EBD28E"][hash % 3], dark = shade(base, -.35);
+  const layout = (LIB_ORDER[b.id] ?? hash) % 4, t = b.ar || b.title, au = b.authorAr || "";
+  const star8 = (cx, cy, r, f) => { const p = []; for (let k = 0; k < 16; k++){ const a = Math.PI * k / 8, rr = k % 2 ? r * .62 : r; p.push(`${(cx + rr * Math.sin(a)).toFixed(1)},${(cy - rr * Math.cos(a)).toFixed(1)}`); } return `<polygon points="${p.join(" ")}" ${f}/>`; };
+  const grain = `<pattern id="${id}p" width="26" height="26" patternUnits="userSpaceOnUse">${layout === 2 ? star8(13, 13, 9, `fill="none" stroke="${gold}" stroke-width=".6"`) : layout === 1 ? `<path d="M13 0L26 13L13 26L0 13Z" fill="none" stroke="${gold}" stroke-width=".5"/>` : `<circle cx="13" cy="13" r="1.1" fill="${gold}"/>`}</pattern>`;
+  const shine = `<linearGradient id="${id}g" x1="0" x2="1"><stop offset="0" stop-color="#000" stop-opacity=".38"/><stop offset=".07" stop-color="#000" stop-opacity=".05"/><stop offset=".09" stop-color="#fff" stop-opacity=".07"/><stop offset=".2" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".2"/></linearGradient>`;
+  let art;
+  if (layout === 0) art = `<rect width="200" height="290" fill="url(#${id}p)" opacity=".18"/><rect x="24" y="14" width="164" height="262" fill="none" stroke="${gold}" stroke-width="1.6"/><rect x="29" y="19" width="154" height="252" fill="none" stroke="${gold}" stroke-width=".6"/>
+      <path d="M44 250V104Q44 54 106 40Q168 54 168 104V250Z" fill="${dark}" fill-opacity=".55" stroke="${gold}" stroke-width="1.2"/><path d="M106 54l4 8 8 4-8 4-4 8-4-8-8-4 8-4z" fill="${gold}"/>
+      ${titleBlock(t, au, 106, 84, 246, 104, gold)}`;
+  else if (layout === 1) art = `<rect width="200" height="290" fill="url(#${id}p)" opacity=".12"/><rect x="18" y="12" width="176" height="266" rx="3" fill="none" stroke="${gold}" stroke-width="1.2"/>
+      ${[[18,12,1,1],[194,12,-1,1],[18,278,1,-1],[194,278,-1,-1]].map(([x,y,sx,sy]) => `<path d="M${x} ${y + sy*44}Q${x + sx*6} ${y + sy*6} ${x + sx*44} ${y}Q${x + sx*22} ${y + sy*22} ${x} ${y + sy*44}Z" fill="${gold}" fill-opacity=".85"/>`).join("")}
+      <ellipse cx="106" cy="148" rx="74" ry="96" fill="${dark}" fill-opacity=".6" stroke="${gold}" stroke-width="1.4"/><ellipse cx="106" cy="148" rx="68" ry="90" fill="none" stroke="${gold}" stroke-width=".5" stroke-dasharray="2 3"/>
+      <path d="M106 44l5 9-5 9-5-9z M106 234l5 9-5 9-5-9z" fill="${gold}"/>${titleBlock(t, au, 106, 72, 226, 104, gold)}`;
+  else if (layout === 2) art = `<rect x="14" y="10" width="184" height="270" fill="url(#${id}p)" opacity=".5"/><rect x="14" y="10" width="184" height="270" fill="none" stroke="${gold}" stroke-width="1.4"/>
+      <rect x="34" y="40" width="144" height="210" rx="10" fill="${dark}" stroke="${gold}" stroke-width="1.4"/><rect x="40" y="46" width="132" height="198" rx="7" fill="none" stroke="${gold}" stroke-width=".5"/>
+      ${star8(106, 66, 9, `fill="${gold}"`)}${titleBlock(t, au, 106, 82, 240, 116, gold)}`;
+  else art = `<rect x="0" y="0" width="40" height="290" fill="${dark}"/><path d="M40 0V290" stroke="${gold}" stroke-width="1.4"/>${[40, 96, 194, 250].map(y => `<path d="M6 ${y}h28" stroke="${gold}" stroke-width="1.6"/><path d="M6 ${y + 5}h28" stroke="${gold}" stroke-width=".5"/>`).join("")}
+      <rect x="52" y="14" width="136" height="262" fill="none" stroke="${gold}" stroke-width=".8"/>${star8(120, 46, 13, `fill="none" stroke="${gold}" stroke-width="1"`)}${star8(120, 46, 5, `fill="${gold}"`)}
+      ${titleBlock(t, au, 120, 70, 252, 112, gold)}`;
   return `<svg class="cover" viewBox="0 0 200 290" width="${w}" height="${h}" role="img" aria-label="${esc(b.title)}">
-    <defs><pattern id="${id}p" width="24" height="24" patternUnits="userSpaceOnUse">${motif}</pattern>
-      <linearGradient id="${id}g" x1="0" x2="1"><stop offset="0" stop-color="#000" stop-opacity=".38"/><stop offset=".07" stop-color="#000" stop-opacity=".05"/><stop offset=".09" stop-color="#fff" stop-opacity=".06"/><stop offset=".2" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".18"/></linearGradient></defs>
-    <rect width="200" height="290" rx="5" fill="${base}"/><rect width="200" height="290" fill="url(#${id}p)" opacity=".16"/>
-    <rect x="24" y="14" width="164" height="262" fill="none" stroke="${gold}" stroke-width="1.6"/><rect x="29" y="19" width="154" height="252" fill="none" stroke="${gold}" stroke-width=".6"/>
-    <path d="M44 236V100Q44 52 106 40Q168 52 168 100V236Z" fill="#000" fill-opacity=".22" stroke="${gold}" stroke-width="1.2"/>
-    <path d="M106 54l4 8 8 4-8 4-4 8-4-8-8-4 8-4z" fill="${gold}"/>
-    ${tl.map((l,k)=>`<text x="106" y="${y0+k*fs*1.25}" text-anchor="middle" font-family="Amiri, serif" font-weight="700" font-size="${fs}" fill="${gold}" direction="rtl">${esc(l)}</text>`).join("")}
-    <path d="M78 ${y0+(tl.length-1)*fs*1.25+16}h56" stroke="${gold}" stroke-width=".8"/><circle cx="106" cy="${y0+(tl.length-1)*fs*1.25+16}" r="2.4" fill="${gold}"/>
-    ${al.map((l,k)=>`<text x="106" y="${206+k*16}" text-anchor="middle" font-family="Amiri, serif" font-size="12.5" fill="${gold}" fill-opacity=".9" direction="rtl">${esc(l)}</text>`).join("")}
-    <circle cx="35" cy="25" r="2" fill="${gold}"/><circle cx="177" cy="25" r="2" fill="${gold}"/><circle cx="35" cy="265" r="2" fill="${gold}"/><circle cx="177" cy="265" r="2" fill="${gold}"/>
+    <defs>${grain}${shine}</defs><rect width="200" height="290" rx="5" fill="${base}"/>${art}
     <rect width="200" height="290" rx="5" fill="url(#${id}g)"/></svg>`;
 }
 const byline = b => `${esc(b.author)}${b.honor?` <span class="ar">${b.honor}</span>`:""}`;
@@ -2271,7 +2349,7 @@ function bookCard(b){
 const SCHOOL = { t_tahawiyya:"Both", t_fiqhakbar:"Maturidi", t_nasafi:"Maturidi", t_umm:"Ash'ari", t_jawhara:"Ash'ari", t_iqtisad:"Ash'ari", t_milal:"Ash'ari", t_munqidh:"Ash'ari", t_ihya:"Ash'ari" };
 const BOOK_NOTE = { t_fitan:"A book for students reading with a teacher. Imam Nu'aym رحمه الله gathered every report he heard about the trials to come, each with its chain. So sound hadith stand beside weak ones and sayings of the Tabi'in, and hadith scholars such as al-Dhahabi and Ibn Hajar warned that some of its reports are unreliable. Do not take a report from it as established, or apply it to the events of our time, unless the scholars have judged it sound." };
 const SCHOOL_NOTE = { Maturidi:"Maturidi: the school of Imam Abu Mansur al-Maturidi رحمه الله, followed by most Hanafis.", "Ash'ari":"Ash'ari: the school of Imam Abu al-Hasan al-Ash'ari رحمه الله, followed by most Shafi'is and Malikis.", Both:"Accepted by both schools: the shared creed of Ahl al-Sunnah." };
-const LIB_SUBJECTS = ["Aqeedah","Fiqh","Usul al-Fiqh","Tasawwuf","Hadith","Tafsir","Tajweed","Seerah","History","Signs of the Hour","Arabic"];
+const LIB_SUBJECTS = ["Aqeedah","Fiqh","Usul al-Fiqh","Tasawwuf","Hadith","Tafsir","Tajweed","Seerah","History","Signs of the Hour","Arabic","Mantiq"];
 const libSubject = b => b.subject === "Comparative Aqeedah" ? "Aqeedah" : b.subject;
 function libraryView(){
   const books = LIB(), last = S.lastRead && bookById(S.lastRead.id), f = LIB_SUBJECTS.includes(S.libSub) ? S.libSub : "";
@@ -2319,6 +2397,7 @@ function textView(b){
     ${done.length?`<div class="spread small muted"><span>${done.length} of ${n} read</span><span>${Math.round(done.length/n*100)}%</span></div><span class="bar" style="display:block;margin:4px 0 10px"><i style="width:${done.length/n*100}%;background:var(--brand)"></i></span>`:""}
     ${next>=0?`<button class="btn" data-read="${b.id}|${next}" style="margin:4px 0 6px">${done.length?`Continue from section ${next+1}`:"Start reading"}</button>
       <button class="linkbtn small" id="markread" data-mark="${b.id}" style="display:block;margin:2px 0 8px">I've already read this book</button>`:`<div class="notice">${ICON.check}<span>You've read the whole book, alhamdulillah.</span></div>`}
+    <button class="item notesrow bw-entry" data-go-bw="${b.id}"><span class="mw-ic" aria-hidden="true">ع</span><span style="flex:1;min-width:0"><span class="t">Words in this book</span><br><span class="s">Learn its most common words before you read</span></span><span aria-hidden="true">›</span></button>
     ${(() => { const P = bookPath(b.id); if (!P) return ""; const unread = P.before.filter(x => (S.books[x.id]||[]).length < 1);
       return `<section class="pathbox"><p class="pb-h">${esc(P.sub)} path · book ${P.i+1} of ${P.n}</p>
         ${P.before.length ? `<p class="small" style="margin:0 0 6px">${unread.length ? "Recommended before this book:" : "You've started the books before this one. Good."}</p><div class="pb-chips">${P.before.map(x => `<button class="pb-chip ${(S.books[x.id]||[]).length ? "on" : ""}" data-book="${x.id}">${esc(x.title)}</button>`).join("")}</div>` : `<p class="small" style="margin:0">A good first book in ${esc(P.sub)}.</p>`}
@@ -2339,7 +2418,7 @@ function readView(b, i){
       ${hasAr(s.h)?`<h2 class="ar" style="text-align:right;font-size:1.5rem;margin:4px 0 2px">${esc(s.h)}</h2>`:`<h2 style="font-size:1.25rem;margin:4px 0 2px">${esc(s.h)}</h2>`}${s.he?`<p class="muted" style="margin:0 0 8px">${esc(s.he)}</p>`:""}
       <div class="tools" style="margin:6px 0 10px"><button class="tool listen ${AUD.on?"on":""}" id="listen">${AUD.on?ICON.pause+" Pause":ICON.play+" Listen"}</button>
         ${/[\u064B-\u0652]/.test(ar.join(" ").slice(0, 400)) ? `<button class="tool ${tlOn()?"on":""}" id="tg-tl" aria-pressed="${tlOn()}">Aa Transliteration</button>` : ""}${s.en?`<button class="tool ${P.english?"on":""}" id="tg-e">EN English</button>`:""}
-        <button class="tool ${P.book !== false ? "on" : ""}" id="tg-book" aria-pressed="${P.book !== false}">Page view</button><button class="tool" id="fsdn" aria-label="Smaller text">A−</button><button class="tool" id="fsup" aria-label="Larger text">A+</button>
+        <button class="tool ${P.book !== false ? "on" : ""}" id="tg-book" aria-pressed="${P.book !== false}">Page view</button><button class="tool ${P.uk ? "on" : ""}" id="tg-uk" aria-pressed="${!!P.uk}">New words</button><button class="tool" id="fsdn" aria-label="Smaller text">A−</button><button class="tool" id="fsup" aria-label="Larger text">A+</button>
         ${AUD.on?`<button class="tool" id="rate">${P.rate}× speed</button>`:""}</div>
       ${S.dictUsed && hlEntries().length ? "" : `<p class="small muted" style="margin:0 0 8px">Tip: tap a word to look it up. Press and hold, then select words to highlight them or add a note. Pin a sticky note to any page.</p>`}${typeof stickyHtml === "function" ? stickyHtml(b.id, i) : ""}${P.book !== false
       ? `<article class="paper ${READ_TURN ? "turn-" + READ_TURN : ""} fs${P.size}" aria-label="Page ${i+1} of ${T.sections.length}"><p class="pp-run">${esc(b.title)}${s.parent ? ` · <span class="${hasAr(s.parent) ? "ar" : ""}">${esc(s.parent)}</span>` : ""}</p>${paras}<p class="pp-num">${(i+1).toLocaleString()}</p></article>`
@@ -2465,6 +2544,7 @@ async function showLookup(word, ctx){
     : `<p class="muted">No entry found for this word. Particles and names usually aren't in the dictionary.</p>`;
   if (classic) box.querySelectorAll("[data-classic]").forEach(b => { b.nextElementSibling.remove(); b.remove(); });
   box.querySelectorAll("[data-lane]").forEach(b => b.onclick = () => laneInto(b)); box.querySelectorAll("[data-classic]").forEach(b => b.onclick = () => classicInto(b));
+  if (typeof knownBox === "function") knownBox(box, word);
   if (typeof mwAddBox === "function") mwAddBox(box, word, rr, ctx);
 }
 let READ_TURN = "";
@@ -2485,6 +2565,8 @@ function bindRead(b, i){
   $("#rquit").onclick = () => { stopAudio(); if (!refBack()) go({ name:"book", id:b.id }); };
   $("#rprev").onclick = () => { stopAudio(); READ_TURN = "back"; if (i > 0) openRead(b.id, i-1); };
   const tbk = $("#tg-book"); if (tbk) tbk.onclick = () => { S.readPrefs.book = S.readPrefs.book === false; save(); redraw(); };
+  const tuk = $("#tg-uk"); if (tuk) tuk.onclick = () => { S.readPrefs.uk = !S.readPrefs.uk; save(); redraw(); if (S.readPrefs.uk) toast("Words you haven't marked as known are underlined. Tap one to look it up."); };
+  if (S.readPrefs.uk && typeof markUnknown === "function") markUnknown($("#app"));
   const sl = $("#rslide"); if (sl) { sl.oninput = () => { const pg = $("#rpage"); if (pg) pg.textContent = `${sl.value} / ${T.sections.length}`; };
     sl.onchange = () => { stopAudio(); const j = +sl.value - 1; if (j !== i) { READ_TURN = j > i ? "fwd" : "back"; openRead(b.id, j); } }; }
   // swipe the page to turn it, like a book
@@ -2542,11 +2624,11 @@ async function openRead(id, i){
 }
 
 /* ---- Specialisation (further studies) ---- */
-const specOpen = () => true;   // open to all; recommended after Year 5
+const specOpen = () => true;   // open to all; recommended after the Dawrah
 function specCard(){
   const open = specOpen(), m = MODULES.find(x => x.name === S.spec);
   return `<button class="year row ${open?"":"locked"}" data-spec="1"><span class="yr-badge">${ICON.star.replace("<svg",'<svg width="20" height="20"')}</span>
-    <span style="flex:1;text-align:left"><b>Specialisation</b><span class="small muted" style="display:block">${m ? esc(m.name) : "One subject in depth, after Year 5"}</span></span>
+    <span style="flex:1;text-align:left"><b>Specialisation</b><span class="small muted" style="display:block">${m ? esc(m.name) : "One subject in depth, after the Dawrah"}</span></span>
     ${m ? `<span class="pill ok">Chosen</span>` : open ? `<span class="pill gold">Choose</span>` : `<span class="lockic">${ICON.lock}</span>`}</button>`;
 }
 function specView(){
@@ -2831,11 +2913,15 @@ function makeTest(y){
   for (const { l, b } of shuffle(lines)) { if (qs.length >= TEST_LEN) break; const q = bookQuiz(b, l); if (q) qs.push({ src:b.title, promptAr:q.prompt, q:q.q, answer:q.answer, ansAr:q.ansAr, options:q.options }); }
   return shuffle(qs);
 }
-function startTest(n, place){ T = { n, place:!!place, qs:makeTest(yearOf(n)), i:0, sel:null, wrong:[], right:0 }; renderTest(); }
+function startTest(n, place, term){
+  const y = yearOf(n), src = term ? { ...y, books:lessonBooks(y).filter(b => termOf(y, b) === term), decks:core(y.decks).filter(d => termOf(y, d) === term) } : y;
+  const qs = makeTest(src).slice(0, term ? 20 : TEST_LEN);
+  if (!qs.length) return toast("Finish a few lessons first: the test is made from them");
+  T = { n, term, place:!!place, qs, i:0, sel:null, wrong:[], right:0 }; renderTest(); }
 function renderTest(){
   const q = T.qs[T.i]; if (!q) return finishTest();
   $("#app").innerHTML = `<div class="player"><div class="player-in"><div class="phead"><button class="x" id="quit" aria-label="Leave test">${ICON.x}</button><div class="bar"><i style="width:${T.i/T.qs.length*100}%;background:var(--gold)"></i></div><span class="count">${T.i+1}/${T.qs.length}</span></div>
-    <div class="pbody"><div class="kicker">Year ${T.n} final test</div>
+    <div class="pbody"><div class="kicker">Year ${T.n} ${T.term ? `· Term ${T.term} test` : "final test"}</div>
     ${q.promptAr?`<p class="line-ar" style="text-align:center;font-size:${q.promptAr.length<20?"2.2rem":"1.4rem"}">${esc(q.promptAr)}</p>`:""}
     <p class="q ${q.qAr?"ar":""}" style="${q.qAr?"text-align:right;font-size:1.3rem;line-height:1.9":""}">${esc(q.q)}</p>
     <div class="opts">${q.options.map((o,i)=>`<button class="opt ${i===T.sel?"sel":""} ${q.ansAr?"ar":""}" style="${q.ansAr?"text-align:right;font-size:1.15rem":""}" data-o="${i}">${esc(o)}</button>`).join("")}</div></div>
@@ -2845,20 +2931,21 @@ function renderTest(){
   $("#quit").onclick = () => confirmBox("Leave the test? This attempt won't count.", () => { const n=T.n; T = null; go({name:"year", n}); });
 }
 async function finishTest(){
-  const score = T.right / T.qs.length, passed = score >= PASS, n = T.n;
-  const rec = S.tests[n] = S.tests[n] || { attempts:0, best:0, passed:false }; rec.attempts++; rec.best = Math.max(rec.best, score);
+  const score = T.right / T.qs.length, passed = score >= PASS, n = T.n, term = T.term;
+  const bucket = term ? (S.termTests = S.termTests || {}) : S.tests, key = term ? `${n}.${term}` : n;
+  const rec = bucket[key] = bucket[key] || { attempts:0, best:0, passed:false }; rec.attempts++; rec.best = Math.max(rec.best, score);
   const firstPass = passed && !rec.passed;
-  if (passed){ rec.passed = true; if (T.place && n < YEARS.length && !S.unlocked.includes(n+1)) S.unlocked.push(n+1); }   // the year test is practice; only the placement test skips ahead
+  if (passed){ rec.passed = true; if (!term && T.place && n < YEARS.length && !S.unlocked.includes(n+1)) S.unlocked.push(n+1); }   // the year test is practice; only the placement test skips ahead
   touchDay(firstPass ? 100 : 5);
   const wrong = T.wrong; T = null;
-  if (passed && n < YEARS.length) { try { await loadYear(n+1); } catch(e){} }
+  if (passed && !term && n < YEARS.length) { try { await loadYear(n+1); } catch(e){} }
   $("#app").innerHTML = `<div class="player"><div class="player-in"><div class="pbody"><div class="done-screen" style="padding:24px 0 8px"><div style="width:80px">${ICON.logo}</div><div class="big">${passed ? "Passed, alhamdulillah" : "Not yet"}</div>
     <div class="tiles"><div class="tile"><b>${pct(score)}</b><span>Your score</span></div><div class="tile"><b>${PASS*100}%</b><span>Pass mark</span></div></div>
-    <p class="muted" style="margin:0;max-width:340px">${passed ? (n < YEARS.length ? `Year ${n+1} is now unlocked.` : "You have completed the five years. Your specialisation year is now open: choose the module you want to study further.") : "Review the questions below, keep up your flashcards, and try again when you're ready."}</p></div>
+    <p class="muted" style="margin:0;max-width:340px">${passed ? (term ? `Term ${term} of Year ${n} passed. Carry on to the next term.` : n < YEARS.length ? `Year ${n+1} is now unlocked.` : "You have completed the 'alimiyyah course. Your specialisation is now open: choose the subject you want to study further.") : "Review the questions below, keep up your flashcards, and try again when you're ready."}</p></div>
     ${wrong.length?`<p class="label">Questions to review (${wrong.length})</p><div class="stack review-list">${wrong.map(w=>`<div class="card">${w.promptAr?`<p class="line-ar" style="font-size:1.2rem;margin:0">${esc(w.promptAr)}</p>`:""}<p style="margin:0 0 6px;font-weight:700" class="${w.qAr?"ar":""}">${esc(w.q)}</p>
       <p class="small" style="margin:0;color:var(--ok)"><b>Correct:</b> ${esc(w.answer)}</p><p class="small" style="margin:4px 0 0;color:var(--bad)"><b>You chose:</b> ${esc(w.given)}</p></div>`).join("")}</div>`:""}
     </div><div class="pfoot"><button class="btn" id="cont">Continue</button></div></div></div>`;
-  $("#cont").onclick = () => go({ name:"home" });
+  $("#cont").onclick = () => go(term ? { name:"year", n } : { name:"home" });
 }
 
 /* ======================= RENDER ======================= */
@@ -2915,6 +3002,7 @@ function render(){ appBadge(); checkUnlock(); if (typeof hlHideBar === "function
     const ni = $("#noinst"); if (ni) ni.onclick = () => { S.noInstall = true; save(); render(); }; }
   app.querySelectorAll("[data-year]").forEach(b => b.onclick = () => go({ name:"year", n:+b.dataset.year }));
   app.querySelectorAll("[data-book]").forEach(b => b.onclick = () => go({ name:"book", id:b.dataset.book }));
+  app.querySelectorAll("[data-go-bw]").forEach(b => b.onclick = () => { BW = null; go({ name:"bookwords", id:b.dataset.goBw }); });
   app.querySelectorAll("[data-lesson]").forEach(b => b.onclick = () => { if (!b.disabled) startLesson(view.id, +b.dataset.lesson); });
   app.querySelectorAll("[data-deck]").forEach(b => b.onclick = async () => { const d = allDecks().find(d=>d.id===b.dataset.deck);
     if (d.opt && !d.cards) { b.disabled = true; b.querySelector(".s").textContent = "Loading…"; try { await loadDeck(d); } catch(e){ toast("Could not load this deck. Check your connection."); b.disabled = false; return; } }
@@ -2922,6 +3010,7 @@ function render(){ appBadge(); checkUnlock(); if (typeof hlHideBar === "function
     startStudy([d]); });
   app.querySelectorAll("[data-study]").forEach(b => b.onclick = () => startStudy(studyDecks()));
   app.querySelectorAll("[data-test]").forEach(b => b.onclick = () => { if (!b.disabled) startTest(+b.dataset.test); });
+  app.querySelectorAll("[data-ttest]").forEach(b => b.onclick = () => { const [n, t] = b.dataset.ttest.split(".").map(Number); startTest(n, false, t); });
   app.querySelectorAll("[data-startlesson]").forEach(b => b.onclick = () => { const [id, i] = b.dataset.startlesson.split("|"); startLesson(id, +i); });
   bindReadLinks(app); toolsBind(app);
   app.querySelectorAll("[data-spec]").forEach(b => b.onclick = () => go({ name:"spec" }));
@@ -2929,7 +3018,7 @@ function render(){ appBadge(); checkUnlock(); if (typeof hlHideBar === "function
   if (view.name === "live" && typeof bindLive === "function") bindLive();
   app.querySelectorAll("[data-pick]").forEach(b => b.onclick = () => { if (!specOpen()) return; const m = b.dataset.pick;
     confirmBox(`Choose ${m} as your specialisation?`, () => { S.spec = m; save(); render(); }); });
-  const cs = $("#changespec"); if (cs) cs.onclick = () => confirmBox("Change your specialisation? Your progress in the five years is kept.", () => { S.spec = null; save(); render(); });
+  const cs = $("#changespec"); if (cs) cs.onclick = () => confirmBox("Change your specialisation? Your progress in the course is kept.", () => { S.spec = null; save(); render(); });
   const cn = $("#continue"); if (cn) cn.onclick = () => { const nl = nextLesson(); if (nl) startLesson(nl.b.id, nl.i); };
   app.querySelectorAll("[data-place]").forEach(b => b.onclick = () => { const n = +b.dataset.place; b.disabled = true; b.textContent = "Preparing the test…"; loadYear(n).then(() => startTest(n, true), () => { toast("Could not load the test. Check your connection."); b.disabled = false; }); });
   app.querySelectorAll("[data-libsub]").forEach(c => c.onclick = () => { S.libSub = c.dataset.libsub; save(); render(); });
@@ -3620,6 +3709,7 @@ function toolsRender(app){
   else if (view.name === "tasbih") app.innerHTML = tasbihView();
   else if (view.name === "dict") app.innerHTML = dictView();
   else if (view.name === "mywords") app.innerHTML = myWordsView();
+  else if (view.name === "bookwords") app.innerHTML = bookWordsView(view.id);
   else if (view.name === "mycards") app.innerHTML = myCardsView();
   else if (view.name === "stories") app.innerHTML = storiesView();
   else if (view.name === "story") app.innerHTML = STORIES ? storyView(view.id) : storiesView();
@@ -3641,7 +3731,77 @@ function toolsBind(app){
   if (view.name === "inherit") bindInherit(); if (view.name === "salawat") bindSalawat(); if (view.name === "tasbih") bindTasbih(); if (view.name === "dict") bindDict(); if (view.name === "home") { bindSalCard(); loadStories().then(() => { const el = $("#stday"), d = stOfDay(); if (!el || !d || view.name !== "home") return; el.innerHTML = `<div class="sec-row"><h2 class="sec-h">Stories</h2></div>
         <section class="st-home"><button class="st-home-hero" data-story="${d.id}" aria-label="Story of the day: ${esc(d.title)}, ${esc(d.person.replace(/[\u0600-\u06FF\s]+$/, ""))}"><img src="${artURI(d.art)}" alt="" class="st-home-img"><span class="st-home-txt"><span class="st-home-k">Story of the day</span><span class="st-home-t">${esc(d.title)}</span><span class="st-home-p">${esc(d.person)}</span></span></button>
         <div class="st-home-foot"><span class="st-home-n">The Prophet ﷺ, the Prophets and the awliya</span><button class="btn small-btn st-home-all" data-go="stories">Browse all stories</button></div></section>`;
-      bindStories(el); el.querySelectorAll("[data-go]").forEach(b => b.onclick = () => { go({ name:b.dataset.go }); window.scrollTo(0, 0); }); }); } if (view.name === "mywords") bindMyWords(app); if (view.name === "mycards") bindMyCards(app); if (view.name === "stories" || view.name === "story") bindStories(app);
+      bindStories(el); el.querySelectorAll("[data-go]").forEach(b => b.onclick = () => { go({ name:b.dataset.go }); window.scrollTo(0, 0); }); }); } if (view.name === "mywords") bindMyWords(app); if (view.name === "bookwords") bindBookWords(app); if (view.name === "mycards") bindMyCards(app); if (view.name === "stories" || view.name === "story") bindStories(app);
+}
+/* ---- Known words: the student marks the words they know; the rest can be underlined while reading, and each book's words sorted and learnt ---- */
+const KW = () => (S.known = S.known || {});
+// very common particles and pronouns count as known from the start
+const KW_BASE = new Set("في من على إلى عن أن إن ما لا لم لن قد ثم أو أم بل هو هي هم هما أنا نحن أنت هذا هذه ذلك تلك الذي التي الذين كان كل بعض مع عند إذا إذ حتى لو لأن فإن وإن ولا وما ومن وفي وهو وهي قال الله يا له لها لهم به بها فيه فيها منه منها عليه عليها أنه إنه أي إلا لكن كما إنما أما أيضا غير بين بعد قبل كذلك وقد فقد ولم فلا وإذا وكان".split(" ").map(w => w.replace(/[أإآ]/g, "ا").replace(/ى/g, "ي")));
+const kwKey = w => normAr(w).replace(/\s/g, "");
+const isKnown = k => KW_BASE.has(k) || !!KW()[k];
+function setKnown(k, on){ if (on) KW()[k] = 1; else delete KW()[k]; save(); }
+function markUnknown(root){
+  const W = /[ء-يٱ][ء-يٱً-ٰٟ]*/g, inMW = new Set(MW().map(x => x.k));
+  root.querySelectorAll(".ar-read").forEach(p => { const walk = document.createTreeWalker(p, NodeFilter.SHOW_TEXT), nodes = []; while (walk.nextNode()) nodes.push(walk.currentNode);
+    nodes.forEach(n => { if (n.parentNode.closest("mark,.uk")) return; const t = n.textContent; let m, last = 0, frag = null; W.lastIndex = 0;
+      while ((m = W.exec(t))) { const k = kwKey(m[0]); if (k.length < 2 || isKnown(k)) continue;
+        frag = frag || document.createDocumentFragment(); frag.append(t.slice(last, m.index));
+        const sp = document.createElement("span"); sp.className = inMW.has(k) ? "uk learning" : "uk"; sp.textContent = m[0]; frag.append(sp); last = m.index + m[0].length; }
+      if (frag) { frag.append(t.slice(last)); n.replaceWith(frag); } }); });
+}
+function knownBox(box, word){
+  const k = kwKey(word), el = document.createElement("div"); el.className = "kw-box";
+  const draw = () => { const on = isKnown(k);
+    el.innerHTML = `<button class="btn ${on ? "ghost" : ""} small-btn" id="kwt" aria-pressed="${on}">${on ? "✓ I know this word" : "I know this word"}</button><span class="small muted">${on ? "It won't be underlined as a new word." : "Mark it known, or add it to My words below to learn it."}</span>`;
+    el.querySelector("#kwt").onclick = () => { setKnown(k, !on); HAPTIC(); draw(); document.querySelectorAll(".uk").forEach(x => { if (kwKey(x.textContent) === k && !on) x.replaceWith(document.createTextNode(x.textContent)); }); }; };
+  draw(); box.appendChild(el);
+}
+/* A book's words, most common first: how much of the text you know, and sorting the next words into known / to learn */
+const VOCAB = {};
+async function loadVocab(file){ if (VOCAB[file]) return VOCAB[file]; try { const r = await fetch(`data/vocab/${file}.json`); VOCAB[file] = r.ok ? await r.json() : null; } catch(e){ VOCAB[file] = null; } return VOCAB[file]; }
+function vocabStats(V){ const inMW = new Set(MW().map(x => x.k)); let known = 0, learning = 0;
+  for (const [k, , n] of V.w) { if (isKnown(k)) known += n; else if (inMW.has(k)) learning += n; }
+  const next = V.w.filter(([k]) => !isKnown(k) && !inMW.has(k));
+  return { known, learning, pct: known / V.total, pctL: (known + learning) / V.total, next }; }
+let BW = null;   // sorting session
+function bookWordsView(id){
+  const b = bookById(id); if (!b) return shell(`<p class="muted">Book not found.</p>`);
+  const V = VOCAB[b.file]; if (V === undefined) { loadVocab(b.file).then(render); return shell(`<p class="muted">Loading the book's words…</p>`); }
+  if (!V) return shell(`<button class="back" data-go="library">${ICON.back} Library</button><p class="muted">The word list for this book isn't available yet.</p>`);
+  if (BW && BW.id === id && BW.q.length) return bwSortView(b, V);
+  const st = vocabStats(V), top = V.w.length, cover = V.w.reduce((a, x) => a + x[2], 0) / V.total;
+  return shell(`<button class="back" data-book="${b.id}">${ICON.back} ${esc(b.title)}</button><h1 style="margin-bottom:4px">Words in this book</h1>
+    <p class="muted" style="margin:0 0 12px">${esc(b.title)} has ${V.total.toLocaleString()} words. Its ${top.toLocaleString()} most common words make up ${Math.round(cover * 100)}% of the text, so learning them first makes the book far easier to read.</p>
+    <section class="bw-meter"><div class="spread"><b>You know ${Math.round(st.pct * 100)}% of the text</b><span class="small muted">${Math.round(st.pctL * 100)}% with the words you're learning</span></div>
+      <div class="bar bw-bar"><i style="width:${st.pct * 100}%"></i><i class="l" style="width:${(st.pctL - st.pct) * 100}%"></i></div>
+      <p class="small muted" style="margin:8px 0 0">Counted by how often each word appears, from the ${top.toLocaleString()} most common. Very common particles count as known.</p></section>
+    ${st.next.length ? `<button class="btn" id="bwgo" style="width:100%;margin-top:14px">Sort the next 20 words</button><p class="small muted" style="margin:6px 2px 0">For each word: say if you know it, or add it to My words to learn it as a flashcard.</p>
+      <p class="label" style="margin-top:18px">Next most common words</p><div class="bw-chips">${st.next.slice(0, 30).map(([k, f, n]) => `<span class="bw-chip"><span class="ar" lang="ar">${esc(f)}</span><span class="small muted">${n.toLocaleString()}×</span></span>`).join("")}</div>`
+      : `<div class="notice">${ICON.check}<span>You've sorted all ${top.toLocaleString()} of this book's most common words.</span></div>`}
+    ${MW().length ? `<button class="btn ghost" data-go="mywords" style="width:100%;margin-top:16px">Review My words</button>` : ""}`);
+}
+function bwSortView(b, V){
+  const [k, f, n] = BW.q[0], rr = BW.rr[k];
+  return shell(`<button class="back" id="bwstop">${ICON.back} Words in this book</button><p class="small muted" style="margin:0 0 8px">${BW.q.length} left in this set · ${BW.done} sorted</p>
+    <section class="mw-card bw-card"><span class="ar mw-big" lang="ar">${esc(f)}</span><p class="small muted">Appears ${n.toLocaleString()} times in ${esc(b.title)}</p>
+      <p class="mw-mean" id="bwmean">${rr === undefined ? "Looking up…" : esc(mwGuess(f, rr) || "No short meaning found: tap Look up")}</p>
+      <button class="linkbtn small" id="bwlook">Look up in the dictionaries</button></section>
+    <div class="bw-btns"><button class="btn ghost" data-bw="skip">Skip</button><button class="btn ghost" data-bw="known">I know it</button><button class="btn" data-bw="learn">Learn it</button></div>`);
+}
+async function bwPrime(){ const k = BW && BW.q[0] && BW.q[0][0]; if (!k || BW.rr[k] !== undefined) return;
+  BW.rr[k] = (await Promise.all(rootsOf(k).map(rootGet))).filter(Boolean)[0] || null; if (view.name === "bookwords") { const m = $("#bwmean"); if (m) m.textContent = mwGuess(BW.q[0][1], BW.rr[k]) || "No short meaning found: tap Look up"; } }
+function bindBookWords(app){
+  const b = bookById(view.id), V = b && VOCAB[b.file]; if (!V) return;
+  const go1 = app.querySelector("#bwgo"); if (go1) go1.onclick = () => { BW = { id:b.id, q:vocabStats(V).next.slice(0, 20), rr:{}, done:0 }; render(); bwPrime(); };
+  const st = app.querySelector("#bwstop"); if (st) st.onclick = () => { BW = null; render(); };
+  const lk = app.querySelector("#bwlook"); if (lk) lk.onclick = () => showLookup(BW.q[0][1], { b:b.id });
+  app.querySelectorAll("[data-bw]").forEach(x => x.onclick = () => { const [k, f] = BW.q.shift(), a = x.dataset.bw;
+    if (a === "known") setKnown(k, true);
+    if (a === "learn" && !MW().some(y => y.k === k)) { MW().unshift({ k, w:f, m:mwGuess(f, BW.rr[k]) || "", r:BW.rr[k] ? BW.rr[k].r : "", b:b.id, t:Date.now(), due:Date.now() }); save(); }
+    if (a !== "skip") BW.done++; HAPTIC();
+    if (!BW.q.length) { const n = BW.done; BW = null; toast(`${n} word${n === 1 ? "" : "s"} sorted`); }
+    render(); bwPrime(); });
+  if (BW) bwPrime();
 }
 /* ---- My words: Arabic words saved while reading, with their own spaced review ---- */
 const MW = () => (S.myWords = S.myWords || []);
@@ -6245,5 +6405,5 @@ const FAM_HON = (() => { const o = {}, f = ["Halimah al-Sa'diyyah", "Umm Ayman (
   f.forEach(n => o[n] = HON.f); m.forEach(n => o[n] = HON.m); return o; })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=ca34c7c9e8");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=01f2d30577");</script></body>
 </html>
