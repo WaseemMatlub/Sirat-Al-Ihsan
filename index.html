@@ -1819,7 +1819,7 @@ function homeView(){
     <h1 class="hello">Salaam${S.name ? `, ${esc(S.name)}` : ""}</h1>
     ${streakCard}
     ${todayCard()}
-    <div class="sec-row"><h2 class="sec-h">Learn the basics</h2><button class="linkbtn small" data-go="basics">See the whole path</button></div>
+    <div class="sec-row"><h2 class="sec-h">Learn the basics</h2><button class="hm-edit" data-go="basics" aria-label="See the whole path"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="19" r="2"/><circle cx="18" cy="5" r="2"/><path d="M8 19h8a3 3 0 0 0 0-6H8a3 3 0 0 1 0-6h8"/></svg>Full path</button></div>
     ${learnHome()}
     <section class="card hotd" id="hotd" hidden></section>
     <div class="sec-row"><h2 class="sec-h">Daily practice</h2><button class="hm-edit" id="hmedit" aria-label="Customise Daily practice"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>Customise</button></div>
@@ -6093,5 +6093,5 @@ const FAM_HON = (() => { const o = {}, f = ["Halimah al-Sa'diyyah", "Umm Ayman (
   f.forEach(n => o[n] = HON.f); m.forEach(n => o[n] = HON.m); return o; })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=a73cbb3590");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=34bb3da2c2");</script></body>
 </html>
