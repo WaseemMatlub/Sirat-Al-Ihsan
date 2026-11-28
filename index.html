@@ -941,6 +941,10 @@ input,select,textarea{font-size:max(16px,1rem)}
 .ms-ok{position:absolute;top:6px;right:6px;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--brand);color:#fff;box-shadow:0 1px 4px rgba(0,0,0,.3)}
 .ms-t{font-weight:700;font-size:.88rem;line-height:1.25}.ms-d{font-size:.76rem;color:var(--muted);line-height:1.3}
 .ms-bar{display:block;height:5px;border-radius:3px;background:var(--soft);overflow:hidden;margin-top:5px}.ms-bar i{display:block;height:100%;background:var(--gold);border-radius:3px}
+.dua-ref{display:inline-block;margin-top:4px;padding:0}
+.dua-src .linkbtn{padding:0;text-align:left}
+.ds-n{display:inline-block;margin-left:6px;padding:1px 8px;border-radius:999px;background:var(--soft);color:var(--brand);font-size:.8rem;font-weight:700;vertical-align:1px}
+.ds-src{margin:2px 0 0}
 
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--line);padding:4px;border-radius:14px}
 .seg button{border:0;background:transparent;border-radius:10px;padding:10px 6px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
@@ -3417,8 +3421,8 @@ function bindSalCard(){ document.querySelectorAll(".salcard [data-sal]").forEach
 let DUAS = null;
 const loadDuas = async () => DUAS || (DUAS = await fetch("data/duas.json").then(r => r.json()).catch(() => null));
 function duaBody(x){
-  if (x.parts) return `<ol class="dsteps">${x.parts.map(p => `<li><p class="ds-h">${esc(p.step)}</p><p class="ds-do">${esc(p.do)}</p>
-      <p class="ar dua-ar" lang="ar" dir="rtl">${esc(p.ar)}</p>${tlLine(p.ar)}<p class="dua-en">${esc(p.en)}</p></li>`).join("")}</ol>`;
+  if (x.parts) return `<ol class="dsteps">${x.parts.map(p => `<li><p class="ds-h">${esc(p.step)}${p.n > 1 ? ` <span class="ds-n" aria-label="${p.n} times">×${p.n}</span>` : ""}</p>${p.do ? `<p class="ds-do">${esc(p.do)}</p>` : ""}
+      <p class="ar dua-ar" lang="ar" dir="rtl">${esc(p.ar)}</p>${tlLine(p.ar)}<p class="dua-en">${esc(p.en)}</p>${p.src ? `<p class="small muted ds-src">${esc(p.src)}</p>` : ""}${p.ref && x.parts.length > 1 ? `<button class="linkbtn small dua-ref" data-ref="${p.ref}">In the book</button>` : ""}</li>`).join("")}</ol>`;
   return `<p class="ar dua-ar" lang="ar" dir="rtl">${esc(x.ar)}</p>${tlLine(x.ar)}<p class="dua-en">${esc(x.en)}</p>`;
 }
 function duasView(sec){
@@ -3430,7 +3434,7 @@ function duasView(sec){
     <section class="about-box"><p class="ab-h">About this collection</p><p>${esc(cur.about || cur.sub)}</p><p class="small muted" style="margin:6px 0 0">Tap a du'a to open it. ${cur.items.length} in this collection.</p></section>
     <div class="dlist">${cur.items.map((x, i) => { const t = x.t.replace(/^\d+\.\s*/, "") || "Rabbana";
       return `<details class="dua"><summary><span class="dua-n">${i+1}</span><span class="g-m"><span class="g-t">${esc(t)}</span>${x.when || x.parts ? `<span class="g-s">${esc(x.when || x.parts.length + " short steps, in order")}</span>` : ""}</span>${CHEV}</summary>
-        <div class="dua-b">${duaBody(x)}${x.note ? `<p class="small notebox">${esc(x.note)}</p>` : ""}<p class="small muted dua-src">Source: ${esc(x.src)}</p></div></details>`; }).join("")}</div>
+        <div class="dua-b">${duaBody(x)}${x.note ? `<p class="small notebox">${esc(x.note)}</p>` : ""}<p class="small muted dua-src">Source: ${x.ref ? `<button class="linkbtn small" data-ref="${x.ref}">${esc(x.src)}</button>` : esc(x.src)}</p></div></details>`; }).join("")}</div>
     ${cur.credit ? `<p class="small muted" style="margin-top:14px">${esc(cur.credit)}</p>` : ""}`);
 }
 let DALAIL = null;
@@ -6241,5 +6245,5 @@ const FAM_HON = (() => { const o = {}, f = ["Halimah al-Sa'diyyah", "Umm Ayman (
   f.forEach(n => o[n] = HON.f); m.forEach(n => o[n] = HON.m); return o; })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=e6e1244614");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=ca34c7c9e8");</script></body>
 </html>
