@@ -864,6 +864,16 @@ bdi.saw{white-space:nowrap}
 .st-hemi{display:block}.st-vgap{display:block;height:10px}
 .st-go{width:100%;margin:4px 0 10px}
 
+/* Home: Stories card */
+.st-home{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:var(--surface);margin-bottom:14px;box-shadow:0 1px 2px rgba(16,24,40,.05),0 4px 14px rgba(16,24,40,.04)}
+.st-home-hero{display:block;position:relative;width:100%;padding:0;border:0;background:#1d2a24;cursor:pointer;text-align:left;font:inherit}
+.st-home-img{display:block;width:100%;aspect-ratio:2/1;object-fit:cover}
+.st-home-txt{position:absolute;inset:auto 0 0 0;padding:26px 16px 12px;display:flex;flex-direction:column;gap:2px;background:linear-gradient(transparent,rgba(0,0,0,.75));color:#fff}
+.st-home-k{font-size:.72rem;font-weight:700;opacity:.9}.st-home-t{font-size:1.12rem;font-weight:800;line-height:1.25}.st-home-p{font-size:.82rem;opacity:.92}
+.st-home-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px 10px 16px}
+.st-home-n{font-size:.8rem;color:var(--muted);line-height:1.35;min-width:0}
+.st-home-all{flex:0 0 auto;white-space:nowrap}
+
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--line);padding:4px;border-radius:14px}
 .seg button{border:0;background:transparent;border-radius:10px;padding:10px 6px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
 .seg button.on{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
@@ -3474,7 +3484,10 @@ function toolsBind(app){
     const k = d.indexOf(i); if (k >= 0) d.splice(k, 1); else d.push(i); save(); const y = window.scrollY; render(); window.scrollTo(0, y); });
   const gr = $("#greset"); if (gr) gr.onclick = () => confirmBox("Clear all ticks for this guide?", () => { S.guides[view.id] = []; save(); render(); });
   if (view.name === "qibla") bindQibla(); if (view.name === "qada") bindQada(); if (view.name === "zakat") bindZakat();
-  if (view.name === "inherit") bindInherit(); if (view.name === "salawat") bindSalawat(); if (view.name === "tasbih") bindTasbih(); if (view.name === "dict") bindDict(); if (view.name === "home") { bindSalCard(); loadStories().then(() => { const el = $("#stday"), d = stOfDay(); if (!el || !d || view.name !== "home") return; el.innerHTML = `<div class="sec-row"><h2 class="sec-h">Story of the day</h2><button class="linkbtn small" data-go="stories">All stories</button></div><button class="st-row-day" data-story="${d.id}"><img src="${artURI(d.art)}" alt="" class="st-rd-img"><span class="st-rd-txt"><span class="t">${esc(d.title)}</span><span class="s">${esc(d.person)}</span></span><span aria-hidden="true">›</span></button>`; bindStories(el); }); } if (view.name === "mywords") bindMyWords(app); if (view.name === "mycards") bindMyCards(app); if (view.name === "stories" || view.name === "story") bindStories(app);
+  if (view.name === "inherit") bindInherit(); if (view.name === "salawat") bindSalawat(); if (view.name === "tasbih") bindTasbih(); if (view.name === "dict") bindDict(); if (view.name === "home") { bindSalCard(); loadStories().then(() => { const el = $("#stday"), d = stOfDay(); if (!el || !d || view.name !== "home") return; el.innerHTML = `<div class="sec-row"><h2 class="sec-h">Stories</h2><button class="linkbtn small" data-go="stories">See all ${STORIES.stories.length}</button></div>
+        <section class="st-home"><button class="st-home-hero" data-story="${d.id}" aria-label="Story of the day: ${esc(d.title)}, ${esc(d.person.replace(/[\u0600-\u06FF\s]+$/, ""))}"><img src="${artURI(d.art)}" alt="" class="st-home-img"><span class="st-home-txt"><span class="st-home-k">Story of the day</span><span class="st-home-t">${esc(d.title)}</span><span class="st-home-p">${esc(d.person)}</span></span></button>
+        <div class="st-home-foot"><span class="st-home-n">The Prophet ﷺ, the Prophets and the awliya</span><button class="btn small-btn st-home-all" data-go="stories">Browse all stories</button></div></section>`;
+      bindStories(el); el.querySelectorAll("[data-go]").forEach(b => b.onclick = () => { go({ name:b.dataset.go }); window.scrollTo(0, 0); }); }); } if (view.name === "mywords") bindMyWords(app); if (view.name === "mycards") bindMyCards(app); if (view.name === "stories" || view.name === "story") bindStories(app);
 }
 /* ---- My words: Arabic words saved while reading, with their own spaced review ---- */
 const MW = () => (S.myWords = S.myWords || []);
@@ -6078,5 +6091,5 @@ const FAM_HON = (() => { const o = {}, f = ["Halimah al-Sa'diyyah", "Umm Ayman (
   f.forEach(n => o[n] = HON.f); m.forEach(n => o[n] = HON.m); return o; })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=8303647dc3");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=fcef0b9b4a");</script></body>
 </html>
