@@ -781,6 +781,34 @@ bdi.saw{white-space:nowrap}
 .lcards .lcard{flex:0 0 100%;max-width:560px;scroll-snap-align:center}
 .lcards{gap:16px}
 
+/* Daily practice: two wide tiles per row, picture then title and a short line */
+.hm-grid{grid-template-columns:repeat(2,1fr);gap:12px}
+.hm-tile.hm-art{align-items:stretch;padding:0;gap:0;border-radius:18px;text-align:left;box-shadow:0 1px 2px rgba(16,24,40,.05),0 4px 14px rgba(16,24,40,.04)}
+.hm-art .hm-pic{aspect-ratio:16/10}
+.hm-txt{display:flex;flex-direction:column;gap:3px;padding:10px 12px 12px;min-height:62px}
+.hm-art .hm-t{padding:0;text-align:left;font-size:.95rem;font-weight:700;line-height:1.25;letter-spacing:-.005em}
+.hm-art .hm-s{margin:0;text-align:left;font-size:.78rem;line-height:1.35;color:var(--muted)}
+.hm-badge{top:8px;right:8px;min-width:24px;height:24px;border-radius:12px;font-size:.78rem;box-shadow:0 1px 4px rgba(0,0,0,.25)}
+.hm-fallback{display:grid;place-items:center;width:100%;height:100%;background:color-mix(in srgb,var(--brand) 10%,var(--surface));color:var(--brand)}
+.hm-art:active{transform:scale(.98)}
+@media (min-width:640px){.hm-grid{grid-template-columns:repeat(3,1fr)}}
+/* My flashcards */
+.md-top{margin:0}.md-top .btn{flex:1}
+.md-pic{width:46px;height:46px;border-radius:12px;overflow:hidden;flex:0 0 46px}
+.md-pic img{width:100%;height:100%;object-fit:cover;display:block}
+.md-deck .pill.md-due.md-due.md-due{background:#B42318!important;color:#fff!important}
+.md-form{margin-top:14px}.md-h{font-size:1.05rem;margin:0 0 6px}
+.md-form textarea{width:100%;box-sizing:border-box;font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink);resize:vertical}
+.md-form .btnrow{margin-top:10px}
+.md-item{align-items:start;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr) auto}.md-f{font-weight:700;min-width:0;overflow-wrap:anywhere}
+.md-item .mw-m{overflow-wrap:anywhere}
+.md-acts{display:flex;gap:2px;margin-left:auto}
+.md-ar{font-size:1.25em;line-height:1.8}
+.md-card{text-align:center}.md-big{font-size:1.35rem;font-weight:700;line-height:1.5;overflow-wrap:anywhere}.md-big .md-ar{font-size:1.5em}
+.md-rule{border:0;border-top:1px solid var(--line);width:60%;margin:16px auto}
+.md-back{font-size:1.05rem;line-height:1.6;overflow-wrap:anywhere}
+.danger-link{color:#B42318}
+
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--line);padding:4px;border-radius:14px}
 .seg button{border:0;background:transparent;border-radius:10px;padding:10px 6px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
 .seg button.on{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
@@ -1728,9 +1756,9 @@ function homeView(){
     <section class="card hotd" id="hotd" hidden></section>
     <div class="sec-row"><h2 class="sec-h">Daily practice</h2><button class="linkbtn small" id="hmedit">Edit</button></div>
     <div class="hm-grid">
-      ${homeTiles().map(([id, attr, ico, t]) => { const sub = id === "cards" ? (cards ? `${cards} to review` : "All done today") : id === "dalail" ? `Part ${typeof dalailToday === "function" ? dalailToday() : ""} today` : "";
-        const pic = homeArt(id), badge = id === "cards" && cards ? `<i class="hm-badge">${cards}</i>` : "";
-        return pic ? `<button class="hm-tile hm-art" ${attr}${sub ? ` aria-label="${t}, ${sub}"` : ""}><span class="hm-pic" aria-hidden="true">${pic}${badge}</span><span class="hm-t">${t}</span>${id === "dalail" ? `<span class="hm-s">${sub}</span>` : ""}</button>` : tile(attr, ico(), t, sub); }).join("")}
+      ${homeTiles().map(([id, attr, ico, t, sf]) => { const sub = sf ? sf(cards) : "", n = id === "cards" ? cards : id === "mycards" && typeof mdAllDue === "function" ? mdAllDue() : 0;
+        const pic = homeArt(id) || `<span class="hm-fallback">${ico()}</span>`;
+        return `<button class="hm-tile hm-art" ${attr} aria-label="${esc(t.replace(/ﷺ/g, ""))}${sub ? `, ${esc(sub)}` : ""}"><span class="hm-pic" aria-hidden="true">${pic}${n ? `<i class="hm-badge">${n}</i>` : ""}</span><span class="hm-txt"><span class="hm-t">${t}</span>${sub ? `<span class="hm-s">${sub}</span>` : ""}</span></button>`; }).join("")}
     </div>
     ${course.replace('class="card simple-row"', 'class="card simple-row slim"')}${readRow.replace('class="card simple-row"', 'class="card simple-row slim"')}
     ${installCard()}`);
@@ -1746,6 +1774,7 @@ function cardsView(){
     ${total ? `<button class="btn" data-study="all" style="width:100%">Review all ${total} waiting today</button>` : `<div class="notice ok"><span>All caught up for today. Come back tomorrow, or open a deck below to study ahead.</span></div>`}
     ${learn.length ? `<p class="label">From Learn the basics</p><div class="stack">${learn.map(d => itemDeck(d, true)).join("")}</div>` : ""}
     ${course.length ? `<p class="label">From your Course</p><div class="stack">${course.map(d => itemDeck(d, true)).join("")}</div>` : ""}
+    <p class="label">Your own cards</p><div class="stack"><button class="item md-deck" data-go="mycards"><span class="md-pic" aria-hidden="true"><img src="${artURI(["study", "lawh", "dusk", 1])}" alt=""></span><span style="flex:1;min-width:0"><span class="t">My flashcards</span><br><span class="s">${mdCount() ? `${mdCount()} card${mdCount() === 1 ? "" : "s"} in ${MD().length} deck${MD().length === 1 ? "" : "s"}` : "Make decks of your own and study them"}</span></span>${mdAllDue() ? `<span class="pill md-due">${mdAllDue()} due</span>` : `<span aria-hidden="true">›</span>`}</button></div>
     <details class="exbox" style="margin-top:14px"><summary><b>How flashcards work</b></summary><p class="small" style="margin:8px 0 0;line-height:1.6">Read the question, think of the answer, then tap to see it. Say how well you knew it: cards you found hard come back sooner, easy ones later. New cards are added a few each day so it never piles up.</p></details>`);
 }
 /* Optional course before Year 1: what every Muslim must know. Never required, never locks anything. */
@@ -2777,9 +2806,12 @@ function toolsView(){
   return shell(`<div class="spread"><h1>Tools</h1><button class="linkbtn small" id="hmedit">Choose home shortcuts</button></div><p class="muted" style="margin:0 0 14px">Daily worship, guides and calculators. They all work without internet.</p>
     <p class="label">Daily worship</p><div class="stack">
       ${row('data-go="salawat"', "salawat", "Salawat", "Send blessings on the Prophet ﷺ, with a counter for each")}
-      ${row('data-dua="daily"', "book", "Du'as", "Daily du'as, the du'as of the Prophets and more")}
+      ${row('data-dua="daily"', "book", "Daily du'as", "Daily du'as, the du'as of the Prophets and more")}
       ${row('data-go="dalail"', "book", "Dala'il al-Khayrat", "Imam al-Jazuli's daily portion of salawat")}
       ${row('data-go="tasbih"', "beads", "Tasbih counter", "Tap to count your dhikr, with a target and a gentle buzz")}</div>
+    <p class="label">Study</p><div class="stack">
+      ${row('data-go="mycards"', "book", "My flashcards", "Make your own decks and study them")}
+      ${row('data-go="cards"', "book", "Flashcard review", "The cards from your lessons and courses")}</div>
     <p class="label">Step-by-step guides</p><div class="stack">
       ${row('data-guide="wudu"', "drop", "How to make wudu", "What is fard and what is sunnah, in order")}
       ${row('data-guide="ghusl"', "drop", "How to make ghusl", "The full bath and its three obligations")}
@@ -3364,6 +3396,7 @@ function toolsRender(app){
   else if (view.name === "tasbih") app.innerHTML = tasbihView();
   else if (view.name === "dict") app.innerHTML = dictView();
   else if (view.name === "mywords") app.innerHTML = myWordsView();
+  else if (view.name === "mycards") app.innerHTML = myCardsView();
   else return false;
   return true;
 }
@@ -3379,7 +3412,7 @@ function toolsBind(app){
     const k = d.indexOf(i); if (k >= 0) d.splice(k, 1); else d.push(i); save(); const y = window.scrollY; render(); window.scrollTo(0, y); });
   const gr = $("#greset"); if (gr) gr.onclick = () => confirmBox("Clear all ticks for this guide?", () => { S.guides[view.id] = []; save(); render(); });
   if (view.name === "qibla") bindQibla(); if (view.name === "qada") bindQada(); if (view.name === "zakat") bindZakat();
-  if (view.name === "inherit") bindInherit(); if (view.name === "salawat") bindSalawat(); if (view.name === "tasbih") bindTasbih(); if (view.name === "dict") bindDict(); if (view.name === "home") bindSalCard(); if (view.name === "mywords") bindMyWords(app);
+  if (view.name === "inherit") bindInherit(); if (view.name === "salawat") bindSalawat(); if (view.name === "tasbih") bindTasbih(); if (view.name === "dict") bindDict(); if (view.name === "home") bindSalCard(); if (view.name === "mywords") bindMyWords(app); if (view.name === "mycards") bindMyCards(app);
 }
 /* ---- My words: Arabic words saved while reading, with their own spaced review ---- */
 const MW = () => (S.myWords = S.myWords || []);
@@ -3439,31 +3472,33 @@ function bindMyWords(app){
 
 /* ---- Home shortcuts: the user chooses which tools appear on the home page, and in what order ---- */
 const HOME_TOOLS = [
-  ["salawat", 'data-go="salawat"', () => `<span class="ar">ص</span>`, "Salawat"],
-  ["dalail", 'data-go="dalail"', () => `<span class="ar">د</span>`, "Dala'il"],
-  ["duas", 'data-dua="daily"', () => (typeof GICO !== "undefined" && GICO.daily) || TOOL_ICON.book, "Du'as"],
-  ["tasbih", 'data-go="tasbih"', () => typeof ICON_BEADS !== "undefined" ? ICON_BEADS : TOOL_ICON.beads, "Tasbih"],
-  ["cards", 'data-go="cards"', () => ICON.flame.replace("<svg", '<svg width="22" height="22"'), "Flashcards"],
-  ["tools", 'data-go="tools"', () => ICON.tools.replace("<svg", '<svg width="22" height="22"'), "All tools"],
-  ["mywords", 'data-go="mywords"', () => `<span class="ar">ع</span>`, "My words"],
-  ["qibla", 'data-go="qibla"', () => TOOL_ICON.qibla, "Qibla"],
-  ["qada", 'data-go="qada"', () => TOOL_ICON.qada, "Qada'"],
-  ["zakat", 'data-go="zakat"', () => TOOL_ICON.zakat, "Zakat"],
-  ["inherit", 'data-go="inherit"', () => TOOL_ICON.inherit, "Inheritance"],
-  ["dict", 'data-go="dict"', () => TOOL_ICON.book, "Dictionary"],
-  ["glossary", 'data-go="glossary"', () => TOOL_ICON.book, "Words to know"],
-  ["wudu", 'data-guide="wudu"', () => TOOL_ICON.drop, "Wudu guide"],
-  ["salah", 'data-guide="salah"', () => TOOL_ICON.pray, "How to pray"],
-  ["umrah", 'data-guide="umrah"', () => TOOL_ICON.kaaba, "'Umrah guide"],
-  ["family", 'data-golin="family"', () => TOOL_ICON.tree, "Prophet's ﷺ family"],
-  ["prophets", 'data-golin="prophets"', () => TOOL_ICON.star, "The Prophets"],
+  ["salawat", 'data-go="salawat"', () => `<span class="ar">ص</span>`, "Salawat", () => "Blessings upon the Prophet ﷺ"],
+  ["dalail", 'data-go="dalail"', () => `<span class="ar">د</span>`, "Dala'il al-Khayrat", () => `Part ${typeof dalailToday === "function" ? dalailToday() : 1} of 7 today`],
+  ["duas", 'data-dua="daily"', () => (typeof GICO !== "undefined" && GICO.daily) || TOOL_ICON.book, "Daily du'as", () => "Morning, evening and every day"],
+  ["tasbih", 'data-go="tasbih"', () => typeof ICON_BEADS !== "undefined" ? ICON_BEADS : TOOL_ICON.beads, "Tasbih counter", () => "Count your dhikr"],
+  ["cards", 'data-go="cards"', () => ICON.flame.replace("<svg", '<svg width="22" height="22"'), "Flashcard review", n => n ? `${n} card${n === 1 ? "" : "s"} due today` : "All done for today"],
+  ["mycards", 'data-go="mycards"', () => TOOL_ICON.book, "My flashcards", () => { const n = typeof mdCount === "function" ? mdCount() : 0, d = typeof mdAllDue === "function" ? mdAllDue() : 0; return n ? `${n} card${n === 1 ? "" : "s"}${d ? `, ${d} due` : ""}` : "Make and study your own"; }],
+  ["tools", 'data-go="tools"', () => ICON.tools.replace("<svg", '<svg width="22" height="22"'), "Tools and guides", () => "Qibla, zakat, wudu and more"],
+  ["mywords", 'data-go="mywords"', () => `<span class="ar">ع</span>`, "My words", () => `${MW().length} saved from your reading`],
+  ["qibla", 'data-go="qibla"', () => TOOL_ICON.qibla, "Qibla direction", () => "Find the direction of the Ka'bah"],
+  ["qada", 'data-go="qada"', () => TOOL_ICON.qada, "Missed prayers", () => "Track what you make up"],
+  ["zakat", 'data-go="zakat"', () => TOOL_ICON.zakat, "Zakat calculator", () => "Work out what you owe"],
+  ["inherit", 'data-go="inherit"', () => TOOL_ICON.inherit, "Inheritance", () => "Shares under Hanafi law"],
+  ["dict", 'data-go="dict"', () => TOOL_ICON.book, "Arabic dictionary", () => "Words grouped by root"],
+  ["glossary", 'data-go="glossary"', () => TOOL_ICON.book, "Words to know", () => "Key terms explained"],
+  ["wudu", 'data-guide="wudu"', () => TOOL_ICON.drop, "Wudu guide", () => "Step by step"],
+  ["salah", 'data-guide="salah"', () => TOOL_ICON.pray, "How to pray", () => "Step by step"],
+  ["umrah", 'data-guide="umrah"', () => TOOL_ICON.kaaba, "'Umrah guide", () => "Step by step"],
+  ["family", 'data-golin="family"', () => TOOL_ICON.tree, "Prophet's ﷺ family", () => "Family tree"],
+  ["prophets", 'data-golin="prophets"', () => TOOL_ICON.star, "The Prophets", () => "From Adam to Muhammad ﷺ"],
 ];
 const HOME_ART = { salawat: ["oasis", "dome", "gold", 0], dalail: ["study", "mushafClosed", "day", 0], duas: ["masjid", "mishkat", "night", 0], tasbih: ["home", "beadsHook", "day", 0],
-  cards: ["study", "lawh", "day", 0], tools: ["study", "map", "day", 0], mywords: ["study", "inkpot", "day", 0], qibla: ["masjid", "compass", "day", 0], qada: ["home", "calendar", "day", 0],
+  cards: ["study", "scrollsTied", "day", 0], tools: ["study", "map", "day", 0], mywords: ["study", "inkpot", "day", 0], mycards: ["study", "lawh", "dusk", 1], qibla: ["masjid", "compass", "day", 0], qada: ["home", "calendar", "day", 0],
   zakat: ["market", "coins", "day", 0], inherit: ["study", "scale", "day", 0], dict: ["home", "bookcase", "day", 0], glossary: ["study", "bookStack", "day", 0], wudu: ["masjid", "ewer", "day", 0],
   salah: ["masjid", "rug", "day", 0], umrah: ["hijaz", "kaaba", "dusk", 0], family: ["garden", "tree", "day", 0], prophets: ["sea", "ark", "gold", 0] };
 const homeArt = id => HOME_ART[id] && typeof artURI === "function" ? `<img class="hm-img" src="${artURI(HOME_ART[id])}" alt="" decoding="async">` : "";
-const HOME_DEFAULT = ["salawat", "dalail", "duas", "tasbih", "cards", "tools"];
+const HOME_DEFAULT = ["salawat", "dalail", "duas", "tasbih", "cards", "mycards"];
+if (S.homeTiles && !S.homeTiles.includes("mycards") && !S.mcTileAdded) { const i = S.homeTiles.indexOf("cards"); S.homeTiles.splice(i < 0 ? S.homeTiles.length : i + 1, 0, "mycards"); S.mcTileAdded = 1; }
 const homeTiles = () => (S.homeTiles || HOME_DEFAULT).map(id => HOME_TOOLS.find(x => x[0] === id)).filter(Boolean);
 function homeEdit(){
   const on = () => S.homeTiles || HOME_DEFAULT.slice();
@@ -3481,6 +3516,91 @@ function homeEdit(){
   d.classList.add("sheet"); draw(d);
 }
 document.addEventListener("click", e => { if (e.target.closest("#hmedit")) homeEdit(); });
+
+/* ---- My flashcards: decks the user makes and studies, with the same spacing as My words ---- */
+const MD = () => (S.myDecks = S.myDecks || []);
+const mdDeck = id => MD().find(d => d.id === id);
+const mdDue = d => d.cards.filter(c => (c.due || 0) <= Date.now());
+const mdAllDue = () => MD().reduce((n, d) => n + mdDue(d).length, 0) + (typeof mwDue === "function" ? mwDue().length : 0);
+const mdCount = () => MD().reduce((n, d) => n + d.cards.length, 0);
+const mdUid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+const mdTxt = s => `<span dir="auto" class="${/[؀-ۿ]/.test(s) ? "ar md-ar" : ""}">${esc(s).replace(/\n/g, "<br>")}</span>`;
+const mdN = (n, w) => `${n} ${w}${n === 1 ? "" : "s"}`;
+let MDQ = null, MDEDIT = null;
+function myCardsView(){
+  if (view.rev) return mdReview();
+  if (view.deck) return mdDeckView(mdDeck(view.deck));
+  const L = MD(), mw = MW(), due = mdAllDue();
+  const row = (attr, pic, t, s, n) => `<button class="item md-deck" ${attr}><span class="md-pic" aria-hidden="true">${pic}</span><span style="flex:1;min-width:0"><span class="t">${esc(t)}</span><br><span class="s">${s}</span></span>${n ? `<span class="pill md-due">${n} due</span>` : `<span aria-hidden="true">›</span>`}</button>`;
+  const pics = [["study", "lawh"], ["study", "inkpot"], ["home", "bookcase"], ["study", "pen"], ["study", "scrollsTied"], ["study", "folio"]];
+  return shell(`<button class="back" data-go="cards">${ICON.back} Flashcards</button><h1 style="margin-bottom:4px">My flashcards</h1>
+    <p class="muted" style="margin:0 0 14px">Make your own cards for anything you want to learn: a du'a, a ruling, a verse, a word. Each card comes back for review just before you would forget it.</p>
+    <div class="btnrow md-top">${due ? `<button class="btn" id="mdall">Review ${mdN(due, "card")}</button>` : ""}<button class="btn ${due ? "ghost" : ""}" id="mdnew">New deck</button></div>
+    ${L.length || mw.length ? `<div class="stack" style="margin-top:14px">${L.map((d, k) => row(`data-mdopen="${d.id}"`, `<img src="${artURI([...pics[k % pics.length], "day", k % 2])}" alt="">`, d.name, d.cards.length ? mdN(d.cards.length, "card") : "No cards yet", mdDue(d).length)).join("")}
+      ${mw.length ? row('data-go="mywords"', `<img src="${artURI(["study", "inkpot", "night", 0])}" alt="">`, "My words", `${mdN(mw.length, "word")} saved from your reading`, mwDue().length) : ""}</div>`
+      : `<div class="empty empty-art"><img src="${artURI(["study", "lawh", "day", 0])}" alt="" class="done-ill"><p><b>No decks yet.</b></p><p class="muted small">Make a deck, then add cards to it. Put a question or Arabic on the front and the answer on the back.</p></div>`}`);
+}
+function mdDeckView(d){
+  if (!d) return shell(`<button class="back" data-go="mycards">${ICON.back} My flashcards</button><p>This deck was deleted.</p>`);
+  const e = MDEDIT && MDEDIT.deck === d.id ? d.cards.find(c => c.id === MDEDIT.card) : null, due = mdDue(d).length;
+  return shell(`<button class="back" data-go="mycards">${ICON.back} My flashcards</button>
+    <div class="spread"><h1 style="margin:0" dir="auto">${esc(d.name)}</h1><button class="linkbtn small" id="mdren">Rename</button></div>
+    <p class="muted small" style="margin:4px 0 14px">${d.cards.length ? `${mdN(d.cards.length, "card")}${due ? `, ${due} due now` : ", none due now"}` : "Add your first card below."}</p>
+    ${d.cards.length ? `<button class="btn" id="mdstudy" style="width:100%">${due ? `Review ${mdN(due, "card")}` : "Practise all cards"}</button>` : ""}
+    <section class="card md-form" id="mdform"><h2 class="md-h">${e ? "Edit card" : "Add a card"}</h2>
+      <label class="label" for="mdf">Front</label><textarea id="mdf" dir="auto" rows="2" placeholder="A question, or a word in Arabic">${e ? esc(e.f) : ""}</textarea>
+      <label class="label" for="mdb">Back</label><textarea id="mdb" dir="auto" rows="3" placeholder="The answer">${e ? esc(e.b) : ""}</textarea>
+      <div class="btnrow"><button class="btn" id="mdsave">${e ? "Save card" : "Add card"}</button>${e ? `<button class="btn ghost" id="mdcancel">Cancel</button>` : ""}</div></section>
+    ${d.cards.length ? `<p class="label" style="margin-top:18px">Cards</p><div class="mw-list">${d.cards.map(c => `<div class="mw-item md-item"><span class="md-f">${mdTxt(c.f)}</span><span class="mw-m">${mdTxt(c.b)}</span>
+      <span class="md-acts"><button class="x" data-mdedit="${c.id}" aria-label="Edit card"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg></button><button class="x" data-mddel="${c.id}" aria-label="Delete card">${ICON.x}</button></span></div>`).join("")}</div>` : ""}
+    <button class="linkbtn small danger-link" id="mddeldeck" style="margin-top:18px">Delete this deck</button>`);
+}
+function mdReview(){
+  if (!MDQ) { const pool = view.deck ? [mdDeck(view.deck)].filter(Boolean) : MD(); let q = pool.flatMap(d => mdDue(d).map(c => [d.id, c.id]));
+    if (!view.deck && typeof mwDue === "function") q = q.concat(mwDue().map(x => ["mw", x.k]));
+    if (!q.length) q = pool.flatMap(d => d.cards.map(c => [d.id, c.id]));
+    MDQ = { q: q.sort(() => Math.random() - .5), show: false, done: 0 }; }
+  const cur = MDQ.q[0], back = view.deck ? `data-mdopen="${view.deck}"` : 'data-go="mycards"';
+  const c = cur && (cur[0] === "mw" ? (x => x && { f: x.w, b: x.m || "No meaning added" })(MW().find(y => y.k === cur[1])) : (mdDeck(cur[0]) || { cards: [] }).cards.find(y => y.id === cur[1]));
+  if (!c) { const n = MDQ.done; MDQ = null; return shell(`<div class="done-screen" style="min-height:50vh"><img src="${artURI(["courtyard", "lanternFloor", "dusk", 0])}" alt="" class="done-ill"><h2>Review done</h2><p class="muted">${mdN(n, "card")} reviewed. They will come back when they are due.</p><button class="btn" ${back}>Back</button></div>`); }
+  return shell(`<button class="back" id="mdquit">${ICON.back} ${view.deck ? esc(mdDeck(view.deck).name) : "My flashcards"}</button><p class="small muted" style="margin:0 0 8px">${MDQ.q.length} left</p>
+    <section class="mw-card md-card" id="mdflip"><div class="md-big">${mdTxt(c.f)}</div>
+      ${MDQ.show ? `<hr class="md-rule"><div class="md-back">${mdTxt(c.b)}</div>` : `<p class="small muted">Tap to show the answer</p>`}</section>
+    ${MDQ.show ? `<div class="mw-btns"><button class="btn ghost" data-mdr="0">Again</button><button class="btn" data-mdr="1">I knew it</button></div>` : ""}`);
+}
+function mdAskName(title, val, done){
+  modal(`<h2 style="margin-top:0">${title}</h2><label class="label" for="mdname">Deck name</label><input id="mdname" type="text" dir="auto" maxlength="60" value="${esc(val || "")}" placeholder="For example: Du'as to memorise" autocomplete="off">
+    <div class="btnrow" style="margin-top:12px"><button class="btn" id="mdok">Save</button><button class="btn ghost" id="mdno">Cancel</button></div>`, (d, close) => {
+      const i = d.querySelector("#mdname"); setTimeout(() => i.focus(), 30);
+      const ok = () => { const v = i.value.trim(); if (!v) return toast("Give the deck a name"); close(); done(v); };
+      d.querySelector("#mdok").onclick = ok; i.onkeydown = e => { if (e.key === "Enter") ok(); }; d.querySelector("#mdno").onclick = close; d.onclick = e => { if (e.target === d) close(); }; });
+}
+function bindMyCards(app){
+  const nw = app.querySelector("#mdnew"); if (nw) nw.onclick = () => mdAskName("New deck", "", v => { const d = { id: mdUid(), name: v, cards: [], t: Date.now() }; MD().unshift(d); save(); HAPTIC(); go({ name:"mycards", deck:d.id }); });
+  const al = app.querySelector("#mdall"); if (al) al.onclick = () => { MDQ = null; go({ name:"mycards", rev:1 }); };
+  app.querySelectorAll("[data-mdopen]").forEach(b => b.onclick = () => { MDQ = null; MDEDIT = null; go({ name:"mycards", deck:b.dataset.mdopen }); });
+  const d = view.deck && mdDeck(view.deck); if (!d) return bindMdReview(app);
+  const st = app.querySelector("#mdstudy"); if (st) st.onclick = () => { MDQ = null; go({ name:"mycards", deck:d.id, rev:1 }); };
+  const rn = app.querySelector("#mdren"); if (rn) rn.onclick = () => mdAskName("Rename deck", d.name, v => { d.name = v; save(); render(); });
+  const sv = app.querySelector("#mdsave"); if (sv) sv.onclick = () => { const f = app.querySelector("#mdf").value.trim(), b = app.querySelector("#mdb").value.trim();
+    if (!f || !b) return toast("Fill in the front and the back");
+    const e = MDEDIT && d.cards.find(c => c.id === MDEDIT.card);
+    if (e) { e.f = f; e.b = b; MDEDIT = null; toast("Card saved"); } else { d.cards.unshift({ id: mdUid(), f, b, t: Date.now(), due: Date.now(), iv: 0 }); toast("Card added"); }
+    save(); HAPTIC(); render(); setTimeout(() => { const x = $("#mdf"); if (x && !e) x.focus(); }, 30); };
+  const cn = app.querySelector("#mdcancel"); if (cn) cn.onclick = () => { MDEDIT = null; render(); };
+  app.querySelectorAll("[data-mdedit]").forEach(b => b.onclick = () => { MDEDIT = { deck: d.id, card: b.dataset.mdedit }; render(); const f = $("#mdform"); if (f) { f.scrollIntoView({ block:"center" }); $("#mdf").focus(); } });
+  app.querySelectorAll("[data-mddel]").forEach(b => b.onclick = () => confirmBox("Delete this card?", () => { d.cards = d.cards.filter(c => c.id !== b.dataset.mddel); save(); render(); }, "Delete", "Keep"));
+  const dd = app.querySelector("#mddeldeck"); if (dd) dd.onclick = () => confirmBox(`Delete the deck "${d.name}" and its ${mdN(d.cards.length, "card")}?`, () => { S.myDecks = MD().filter(x => x !== d); save(); go({ name:"mycards" }); }, "Delete", "Keep");
+  bindMdReview(app);
+}
+function bindMdReview(app){
+  const q = app.querySelector("#mdquit"); if (q) q.onclick = () => { MDQ = null; go(view.deck ? { name:"mycards", deck:view.deck } : { name:"mycards" }); };
+  const f = app.querySelector("#mdflip"); if (f) f.onclick = () => { if (MDQ.show) return; MDQ.show = true; HAPTIC(); render(); };
+  app.querySelectorAll("[data-mdr]").forEach(b => b.onclick = () => { const k = MDQ.q.shift(), ok = b.dataset.mdr === "1", D = 864e5;
+    const c = k[0] === "mw" ? MW().find(y => y.k === k[1]) : (mdDeck(k[0]) || { cards: [] }).cards.find(y => y.id === k[1]);
+    if (c) { if (ok) { c.iv = c.iv ? Math.min(120, Math.round(c.iv * 2.5)) : 1; c.due = Date.now() + c.iv * D - 36e5; MDQ.done++; } else { c.iv = 0; c.due = Date.now(); MDQ.q.push(k); } save(); }
+    MDQ.show = false; HAPTIC(); render(); });
+}
 
 /* ============================ Highlights and notes in the reader (Kindle-style) ============================
    S.hl["bookId|section"] = [{ id, p, w:"ar"|"en", q, k, c, note, at }]
@@ -5831,5 +5951,5 @@ const FAM_HON = (() => { const o = {}, f = ["Halimah al-Sa'diyyah", "Umm Ayman (
   f.forEach(n => o[n] = HON.f); m.forEach(n => o[n] = HON.m); return o; })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=ae38ccb22d");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=72d7c89147");</script></body>
 </html>
