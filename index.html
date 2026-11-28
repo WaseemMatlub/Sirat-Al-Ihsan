@@ -879,6 +879,12 @@ bdi.saw{white-space:nowrap}
 .sec-row{align-items:center;margin:32px 0 14px;min-height:36px}
 .sec-row .sec-h{margin:0;line-height:1.2}
 .hm-edit{height:36px;padding:0 14px;box-sizing:border-box}
+/* Section headers, app style: title on the left, a tinted text action with a chevron on the right */
+.sec-row{margin:28px 0 12px;min-height:0}
+.sec-row .sec-h{font-size:1.15rem;letter-spacing:-.01em}
+.hm-edit{height:auto;min-height:36px;padding:0 0 0 12px;margin-right:-2px;border:0;background:none;box-shadow:none;border-radius:8px;color:var(--brand);font-size:.9rem;font-weight:600;gap:2px}
+.hm-edit svg{color:currentColor;margin-top:1px}
+.hm-edit:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
 
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--line);padding:4px;border-radius:14px}
 .seg button{border:0;background:transparent;border-radius:10px;padding:10px 6px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
@@ -1823,10 +1829,10 @@ function homeView(){
     <h1 class="hello">Salaam${S.name ? `, ${esc(S.name)}` : ""}</h1>
     ${streakCard}
     ${todayCard()}
-    <div class="sec-row"><h2 class="sec-h">Learn the basics</h2><button class="hm-edit" data-go="basics" aria-label="See the whole path"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="19" r="2"/><circle cx="18" cy="5" r="2"/><path d="M8 19h8a3 3 0 0 0 0-6H8a3 3 0 0 1 0-6h8"/></svg>Full path</button></div>
+    <div class="sec-row"><h2 class="sec-h">Learn the basics</h2><button class="hm-edit" data-go="basics" aria-label="See the whole path">Full path<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button></div>
     ${learnHome()}
     <section class="card hotd" id="hotd" hidden></section>
-    <div class="sec-row"><h2 class="sec-h">Daily practice</h2><button class="hm-edit" id="hmedit" aria-label="Customise Daily practice"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>Customise</button></div>
+    <div class="sec-row"><h2 class="sec-h">Daily practice</h2><button class="hm-edit" id="hmedit" aria-label="Customise Daily practice">Customise<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button></div>
     <div class="hm-grid">
       ${homeTiles().map(([id, attr, ico, t, sf]) => { const sub = sf ? sf(cards) : "", n = id === "cards" ? cards : id === "mycards" && typeof mdAllDue === "function" ? mdAllDue() : 0;
         const pic = homeArt(id) || `<span class="hm-fallback">${ico()}</span>`;
@@ -6097,5 +6103,5 @@ const FAM_HON = (() => { const o = {}, f = ["Halimah al-Sa'diyyah", "Umm Ayman (
   f.forEach(n => o[n] = HON.f); m.forEach(n => o[n] = HON.m); return o; })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=ac6c501aa9");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=fdcfce57d6");</script></body>
 </html>
