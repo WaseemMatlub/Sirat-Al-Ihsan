@@ -875,6 +875,10 @@ bdi.saw{white-space:nowrap}
 .st-home-all{flex:0 0 auto;white-space:nowrap}
 .hm-edit{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 12px;font:inherit;font-size:.8rem;font-weight:600;cursor:pointer;box-shadow:0 1px 2px rgba(16,24,40,.05)}
 .hm-edit svg{color:var(--brand)}.hm-edit:active{transform:scale(.97)}
+/* Section headers: one rhythm everywhere: space above, the title and its button centred, a clear gap before the content */
+.sec-row{align-items:center;margin:32px 0 14px;min-height:36px}
+.sec-row .sec-h{margin:0;line-height:1.2}
+.hm-edit{height:36px;padding:0 14px;box-sizing:border-box}
 
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--line);padding:4px;border-radius:14px}
 .seg button{border:0;background:transparent;border-radius:10px;padding:10px 6px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
@@ -6093,5 +6097,5 @@ const FAM_HON = (() => { const o = {}, f = ["Halimah al-Sa'diyyah", "Umm Ayman (
   f.forEach(n => o[n] = HON.f); m.forEach(n => o[n] = HON.m); return o; })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=34bb3da2c2");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=ac6c501aa9");</script></body>
 </html>
