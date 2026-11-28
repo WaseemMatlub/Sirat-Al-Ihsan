@@ -873,6 +873,8 @@ bdi.saw{white-space:nowrap}
 .st-home-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px 10px 16px}
 .st-home-n{font-size:.8rem;color:var(--muted);line-height:1.35;min-width:0}
 .st-home-all{flex:0 0 auto;white-space:nowrap}
+.hm-edit{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:6px 12px;font:inherit;font-size:.8rem;font-weight:600;cursor:pointer;box-shadow:0 1px 2px rgba(16,24,40,.05)}
+.hm-edit svg{color:var(--brand)}.hm-edit:active{transform:scale(.97)}
 
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--line);padding:4px;border-radius:14px}
 .seg button{border:0;background:transparent;border-radius:10px;padding:10px 6px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
@@ -1820,7 +1822,7 @@ function homeView(){
     <div class="sec-row"><h2 class="sec-h">Learn the basics</h2><button class="linkbtn small" data-go="basics">See the whole path</button></div>
     ${learnHome()}
     <section class="card hotd" id="hotd" hidden></section>
-    <div class="sec-row"><h2 class="sec-h">Daily practice</h2><button class="linkbtn small" id="hmedit">Edit</button></div>
+    <div class="sec-row"><h2 class="sec-h">Daily practice</h2><button class="hm-edit" id="hmedit" aria-label="Customise Daily practice"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>Customise</button></div>
     <div class="hm-grid">
       ${homeTiles().map(([id, attr, ico, t, sf]) => { const sub = sf ? sf(cards) : "", n = id === "cards" ? cards : id === "mycards" && typeof mdAllDue === "function" ? mdAllDue() : 0;
         const pic = homeArt(id) || `<span class="hm-fallback">${ico()}</span>`;
@@ -3484,7 +3486,7 @@ function toolsBind(app){
     const k = d.indexOf(i); if (k >= 0) d.splice(k, 1); else d.push(i); save(); const y = window.scrollY; render(); window.scrollTo(0, y); });
   const gr = $("#greset"); if (gr) gr.onclick = () => confirmBox("Clear all ticks for this guide?", () => { S.guides[view.id] = []; save(); render(); });
   if (view.name === "qibla") bindQibla(); if (view.name === "qada") bindQada(); if (view.name === "zakat") bindZakat();
-  if (view.name === "inherit") bindInherit(); if (view.name === "salawat") bindSalawat(); if (view.name === "tasbih") bindTasbih(); if (view.name === "dict") bindDict(); if (view.name === "home") { bindSalCard(); loadStories().then(() => { const el = $("#stday"), d = stOfDay(); if (!el || !d || view.name !== "home") return; el.innerHTML = `<div class="sec-row"><h2 class="sec-h">Stories</h2><button class="linkbtn small" data-go="stories">See all ${STORIES.stories.length}</button></div>
+  if (view.name === "inherit") bindInherit(); if (view.name === "salawat") bindSalawat(); if (view.name === "tasbih") bindTasbih(); if (view.name === "dict") bindDict(); if (view.name === "home") { bindSalCard(); loadStories().then(() => { const el = $("#stday"), d = stOfDay(); if (!el || !d || view.name !== "home") return; el.innerHTML = `<div class="sec-row"><h2 class="sec-h">Stories</h2></div>
         <section class="st-home"><button class="st-home-hero" data-story="${d.id}" aria-label="Story of the day: ${esc(d.title)}, ${esc(d.person.replace(/[\u0600-\u06FF\s]+$/, ""))}"><img src="${artURI(d.art)}" alt="" class="st-home-img"><span class="st-home-txt"><span class="st-home-k">Story of the day</span><span class="st-home-t">${esc(d.title)}</span><span class="st-home-p">${esc(d.person)}</span></span></button>
         <div class="st-home-foot"><span class="st-home-n">The Prophet ﷺ, the Prophets and the awliya</span><button class="btn small-btn st-home-all" data-go="stories">Browse all stories</button></div></section>`;
       bindStories(el); el.querySelectorAll("[data-go]").forEach(b => b.onclick = () => { go({ name:b.dataset.go }); window.scrollTo(0, 0); }); }); } if (view.name === "mywords") bindMyWords(app); if (view.name === "mycards") bindMyCards(app); if (view.name === "stories" || view.name === "story") bindStories(app);
@@ -6091,5 +6093,5 @@ const FAM_HON = (() => { const o = {}, f = ["Halimah al-Sa'diyyah", "Umm Ayman (
   f.forEach(n => o[n] = HON.f); m.forEach(n => o[n] = HON.m); return o; })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=fcef0b9b4a");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=a73cbb3590");</script></body>
 </html>
