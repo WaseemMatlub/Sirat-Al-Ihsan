@@ -1,4 +1,4 @@
-const V="ihsan-8aff74bf5a", D="ihsan-data", F="ihsan-fonts";
+const V="ihsan-0041e81cd0", D="ihsan-data", F="ihsan-fonts";
 const CORE=["./","index.html","manifest.json","icon-192.png","icon-512.png","data/meta.json"];
 self.addEventListener("push",e=>{let d={};try{d=e.data.json()}catch(x){d={title:"Dār aṣ-Ṣiddīq",body:e.data?e.data.text():""}} e.waitUntil(self.registration.showNotification(d.title||"Dār aṣ-Ṣiddīq",{body:d.body||"",icon:"icon-192.png",badge:"icon-192.png",tag:"streak"}))});
 self.addEventListener("notificationclick",e=>{e.notification.close(); e.waitUntil(clients.matchAll({type:"window"}).then(ws=>{for(const w of ws){if("focus" in w) return w.focus()} return clients.openWindow("./")}))});
