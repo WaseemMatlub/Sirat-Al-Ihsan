@@ -973,6 +973,20 @@ input,select,textarea{font-size:max(16px,1rem)}
 .dsec>summary{list-style:none;cursor:pointer;padding:12px 14px;display:flex;align-items:center;gap:6px}.dsec>summary::-webkit-details-marker{display:none}
 .dsec>summary::after{content:"›";margin-left:auto;font-size:1.3rem;color:var(--muted);transition:transform .2s}.dsec[open]>summary::after{transform:rotate(90deg)}
 .dsec-b{padding:0 14px 12px}.dsec-b .rootcard,.dsec-b .cl-entry{border:0;padding:0;margin:0;background:none}
+@font-face{font-family:"IndoPak";src:url(data/fonts/indopak.woff2) format("woff2");font-display:swap}
+.qd-w,.qd-big{font-family:"IndoPak","Amiri",serif}.qd-ar{font-family:"Amiri",serif}
+.qd-title{font-size:1.4rem;margin:0 0 10px;color:var(--brand);text-align:left}
+.qd-intro{margin:0;padding-left:18px}.qd-intro li{margin:4px 0;line-height:1.5}
+.qd-grid{display:grid;gap:8px;margin-top:12px;grid-template-columns:repeat(auto-fill,minmax(96px,1fr))}
+.qd-grid.xl{grid-template-columns:repeat(auto-fill,minmax(72px,1fr))}.qd-grid.tri{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+.qd-cell{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 6px 8px;display:flex;flex-direction:column;align-items:center;gap:4px;min-height:74px;justify-content:center}
+.qd-w{font-size:calc(2rem * var(--arz,1));line-height:1.9;color:var(--ink);text-align:center;word-spacing:.35em}
+.qd-grid.xl .qd-w{font-size:calc(2.6rem * var(--arz,1));line-height:1.6}
+.qd-en{font-size:.72rem;color:var(--muted);text-align:center}
+.qd-big{font-size:4.2rem;line-height:1.8}
+.qd-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:8px}
+.qd-row .s{display:block;font-size:1.05rem;color:var(--muted)}
+.opt.right{background:var(--ok-soft);border-color:var(--ok)}.opt.wrong{background:var(--bad-soft);border-color:var(--bad)}
 
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--line);padding:4px;border-radius:14px}
 .seg button{border:0;background:transparent;border-radius:10px;padding:10px 6px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
@@ -1644,7 +1658,7 @@ function shell(inner){
   return `<header class="topbar"><button class="brandmark" data-go="home" aria-label="Dār aṣ-Ṣiddīq, go to home">${ICON.logo}<span>Dār aṣ-Ṣiddīq</span></button>
     <div class="stats"><button class="chip iconbtn" data-go="search" aria-label="Search">${ICON.search}</button><button class="chip iconbtn" data-go="settings" aria-label="Settings">${ICON.gear}</button><button class="chip mini streak ${streakToday() ? "on" : "off"}" data-go="profile" aria-label="${liveStreak()} day streak${streakToday() ? ", done today" : ", not done yet today"}">${ICON.flame.replace("<svg",'<svg width="14" height="14"')}${liveStreak()}</button><button class="chip mini xp" data-golb="1" aria-label="${S.xp} XP, open the leaderboard">${S.xp >= 10000 ? (S.xp/1000).toFixed(0)+"k" : S.xp}<span class="xp-l" aria-hidden="true">XP</span></button></div></header>
     <main>${inner}</main>
-    <nav class="tabs"><div class="in"><button data-go="home" ${["home","unit","duas","salawat","dalail","basics","glossary","cards","notes","lineage","family","prophets"].includes(view.name)?'aria-current="page"':""}>${ICON.home}Learn</button><button data-go="syllabus" ${["syllabus","year","spec","live"].includes(view.name)||(view.name==="book"&&!isLibBook())?'aria-current="page"':""}>${ICON.learn}Course</button><button data-go="library" ${view.name==="library"||isLibBook()?'aria-current="page"':""}>${ICON.shelf}Library</button><button data-go="tools" ${["tools","guide","qibla","qada","zakat","inherit"].includes(view.name)?'aria-current="page"':""}>${ICON.tools}Tools</button><button data-go="profile" ${view.name==="profile"?'aria-current="page"':""}>${ICON.user}Progress</button></div></nav>`;
+    <nav class="tabs"><div class="in"><button data-go="home" ${["home","unit","duas","salawat","dalail","basics","glossary","cards","notes","lineage","family","prophets"].includes(view.name)?'aria-current="page"':""}>${ICON.home}Learn</button><button data-go="syllabus" ${["syllabus","year","spec","live"].includes(view.name)||(view.name==="book"&&!isLibBook())?'aria-current="page"':""}>${ICON.learn}Course</button><button data-go="library" ${view.name==="library"||isLibBook()?'aria-current="page"':""}>${ICON.shelf}Library</button><button data-go="tools" ${["tools","guide","qibla","qada","zakat","inherit","qaida"].includes(view.name)?'aria-current="page"':""}>${ICON.tools}Tools</button><button data-go="profile" ${view.name==="profile"?'aria-current="page"':""}>${ICON.user}Progress</button></div></nav>`;
 }
 /* First visit: three short steps, then straight into learning */
 const ARCH = (w=170) => `<svg class="arch" viewBox="0 0 200 240" width="${w}" aria-hidden="true"><defs><pattern id="ob-p" width="20" height="20" patternUnits="userSpaceOnUse"><path d="M10 1l2.6 6.4L19 10l-6.4 2.6L10 19l-2.6-6.4L1 10l6.4-2.6z" fill="none" stroke="#E2C27A" stroke-width=".7" opacity=".45"/></pattern></defs>
@@ -3142,6 +3156,7 @@ function toolsView(){
       ${row('data-golin="family"', "tree", "The family of the Prophet ﷺ", "His ﷺ wives, children and grandchildren")}
       ${row('data-golin="prophets"', "star", "The Prophets عليهم السلام", "The twenty-five in the Qur'an, and those in hadith and the classical books")}</div>
     <p class="label">Arabic</p><div class="stack">
+      ${row('data-go="qaida"', "book", "Qa'idah", "Learn to read the Qur'an, in the Indo-Pak script")}
       ${row('data-go="dict"', "book", "Arabic dictionary", "Search by root, Arabic word or English, with every verb form")}
       ${row('data-go="glossary"', "book", "Words to know", "Every term from the lessons, explained simply")}</div>
 
@@ -3743,6 +3758,7 @@ function toolsRender(app){
   else if (view.name === "dict") app.innerHTML = dictView();
   else if (view.name === "mywords") app.innerHTML = myWordsView();
   else if (view.name === "bookwords") app.innerHTML = bookWordsView(view.id);
+  else if (view.name === "qaida") app.innerHTML = qaidaView();
   else if (view.name === "mycards") app.innerHTML = myCardsView();
   else if (view.name === "stories") app.innerHTML = storiesView();
   else if (view.name === "story") app.innerHTML = STORIES ? storyView(view.id) : storiesView();
@@ -3764,7 +3780,65 @@ function toolsBind(app){
   if (view.name === "inherit") bindInherit(); if (view.name === "salawat") bindSalawat(); if (view.name === "tasbih") bindTasbih(); if (view.name === "dict") bindDict(); if (view.name === "home") { bindSalCard(); loadStories().then(() => { const el = $("#stday"), d = stOfDay(); if (!el || !d || view.name !== "home") return; el.innerHTML = `<div class="sec-row"><h2 class="sec-h">Stories</h2></div>
         <section class="st-home"><button class="st-home-hero" data-story="${d.id}" aria-label="Story of the day: ${esc(d.title)}, ${esc(d.person.replace(/[\u0600-\u06FF\s]+$/, ""))}"><img src="${artURI(d.art)}" alt="" class="st-home-img"><span class="st-home-txt"><span class="st-home-k">Story of the day</span><span class="st-home-t">${esc(d.title)}</span><span class="st-home-p">${esc(d.person)}</span></span></button>
         <div class="st-home-foot"><span class="st-home-n">The Prophet ﷺ, the Prophets عليهم السلام and the awliya</span><button class="btn small-btn st-home-all" data-go="stories">Browse all stories</button></div></section>`;
-      bindStories(el); el.querySelectorAll("[data-go]").forEach(b => b.onclick = () => { go({ name:b.dataset.go }); window.scrollTo(0, 0); }); }); } if (view.name === "mywords") bindMyWords(app); if (view.name === "bookwords") bindBookWords(app); if (view.name === "mycards") bindMyCards(app); if (view.name === "stories" || view.name === "story") bindStories(app);
+      bindStories(el); el.querySelectorAll("[data-go]").forEach(b => b.onclick = () => { go({ name:b.dataset.go }); window.scrollTo(0, 0); }); }); } if (view.name === "mywords") bindMyWords(app); if (view.name === "bookwords") bindBookWords(app); if (view.name === "qaida") bindQaida(app); if (view.name === "mycards") bindMyCards(app); if (view.name === "stories" || view.name === "story") bindStories(app);
+}
+/* ---- Qa'idah: learning to read the Qur'an in the Indo-Pak script, in the order of the Noorani Qa'idah ---- */
+let QAIDA = null;
+const loadQaida = async () => QAIDA || (QAIDA = await fetch("data/qaida.json").then(r => r.json()).catch(() => null));
+const QD = () => (S.qaida = S.qaida || { done:[] });
+function qaidaView(){
+  if (!QAIDA) { loadQaida().then(render); return shell(`<p class="muted">Loading…</p>`); }
+  if (view.n) return qaidaLesson(view.n);
+  const done = QD().done, next = QAIDA.lessons.find(l => !done.includes(l.n)) || QAIDA.lessons[0];
+  return shell(`<button class="back" data-go="tools">${ICON.back} Tools</button><h1 style="margin-bottom:4px">Qa'idah</h1>
+    <p class="muted" style="margin:0 0 12px">Learn to read the Qur'an, from the first letters to the rules of recitation, in the Indo-Pak script used in Qur'ans across the subcontinent and in the UK. ${QAIDA.lessons.length} lessons, in the order of the Noorani Qa'idah.</p>
+    <div class="notice"><span>Read each lesson aloud to a teacher who can correct you. Pronunciation is learnt by listening and being corrected, so don't move on until a lesson is fluent.</span></div>
+    <div class="spread small muted" style="margin:14px 2px 6px"><span>${done.length} of ${QAIDA.lessons.length} lessons done</span><span>${Math.round(done.length / QAIDA.lessons.length * 100)}%</span></div>
+    <span class="bar" style="display:block;margin-bottom:12px"><i style="width:${done.length / QAIDA.lessons.length * 100}%"></i></span>
+    <button class="btn" data-qd="${next.n}" style="width:100%;margin-bottom:16px">${done.length ? `Continue: lesson ${next.n}` : "Start lesson 1"}</button>
+    <ol class="qd-list">${QAIDA.lessons.map(l => `<li><button class="item qd-row ${done.includes(l.n) ? "on" : ""}" data-qd="${l.n}"><span class="num ${done.includes(l.n) ? "on" : ""}">${done.includes(l.n) ? ICON.check.replace("<svg",'<svg width="14" height="14"') : l.n}</span>
+      <span style="flex:1;min-width:0"><span class="t">${esc(l.t)}</span><span class="s qd-ar" lang="ur" dir="rtl">${esc(l.ar)}</span></span><span aria-hidden="true">›</span></button></li>`).join("")}</ol>
+    <p class="small muted" style="margin-top:14px">${esc(QAIDA.credit)} Font: KFGQPC Nastaleeq, King Fahd Glorious Qur'an Printing Complex.</p>`);
+}
+function qaidaLesson(n){
+  const L = QAIDA.lessons.find(x => x.n === +n); if (!L) return shell(`<p class="muted">Not found.</p>`);
+  if (view.quiz) return qaidaQuiz(L);
+  const done = QD().done.includes(L.n), last = L.n === QAIDA.lessons.length;
+  return shell(`<button class="back" data-go-qd="">${ICON.back} Qa'idah</button>
+    <p class="kicker" style="margin:0">Lesson ${L.n} of ${QAIDA.lessons.length}</p><h1 style="margin:2px 0 2px">${esc(L.t)}</h1><p class="qd-ar qd-title" lang="ur" dir="rtl">${esc(L.ar)}</p>
+    <section class="about-box"><ul class="qd-intro">${L.intro.map(x => `<li>${esc(x)}</li>`).join("")}</ul></section>
+    ${L.blocks.map(b => b.type === "p" ? `<p class="label" style="margin-top:16px">${esc(b.text)}</p>`
+      : `<div class="qd-grid ${b.size || "lg"}" dir="rtl">${b.items.map(x => `<div class="qd-cell"><span class="qd-w" lang="ar">${esc(x.ar)}</span>${x.en ? `<span class="qd-en" dir="ltr">${esc(x.en)}</span>` : ""}</div>`).join("")}</div>`).join("")}
+    ${L.quiz ? `<button class="btn ghost" data-qdquiz="${L.n}" style="width:100%;margin-top:16px">Test yourself</button>` : ""}
+    <div class="btnrow" style="margin-top:16px">${L.n > 1 ? `<button class="btn ghost" data-qd="${L.n - 1}">Previous</button>` : ""}
+      <button class="btn" data-qddone="${L.n}">${done ? (last ? "Done" : "Next lesson") : last ? "Mark as done" : "Done: next lesson"}</button></div>`);
+}
+let QQ = null;
+function qaidaQuiz(L){
+  if (!QQ || QQ.n !== L.n) {
+    const pool = L.quiz === "letters" ? QAIDA.lessons[0].blocks[0].items.map(x => ({ q:x.ar, a:x.en, opts:QAIDA.lessons[0].blocks[0].items.map(y => y.en) }))
+      : (() => { const C = { "ب":"b","ت":"t","ث":"th","ج":"j","ح":"ḥ","خ":"kh","د":"d","ذ":"dh","ر":"r","ز":"z","س":"s","ش":"sh","ص":"ṣ","ض":"ḍ","ط":"ṭ","ظ":"ẓ","ع":"'","غ":"gh","ف":"f","ق":"q","ك":"k","ل":"l","م":"m","ن":"n","و":"w","ه":"h","ي":"y" };
+          const H = [["\u064E", "a"], ["\u0650", "i"], ["\u064F", "u"]];
+          return Object.entries(C).flatMap(([l, c]) => H.map(([h, v]) => ({ q:l + h, a:c + v, opts:[c + "a", c + "i", c + "u", c + "an"] }))); })();
+    const sh = a => a.map(x => [Math.random(), x]).sort((p, q) => p[0] - q[0]).map(x => x[1]);
+    QQ = { n:L.n, qs:sh(pool).slice(0, 10).map(q => { const others = sh((q.opts || pool.map(p => p.a)).filter(o => o !== q.a)).filter((o, i, A) => A.indexOf(o) === i).slice(0, 3); return { ...q, options:sh([q.a, ...others]) }; }), i:0, right:0, sel:null };
+  }
+  const q = QQ.qs[QQ.i];
+  if (!q) { const r = QQ.right, t = QQ.qs.length; return shell(`<div class="done-screen" style="min-height:50vh"><h2>${r} of ${t}</h2><p class="muted">${r === t ? "Excellent, ma sha' Allah." : "Go over the lesson again, then try once more."}</p>
+      <button class="btn" data-qdquiz="${L.n}" data-again="1">Try again</button><button class="btn ghost" data-qd="${L.n}" style="margin-top:8px">Back to the lesson</button></div>`); }
+  return shell(`<button class="back" data-qd="${L.n}">${ICON.back} Lesson ${L.n}</button><p class="small muted" style="margin:0 0 8px">Question ${QQ.i + 1} of ${QQ.qs.length}</p>
+    <section class="mw-card"><span class="qd-big" lang="ar">${esc(q.q)}</span><p class="small muted">${L.quiz === "letters" ? "Which letter is this?" : "How is this read?"}</p></section>
+    <div class="opts">${q.options.map((o, i) => `<button class="opt ${QQ.sel === null ? "" : o === q.a ? "right" : i === QQ.sel ? "wrong" : ""}" data-qq="${i}" ${QQ.sel === null ? "" : "disabled"}>${esc(o)}</button>`).join("")}</div>
+    ${QQ.sel !== null ? `<button class="btn" id="qqnext" style="width:100%;margin-top:12px">${QQ.i + 1 < QQ.qs.length ? "Next" : "See your score"}</button>` : ""}`);
+}
+function bindQaida(app){
+  app.querySelectorAll("[data-qd]").forEach(b => b.onclick = () => { QQ = null; go({ name:"qaida", n:+b.dataset.qd }); window.scrollTo(0, 0); });
+  app.querySelectorAll("[data-go-qd]").forEach(b => b.onclick = () => go({ name:"qaida" }));
+  app.querySelectorAll("[data-qdquiz]").forEach(b => b.onclick = () => { QQ = null; go({ name:"qaida", n:+b.dataset.qdquiz, quiz:1 }); });
+  app.querySelectorAll("[data-qddone]").forEach(b => b.onclick = () => { const n = +b.dataset.qddone, d = QD().done; if (!d.includes(n)) { d.push(n); touchDay && touchDay(5); } save(); HAPTIC();
+    go(n < QAIDA.lessons.length ? { name:"qaida", n:n + 1 } : { name:"qaida" }); window.scrollTo(0, 0); });
+  app.querySelectorAll("[data-qq]").forEach(b => b.onclick = () => { if (QQ.sel !== null) return; QQ.sel = +b.dataset.qq; if (QQ.qs[QQ.i].options[QQ.sel] === QQ.qs[QQ.i].a) QQ.right++; HAPTIC(); render(); });
+  const nx = app.querySelector("#qqnext"); if (nx) nx.onclick = () => { QQ.i++; QQ.sel = null; render(); };
 }
 /* ---- Known words: the student marks the words they know; the rest can be underlined while reading, and each book's words sorted and learnt ---- */
 const KW = () => (S.known = S.known || {});
@@ -3909,6 +3983,7 @@ const HOME_TOOLS = [
   ["tasbih", 'data-go="tasbih"', () => typeof ICON_BEADS !== "undefined" ? ICON_BEADS : TOOL_ICON.beads, "Tasbih counter", () => "Count your dhikr"],
   ["cards", 'data-go="cards"', () => ICON.flame.replace("<svg", '<svg width="22" height="22"'), "Flashcard review", n => n ? `${n} card${n === 1 ? "" : "s"} due today` : "All done for today"],
   ["mycards", 'data-go="mycards"', () => TOOL_ICON.book, "My flashcards", () => { const n = typeof mdCount === "function" ? mdCount() : 0, d = typeof mdAllDue === "function" ? mdAllDue() : 0; return n ? `${n} card${n === 1 ? "" : "s"}${d ? `, ${d} due` : ""}` : "Make and study your own"; }],
+  ["qaida", 'data-go="qaida"', () => TOOL_ICON.book, "Qa'idah", () => "Learn to read the Qur'an"],
   ["stories", 'data-go="stories"', () => TOOL_ICON.book, "Stories", () => "Prophets and awliya"],
   ["tools", 'data-go="tools"', () => ICON.tools.replace("<svg", '<svg width="22" height="22"'), "Tools and guides", () => "Qibla, zakat, wudu and more"],
   ["mywords", 'data-go="mywords"', () => `<span class="ar">ع</span>`, "My words", () => `${MW().length} saved from your reading`],
@@ -6447,5 +6522,5 @@ const FAM_HON = (() => { const o = {}, f = ["Halimah al-Sa'diyyah", "Umm Ayman (
   f.forEach(n => o[n] = HON.f); m.forEach(n => o[n] = HON.m); return o; })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=15e492742f");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=97fa9d8051");</script></body>
 </html>
