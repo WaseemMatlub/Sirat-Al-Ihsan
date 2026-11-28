@@ -862,6 +862,7 @@ bdi.saw{white-space:nowrap}
 .st-rd-img{width:72px;height:54px;border-radius:10px;object-fit:cover;flex:0 0 72px}
 .st-rd-txt{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}.st-rd-txt .t{font-weight:700;line-height:1.25}.st-rd-txt .s{font-size:.8rem;color:var(--muted)}
 .st-hemi{display:block}.st-vgap{display:block;height:10px}
+.st-go{width:100%;margin:4px 0 10px}
 
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--line);padding:4px;border-radius:14px}
 .seg button{border:0;background:transparent;border-radius:10px;padding:10px 6px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
@@ -3714,6 +3715,7 @@ function storyView(id){
       ${s.ar ? `<figure class="st-ar"><p class="ar" lang="ar" dir="rtl">${esc(s.ar).split("\n").map(v => v.split(" ... ").map(h => `<span class="st-hemi">${h}</span>`).join("")).join('<span class="st-vgap"></span>')}</p>${s.arsrc ? `<figcaption class="small muted">${esc(s.arsrc)}</figcaption>` : ""}</figure>` : ""}
       <section class="st-lesson"><h2>The lesson</h2><p>${esc(s.lesson)}</p></section>
       <p class="st-src"><span class="small muted">Source</span><br>${s.ref ? `<button class="linkbtn" data-ref="${s.ref}">${esc(s.src)}</button>` : esc(s.src)}</p>
+      ${s.go ? `<button class="btn ghost st-go" data-go="${s.go}">${esc(s.golabel || "Open")}</button>` : ""}
       ${s.review ? `<p class="small st-rev">${esc(s.review)}</p>` : ""}
       ${s.links && s.links.length ? `<p class="label" style="margin-top:16px">Related lessons</p><div class="st-links">${s.links.map(x => { const [u, i, t] = x.split("|"); return `<button class="chip" data-learn="${u}|${i}">${esc(t)}</button>`; }).join("")}</div>` : ""}
       <p class="small muted st-themes-line">${s.themes.map(t => `<button class="linkbtn small" data-sttheme="${esc(t)}">${esc(stCap(t))}</button>`).join(" · ")}</p>
@@ -6076,5 +6078,5 @@ const FAM_HON = (() => { const o = {}, f = ["Halimah al-Sa'diyyah", "Umm Ayman (
   f.forEach(n => o[n] = HON.f); m.forEach(n => o[n] = HON.m); return o; })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=32ad7f0286");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=8303647dc3");</script></body>
 </html>
