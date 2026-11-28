@@ -809,6 +809,25 @@ bdi.saw{white-space:nowrap}
 .md-back{font-size:1.05rem;line-height:1.6;overflow-wrap:anywhere}
 .danger-link{color:#B42318}
 
+/* Daily practice, compact: a small picture beside the title, two per row */
+.hm-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.hm-tile.hm-art{flex-direction:row;align-items:center;gap:10px;padding:8px;border-radius:14px;min-height:64px}
+.hm-art .hm-pic{flex:0 0 48px;width:48px;height:48px;aspect-ratio:auto;border-radius:10px;overflow:visible}
+.hm-art .hm-pic .hm-img,.hm-art .hm-fallback{border-radius:10px}
+.hm-txt{padding:0;min-height:0;gap:1px;min-width:0;flex:1}
+.hm-art .hm-t{font-size:.86rem;line-height:1.2;overflow-wrap:anywhere}
+.hm-art .hm-s{font-size:.72rem;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.hm-art .hm-badge{top:-6px;right:-6px;min-width:20px;height:20px;border-radius:10px;font-size:.7rem}
+@media (min-width:640px){.hm-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+/* Shortcuts sheet: drag handle */
+.hme-r{grid-template-columns:32px 40px 1fr auto;gap:8px;padding:6px 10px 6px 4px;transition:transform .15s ease,box-shadow .15s}
+.hme-r .hme-pic{width:40px;height:40px;border-radius:10px}
+.hme-grip{width:32px;height:40px;display:grid;place-items:center;border:0;background:none;color:var(--muted);cursor:grab;touch-action:none;padding:0;border-radius:8px}
+.hme-grip:focus-visible{outline:2px solid var(--gold)}
+.hme-r.dragging{position:relative;z-index:2;transition:none;box-shadow:0 8px 24px rgba(0,0,0,.18);background:var(--surface)}
+.hme-r.dragging .hme-grip{cursor:grabbing;color:var(--brand)}
+.hme-r.off .hme-pic{opacity:.55}
+
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--line);padding:4px;border-radius:14px}
 .seg button{border:0;background:transparent;border-radius:10px;padding:10px 6px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
 .seg button.on{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.12)}
@@ -3502,15 +3521,28 @@ if (S.homeTiles && !S.homeTiles.includes("mycards") && !S.mcTileAdded) { const i
 const homeTiles = () => (S.homeTiles || HOME_DEFAULT).map(id => HOME_TOOLS.find(x => x[0] === id)).filter(Boolean);
 function homeEdit(){
   const on = () => S.homeTiles || HOME_DEFAULT.slice();
-  const draw = d => { const L = on();
-    d.querySelector(".hme-list").innerHTML = [...L.map(id => HOME_TOOLS.find(x => x[0] === id)).filter(Boolean), ...HOME_TOOLS.filter(x => !L.includes(x[0]))].map(([id, , ico, t]) => { const k = L.indexOf(id);
-      return `<li class="hme-r ${k < 0 ? "off" : ""}"><span class="hm-ico hme-pic" aria-hidden="true">${homeArt(id) || ico()}</span><span class="hme-t">${t}</span>
-        ${k > 0 ? `<button class="x" data-hmup="${id}" aria-label="Move ${t} up">${ICON.back.replace("<svg", '<svg style="transform:rotate(90deg)"')}</button>` : `<span></span>`}
-        <label class="hme-sw"><input type="checkbox" data-hmon="${id}" ${k >= 0 ? "checked" : ""} aria-label="Show ${t} on the home page"><span></span></label></li>`; }).join("");
-    d.querySelectorAll("[data-hmon]").forEach(c => c.onchange = () => { const L2 = on().filter(x => x !== c.dataset.hmon); if (c.checked) L2.push(c.dataset.hmon); S.homeTiles = L2; save(); HAPTIC(); draw(d); });
-    d.querySelectorAll("[data-hmup]").forEach(b => b.onclick = () => { const L2 = on(), i = L2.indexOf(b.dataset.hmup); [L2[i - 1], L2[i]] = [L2[i], L2[i - 1]]; S.homeTiles = L2; save(); draw(d); }); };
+  const GRIP = `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></svg>`;
+  const setOrder = ids => { S.homeTiles = ids; save(); };
+  const draw = (d, focus) => { const L = on();
+    d.querySelector(".hme-list").innerHTML = [...L.map(id => HOME_TOOLS.find(x => x[0] === id)).filter(Boolean), ...HOME_TOOLS.filter(x => !L.includes(x[0]))].map(([id, , ico, t]) => { const k = L.indexOf(id), tt = t.replace(/ ﷺ/g, "");
+      return `<li class="hme-r ${k < 0 ? "off" : ""}" data-hmid="${id}">${k >= 0 ? `<button class="hme-grip" data-hmgrip="${id}" aria-label="Reorder ${tt}. Drag, or use the up and down arrow keys">${GRIP}</button>` : `<span class="hme-grip" aria-hidden="true"></span>`}
+        <span class="hm-ico hme-pic" aria-hidden="true">${homeArt(id) || ico()}</span><span class="hme-t">${t}</span>
+        <label class="hme-sw"><input type="checkbox" data-hmon="${id}" ${k >= 0 ? "checked" : ""} aria-label="Show ${tt} on the home page"><span></span></label></li>`; }).join("");
+    d.querySelectorAll("[data-hmon]").forEach(c => c.onchange = () => { const L2 = on().filter(x => x !== c.dataset.hmon); if (c.checked) L2.push(c.dataset.hmon); setOrder(L2); HAPTIC(); draw(d); });
+    d.querySelectorAll("[data-hmgrip]").forEach(g => {
+      g.onkeydown = e => { if (e.key !== "ArrowUp" && e.key !== "ArrowDown") return; e.preventDefault(); const L2 = on(), i = L2.indexOf(g.dataset.hmgrip), j = i + (e.key === "ArrowUp" ? -1 : 1);
+        if (j < 0 || j >= L2.length) return; [L2[i], L2[j]] = [L2[j], L2[i]]; setOrder(L2); draw(d, g.dataset.hmgrip); };
+      g.onpointerdown = e => { e.preventDefault(); const li = g.closest("li"), list = li.parentNode, rows = [...list.querySelectorAll("li:not(.off)")], y0 = e.clientY, h = li.offsetHeight + 6, i0 = rows.indexOf(li);
+        let to = i0; li.classList.add("dragging"); g.setPointerCapture(e.pointerId); HAPTIC();
+        const move = ev => { const dy = ev.clientY - y0; to = Math.max(0, Math.min(rows.length - 1, i0 + Math.round(dy / h))); li.style.transform = `translateY(${dy}px)`;
+          rows.forEach((r, k) => { if (r === li) return; r.style.transform = k > i0 && k <= to ? `translateY(${-h}px)` : k < i0 && k >= to ? `translateY(${h}px)` : ""; });
+          const r = list.getBoundingClientRect(); if (ev.clientY < r.top + 30) list.scrollTop -= 8; else if (ev.clientY > r.bottom - 30) list.scrollTop += 8; };
+        const up = () => { g.onpointermove = g.onpointerup = g.onpointercancel = null; rows.forEach(r => r.style.transform = ""); li.classList.remove("dragging");
+          if (to !== i0) { const L2 = on(), [x] = L2.splice(i0, 1); L2.splice(to, 0, x); setOrder(L2); HAPTIC(); } draw(d); };
+        g.onpointermove = move; g.onpointerup = up; g.onpointercancel = up; }; });
+    if (focus) { const f = d.querySelector(`[data-hmgrip="${focus}"]`); if (f) f.focus(); } };
   const d = modal(`<div class="spread"><h2 style="margin:0">Home shortcuts</h2><button class="x" id="hmx" aria-label="Close">${ICON.x}</button></div>
-    <p class="small muted" style="margin:6px 0 10px">Turn on the tools you use most. They appear under Daily practice on the home page, in this order.</p><ul class="hme-list"></ul>
+    <p class="small muted" style="margin:6px 0 10px">Turn on the tools you use most. Drag the handle to change the order they appear in on the home page.</p><ul class="hme-list"></ul>
     <button class="linkbtn small" id="hmreset">Back to the default shortcuts</button>`, (d, close) => { d.querySelector("#hmx").onclick = () => { close(); if (view.name === "home") render(); }; d.onclick = e => { if (e.target === d) { close(); if (view.name === "home") render(); } };
       d.querySelector("#hmreset").onclick = () => { delete S.homeTiles; save(); draw(d); }; });
   d.classList.add("sheet"); draw(d);
@@ -5951,5 +5983,5 @@ const FAM_HON = (() => { const o = {}, f = ["Halimah al-Sa'diyyah", "Umm Ayman (
   f.forEach(n => o[n] = HON.f); m.forEach(n => o[n] = HON.m); return o; })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=72d7c89147");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=7be34777a5");</script></body>
 </html>
