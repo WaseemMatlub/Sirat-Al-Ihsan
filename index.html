@@ -885,6 +885,62 @@ bdi.saw{white-space:nowrap}
 .hm-edit{height:auto;min-height:36px;padding:0 0 0 12px;margin-right:-2px;border:0;background:none;box-shadow:none;border-radius:8px;color:var(--brand);font-size:.9rem;font-weight:600;gap:2px}
 .hm-edit svg{color:currentColor;margin-top:1px}
 .hm-edit:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+/* Forms: 16px+ text everywhere so iOS never zooms when a field is tapped */
+input,select,textarea{font-size:max(16px,1rem)}
+.frow input,.frow select,.hrow input[type=number],#qper,.qv{font-size:max(16px,1rem)}
+/* Money fields */
+.mf-list{display:grid;grid-template-columns:1fr;gap:16px;margin:4px 0}
+@media (min-width:620px){.mf-list{grid-template-columns:1fr 1fr}}
+.mf{display:flex;flex-direction:column;gap:3px;min-width:0}
+.mf-l{font-weight:700;font-size:.95rem;color:var(--ink)}
+.mf-h{font-size:.82rem;line-height:1.35;color:var(--muted)}
+.mf-box{display:flex;align-items:center;margin-top:5px;border:1.5px solid var(--line);border-radius:12px;background:var(--soft);transition:border-color .15s,box-shadow .15s}
+.mf-box:focus-within{border-color:var(--brand);box-shadow:0 0 0 3px color-mix(in srgb,var(--brand) 18%,transparent);background:var(--surface)}
+.mf-cur{padding-left:14px;color:var(--muted);font-weight:600;font-size:1.05rem}
+.mf-cur:empty{display:none}
+.mf-box input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:var(--ink);font:inherit;font-size:1.1rem;font-weight:600;padding:13px 14px 13px 6px;font-variant-numeric:tabular-nums}
+.mf-cur:empty+input{padding-left:14px}
+.mf-box input::placeholder{color:color-mix(in srgb,var(--muted) 60%,transparent);font-weight:500}
+.mf-cur-row{display:flex;align-items:center;justify-content:space-between;margin-top:16px}
+.mf-order{margin:14px 0 0}
+
+/* Progress page */
+.pg-hero{display:flex;align-items:center;gap:18px;padding:18px;border-radius:20px;color:#fff;background:linear-gradient(135deg,#0F5E47,#134e3a 60%,#1d3b30);box-shadow:0 6px 20px rgba(15,94,71,.25);margin-bottom:14px}
+.pg-hero .pring circle:first-child{stroke:rgba(255,255,255,.18)}
+.pg-hero .pring-t b{color:#fff;font-size:1.9rem}.pg-hero .pring-t small{color:rgba(255,255,255,.85)}
+.pg-hero-t{display:flex;flex-direction:column;gap:2px;min-width:0}
+.pg-xp{font-size:1rem;opacity:.95}.pg-xp b{font-size:1.6rem;font-weight:800}
+.pg-next{font-size:.84rem;opacity:.85}
+.pg-streak{display:flex;align-items:center;gap:4px;margin-top:8px;font-size:.9rem;flex-wrap:wrap}.pg-streak svg{color:#F4A261}
+.pg-best{margin-left:8px;padding:2px 8px;border-radius:99px;background:rgba(255,255,255,.14);font-size:.78rem}
+.pring{position:relative;display:inline-grid;place-items:center;flex:0 0 auto}.pring svg{position:absolute;inset:0;width:100%;height:100%}
+.pring-t{position:relative;display:flex;flex-direction:column;align-items:center;line-height:1.05}.pring-t b{font-size:1.25rem;font-weight:800}.pring-t small{font-size:.7rem;color:var(--muted);font-weight:600}
+.pg-sec{margin-bottom:14px}
+.pg-h{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px}.pg-h h2{margin:0;font-size:1.05rem}
+.pg-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.pg-stat{background:var(--soft);border-radius:12px;padding:10px 8px;text-align:center;display:flex;flex-direction:column;gap:2px}
+.pg-stat b{font-size:1.2rem;font-weight:800;font-variant-numeric:tabular-nums}.pg-stat span{font-size:.74rem;color:var(--muted);line-height:1.25}
+.pg-mem{display:flex;align-items:center;gap:16px}.pg-mem-t{margin:0;line-height:1.45}
+.pg-wor{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pg-w{display:flex;align-items:center;gap:10px;padding:8px;border:1px solid var(--line);border-radius:14px;background:var(--surface);color:var(--ink);font:inherit;text-align:left;cursor:pointer}
+.pg-w img{width:44px;height:44px;border-radius:10px;object-fit:cover;flex:0 0 44px}
+.pg-w span{display:flex;flex-direction:column;min-width:0}.pg-w b{font-size:1.1rem;font-weight:800;font-variant-numeric:tabular-nums}.pg-w small{font-size:.76rem;color:var(--muted)}
+.hmap{display:grid;grid-template-rows:repeat(7,1fr);grid-auto-flow:column;gap:3px}
+.hmap i{display:block;aspect-ratio:1;border-radius:3px;background:var(--soft);border:1px solid color-mix(in srgb,var(--line) 70%,transparent)}
+.hmap i.hm1,.hmap-leg i.hm1{background:color-mix(in srgb,var(--brand) 28%,var(--surface))}.hmap i.hm2,.hmap-leg i.hm2{background:color-mix(in srgb,var(--brand) 50%,var(--surface))}
+.hmap i.hm3,.hmap-leg i.hm3{background:color-mix(in srgb,var(--brand) 75%,var(--surface))}.hmap i.hm4,.hmap-leg i.hm4{background:var(--brand)}
+.hmap i.now{outline:2px solid var(--gold);outline-offset:1px}.hmap i.fut{opacity:.35}
+.hmap-k{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:10px;font-size:.76rem;color:var(--muted);flex-wrap:wrap}
+.hmap-leg{display:inline-flex;align-items:center;gap:3px}.hmap-leg i{display:inline-block;width:10px;height:10px;border-radius:2px;background:var(--soft);border:1px solid var(--line)}
+.ms-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media (min-width:620px){.ms-grid{grid-template-columns:repeat(3,1fr)}}
+.ms{display:flex;flex-direction:column;gap:3px;padding:10px;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+.ms-pic{position:relative;display:block;width:100%;aspect-ratio:16/9;border-radius:10px;overflow:hidden;margin-bottom:4px}
+.ms-pic img{width:100%;height:100%;object-fit:cover;display:block;filter:grayscale(1) opacity(.55)}
+.ms.ok .ms-pic img{filter:none}
+.ms-ok{position:absolute;top:6px;right:6px;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:var(--brand);color:#fff;box-shadow:0 1px 4px rgba(0,0,0,.3)}
+.ms-t{font-weight:700;font-size:.88rem;line-height:1.25}.ms-d{font-size:.76rem;color:var(--muted);line-height:1.3}
+.ms-bar{display:block;height:5px;border-radius:3px;background:var(--soft);overflow:hidden;margin-top:5px}.ms-bar i{display:block;height:100%;background:var(--gold);border-radius:3px}
 
 .seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px;background:var(--line);padding:4px;border-radius:14px}
 .seg button{border:0;background:transparent;border-radius:10px;padding:10px 6px;font:inherit;font-weight:700;color:var(--muted);cursor:pointer}
@@ -2007,14 +2063,72 @@ function bookView(id){
     <section class="hero" style="--c:${b.color}"><div class="hero-art">${art(ART_OF[b.id]||"star",b.color,84)}</div><h1>${esc(b.title)}</h1><p>${esc(b.sub)}. ${b.type==="hadith"?"Read each hadith in Arabic and English, then check what you remember.":"Read each line in Arabic and English, then check your understanding."}</p></section>
     <p class="label">${done.length} of ${L} lessons done</p><div class="stack">${items}</div>`);
 }
+/* ---- Progress: a clear picture of how you are doing, and what to do next ---- */
+const LEVEL_XP = n => 50 * n * (n - 1);                          // level 1 at 0, 2 at 100, 3 at 300, 4 at 600, 5 at 1000…
+const levelOf = xp => { let n = 1; while (xp >= LEVEL_XP(n + 1)) n++; return n; };
+function bestStreak(){ const d = Object.keys(S.days || {}).map(Number).filter(k => S.days[k] > 0).sort((a, b) => a - b); let best = 0, run = 0, prev = null;
+  for (const k of d) { run = prev !== null && k === prev + 1 ? run + 1 : 1; best = Math.max(best, run); prev = k; } return Math.max(best, liveStreak()); }
+function heatmap(){ const t = today(), dow = (new Date(t * 864e5).getUTCDay() + 6) % 7, end = t - dow + 6, W = 15, start = end - W * 7 + 1;
+  const mx = Math.max(10, ...Object.values(S.days || {})), lvl = v => !v ? 0 : v < mx * .25 ? 1 : v < mx * .5 ? 2 : v < mx * .75 ? 3 : 4;
+  let cells = ""; for (let w = 0; w < W; w++) for (let d = 0; d < 7; d++) { const k = start + w * 7 + d, v = (S.days || {})[k] || 0;
+    cells += k > t ? `<i class="hm0 fut"></i>` : `<i class="hm${lvl(v)}${k === t ? " now" : ""}" title="${new Date(k * 864e5).toLocaleDateString(undefined, { day:"numeric", month:"short" })}: ${v} XP"></i>`; }
+  const active = Object.entries(S.days || {}).filter(([k, v]) => +k >= start && v > 0).length;
+  return `<div class="hmap" role="img" aria-label="${active} active days in the last ${W} weeks">${cells}</div>
+    <div class="hmap-k"><span>${active} active day${active === 1 ? "" : "s"} in the last ${W} weeks</span><span class="hmap-leg">Less <i class="hm0"></i><i class="hm1"></i><i class="hm2"></i><i class="hm3"></i><i class="hm4"></i> More</span></div>`;
+}
+function ringSVG(frac, size, color, label, sub){ const r = size / 2 - 6, c = 2 * Math.PI * r, f = Math.max(0, Math.min(1, frac || 0));
+  return `<span class="pring" style="width:${size}px;height:${size}px"><svg viewBox="0 0 ${size} ${size}" aria-hidden="true"><circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="var(--line)" stroke-width="8"/>
+    <circle cx="${size/2}" cy="${size/2}" r="${r}" fill="none" stroke="${color}" stroke-width="8" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c * (1 - f)}" transform="rotate(-90 ${size/2} ${size/2})"/></svg>
+    <span class="pring-t"><b>${label}</b>${sub ? `<small>${sub}</small>` : ""}</span></span>`; }
+function milestones(){
+  const lessons = Object.keys(S.learn || {}).length, sal = typeof salAll === "function" ? salAll() : 0, best = bestStreak(), stories = (S.storiesRead || []).length,
+    courses = Object.keys(S.cert || {}).length, cards = Object.keys(S.cards || {}).length, tb = Object.values(((S.tasbih || {}).tot) || {}).reduce((a, b) => a + b, 0);
+  const M = [
+    ["First step", "Finish your first lesson", lessons, 1, ["study", "lawh", "dawn", 0]],
+    ["Seven days", "A 7-day streak", best, 7, ["desert", "palmMasjid", "gold", 0]],
+    ["Thirty days", "A 30-day streak", best, 30, ["nightsky", "galaxy", "night", 0]],
+    ["A thousand salawat", "Send 1,000 salawat on the Prophet ﷺ", sal, 1000, ["masjid", "dome", "dusk", 0]],
+    ["Remembrance", "Count 10,000 dhikr on the tasbih", tb, 10000, ["home", "beads", "day", 0]],
+    ["Storyteller", "Read 20 stories", stories, 20, ["desert", "camel", "dusk", 0]],
+    ["Course complete", "Pass a course test", courses, 1, ["courtyard", "lanternFloor", "night", 0]],
+    ["Student", "Finish 25 lessons", lessons, 25, ["study", "books", "day", 0]],
+    ["Firm foundations", "Finish 100 lessons", lessons, 100, ["masjid", "mihrab", "dawn", 0]],
+    ["Flashcard learner", "Start 100 flashcards", cards, 100, ["study", "scrollsTied", "day", 0]],
+  ];
+  const got = M.filter(m => m[2] >= m[3]).length;
+  return `<section class="card pad pg-sec"><div class="pg-h"><h2>Milestones</h2><span class="small muted">${got} of ${M.length}</span></div>
+    <div class="ms-grid">${M.map(([t, d, v, n, art]) => { const ok = v >= n, f = Math.min(1, v / n);
+      return `<div class="ms ${ok ? "ok" : ""}" aria-label="${esc(t.replace(" ﷺ", ""))}: ${ok ? "earned" : `${Math.min(v, n).toLocaleString()} of ${n.toLocaleString()}`}">
+        <span class="ms-pic"><img src="${artURI(art)}" alt="">${ok ? `<span class="ms-ok">${ICON.check.replace("<svg", '<svg width="14" height="14"')}</span>` : ""}</span>
+        <span class="ms-t">${t}</span><span class="ms-d">${d}</span>${ok ? "" : `<span class="ms-bar"><i style="width:${Math.max(3, f * 100)}%"></i></span>`}</div>`; }).join("")}</div></section>`;
+}
 function profileView(){
-  const ret = retention(), seen = Object.keys(S.cards).length, cy = Math.max(...S.unlocked), th = S.theme || "auto";
-  const row = (id, label, hint, control) => `<div class="setrow"><label for="${id}"><b>${label}</b>${hint?`<span>${hint}</span>`:""}</label>${control}</div>`;
-  const toggle = (id, on) => `<input type="checkbox" class="switch" id="${id}" ${on?"checked":""}>`;
-  return shell(`<h1>Progress</h1>${basicsProgress()}
-    <div class="tiles" style="max-width:none;margin-top:12px"><div class="tile"><b>${liveStreak()}</b><span>Day streak</span></div><div class="tile"><b>${S.xp}</b><span>Total XP</span></div>
-    <div class="tile"><b>${seen.toLocaleString()}</b><span>Cards started</span></div><div class="tile"><b>${ret===null?"–":pct(ret)}</b><span>Recall rate</span></div></div>
-    ${weekStrip()}
+  if (!LEARN) loadLearn().then(() => { if (view.name === "profile") render(); });
+  const ret = retention(), answered = Math.min(300, (S.log || []).length), seen = Object.keys(S.cards || {}).length, xp = S.xp || 0, lv = levelOf(xp), lo = LEVEL_XP(lv), hi = LEVEL_XP(lv + 1);
+  const t = today(), dow = (new Date(t * 864e5).getUTCDay() + 6) % 7, wk = [...Array(7).keys()].map(i => t - dow + i);
+  const wkXP = wk.reduce((a, d) => a + ((S.days || {})[d] || 0), 0), wkDays = wk.filter(d => ((S.days || {})[d] || 0) > 0).length;
+  const wkLessons = Object.values(S.learn || {}).filter(ts => Math.floor(ts / 864e5) >= wk[0]).length;
+  const due = typeof rvDue === "function" ? rvDue().length : 0, sal = typeof salAll === "function" ? salAll() : 0;
+  const tb = Object.values(((S.tasbih || {}).tot) || {}).reduce((a, b) => a + b, 0), dl = Object.keys(S.dalail || {}).length, st = (S.storiesRead || []).length;
+  const stat = (v, l) => `<div class="pg-stat"><b>${v}</b><span>${l}</span></div>`;
+  return shell(`<h1 style="margin-bottom:14px">Progress</h1>
+    <section class="pg-hero"><div class="pg-lv">${ringSVG((xp - lo) / (hi - lo), 92, "#E9C46A", lv, "Level")}</div>
+      <div class="pg-hero-t"><span class="pg-xp"><b>${xp.toLocaleString()}</b> XP</span><span class="pg-next">${(hi - xp).toLocaleString()} XP to level ${lv + 1}</span>
+        <div class="pg-streak">${ICON.flame.replace("<svg", '<svg width="18" height="18"')}<b>${liveStreak()}</b>&nbsp;day streak<span class="pg-best">Best: ${bestStreak()}</span></div></div></section>
+    <section class="card pad pg-sec"><div class="pg-h"><h2>This week</h2></div>${weekStrip()}
+      <div class="pg-stats">${stat(wkDays + "/7", "days active")}${stat(wkLessons, wkLessons === 1 ? "lesson" : "lessons")}${stat(wkXP, "XP earned")}</div></section>
+    ${basicsProgress()}
+    <section class="card pad pg-sec"><div class="pg-h"><h2>Memory</h2></div>
+      <div class="pg-mem">${ringSVG(ret, 88, "var(--brand)", ret === null ? "–" : Math.round(ret * 100) + "%", "")}
+        <div><p class="pg-mem-t">${ret === null ? "Answer some review questions or flashcards to see this." : `You remembered <b>${Math.round(ret * 100)}%</b> of your last ${answered} answers.`}</p>
+          <p class="small muted" style="margin:4px 0 0">This is your recall rate: how often you get a question right when it comes back for review. Around 85% or more means things are sticking.</p></div></div>
+      <div class="pg-stats">${stat(due, "questions to review")}${stat(seen.toLocaleString(), "flashcards started")}${stat(typeof mdCount === "function" ? mdCount() : 0, "of your own cards")}</div>
+      ${due ? `<button class="btn" data-go="home" style="margin-top:12px">Review now</button>` : ""}</section>
+    <section class="card pad pg-sec"><div class="pg-h"><h2>Worship</h2><span class="small muted">All time</span></div>
+      <div class="pg-wor">${[["Salawat sent", sal, "salawat", ["masjid", "dome", "dusk", 0]], ["Dhikr counted", tb, "tasbih", ["home", "beads", "day", 0]], ["Dala'il days", dl, "dalail", ["study", "folio", "day", 0]], ["Stories read", st, "stories", ["desert", "camel", "dusk", 0]]]
+        .map(([l, v, g, art]) => `<button class="pg-w" data-go="${g}"><img src="${artURI(art)}" alt=""><span><b>${v.toLocaleString()}</b><small>${l}</small></span></button>`).join("")}</div></section>
+    <section class="card pad pg-sec"><div class="pg-h"><h2>Activity</h2></div>${heatmap()}</section>
+    ${milestones()}
     <section class="card lb" id="lb" hidden></section>
     <button class="card simple-row" data-go="settings"><span class="sr-ico">${ICON.gear}</span><span style="flex:1"><b>Settings</b><span class="small muted" style="display:block">Appearance, reminders, offline, listening</span></span></button>`);
 }
@@ -3037,10 +3151,18 @@ function bindQada(){
   bindExamples();
 }
 
+
+/* A money field: clear label, a short hint, the currency inside the box, a 16px+ font so iOS never zooms, and a numeric keypad */
+const moneyField = (attr, k, label, hint, val, cur) => `<div class="mf"><label class="mf-l" for="mf-${k}">${label}</label>${hint ? `<span class="mf-h" id="mfh-${k}">${hint}</span>` : ""}
+  <span class="mf-box"><span class="mf-cur" aria-hidden="true">${esc(cur || "")}</span><input id="mf-${k}" ${attr}="${k}" type="text" inputmode="decimal" enterkeyhint="next" autocomplete="off" placeholder="0" value="${esc(val ?? "")}"${hint ? ` aria-describedby="mfh-${k}"` : ""}></span></div>`;
+const numVal = v => Math.max(0, parseFloat(String(v ?? "").replace(/[^0-9.]/g, "")) || 0);
+const fmtField = (i, store) => { const v = i.value.trim(); if (!v) return; const n = numVal(v); i.value = n.toLocaleString("en-GB", { maximumFractionDigits: 2 }); store(i.value); };
+const nextField = i => { const all = [...document.querySelectorAll(".mf input")], j = all.indexOf(i); if (all[j + 1]) all[j + 1].focus(); else i.blur(); };
+
 /* ---------------- Zakat ---------------- */
 const NISAB_G = { silver: 612.36, gold: 87.48 };   // 200 dirhams of silver, 20 mithqals of gold (common modern equivalents)
 function zakatCalc(z){
-  const n = k => Math.max(0, parseFloat(z[k]) || 0);
+  const n = k => numVal(z[k]);
   const goldVal = n("goldG") * n("goldP"), silverVal = n("silverG") * n("silverP");
   const assets = n("cash") + n("owed") + n("goods") + goldVal + silverVal + n("other"), net = Math.max(0, assets - n("debts"));
   const nisabS = NISAB_G.silver * n("silverP"), nisabG = NISAB_G.gold * n("goldP");
@@ -3057,29 +3179,34 @@ const ZAK_EX = [
 ];
 function zakatView(){
   const z = S.zakat || {}, r = zakatCalc(z), cur = z.cur || "£", m = v => cur + (Math.round(v*100)/100).toLocaleString(undefined, { minimumFractionDigits:2, maximumFractionDigits:2 });
-  const f = (k, t, hint) => `<label>${t}${hint ? ` <span class="small muted">${hint}</span>` : ""}<input type="number" inputmode="decimal" min="0" step="any" data-z="${k}" value="${esc(z[k] ?? "")}"></label>`;
+  const f = (k, t, hint, c) => moneyField("data-z", k, t, hint, z[k], c === undefined ? cur : c);
   return shell(`<button class="back" data-go="tools">${ICON.back} Tools</button><h1>Zakat calculator</h1>
     <p class="muted" style="margin:0 0 12px">Zakat is 2.5% of what you own above the nisab, once a full lunar year has passed on it. <span class="small">Mukhtasar al-Quduri, Book of Zakat.</span></p>
     ${exBox(ZAK_EX, "zak")}<p class="small muted" style="margin:0 0 12px">The examples use sample prices. Enter today's prices for your own zakat.</p>
     <section class="card pad"><h2 style="margin-top:0">Today's prices</h2><p class="small muted" style="margin-top:0">Check today's price per gram, then enter it here. It is saved on your phone.</p>
-      <div class="frow">${f("goldP", "Gold, per gram")}${f("silverP", "Silver, per gram")}<label>Currency<input data-z="cur" value="${esc(cur)}" maxlength="3"></label></div></section>
+      <div class="mf-list">${f("silverP", "Silver, price per gram", "Silver sets the nisab")}${f("goldP", "Gold, price per gram")}</div>
+      <div class="mf-cur-row"><span class="mf-l">Currency</span><div class="seg mini" role="group" aria-label="Currency">${["£","$","€"].map(c => `<button data-zcur="${c}" aria-pressed="${cur === c}" class="${cur === c ? "on" : ""}">${c}</button>`).join("")}</div></div></section>
     <section class="card pad"><h2 style="margin-top:0">What you own</h2>
-      <div class="frow">${f("cash", "Cash and bank balances")}${f("owed", "Money owed to you", "that you expect back")}</div>
-      <div class="frow">${f("goldG", "Gold, in grams", "including jewellery")}${f("silverG", "Silver, in grams", "including jewellery")}</div>
-      <div class="frow">${f("goods", "Trade goods", "stock bought to sell, at its value")}${f("other", "Other zakatable wealth", "e.g. shares bought to trade")}</div>
-      <h2>What you owe</h2><div class="frow">${f("debts", "Debts due now")}</div></section>
-    <section class="card pad zres" role="status" aria-live="polite">
-      ${r.nisab ? `<p class="spread"><span>Total, after debts</span><b>${m(r.net)}</b></p><p class="spread"><span>Nisab (silver: 612.36 g)</span><b>${m(r.nisabS || r.nisab)}</b></p>
+      <div class="mf-list">${f("cash", "Cash and savings", "Cash at home and money in the bank")}${f("owed", "Money owed to you", "Loans you expect to be paid back")}
+        ${f("goldG", "Gold you own", "In grams, including jewellery", "g")}${f("silverG", "Silver you own", "In grams, including jewellery", "g")}
+        ${f("goods", "Business stock", "Goods bought to sell, at today's value")}${f("other", "Other zakatable wealth", "For example, shares bought to trade")}</div>
+      <h2>What you owe</h2><div class="mf-list">${f("debts", "Debts due now", "Bills and repayments due today, not the whole of a long loan")}</div></section>
+    <section class="card pad zres" id="zres" role="status" aria-live="polite">${zakatResults(z)}</section>`);
+}
+function zakatResults(z){ const r = zakatCalc(z), cur = z.cur || "£", m = v => cur + (Math.round(v*100)/100).toLocaleString(undefined, { minimumFractionDigits:2, maximumFractionDigits:2 });
+  return `${r.nisab ? `<p class="spread"><span>Total, after debts</span><b>${m(r.net)}</b></p><p class="spread"><span>Nisab (silver: 612.36 g)</span><b>${m(r.nisabS || r.nisab)}</b></p>
         ${r.due ? `<p class="zbig">Zakat due: <b>${m(r.zakat)}</b></p><p class="small muted">If a full lunar year has passed with you holding at least the nisab.</p>`
                 : `<p class="zbig">No zakat due</p><p class="small muted">What you own is below the nisab.</p>`}`
         : `<p class="muted" style="margin:0">Enter the price of silver (and gold) to see the nisab and your zakat.</p>`}
       <details class="small" style="margin-top:10px"><summary>How this is worked out</summary>
         <p>The nisab is 200 dirhams of silver (about 612.36 g) or 20 mithqals of gold (about 87.48 g). In the Hanafi school gold, silver, cash and trade goods are added together by value, and valued by whichever is more beneficial to the poor, which today is silver. Jewellery of gold and silver is included. Your home, car, clothes and furniture are not counted. <i>Mukhtasar al-Quduri: chapters on zakat of silver, gold and trade goods.</i></p>
-        <p>The rate is a fortieth (2.5%) of the whole. Imam Abu Hanifah held that nothing is due on an amount above the nisab until it reaches a further fifth of the nisab; this calculator uses 2.5% of the whole amount, as most people pay today.</p></details></section>`);
+        <p>The rate is a fortieth (2.5%) of the whole. Imam Abu Hanifah held that nothing is due on an amount above the nisab until it reaches a further fifth of the nisab; this calculator uses 2.5% of the whole amount, as most people pay today.</p></details>`;
 }
 function bindZakat(){ S.zakat = S.zakat || {};
-  document.querySelectorAll("[data-z]").forEach(i => i.oninput = () => { S.zakat[i.dataset.z] = i.value; save();
-    const pos = i.selectionStart, k = i.dataset.z; render(); const n = document.querySelector(`[data-z="${k}"]`); if (n) { n.focus(); try { n.setSelectionRange(pos, pos); } catch(e){} } });
+  document.querySelectorAll("[data-z]").forEach(i => { i.oninput = () => { S.zakat[i.dataset.z] = i.value; save(); const r = $("#zres"); if (r) r.innerHTML = zakatResults(S.zakat); };
+    i.onkeydown = e => { if (e.key === "Enter") { e.preventDefault(); nextField(i); } };
+    i.onblur = () => fmtField(i, v => { S.zakat[i.dataset.z] = v; save(); }); });
+  document.querySelectorAll("[data-zcur]").forEach(b => b.onclick = () => { S.zakat.cur = b.dataset.zcur; save(); const y = window.scrollY; render(); window.scrollTo(0, y); });
   bindExamples(); }
 
 /* ---------------- Inheritance (Hanafi, al-Quduri) ---------------- */
@@ -3178,13 +3305,22 @@ function inheritView(){
   return shell(`<button class="back" data-go="tools">${ICON.back} Tools</button><h1>Inheritance calculator</h1>
     <p class="muted" style="margin:0 0 12px">By the Hanafi school, following <i>Mukhtasar al-Quduri, Book of Inheritance</i>. For a real estate, have a scholar confirm the result.</p>
     ${exBox(INH_EX, "inh")}
-    <section class="card pad"><h2 style="margin-top:0">The deceased</h2>
-      <div class="seg mini" role="group" aria-label="The deceased was"><button data-dead="m" aria-pressed="${dead==="m"}" class="${dead==="m"?"on":""}">A man</button><button data-dead="f" aria-pressed="${dead==="f"}" class="${dead==="f"?"on":""}">A woman</button></div>
-      <div class="frow" style="margin-top:12px">${[["total","Whole estate"],["funeral","Funeral costs"],["debts","Debts"],["will","Bequest (wasiyyah)"]].map(([k,t]) => `<label>${t}<input type="number" inputmode="decimal" min="0" step="any" data-est="${k}" value="${esc(est[k] ?? "")}"></label>`).join("")}</div>
-      <p class="small muted">Funeral costs and debts come first, then a bequest of up to a third of what is left, then the shares below.</p></section>
+    <section class="card pad"><h2 style="margin-top:0">The person who died</h2>
+      <div class="seg mini" role="group" aria-label="The person who died was"><button data-dead="m" aria-pressed="${dead==="m"}" class="${dead==="m"?"on":""}">A man</button><button data-dead="f" aria-pressed="${dead==="f"}" class="${dead==="f"?"on":""}">A woman</button></div>
+      <div class="mf-list" style="margin-top:14px">${[
+        ["total", "Total estate", "Everything they owned when they died: money, property and belongings"],
+        ["funeral", "Funeral costs", "Washing, shrouding and burial"],
+        ["debts", "Debts", dead === "m" ? "Loans and unpaid bills, and any mahr still owed to his wife" : "Loans and unpaid bills"],
+        ["will", "Bequest (wasiyyah)", "Left in the will to people who are not heirs. Only up to a third is carried out"]].map(([k, t, hn]) => moneyField("data-est", k, t, hn, est[k], cur)).join("")}</div>
+      <p class="small muted mf-order">Paid in this order: funeral costs, then debts, then the bequest, then the heirs' shares below.</p></section>
     <section class="card pad"><h2 style="margin-top:0">Living relatives</h2><div class="heirs">${rows.map(([k, t, mx]) => `<label class="hrow"><span>${t}</span>
       ${mx === 1 ? `<input type="checkbox" data-heir="${k}" ${(h.h||{})[k] ? "checked" : ""}>` : `<span class="stp"><button type="button" data-hstep="${k}|-1" aria-label="One fewer: ${t}" ${(h.h||{})[k] ? "" : "disabled"}>−</button><span class="stp-n" aria-live="polite">${(h.h||{})[k] || 0}</span><button type="button" data-hstep="${k}|1" aria-label="One more: ${t}" ${((h.h||{})[k]||0) >= mx ? "disabled" : ""}>+</button></span>`}</label>`).join("")}</div></section>
-    <section class="card pad" role="status" aria-live="polite"><h2 style="margin-top:0">Shares</h2>
+    <section class="card pad" id="inhres" role="status" aria-live="polite">${inheritResults(h)}</section>`);
+}
+function inheritResults(h){ const est = h.est || {}, r = inheritCalc(h.h || {}), cur = est.cur || "£";
+  const n = k => numVal(est[k]), gross = n("total"), afterDebts = Math.max(0, gross - n("funeral") - n("debts"));
+  const will = Math.min(n("will"), afterDebts / 3), net = afterDebts - will, m = v => cur + (Math.round(v*100)/100).toLocaleString(undefined, { minimumFractionDigits:2, maximumFractionDigits:2 });
+  return `<h2 style="margin-top:0">Shares</h2>
       ${Object.keys(r.out).length ? `<table class="itable"><thead><tr><th>Heir</th><th>Share</th>${gross ? "<th>Amount</th>" : ""}</tr></thead><tbody>
         ${Object.entries(r.out).map(([k, o]) => { const each = o.n > 1 && o.share[0] ? fdiv(o.share, Fr(o.n)) : null;
           return `<tr class="${o.share[0] ? "" : "ex"}"><td>${esc(o.t)}${o.n > 1 ? ` ×${o.n}` : ""}${o.why && !o.share[0] ? `<br><span class="small muted">Excluded by ${esc(o.why)}</span>` : o.reason ? `<br><span class="small muted">${esc(o.reason)}</span>` : ""}</td>
@@ -3192,12 +3328,14 @@ function inheritView(){
         ${gross ? `<p class="small muted">Shared estate: ${m(net)} (after ${m(n("funeral") + n("debts"))} costs and debts${will ? `, and a bequest of ${m(will)}` : ""}).</p>` : ""}`
       : `<p class="muted" style="margin:0">Tick the relatives who are alive.</p>`}
       ${r.notes.map(x => `<p class="small notebox">${esc(x)}</p>`).join("")}
-      <details class="small"><summary>Rules used</summary><p>Fixed shares (½, ¼, ⅛, ⅔, ⅓, ⅙), the residuaries in order — sons, then their sons, then the father, the grandfather, brothers, then uncles — exclusion (hajb), proportional reduction ('awl) and return (radd, never to the spouse). As Abu Hanifah held, the grandfather excludes brothers and sisters. In al-Mushtarakah the full brothers receive nothing. Killers, slaves and those of another religion do not inherit. <i>Mukhtasar al-Quduri, Book of Inheritance.</i></p></details></section>`);
+      <details class="small"><summary>Rules used</summary><p>Fixed shares (½, ¼, ⅛, ⅔, ⅓, ⅙), the residuaries in order — sons, then their sons, then the father, the grandfather, brothers, then uncles — exclusion (hajb), proportional reduction ('awl) and return (radd, never to the spouse). As Abu Hanifah held, the grandfather excludes brothers and sisters. In al-Mushtarakah the full brothers receive nothing. Killers, slaves and those of another religion do not inherit. <i>Mukhtasar al-Quduri, Book of Inheritance.</i></p></details>`;
 }
 function bindInherit(){ S.inherit = S.inherit || { h:{}, est:{} }; const I = S.inherit; I.h = I.h || {}; I.est = I.est || {};
   document.querySelectorAll("[data-dead]").forEach(b => b.onclick = () => { I.dead = b.dataset.dead; if (I.dead === "m") delete I.h.husband; else delete I.h.wives; save(); render(); });
   document.querySelectorAll("[data-heir]").forEach(i => i.onchange = () => { const k = i.dataset.heir; I.h[k] = i.type === "checkbox" ? (i.checked ? 1 : 0) : Math.min(+i.max, Math.max(0, parseInt(i.value)||0)); save(); render(); });
-  document.querySelectorAll("[data-est]").forEach(i => i.onchange = () => { I.est[i.dataset.est] = i.value; save(); render(); });
+  document.querySelectorAll("[data-est]").forEach(i => { i.oninput = () => { I.est[i.dataset.est] = i.value; save(); const r = $("#inhres"); if (r) r.innerHTML = inheritResults(I); };
+    i.onkeydown = e => { if (e.key === "Enter") { e.preventDefault(); nextField(i); } };
+    i.onblur = () => fmtField(i, v => { I.est[i.dataset.est] = v; save(); }); });
   document.querySelectorAll("[data-hstep]").forEach(b => b.onclick = () => { const [k, d] = b.dataset.hstep.split("|"), mx = (HEIRS.find(x => x[0] === k) || [0,0,20])[2];
     I.h[k] = Math.min(mx, Math.max(0, (I.h[k]||0) + +d)); save(); const y = window.scrollY; render(); window.scrollTo(0, y); });
   bindExamples();
@@ -6103,5 +6241,5 @@ const FAM_HON = (() => { const o = {}, f = ["Halimah al-Sa'diyyah", "Umm Ayman (
   f.forEach(n => o[n] = HON.f); m.forEach(n => o[n] = HON.m); return o; })();
 
 </script>
-<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=fdcfce57d6");</script></body>
+<script>if("serviceWorker" in navigator && /github\.io$/.test(location.hostname)) navigator.serviceWorker.register("sw.js?v=e6e1244614");</script></body>
 </html>
